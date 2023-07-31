@@ -1,0 +1,43 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "prettier"],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "env": {
+    "node": true
+  },
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "airbnb",
+    "airbnb-typescript",
+    "plugin:prettier/recommended",
+    "next/core-web-vitals"
+  ],
+  "rules": {
+    // 'React' must be in scope when using JSX 에러 해결 (Next.js)
+	  "react/react-in-jsx-scope": "off",
+    // ts파일에서 tsx구문 허용 (Next.js)
+    "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
+    "no-useless-catch": "off", // 불필요한 catch 못쓰게 하는 기능 끔
+    "@typescript-eslint/no-unused-vars": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/prefer-default-export": "off",
+    "react-hooks/rules-of-hooks": "off",
+    "react/button-has-type": "off",
+    "react/jsx-props-no-spreading": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "jsx-a11y/anchor-is-valid": "off",
+    "@next/next/no-img-element": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "react/require-default-props": "off",
+    "@typescript-eslint/no-throw-literal": "off",
+    "@typescript-eslint/no-shadow": "off",
+    "@typescript-eslint/naming-convention": "off",
+    "jsx-a11y/img-redundant-alt": "off"
+  }
+}
