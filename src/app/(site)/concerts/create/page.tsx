@@ -9,12 +9,11 @@ import { XMarkIcon } from "@heroicons/react/24/outline"
 import { Button, IconButton, Option, Select } from "@material-tailwind/react"
 import { useQueryClient } from "@tanstack/react-query"
 import Link from "next/link"
-import React, { useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker"
-import dayjs from "dayjs"
 import { useRouter } from "next/navigation"
 import Editor from "@/components/ui/Editor"
 
@@ -36,16 +35,17 @@ const page = () => {
   const [uploadedImage, setUploadedImage] = useState<File>()
   const fileUploader = useRef<HTMLInputElement>(null)
   const [selectedType, setSelectedType] = useState("CHORUS")
-  const today = new Date()
   const router = useRouter()
   const [startedAt, setStartedAt] = useState("")
   const [htmlStr, setHtmlStr] = useState<string>("")
+  const [uploadedImageUrl, setUploadedImageUrl] = useState("")
 
-  console.log("html", htmlStr)
+  // const uploadedImageUrl = uploadedImage && URL.createObjectURL(uploadedImage)
 
   const handleUploadedFiles = (files: File[]) => {
     const file = files[0]
     setUploadedImage(file)
+    setUploadedImageUrl(URL.createObjectURL(file))
   }
 
   const openFileUploader = () => {
@@ -128,8 +128,6 @@ const page = () => {
       setIsLoading(false)
     }
   }
-
-  const uploadedImageUrl = uploadedImage && URL.createObjectURL(uploadedImage)
 
   return (
     <div className="flex flex-col items-center">
