@@ -5,11 +5,16 @@ import { ResizteTextArea } from "@/components/ui/ResizteTextArea"
 import useAuth from "@/hooks/useAuth"
 import useSupabase from "@/hooks/useSupabase"
 import { XMarkIcon } from "@heroicons/react/24/outline"
-import { Button, IconButton, Input, Textarea } from "@material-tailwind/react"
+import { Button, IconButton, Option, Select } from "@material-tailwind/react"
 import { useQueryClient } from "@tanstack/react-query"
 import Link from "next/link"
 import React, { useRef, useState } from "react"
-import { Listbox } from "@headlessui/react"
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo"
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker"
+import dayjs from "dayjs"
+import { useRouter } from "next/navigation"
 
 const items = [
   { title: "합창", value: "CHORUS" },
@@ -28,7 +33,10 @@ const page = () => {
   const supabase = useSupabase()
   const [uploadedImage, setUploadedImage] = useState<File>()
   const fileUploader = useRef<HTMLInputElement>(null)
-  const [selectedType, setSelectedType] = useState(items[0])
+  const [selectedType, setSelectedType] = useState("CHORUS")
+  const today = new Date()
+  const router = useRouter()
+  const [startedAt, setStartedAt] = useState("")
 
   const handleUploadedFiles = (files: File[]) => {
     const file = files[0]
@@ -40,7 +48,7 @@ const page = () => {
   }
 
   const isValidForm =
-    location?.length >= 10 && (title.length ? title.length >= 5 : true)
+    location?.length >= 5 && (title.length ? title.length >= 5 : true)
 
   const handleCreateConcert = async () => {
     if (!user) {
@@ -52,11 +60,11 @@ const page = () => {
       const formData = {
         profile_id: user.id,
         poster_url: null,
-        performance_time: "2023-08-17",
+        performance_time: dayjs(startedAt).format("YYYY-MM-DD HH:MM"),
         title,
         contents: "qwekejqkeqw",
         location,
-        category: selectedType.value as
+        category: selectedType as
           | "ORCHESTRA"
           | "CHORUS"
           | "ENSEMBLE"
@@ -120,21 +128,22 @@ const page = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="text-left text-xl my-7 font-semibold">공연 등록</div>
+      <div className="text-left text-2xl my-12 font-semibold">공연 등록</div>
 
-      <form className="w-1/2">
-        <Listbox value={selectedType} onChange={setSelectedType}>
-          <Listbox.Button className="text-xl text-white px-5 rounded-2xl py-1 text-semibold bg-[#3e51b5]">
-            {selectedType.title}
-          </Listbox.Button>
-          <Listbox.Options className="text-xl text-semibold text-white">
+      <form className="w-3/4">
+        <div className="w-20 mb-5">
+          <Select
+            variant="static"
+            label="공연 유형을 선택해주세요."
+            value={selectedType}
+            onChange={() => setSelectedType(selectedType)}
+          >
             {items.map(item => (
-              <Listbox.Option key={item.value} value={item}>
-                {item.title}
-              </Listbox.Option>
+              <Option key={item.value}>{item.title}</Option>
             ))}
-          </Listbox.Options>
-        </Listbox>
+          </Select>
+        </div>
+
         <div className="pb-2 border-b border-gray-300">
           <InputCounter
             currentLength={title?.length || 0}
@@ -165,6 +174,20 @@ const page = () => {
               onChange={value => setLocation(value)}
             />
           </InputCounter>
+
+          <div className="my-2">
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={["DateTimePicker"]}>
+                <DateTimePicker
+                  label="공연 시간을 설정해주세요."
+                  className="py-2"
+                  defaultValue={dayjs(today)}
+                  onChange={(newValue: any) => setStartedAt(newValue.$d)}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
+          </div>
+
           {uploadedImageUrl && (
             <div className="relative bg-gray-300">
               <img
@@ -180,12 +203,8 @@ const page = () => {
               </button>
             </div>
           )}
+
           <div>
-            <InputCounter
-              currentLength={title?.length || 0}
-              maxLength={1000}
-              className="text-right mb-1"
-            />
             <div className="flex w-full items-center justify-between border-t py-4 gap-x-2">
               <IconButton
                 variant="text"

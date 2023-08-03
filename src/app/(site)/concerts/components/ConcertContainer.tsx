@@ -38,7 +38,7 @@ export default function ConcertContainer() {
           </svg>
 
           <Link href="/concerts/create">
-            <span className="text-white">공연등록</span>
+            <span className="text-white whitespace-nowrap">등록</span>
           </Link>
         </div>
       </div>

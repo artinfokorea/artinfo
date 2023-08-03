@@ -29,9 +29,11 @@ import {
   Textarea,
   Chip,
   ButtonGroup,
+  Select,
 } from "@material-tailwind/react"
 
 export {
+  Select,
   ThemeProvider,
   Button,
   Card,
