@@ -17,7 +17,8 @@
   ],
   "rules": {
     // 'React' must be in scope when using JSX 에러 해결 (Next.js)
-	  "react/react-in-jsx-scope": "off",
+    "react/react-in-jsx-scope": "off",
+    "no-console": "off",
     // ts파일에서 tsx구문 허용 (Next.js)
     "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
     "no-useless-catch": "off", // 불필요한 catch 못쓰게 하는 기능 끔

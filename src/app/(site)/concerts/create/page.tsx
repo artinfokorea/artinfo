@@ -1,4 +1,5 @@
 "use client"
+
 import FileUploader from "@/components/ui/FileUploader"
 import { InputCounter } from "@/components/ui/InputCounter"
 import { ResizteTextArea } from "@/components/ui/ResizteTextArea"
@@ -15,6 +16,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker"
 import dayjs from "dayjs"
 import { useRouter } from "next/navigation"
+import Editor from "@/components/ui/Editor"
 
 const items = [
   { title: "합창", value: "CHORUS" },
@@ -37,6 +39,9 @@ const page = () => {
   const today = new Date()
   const router = useRouter()
   const [startedAt, setStartedAt] = useState("")
+  const [htmlStr, setHtmlStr] = useState<string>("")
+
+  console.log("html", htmlStr)
 
   const handleUploadedFiles = (files: File[]) => {
     const file = files[0]
@@ -60,9 +65,9 @@ const page = () => {
       const formData = {
         profile_id: user.id,
         poster_url: null,
-        performance_time: dayjs(startedAt).format("YYYY-MM-DD HH:MM"),
+        performance_time: startedAt,
         title,
-        contents: "qwekejqkeqw",
+        contents: htmlStr,
         location,
         category: selectedType as
           | "ORCHESTRA"
@@ -181,13 +186,13 @@ const page = () => {
                 <DateTimePicker
                   label="공연 시간을 설정해주세요."
                   className="py-2"
-                  defaultValue={dayjs(today)}
                   onChange={(newValue: any) => setStartedAt(newValue.$d)}
                 />
               </DemoContainer>
             </LocalizationProvider>
           </div>
 
+          <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr} />
           {uploadedImageUrl && (
             <div className="relative bg-gray-300">
               <img
@@ -203,7 +208,6 @@ const page = () => {
               </button>
             </div>
           )}
-
           <div>
             <div className="flex w-full items-center justify-between border-t py-4 gap-x-2">
               <IconButton
