@@ -9,7 +9,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline"
 import { Button, IconButton, Option, Select } from "@material-tailwind/react"
 import { useQueryClient } from "@tanstack/react-query"
 import Link from "next/link"
-import React, { useEffect, useRef, useState } from "react"
+import React, { useRef, useState } from "react"
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
@@ -121,7 +121,7 @@ const page = () => {
       await queryClient.invalidateQueries({ queryKey: ["concerts"] })
 
       console.log("SUCCESS!")
-      router.replace("/posts")
+      router.replace("/concerts")
     } catch (error) {
       console.error(error)
     } finally {
