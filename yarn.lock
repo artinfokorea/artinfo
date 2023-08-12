@@ -3010,6 +3010,11 @@ next-auth@^4.22.3:
     preact-render-to-string "^5.1.19"
     uuid "^8.3.2"
 
+next-headers@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/next-headers/-/next-headers-0.0.5.tgz#2fb0ac56d579f6c2ce4f1c35318a21232c060f0d"
+  integrity sha512-BtRvV3HsETwE7cDjfyEnMr3cs3eV/QhRd7J58D8csxh393ALulkpCa/1N8TO1XnkHBaV5oif3PE1QSWlX37rfA==
+
 next-tick@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.1.0.tgz#1836ee30ad56d67ef281b22bd199f709449b35eb"

@@ -45,6 +45,7 @@
     "localforage": "^1.10.0",
     "next": "13.4.10",
     "next-auth": "^4.22.3",
+    "next-headers": "^0.0.5",
     "node-cache": "^5.1.2",
     "postcss": "8.4.26",
     "react": "18.2.0",
