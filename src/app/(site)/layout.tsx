@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/material"
 import SnackbarProvider from "@/components/ui/Snackbar"
 import { BottomNavigation } from "@/components/layouts/bottom-naviation"
 import HomeScreenContainer from "@/components/ui/HomeScreen/HomeScreenContainer"
+import Head from "next/head"
 import QueryProvider from "../QueryProvider"
 import AuthProvider from "../(auth)/auth/components/AuthProvider"
 
@@ -38,6 +39,11 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="ko" className="h-full">
+      <Head>
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/icon-48x48.png" />
+        <meta name="theme-color" content="#fff" />
+      </Head>
       {/* <body className={cls(notoSansKr.className, roboto.variable)}> */}
       <body className="bg-[#f8fafc] flex flex-col h-full">
         <ThemeProvider>

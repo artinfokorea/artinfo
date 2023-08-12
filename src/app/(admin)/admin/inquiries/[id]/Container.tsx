@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import useAuth from "@/hooks/useAuth"
-import { fetchInquiry } from "../api"
+import { fetchInquiry } from "@/app/(admin)/admin/inquiries/api"
 
 interface IProps {
   inquiryId: number
