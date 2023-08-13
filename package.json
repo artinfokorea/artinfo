@@ -40,6 +40,7 @@
     "draftjs-to-html": "^0.9.1",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.10",
+    "firebase": "^10.1.0",
     "html-to-draftjs": "1.4",
     "immutable": "4.1",
     "localforage": "^1.10.0",
