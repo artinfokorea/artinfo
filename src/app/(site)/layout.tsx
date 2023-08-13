@@ -47,11 +47,9 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="ko" className="h-full">
-      <Head>
+      <head>
         <link rel="manifest" href="/manifest.json" />
-        <link rel="apple-touch-icon" href="/icon-48x48.png" />
-        <meta name="theme-color" content="#fff" />
-      </Head>
+      </head>
       {/* <body className={cls(notoSansKr.className, roboto.variable)}> */}
       <body className="bg-[#f8fafc] flex flex-col h-full">
         <ThemeProvider>
