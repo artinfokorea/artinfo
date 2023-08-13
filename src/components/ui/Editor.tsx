@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useEffect, useState } from "react"
-// import { Editor as DraftEditor } from "react-draft-wysiwyg"
 import { ContentState, convertToRaw, EditorState } from "draft-js"
 import draftToHtml from "draftjs-to-html"
 import htmlToDraft from "html-to-draftjs"
@@ -26,7 +25,6 @@ function Editor({ htmlStr, setHtmlStr }: IEditorProps) {
   }
 
   const toolbarStyle = {}
-  // const toolbar = {}
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
 
   useEffect(() => {

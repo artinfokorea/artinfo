@@ -1,8 +1,9 @@
 "use client"
+
 import { useQuery } from "@tanstack/react-query"
 import { useState } from "react"
-import { fetchOrganizations } from "../api"
 import Table from "@/components/ui/Table/Table"
+import { fetchOrganizations } from "../api"
 
 interface IInquiry {
   id: string

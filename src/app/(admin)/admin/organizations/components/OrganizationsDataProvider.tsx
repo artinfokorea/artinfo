@@ -6,6 +6,7 @@ import OrganizationList from "./OrganizationList"
 export default function InquiryDataProvider() {
   const prefetchData = async () => {
     "use server"
+
     const queryClient = GetQueryClient()
 
     await queryClient.prefetchQuery({
