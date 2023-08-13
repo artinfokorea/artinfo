@@ -63,6 +63,16 @@ export default function AuthProvider({ children }: IProps) {
         vapidKey:
           "BAmSb8SmdCYbDsckO68O9ejK4A0QONSGZTOJI0SPBM6x0LlFYrP0U8IbQXv17CeakTD28xvMelWaCUIve_LK9rI",
       })
+      // console.log(token)
+      // const r = await fetch("/api/fcm/subscribe", {
+      //   method: "POST",
+      //   body: JSON.stringify({
+      //     token,
+      //     subscribe: true,
+      //   }),
+      // })
+      // console.log(r)
+
       await supabase
         .from("profiles")
         .update({
