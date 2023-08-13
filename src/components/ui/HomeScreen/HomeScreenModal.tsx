@@ -11,15 +11,15 @@ const HomeScreenModal = ({ handleOpen, modalIgnoreForAWeek }: Props) => {
   return (
     <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-1">
       <div className="fixed top-0 left-0 w-full h-full backdrop-blur-sm z-2" />
-      <div className="absolute rounded-xl bottom-16 z-3 bg-white shadow-md w-full">
-        <div className="py-3 px-8 flex justify-between">
+      <div className="absolute rounded-t-xl bottom-16 z-3 bg-white shadow-md w-full">
+        <div className="py-3 px-8 flex justify-between text-xl">
           <span>홈 화면에 추가</span>
           <button className="text-[#00a3d2]" onClick={handleOpen}>
             닫기
           </button>
         </div>
         <div className="border-b border-gray-300 mb-2" />
-        <div className="py-5 w-4/5 mx-auto text-center text-md text-[#939393] break-all leading-5">
+        <div className="py-5 w-4/5 text-sm mx-auto text-center text-md text-[#939393] break-all leading-5">
           이 웹사이트에는 앱 기능이 있습니다. 홈 화면에 추가하여 풀스크린 및
           오프라인으로 사용할 수 있습니다.
         </div>
@@ -54,8 +54,8 @@ const HomeScreenModal = ({ handleOpen, modalIgnoreForAWeek }: Props) => {
               className="w-10 h-10 mr-8"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 d="M12 4.5v15m7.5-7.5h-15"
               />
             </svg>
@@ -77,8 +77,8 @@ const HomeScreenModal = ({ handleOpen, modalIgnoreForAWeek }: Props) => {
               className="w-8 h-8"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 d="M6 18L18 6M6 6l12 12"
               />
             </svg>

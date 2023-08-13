@@ -2,12 +2,14 @@
 
 import { isMobileWeb } from "@toss/utils"
 import React, { useEffect, useState } from "react"
+import { Cookies } from "react-cookie"
 import HomeScreenModal from "./HomeScreenModal"
 
 const HomeScreenContainer = () => {
   const [isOpen, setIsOpen] = useState(false)
   const isMobile = isMobileWeb()
-
+  const cookies = new Cookies()
+  const isModalExpires = cookies.get("modal_expires")
   const handleOpen = () => setIsOpen(!isOpen)
 
   const modalIgnoreForAWeek = () => {
@@ -15,31 +17,17 @@ const HomeScreenContainer = () => {
     const nextWeekDate = new Date()
     nextWeekDate.setDate(currentDate.getDate() + 7)
 
-    const data = {
-      expireDate: nextWeekDate.toISOString(),
-    }
-
-    localStorage.setItem("modalInfo", JSON.stringify(data))
+    cookies.set("modal_expires", nextWeekDate, {
+      path: "/",
+      expires: nextWeekDate,
+    })
 
     setIsOpen(false)
   }
 
   useEffect(() => {
-    const modalInfo = localStorage.getItem("modalInfo")
-    const hideForWeek = modalInfo && JSON.parse(modalInfo)
-
-    if (isMobile) {
-      if (hideForWeek) {
-        const expireDate = new Date(hideForWeek.expireDate)
-        const currentDate = new Date()
-        if (currentDate > expireDate) {
-          setIsOpen(true)
-        } else {
-          setIsOpen(false)
-        }
-      } else {
-        setIsOpen(true)
-      }
+    if (isMobile && !isModalExpires) {
+      setIsOpen(true)
     }
   }, [])
 

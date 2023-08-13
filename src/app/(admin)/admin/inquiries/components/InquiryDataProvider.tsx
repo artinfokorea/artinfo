@@ -1,6 +1,6 @@
 import { Hydrate, dehydrate } from "@tanstack/react-query"
 import GetQueryClient from "@/app/GetQueryClient"
-import { fetchInquiries } from "../api"
+import { fetchInquiries } from "@/app/(admin)/admin/inquiries/api"
 import InquiryList from "./InquiryList"
 
 export default function InquiryDataProvider() {
