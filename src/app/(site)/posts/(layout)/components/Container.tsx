@@ -19,7 +19,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query"
-import { fetchFeeds, updatePostLike } from "@/app/Api"
+import { deleteFeed, fetchFeeds, updatePostLike } from "@/app/Api"
 import { PostCard } from "./PostCard"
 import AdContainer from "../../../home/components/ad/AdContainer"
 
@@ -115,7 +115,7 @@ function WriteFeedCard() {
 function AdSection() {
   return (
     <div className="overflow-hidden bg-white py-4 px-4 mt-4 drop-shadow-md shawdow-md rounded-lg">
-      <h5 className="font-bold mb-2">콘서트</h5>
+      <h5 className="font-semibold mb-2">콘서트</h5>
       <div className="overflow-x-auto">
         <AdContainer />
       </div>
@@ -140,8 +140,8 @@ export default function Container() {
   } = useInfiniteQuery({
     queryKey: ["feeds"],
     suspense: false,
-    queryFn: async ({ pageParam = 1 }) => {
-      const feeds = await fetchFeeds({ pageParam })
+    queryFn: async ({ pageParam = 0 }) => {
+      const feeds = await fetchFeeds({ pageParam: pageParam + 1 })
       return { feeds, page: pageParam + 1 }
     },
     getNextPageParam: (lastPage, pages) =>
@@ -164,6 +164,13 @@ export default function Container() {
             if (feed.id === updateLike.post_id) {
               // eslint-disable-next-line no-param-reassign
               feed.like = updateLike.like
+              if (updateLike.like) {
+                // eslint-disable-next-line no-param-reassign
+                feed.count_of_likes += 1
+              } else {
+                // eslint-disable-next-line no-param-reassign
+                feed.count_of_likes -= 1
+              }
             }
           })
         })
@@ -175,11 +182,32 @@ export default function Container() {
     },
   })
 
+  const deleteFeedMutation = useMutation({
+    mutationFn: (feedId: number) => {
+      return deleteFeed(feedId)
+    },
+    onMutate: feedId => {
+      queryClient.setQueryData(["feeds"], (data: any) => {
+        // eslint-disable-next-line no-param-reassign
+        data.pages = data.pages.map((page: any) => {
+          // eslint-disable-next-line no-param-reassign
+          page.feeds = page.feeds.filter((feed: any) => feed.id !== feedId)
+          return page
+        })
+        return data
+      })
+    },
+  })
+
   const handleUpdatePostLike = (payload: {
     like: boolean
     post_id: number
   }) => {
     updateFeedLikeMutation.mutate({ ...payload, user_id: user!.id })
+  }
+
+  const handleDeleteFeed = (feedId: number) => {
+    deleteFeedMutation.mutate(feedId)
   }
 
   return (
@@ -193,20 +221,25 @@ export default function Container() {
           <ProfileCard />
         </div> */}
 
-        <AdSection />
+        {feedsData?.pages.map(group => (
+          <div key={group.page}>
+            {/* <div>page: {group.page}</div> */}
 
-        {feedsData?.pages.map(group => {
-          return group.feeds.map(feed => (
-            <div key={feed.id} className="my-4">
-              <PostCard
-                feed={feed as any}
-                handleUpdatePostLike={handleUpdatePostLike}
-                showCommentBtn
-                shortContent
-              />
-            </div>
-          ))
-        })}
+            {group.page === 2 && <AdSection />}
+
+            {group.feeds.map(feed => (
+              <div key={feed.id} className="my-4">
+                <PostCard
+                  feed={feed as any}
+                  handleUpdatePostLike={handleUpdatePostLike}
+                  handleDeleteFeed={handleDeleteFeed}
+                  showCommentBtn
+                  shortContent
+                />
+              </div>
+            ))}
+          </div>
+        ))}
 
         {hasNextPage && (
           <button

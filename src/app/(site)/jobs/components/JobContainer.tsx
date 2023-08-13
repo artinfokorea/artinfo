@@ -19,7 +19,7 @@ export default function JobContainer() {
   const { data: jobs } = useQuery({
     queryKey: ["jobs", position1depth],
     suspense: true,
-    queryFn: () => fetchJobs(position1depth),
+    queryFn: () => fetchJobs({ position_1depth: position1depth }),
   })
 
   const updatedPosition1depth = (value: string) => {

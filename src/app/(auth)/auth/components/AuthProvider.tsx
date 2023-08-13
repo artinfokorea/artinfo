@@ -2,6 +2,7 @@
 
 import useSupabase from "@/hooks/useSupabase"
 import type { AuthError, User } from "@supabase/supabase-js"
+import { useRouter } from "next/navigation"
 import { createContext, useContext, useEffect, useMemo, useState } from "react"
 
 export const AuthContext = createContext<any>(null)
@@ -15,6 +16,7 @@ export default function AuthProvider({ children }: IProps) {
   const [isLoading, setIsLoading] = useState(true)
 
   const supabase = useSupabase()
+  const router = useRouter()
 
   async function getActiveSession() {
     const {
@@ -47,7 +49,11 @@ export default function AuthProvider({ children }: IProps) {
   //   }
   // }, [user])
 
-  const signOut = () => supabase.auth.signOut()
+  const signOut = async () => {
+    await supabase.auth.signOut()
+
+    router.refresh()
+  }
   return (
     // eslint-disable-next-line react/jsx-no-constructed-context-values
     <AuthContext.Provider value={{ user, isLoading, signOut }}>

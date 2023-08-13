@@ -50,7 +50,6 @@ export default function CreatePost() {
         title,
         content,
       }
-      console.log("##", formData)
       const { data, error } = await supabase
         .from("feeds")
         .insert({ ...formData })

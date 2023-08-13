@@ -11,9 +11,9 @@ module.exports = withPWA({
 })
 
 const nextConfig = {
-  experimental: {
-    serverActions: true,
-  },
+  // experimental: {
+  //   serverActions: true,
+  // },
   images: {
     domains: ["ycuajmirzlqpgzuonzca.supabase.co"],
     remotePatterns: [

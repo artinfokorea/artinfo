@@ -44,13 +44,13 @@ function ProfileMenu() {
   const profileMenuItems = [
     {
       key: "myprofile",
-      label: "My Profile",
+      label: "프로필",
       icon: UserCircleIcon,
       to: `/profile/${user!.id}`,
     },
     {
       key: "signout",
-      label: "Sign Out",
+      label: "로그아웃",
       icon: PowerIcon,
     },
   ]
@@ -173,10 +173,10 @@ function NavList() {
 }
 
 export default function Header() {
-  const { user, signOut } = useAuth()
+  const { user } = useAuth()
 
   return (
-    <Navbar className="sticky top-0 z-50 h-max max-w-full rounded-none py-2 px-4 lg:px-8">
+    <Navbar className="sticky top-0 z-5 h-max max-w-full rounded-none py-2 px-4 lg:px-8">
       <div className="flex items-center text-blue-gray-900 mx-auto max-w-screen-lg">
         <Typography className="py-1.5 font-bold text-xl" as="h1">
           <Link href="/">ARTINFO</Link>
@@ -197,9 +197,9 @@ export default function Header() {
             <div>
               {user ? (
                 <div className="flex items-center gap-x-4">
-                  <Link href="/notifications">
+                  {/* <Link href="/notifications">
                     <BellAlertIcon className="w-5" />
-                  </Link>
+                  </Link> */}
                   <ProfileMenu />
                 </div>
               ) : (
@@ -211,29 +211,6 @@ export default function Header() {
               )}
             </div>
           </div>
-
-          {/* {user ? (
-            <Link href={`/profile/${user.id}`}>
-              <div className="flex items-center gap-x-1.5">
-                <img
-                  className="inline-block h-8 w-8 rounded-full"
-                  src={
-                    user.user_metadata.icon_image_url ||
-                    "/img/placeholder_user.png"
-                  }
-                  alt="profile"
-                />
-                <span className="text-xs">{user.user_metadata.name}님</span>
-              </div>
-            </Link>
-          ) : (
-            <Link
-              href="/auth"
-              className="text-sm rounded bg-white/10 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-white/20"
-            >
-              로그인
-            </Link>
-          )} */}
         </div>
       </div>
     </Navbar>

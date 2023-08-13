@@ -1,9 +1,14 @@
 import dayjs from "dayjs"
 import "dayjs/locale/ko"
 import relativeTime from "dayjs/plugin/relativeTime"
+import utc from "dayjs/plugin/utc"
+import timezone from "dayjs/plugin/timezone"
 
 dayjs.extend(relativeTime)
 dayjs.locale("ko")
+dayjs.extend(utc)
+dayjs.extend(timezone)
+dayjs.tz.setDefault("Asia/Seoul")
 
 export default function useFilters() {
   return {
@@ -65,6 +70,17 @@ export default function useFilters() {
 
       // console.error('URL을 찾을 수 없습니다.')
       return match ? match[0] : null
+    },
+    URLFY(text?: string) {
+      if (!text) {
+        return
+      }
+      const urlRegex = /(https?:\/\/[^\s]+)/g
+      // const urlRegex = /(http(s)?:\/\/)([a-z0-9\w]+\.*)+[a-z0-9]{2,4}/gi
+      // eslint-disable-next-line consistent-return
+      return text.replace(urlRegex, url => {
+        return `<a href="${url}" target="_blank" class="text-indigo-500 underline underline-offset-2">${url}</a>`
+      })
     },
   }
 }

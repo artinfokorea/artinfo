@@ -275,6 +275,7 @@ export interface Database {
           count_of_likes: number
           count_of_views: number
           created_at: string | null
+          deleted: boolean
           id: number
           image_urls: string[] | null
           profile_id: string
@@ -287,6 +288,7 @@ export interface Database {
           count_of_likes?: number
           count_of_views?: number
           created_at?: string | null
+          deleted?: boolean
           id?: number
           image_urls?: string[] | null
           profile_id: string
@@ -299,6 +301,7 @@ export interface Database {
           count_of_likes?: number
           count_of_views?: number
           created_at?: string | null
+          deleted?: boolean
           id?: number
           image_urls?: string[] | null
           profile_id?: string
@@ -793,6 +796,24 @@ export interface Database {
         }
         Returns: boolean
       }
+      decrement_feed_comment: {
+        Args: {
+          feed_id: number
+        }
+        Returns: undefined
+      }
+      decrement_feed_like: {
+        Args: {
+          feed_id: number
+        }
+        Returns: undefined
+      }
+      decrement_feed_view: {
+        Args: {
+          feed_id: number
+        }
+        Returns: undefined
+      }
       get_advertisement_banners: {
         Args: Record<PropertyKey, never>
         Returns: {
@@ -827,6 +848,31 @@ export interface Database {
           image_urls: string[]
           profile_id: string
           created_at: string
+          count_of_views: number
+          count_of_likes: number
+          count_of_comments: number
+          deleted: boolean
+          like: boolean
+          profiles: Json
+        }[]
+      }
+      get_feeds: {
+        Args: {
+          item_count?: number
+          page_number?: number
+        }
+        Returns: {
+          id: number
+          category: Database["public"]["Enums"]["feed_category"]
+          title: string
+          content: string
+          image_urls: string[]
+          profile_id: string
+          created_at: string
+          count_of_views: number
+          count_of_likes: number
+          count_of_comments: number
+          deleted: boolean
           like: boolean
           profiles: Json
         }[]
@@ -865,6 +911,24 @@ export interface Database {
           like: boolean
           profiles: Json
         }[]
+      }
+      increment_feed_comment: {
+        Args: {
+          feed_id: number
+        }
+        Returns: undefined
+      }
+      increment_feed_like: {
+        Args: {
+          feed_id: number
+        }
+        Returns: undefined
+      }
+      increment_feed_view: {
+        Args: {
+          feed_id: number
+        }
+        Returns: undefined
       }
     }
     Enums: {
