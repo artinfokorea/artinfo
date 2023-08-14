@@ -6,7 +6,7 @@ import { Cookies } from "react-cookie"
 import HomeScreenModal from "./HomeScreenModal"
 
 const HomeScreenContainer = () => {
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
   const isMobile = isMobileWeb()
   const cookies = new Cookies()
   const isModalExpires = cookies.get("modal_expires")
