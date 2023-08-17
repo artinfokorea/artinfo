@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
-import { useEffect } from "react"
+import { useEffect, useRef, useState } from "react"
 import * as yup from "yup"
 import { Button, IconButton, Input, Textarea } from "@/components/material"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import useAuth from "@/hooks/useAuth"
+import FileUploader from "@/components/ui/FileUploader"
 import { fetchOrganization } from "../api"
 
 interface IProps {
@@ -35,6 +36,19 @@ export default function Container({ organizationId }: IProps) {
   const supabase = useSupabase()
   const { user } = useAuth()
   const router = useRouter()
+  const [uploadedImage, setUploadedImage] = useState<File>()
+  const fileUploader = useRef<HTMLInputElement>(null)
+  const [uploadedImageUrl, setUploadedImageUrl] = useState("")
+
+  const handleUploadedFiles = (files: File[]) => {
+    const file = files[0]
+    setUploadedImage(file)
+    setUploadedImageUrl(URL.createObjectURL(file))
+  }
+
+  const openFileUploader = () => {
+    fileUploader.current?.click()
+  }
 
   const { data: organization } = useQuery({
     queryKey: ["organizations", organizationId],
@@ -58,6 +72,8 @@ export default function Container({ organizationId }: IProps) {
       email: organization?.email || "",
     },
   })
+
+  console.log("image", organization?.logo_image)
 
   const updateOrganizations = async (payload: FormData) => {
     console.log("payload", payload)
@@ -110,7 +126,7 @@ export default function Container({ organizationId }: IProps) {
               <Input
                 {...register("name")}
                 type="text"
-                placeholder="문의 제목"
+                placeholder="기관 이름"
                 className="!border !border-blue-gray-50 bg-white text-blue-gray-500 ring-4 ring-transparent placeholder:text-blue-gray-200 focus:!border-blue-500 focus:!border-t-blue-500 focus:ring-blue-500/20"
                 labelProps={{
                   className: "hidden",
@@ -123,7 +139,7 @@ export default function Container({ organizationId }: IProps) {
             <div className="mt-5">
               <Textarea
                 {...register("desc")}
-                placeholder="문의 내용"
+                placeholder="기관 상세"
                 className="!border !border-blue-gray-50 bg-white text-blue-gray-500 ring-4 ring-transparent placeholder:text-blue-gray-200 focus:!border-blue-500 focus:!border-t-blue-500 focus:ring-blue-500/20"
                 labelProps={{
                   className: "hidden",
@@ -175,6 +191,25 @@ export default function Container({ organizationId }: IProps) {
                 {errors.email?.message}
               </p>
             </div>
+            {organization?.logo_image && (
+              <div className="relative bg-gray-300">
+                <img
+                  src={organization?.logo_image}
+                  alt="community-write-img"
+                  className="w-full"
+                />
+                <button
+                  className="absolute right-2 top-2 text-white md:hidden bg-gray-600 rounded-full p-1"
+                  onClick={() => setUploadedImage(undefined)}
+                >
+                  <XMarkIcon className="w-5" />
+                </button>
+              </div>
+            )}
+            <FileUploader
+              ref={fileUploader}
+              uploadedFiles={handleUploadedFiles}
+            />
             {/* <div className="">
               <Input
                 {...register("address")}

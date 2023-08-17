@@ -3,15 +3,8 @@
 import { useQuery } from "@tanstack/react-query"
 import { useState } from "react"
 import Table from "@/components/ui/Table/Table"
+import { Pagination } from "@/components/ui/Pagination"
 import { fetchInquiries } from "../api"
-
-interface IInquiry {
-  id: string
-  title: string
-  contents: string
-  email: string
-  created_at: string
-}
 
 export default function InquiryList() {
   const [page, setPage] = useState(1)
@@ -31,8 +24,16 @@ export default function InquiryList() {
 
   return (
     <div>
-      {inquiries && <Table ths={ths} items={inquiries} to="inquiries" />}
-      {/* <Pagination page={1} totalCount={10} /> */}
+      {inquiries && (
+        <>
+          <Table ths={ths} items={inquiries?.inquiries} to="inquiries" />
+          <Pagination
+            page={page}
+            setPage={setPage}
+            totalCount={inquiries?.count as number}
+          />
+        </>
+      )}
     </div>
   )
 }

@@ -3,21 +3,14 @@
 import { useQuery } from "@tanstack/react-query"
 import { useState } from "react"
 import Table from "@/components/ui/Table/Table"
+import { Pagination } from "@/components/ui/Pagination"
 import { fetchOrganizations } from "../api"
-
-interface IInquiry {
-  id: string
-  title: string
-  contents: string
-  email: string
-  created_at: string
-}
 
 export default function OrganizationList() {
   const [page, setPage] = useState(1)
 
   const { data: organizations } = useQuery({
-    queryKey: ["organizations"],
+    queryKey: ["organizations", page],
     suspense: true,
     queryFn: () => fetchOrganizations(page),
   })
@@ -30,11 +23,18 @@ export default function OrganizationList() {
   return (
     <div>
       {organizations && (
-        <Table
-          ths={ths}
-          items={organizations.organizations}
-          to="organizations"
-        />
+        <>
+          <Table
+            ths={ths}
+            items={organizations.organizations}
+            to="organizations"
+          />
+          <Pagination
+            page={page}
+            setPage={setPage}
+            totalCount={organizations?.count as number}
+          />
+        </>
       )}
     </div>
   )

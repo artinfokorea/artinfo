@@ -21,6 +21,7 @@ module.exports = withMT({
       colors: {
         kakao: "#FEE500",
         google: "#f44336",
+        blue1: "#5baff6",
       },
     },
   },
