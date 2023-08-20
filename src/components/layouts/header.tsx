@@ -13,6 +13,7 @@ import {
   MagnifyingGlassIcon,
   BellAlertIcon,
   HomeIcon,
+  QuestionMarkCircleIcon,
 } from "@heroicons/react/24/outline"
 import { useRouter } from "next/navigation"
 import {
@@ -114,11 +115,11 @@ function ProfileMenu() {
 }
 
 const items = [
-  // {
-  //   title: "포스트",
-  //   to: "/posts",
-  //   icon: HomeIcon,
-  // },
+  {
+    title: "포스트",
+    to: "/posts",
+    icon: HomeIcon,
+  },
   {
     title: "채용",
     to: "/jobs",
@@ -141,10 +142,11 @@ const items = [
   //   title: "토론",
   //   to: "/debates",
   // },
-  // {
-  //   title: "문의",
-  //   to: "/inquiry",
-  // },
+  {
+    title: "문의",
+    to: "/inquiry",
+    icon: QuestionMarkCircleIcon,
+  },
 ]
 
 function NavList() {
