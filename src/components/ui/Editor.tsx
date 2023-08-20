@@ -14,6 +14,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 import dynamic from "next/dynamic"
 import useSupabase from "@/hooks/useSupabase"
 import useAuth from "@/hooks/useAuth"
+import useSnackbar from "@/hooks/useSnackbar"
 
 const DraftEditor = dynamic(
   () => import("react-draft-wysiwyg").then(mod => mod.Editor),
@@ -33,6 +34,13 @@ function Editor({ htmlStr, setHtmlStr }: IEditorProps) {
   const editorStyle = {
     height: "400px",
   }
+
+  const [openSnackbar, closeSnackbar] = useSnackbar({
+    position: "top-center",
+    style: {
+      // backgroundColor: "red",
+    },
+  })
 
   const toolbarStyle = {}
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
@@ -61,10 +69,7 @@ function Editor({ htmlStr, setHtmlStr }: IEditorProps) {
     const filesize = Number((file.size / 1024 / 1024).toFixed(4))
     console.log("filesize: ", filesize)
     if (filesize > maxFileSize) {
-      // showSnackbar(`파일은 ${maxFileSize}mb를 초과 할 수 없습니다.`, {
-      //   color: "error",
-      //   location: "bottom",
-      // })
+      openSnackbar(`파일은 ${maxFileSize}m를 초과 할 수 없습니다.`, 2000)
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve("")
@@ -109,10 +114,6 @@ function Editor({ htmlStr, setHtmlStr }: IEditorProps) {
       AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " "),
     )
   }
-
-  useEffect(() => {
-    console.log("editorState", editorState)
-  }, [editorState])
 
   return (
     <DraftEditor
