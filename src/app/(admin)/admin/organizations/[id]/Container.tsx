@@ -194,7 +194,7 @@ export default function Container({ organizationId }: IProps) {
             {organization?.logo_image && (
               <div className="relative bg-gray-300">
                 <img
-                  src={organization?.logo_image}
+                  src={uploadedImageUrl || organization?.logo_image}
                   alt="community-write-img"
                   className="w-full"
                 />
@@ -206,24 +206,32 @@ export default function Container({ organizationId }: IProps) {
                 </button>
               </div>
             )}
+            <IconButton
+              variant="text"
+              color="blue-gray"
+              size="md"
+              disabled={!!uploadedImageUrl}
+              onClick={openFileUploader}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+                className="h-4 w-4"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+                />
+              </svg>
+            </IconButton>
             <FileUploader
               ref={fileUploader}
               uploadedFiles={handleUploadedFiles}
             />
-            {/* <div className="">
-              <Input
-                {...register("address")}
-                type="image"
-                placeholder="주소"
-                className="!border !border-blue-gray-50 bg-white text-blue-gray-500 ring-4 ring-transparent placeholder:text-blue-gray-200 focus:!border-blue-500 focus:!border-t-blue-500 focus:ring-blue-500/20"
-                labelProps={{
-                  className: "hidden",
-                }}
-              />
-              <p className="text-sm text-red-500 mt-1">
-                {errors.email?.message}
-              </p>
-            </div> */}
           </div>
 
           <div>
@@ -234,7 +242,7 @@ export default function Container({ organizationId }: IProps) {
                   color="red"
                   variant="text"
                   className="rounded-md hidden md:inline-block"
-                  onClick={() => router.push("/admin/inquiries")}
+                  onClick={() => router.push("/admin/organizations")}
                 >
                   뒤로가기
                 </Button>
