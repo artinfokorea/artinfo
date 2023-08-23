@@ -385,3 +385,20 @@ export type Comment = {
     icon_image_url?: string | null
   } | null
 } & CommentRow
+
+/*
+ * --------------------------------------------------- RECRUIT_JOBS ---------------------------------------------------------
+ */
+
+export type RECRUIT_JOBS_CATEGORY =
+  | "RELIGION"
+  | "LECTURER"
+  | "ETC"
+  | "ART_ORGANIZATION"
+
+export const RECRUIT_JOBS_CATEGORY_ITEMS = {
+  RELIGION: "종교",
+  LECTURER: "교원",
+  ETC: "기타",
+  ART_ORGANIZATION: "연주단체",
+}

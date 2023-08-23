@@ -1,13 +1,23 @@
 "use client"
 
-import { useRouter, useSearchParams } from "next/navigation"
+import { useParams } from "next/navigation"
 import React from "react"
+import { useQuery } from "@tanstack/react-query"
+import { fetchJob } from "../api"
+import JobContainer from "../components/JobContainer"
 
 const page = () => {
-  const params = useSearchParams()
+  const jobId = useParams().id
 
-  console.log("params", params.get("id"))
-  return <div>hihi</div>
+  const { data: job } = useQuery({
+    queryKey: ["organizations", jobId],
+    suspense: true,
+    queryFn: () => fetchJob(Number(jobId)),
+  })
+
+  console.log("job", job)
+
+  return <JobContainer job={job} />
 }
 
 export default page

@@ -30,6 +30,7 @@ import {
   Chip,
   ButtonGroup,
   Select,
+  Option,
 } from "@material-tailwind/react"
 
 export {
@@ -62,4 +63,5 @@ export {
   Textarea,
   Chip,
   ButtonGroup,
+  Option,
 }

@@ -1,44 +1,63 @@
 "use client"
 
-import { useQuery } from "@tanstack/react-query"
+import Link from "next/link"
+import React, { useRef, useState } from "react"
+import {
+  Button,
+  IconButton,
+  Input,
+  Select,
+  Option,
+} from "@/components/material"
+import { XMarkIcon } from "@heroicons/react/24/outline"
 import { useForm } from "react-hook-form"
-import { useRef, useState } from "react"
 import * as yup from "yup"
-import { Button, IconButton, Input, Textarea } from "@/components/material"
 import { yupResolver } from "@hookform/resolvers/yup"
+import FileUploader from "@/components/ui/FileUploader"
 import useSupabase from "@/hooks/useSupabase"
 import { useRouter } from "next/navigation"
-import Link from "next/link"
-import { XMarkIcon } from "@heroicons/react/24/outline"
+import Editor from "@/components/ui/Editor"
 import useAuth from "@/hooks/useAuth"
-import FileUploader from "@/components/ui/FileUploader"
-import { fetchOrganization } from "../api"
+import { RECRUIT_JOBS_CATEGORY } from "@/types/types"
 
-interface IProps {
-  organizationId: number
-}
+const items = [
+  { title: "종교", value: "RELIGION" },
+  { title: "교원", value: "LECTURER" },
+  { title: "기타", value: "ETC" },
+  { title: "연주단체", value: "ART_ORGANIZATION" },
+]
 
 const schema = yup
   .object({
-    name: yup
+    title: yup
       .string()
-      .max(50, "이름의 글자수는 50글자까지 허용합니다.")
-      .required("기관 이름을 입력해주세요."),
-    desc: yup.string(),
-    site: yup.string(),
-    address: yup.string(),
-    email: yup.string().email("유효한 이메일 형식이 아닙니다.").required(),
+      .max(50, "제목 글자수는 50글자까지 허용합니다.")
+      .required("채용 정보 제목을 입력해주세요."),
+    company_name: yup.string().required("채용 기관을 입력해주세요."),
   })
   .required()
 type FormData = yup.InferType<typeof schema>
 
-export default function Container({ organizationId }: IProps) {
-  const supabase = useSupabase()
+const JobContainer = () => {
   const { user } = useAuth()
-  const router = useRouter()
   const [uploadedImage, setUploadedImage] = useState<File>()
   const fileUploader = useRef<HTMLInputElement>(null)
+  const [isLoading, setIsLoading] = useState(false)
   const [uploadedImageUrl, setUploadedImageUrl] = useState("")
+  const [htmlStr, setHtmlStr] = useState<string>("")
+  const [selectedType, setSelectedType] = useState("RELIGION")
+  const supabase = useSupabase()
+  const router = useRouter()
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(schema),
+  })
 
   const handleUploadedFiles = (files: File[]) => {
     const file = files[0]
@@ -50,49 +69,68 @@ export default function Container({ organizationId }: IProps) {
     fileUploader.current?.click()
   }
 
-  const { data: organization } = useQuery({
-    queryKey: ["organizations", organizationId],
-    suspense: true,
-    queryFn: () => fetchOrganization(organizationId),
-  })
-
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-    reset,
-  } = useForm({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      name: organization?.name || "",
-      desc: organization?.desc || "",
-      site: organization?.site || "",
-      address: organization?.address || "",
-      email: organization?.email || "",
-    },
-  })
-
-  console.log("image", organization?.logo_image)
-
-  const updateOrganizations = async (payload: FormData) => {
+  const createJob = async (payload: FormData) => {
     console.log("payload", payload)
+    const { company_name, title } = payload
     if (!user) {
       return
     }
+
+    setIsLoading(true)
     try {
-      const { error } = await supabase
-        .from("organizations")
-        .update(payload)
-        .eq("id", organizationId)
+      const formData = {
+        profile_id: user.id,
+        company_image_url: uploadedImageUrl,
+        company_name,
+        contents: htmlStr,
+        title,
+        category: selectedType as RECRUIT_JOBS_CATEGORY,
+      }
+      const { data, error } = await supabase
+        .from("recruit_jobs")
+        .insert({ ...formData })
+        .select("id")
+        .single()
+
       if (error) {
         throw error
       }
-      router.push("/admin/organizations")
-    } catch (e: any) {
-      console.log("error", e)
+      // upload file
+      const jobId = data.id
+      if (uploadedImage && jobId) {
+        // const filename = uploadedImage.name
+        const filename = new Date().getTime().toString()
+        const extension = uploadedImage.name.split(".")[1]
+        const path = `recruits_jobs/${jobId}/${filename}.${extension}`
+        const { error: uploadError, data } = await supabase.storage
+          .from("artinfo")
+          .upload(path, uploadedImage, {
+            cacheControl: "36000",
+            upsert: true,
+          })
+        if (uploadError) {
+          throw uploadError
+        }
+        const fileUrl = `https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/${data.path}`
+        console.log(fileUrl)
+
+        const { error: updateError } = await supabase
+          .from("recruit_jobs")
+          .update({
+            poster_url: fileUrl,
+          })
+          .eq("id", jobId)
+
+        if (updateError) {
+          throw updateError
+        }
+      }
+      console.log("SUCCESS!")
+      router.replace("/admin/jobs")
+    } catch (error) {
+      console.error(error)
     } finally {
-      console.log("finally")
+      setIsLoading(false)
     }
   }
 
@@ -103,7 +141,7 @@ export default function Container({ organizationId }: IProps) {
         height: "calc(100vh - 58px)",
       }}
     >
-      <div className="h-full flex flex-col">
+      <div className="h-full flex flex-col overflow-y-auto">
         <div className="relative mt-6">
           <Link href="/jobs">
             <IconButton
@@ -116,85 +154,57 @@ export default function Container({ organizationId }: IProps) {
             </IconButton>
           </Link>
           <h2 className="text-2xl font-bold text-center md:text-left">
-            기관 상세
+            채용 상세
           </h2>
         </div>
-
-        <div className="flex-1 flex flex-col overflow-hidden mt-4">
+        <div className="flex-1 flex flex-col overflow-y-auto mt-4">
           <div className="pb-2 border-b border-gray-300">
             <div className="">
               <Input
-                {...register("name")}
+                {...register("title")}
                 type="text"
-                placeholder="기관 이름"
+                placeholder="채용 제목"
                 className="!border !border-blue-gray-50 bg-white text-blue-gray-500 ring-4 ring-transparent placeholder:text-blue-gray-200 focus:!border-blue-500 focus:!border-t-blue-500 focus:ring-blue-500/20"
                 labelProps={{
                   className: "hidden",
                 }}
               />
               <p className="text-sm text-red-500 mt-1">
-                {errors.name?.message}
+                {errors.title?.message}
               </p>
             </div>
             <div className="mt-5">
-              <Textarea
-                {...register("desc")}
-                placeholder="기관 상세"
-                className="!border !border-blue-gray-50 bg-white text-blue-gray-500 ring-4 ring-transparent placeholder:text-blue-gray-200 focus:!border-blue-500 focus:!border-t-blue-500 focus:ring-blue-500/20"
-                labelProps={{
-                  className: "hidden",
-                }}
-              />
-              <p className="text-sm text-red-500 mt-1">
-                {errors.desc?.message}
-              </p>
-            </div>
-            <div className="">
               <Input
-                {...register("email")}
-                type="email"
-                placeholder="기관 이메일"
+                {...register("company_name")}
+                placeholder="채용 기관"
                 className="!border !border-blue-gray-50 bg-white text-blue-gray-500 ring-4 ring-transparent placeholder:text-blue-gray-200 focus:!border-blue-500 focus:!border-t-blue-500 focus:ring-blue-500/20"
                 labelProps={{
                   className: "hidden",
                 }}
               />
               <p className="text-sm text-red-500 mt-1">
-                {errors.email?.message}
+                {errors.company_name?.message}
               </p>
             </div>
-            <div className="">
-              <Input
-                {...register("site")}
-                type="email"
-                placeholder="웹사이트"
-                className="!border !border-blue-gray-50 bg-white text-blue-gray-500 ring-4 ring-transparent placeholder:text-blue-gray-200 focus:!border-blue-500 focus:!border-t-blue-500 focus:ring-blue-500/20"
-                labelProps={{
-                  className: "hidden",
-                }}
-              />
-              <p className="text-sm text-red-500 mt-1">
-                {errors.email?.message}
-              </p>
+            <div className="w-20 my-5">
+              <Select
+                variant="static"
+                label="공연 유형을 선택해주세요."
+                value={selectedType}
+                onChange={() => setSelectedType(selectedType)}
+              >
+                {items.map(item => (
+                  <Option key={item.value}>{item.title}</Option>
+                ))}
+              </Select>
             </div>
-            <div className="">
-              <Input
-                {...register("address")}
-                type="email"
-                placeholder="주소"
-                className="!border !border-blue-gray-50 bg-white text-blue-gray-500 ring-4 ring-transparent placeholder:text-blue-gray-200 focus:!border-blue-500 focus:!border-t-blue-500 focus:ring-blue-500/20"
-                labelProps={{
-                  className: "hidden",
-                }}
-              />
-              <p className="text-sm text-red-500 mt-1">
-                {errors.email?.message}
-              </p>
-            </div>
-            {organization?.logo_image && (
+
+            <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr} />
+
+            {uploadedImageUrl && (
               <div className="relative bg-gray-300">
                 <img
-                  src={uploadedImageUrl || organization?.logo_image}
+                  src={uploadedImageUrl}
                   alt="community-write-img"
                   className="w-full"
                 />
@@ -210,7 +220,7 @@ export default function Container({ organizationId }: IProps) {
               variant="text"
               color="blue-gray"
               size="md"
-              disabled={!!uploadedImageUrl}
+              //   disabled={!!uploadedImageUrl}
               onClick={openFileUploader}
             >
               <svg
@@ -242,16 +252,16 @@ export default function Container({ organizationId }: IProps) {
                   color="red"
                   variant="text"
                   className="rounded-md hidden md:inline-block"
-                  onClick={() => router.push("/admin/organizations")}
+                  onClick={() => router.push("/admin/jobs")}
                 >
                   뒤로가기
                 </Button>
                 <Button
                   size="lg"
                   className="rounded-md bg-indigo-500 w-full md:w-32"
-                  onClick={handleSubmit(updateOrganizations)}
+                  onClick={handleSubmit(createJob)}
                 >
-                  수정하기
+                  등록하기
                 </Button>
               </div>
             </div>
@@ -261,3 +271,5 @@ export default function Container({ organizationId }: IProps) {
     </div>
   )
 }
+
+export default JobContainer
