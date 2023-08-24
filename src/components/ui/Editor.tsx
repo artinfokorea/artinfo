@@ -4,11 +4,13 @@ import React, { useEffect, useState } from "react"
 import {
   AtomicBlockUtils,
   ContentState,
+  convertFromHTML,
   convertToRaw,
   EditorState,
+  Modifier,
 } from "draft-js"
 import draftToHtml from "draftjs-to-html"
-import htmlToDraft from "html-to-draftjs"
+// import htmlToDraft from "html-to-draftjs"
 import { useIsMounted } from "@toss/react"
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 import dynamic from "next/dynamic"
@@ -32,7 +34,7 @@ function Editor({ htmlStr, setHtmlStr }: IEditorProps) {
   const auth = useAuth()
   const supabase = useSupabase()
   const editorStyle = {
-    height: "400px",
+    minHeight: "400px",
   }
 
   const [openSnackbar, closeSnackbar] = useSnackbar({
@@ -47,7 +49,7 @@ function Editor({ htmlStr, setHtmlStr }: IEditorProps) {
 
   useEffect(() => {
     if (isMounted) {
-      const blocksFromHtml = htmlToDraft(htmlStr)
+      const blocksFromHtml = convertFromHTML(htmlStr)
       if (blocksFromHtml) {
         const { contentBlocks, entityMap } = blocksFromHtml
         const contentState = ContentState.createFromBlockArray(
@@ -86,6 +88,7 @@ function Editor({ htmlStr, setHtmlStr }: IEditorProps) {
         result.data!.path
       }`,
     )
+    // onEditorStateChange(newEditorState)
     console.log("result", result)
     return `https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/${
       result.data!.path
@@ -103,13 +106,16 @@ function Editor({ htmlStr, setHtmlStr }: IEditorProps) {
     const contentState = editorState.getCurrentContent()
     const contentStateWithEntity = contentState.createEntity(
       "IMAGE",
-      "IMMUTABLE",
+      "MUTABLE",
       { src: url },
     )
+
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
+
     const newEditorState = EditorState.set(editorState, {
       currentContent: contentStateWithEntity,
     })
+
     setEditorState(
       AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " "),
     )
@@ -117,16 +123,22 @@ function Editor({ htmlStr, setHtmlStr }: IEditorProps) {
 
   return (
     <DraftEditor
-      localization={{
-        locale: "ko",
-      }}
-      wrapperClassName="wrapper-class"
-      editorClassName="editor-class"
+      wrapperClassName="wrapper-class max-height-full"
+      editorClassName="editor-class p-2 min-height-96"
       editorStyle={editorStyle}
+      toolbarClassName="border-1 border-solid border-#ccc"
       toolbarStyle={toolbarStyle}
       onEditorStateChange={onEditorStateChange}
       editorState={editorState}
+      localization={{
+        locale: "ko",
+      }}
       toolbar={{
+        inline: { inDropdown: true },
+        list: { inDropdown: true },
+        textAlign: { inDropdown: true },
+        link: { inDropdown: true },
+        history: { inDropdown: false },
         image: {
           uploadCallback: handleImageUpload,
           alt: { present: true, mandatory: true },

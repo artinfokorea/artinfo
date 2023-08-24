@@ -32,13 +32,13 @@ const schema = yup
     title: yup
       .string()
       .max(50, "제목 글자수는 50글자까지 허용합니다.")
-      .required("채용 정보 제목을 입력해주세요."),
-    company_name: yup.string().required("채용 기관을 입력해주세요."),
+      .required("채용 제목은 필수입니다."),
+    company_name: yup.string().required("채용 기관명은 필수입니다."),
   })
   .required()
 type FormData = yup.InferType<typeof schema>
 
-const JobContainer = () => {
+const JobCreateForm = () => {
   const { user } = useAuth()
   const [uploadedImage, setUploadedImage] = useState<File>()
   const fileUploader = useRef<HTMLInputElement>(null)
@@ -53,7 +53,7 @@ const JobContainer = () => {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
     reset,
   } = useForm({
     resolver: yupResolver(schema),
@@ -126,7 +126,7 @@ const JobContainer = () => {
         }
       }
       console.log("SUCCESS!")
-      router.replace("/admin/jobs")
+      router.push("/jobs")
     } catch (error) {
       console.error(error)
     } finally {
@@ -154,10 +154,22 @@ const JobContainer = () => {
             </IconButton>
           </Link>
           <h2 className="text-2xl font-bold text-center md:text-left">
-            채용 상세
+            채용 등록
           </h2>
         </div>
         <div className="flex-1 flex flex-col overflow-y-auto mt-4">
+          <div className="w-20 my-5">
+            <Select
+              variant="static"
+              label="공연 유형을 선택해주세요."
+              value={selectedType}
+              onChange={() => setSelectedType(selectedType)}
+            >
+              {items.map(item => (
+                <Option key={item.value}>{item.title}</Option>
+              ))}
+            </Select>
+          </div>
           <div className="pb-2 border-b border-gray-300">
             <div className="">
               <Input
@@ -185,18 +197,6 @@ const JobContainer = () => {
               <p className="text-sm text-red-500 mt-1">
                 {errors.company_name?.message}
               </p>
-            </div>
-            <div className="w-20 my-5">
-              <Select
-                variant="static"
-                label="공연 유형을 선택해주세요."
-                value={selectedType}
-                onChange={() => setSelectedType(selectedType)}
-              >
-                {items.map(item => (
-                  <Option key={item.value}>{item.title}</Option>
-                ))}
-              </Select>
             </div>
 
             <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr} />
@@ -259,6 +259,7 @@ const JobContainer = () => {
                 <Button
                   size="lg"
                   className="rounded-md bg-indigo-500 w-full md:w-32"
+                  disabled={!isDirty || !isValid}
                   onClick={handleSubmit(createJob)}
                 >
                   등록하기
@@ -272,4 +273,4 @@ const JobContainer = () => {
   )
 }
 
-export default JobContainer
+export default JobCreateForm
