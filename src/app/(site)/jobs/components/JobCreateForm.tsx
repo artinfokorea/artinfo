@@ -16,9 +16,17 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import FileUploader from "@/components/ui/FileUploader"
 import useSupabase from "@/hooks/useSupabase"
 import { useRouter } from "next/navigation"
-import Editor from "@/components/ui/Editor"
 import useAuth from "@/hooks/useAuth"
 import { RECRUIT_JOBS_CATEGORY } from "@/types/types"
+import dynamic from "next/dynamic"
+
+const QuillEditor = dynamic(
+  () => import("@/components/ui/Editor/QuillEditor"),
+  {
+    loading: () => <div>...loading</div>,
+    ssr: false,
+  },
+)
 
 const items = [
   { title: "종교", value: "RELIGION" },
@@ -34,6 +42,7 @@ const schema = yup
       .max(50, "제목 글자수는 50글자까지 허용합니다.")
       .required("채용 제목은 필수입니다."),
     company_name: yup.string().required("채용 기관명은 필수입니다."),
+    linkUrl: yup.string().nullable(),
   })
   .required()
 type FormData = yup.InferType<typeof schema>
@@ -48,6 +57,7 @@ const JobCreateForm = () => {
   const [selectedType, setSelectedType] = useState("RELIGION")
   const supabase = useSupabase()
   const router = useRouter()
+  const quillRef = useRef()
 
   const {
     register,
@@ -84,6 +94,7 @@ const JobCreateForm = () => {
         company_name,
         contents: htmlStr,
         title,
+        linkUrl: payload.linkUrl,
         category: selectedType as RECRUIT_JOBS_CATEGORY,
       }
       const { data, error } = await supabase
@@ -117,7 +128,7 @@ const JobCreateForm = () => {
         const { error: updateError } = await supabase
           .from("recruit_jobs")
           .update({
-            poster_url: fileUrl,
+            company_image_url: fileUrl,
           })
           .eq("id", jobId)
 
@@ -133,6 +144,8 @@ const JobCreateForm = () => {
       setIsLoading(false)
     }
   }
+
+  const handleSelect = (value: any) => setSelectedType(value)
 
   return (
     <div
@@ -163,14 +176,16 @@ const JobCreateForm = () => {
               variant="static"
               label="공연 유형을 선택해주세요."
               value={selectedType}
-              onChange={() => setSelectedType(selectedType)}
+              onChange={handleSelect}
             >
               {items.map(item => (
-                <Option key={item.value}>{item.title}</Option>
+                <Option key={item.value} value={item.value}>
+                  {item.title}
+                </Option>
               ))}
             </Select>
           </div>
-          <div className="pb-2 border-b border-gray-300">
+          <div>
             <div className="">
               <Input
                 {...register("title")}
@@ -188,7 +203,7 @@ const JobCreateForm = () => {
             <div className="mt-5">
               <Input
                 {...register("company_name")}
-                placeholder="채용 기관"
+                placeholder="채용 기관명 예): 국립합창단"
                 className="!border !border-blue-gray-50 bg-white text-blue-gray-500 ring-4 ring-transparent placeholder:text-blue-gray-200 focus:!border-blue-500 focus:!border-t-blue-500 focus:ring-blue-500/20"
                 labelProps={{
                   className: "hidden",
@@ -198,9 +213,26 @@ const JobCreateForm = () => {
                 {errors.company_name?.message}
               </p>
             </div>
+            <div className="">
+              <Input
+                {...register("linkUrl")}
+                type="text"
+                placeholder="채용기관 주소 예): https://naver.com"
+                className="!border !border-blue-gray-50 bg-white text-blue-gray-500 ring-4 ring-transparent placeholder:text-blue-gray-200 focus:!border-blue-500 focus:!border-t-blue-500 focus:ring-blue-500/20"
+                labelProps={{
+                  className: "hidden",
+                }}
+              />
+              <p className="text-sm text-red-500 mt-1">
+                {errors.title?.message}
+              </p>
+            </div>
 
-            <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr} />
-
+            <QuillEditor
+              quillRef={quillRef}
+              htmlContent={htmlStr}
+              setHtmlContent={setHtmlStr}
+            />
             {uploadedImageUrl && (
               <div className="relative bg-gray-300">
                 <img
@@ -216,6 +248,8 @@ const JobCreateForm = () => {
                 </button>
               </div>
             )}
+          </div>
+          <div className="border-b border-gray-300">
             <IconButton
               variant="text"
               color="blue-gray"
@@ -229,7 +263,7 @@ const JobCreateForm = () => {
                 viewBox="0 0 24 24"
                 stroke="currentColor"
                 strokeWidth={2}
-                className="h-4 w-4"
+                className="h-5 w-5"
               >
                 <path
                   strokeLinecap="round"
@@ -238,6 +272,7 @@ const JobCreateForm = () => {
                 />
               </svg>
             </IconButton>
+            <span className="text-sm">배경사진 업로드</span>
             <FileUploader
               ref={fileUploader}
               uploadedFiles={handleUploadedFiles}

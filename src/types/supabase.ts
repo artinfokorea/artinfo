@@ -101,7 +101,7 @@ export interface Database {
             columns: ["profile_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       concerts: {
@@ -147,7 +147,7 @@ export interface Database {
             columns: ["profile_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       debate_answers: {
@@ -184,7 +184,7 @@ export interface Database {
             columns: ["profile_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       debates: {
@@ -227,7 +227,7 @@ export interface Database {
             columns: ["profile_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       educations: {
@@ -264,7 +264,7 @@ export interface Database {
             columns: ["profile_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       feeds: {
@@ -275,6 +275,7 @@ export interface Database {
           count_of_likes: number
           count_of_views: number
           created_at: string | null
+          deleted: boolean
           id: number
           image_urls: string[] | null
           profile_id: string
@@ -287,6 +288,7 @@ export interface Database {
           count_of_likes?: number
           count_of_views?: number
           created_at?: string | null
+          deleted?: boolean
           id?: number
           image_urls?: string[] | null
           profile_id: string
@@ -299,6 +301,7 @@ export interface Database {
           count_of_likes?: number
           count_of_views?: number
           created_at?: string | null
+          deleted?: boolean
           id?: number
           image_urls?: string[] | null
           profile_id?: string
@@ -310,7 +313,7 @@ export interface Database {
             columns: ["profile_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       freedoms: {
@@ -344,7 +347,7 @@ export interface Database {
             columns: ["profile_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       inquiries: {
@@ -405,7 +408,7 @@ export interface Database {
             columns: ["profile_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       job_positions: {
@@ -439,7 +442,7 @@ export interface Database {
             columns: ["job_id"]
             referencedRelation: "jobs"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       jobs: {
@@ -515,7 +518,7 @@ export interface Database {
             columns: ["organization_id"]
             referencedRelation: "organizations"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       likes: {
@@ -546,7 +549,7 @@ export interface Database {
             columns: ["profile_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       messages: {
@@ -586,7 +589,7 @@ export interface Database {
             columns: ["to_user"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       notices: {
@@ -620,7 +623,7 @@ export interface Database {
             columns: ["profile_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       organizations: {
@@ -714,7 +717,53 @@ export interface Database {
             columns: ["id"]
             referencedRelation: "users"
             referencedColumns: ["id"]
-          },
+          }
+        ]
+      }
+      recruit_jobs: {
+        Row: {
+          category: Database["public"]["Enums"]["recruit_jobs_category"] | null
+          company_image_url: string | null
+          company_name: string
+          contents: string
+          created_at: string
+          id: number
+          is_active: boolean
+          link_url: string | null
+          profile_id: string
+          title: string
+        }
+        Insert: {
+          category?: Database["public"]["Enums"]["recruit_jobs_category"] | null
+          company_image_url?: string | null
+          company_name: string
+          contents: string
+          created_at?: string
+          id?: number
+          is_active?: boolean
+          link_url?: string | null
+          profile_id: string
+          title: string
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["recruit_jobs_category"] | null
+          company_image_url?: string | null
+          company_name?: string
+          contents?: string
+          created_at?: string
+          id?: number
+          is_active?: boolean
+          link_url?: string | null
+          profile_id?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recruit_jobs_profile_id_fkey"
+            columns: ["profile_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
         ]
       }
       recruits: {
@@ -778,7 +827,7 @@ export interface Database {
             columns: ["profile_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
     }
@@ -792,6 +841,24 @@ export interface Database {
           permission: Database["public"]["Enums"]["user_type"]
         }
         Returns: boolean
+      }
+      decrement_feed_comment: {
+        Args: {
+          feed_id: number
+        }
+        Returns: undefined
+      }
+      decrement_feed_like: {
+        Args: {
+          feed_id: number
+        }
+        Returns: undefined
+      }
+      decrement_feed_view: {
+        Args: {
+          feed_id: number
+        }
+        Returns: undefined
       }
       get_advertisement_banners: {
         Args: Record<PropertyKey, never>
@@ -827,6 +894,31 @@ export interface Database {
           image_urls: string[]
           profile_id: string
           created_at: string
+          count_of_views: number
+          count_of_likes: number
+          count_of_comments: number
+          deleted: boolean
+          like: boolean
+          profiles: Json
+        }[]
+      }
+      get_feeds: {
+        Args: {
+          item_count?: number
+          page_number?: number
+        }
+        Returns: {
+          id: number
+          category: Database["public"]["Enums"]["feed_category"]
+          title: string
+          content: string
+          image_urls: string[]
+          profile_id: string
+          created_at: string
+          count_of_views: number
+          count_of_likes: number
+          count_of_comments: number
+          deleted: boolean
           like: boolean
           profiles: Json
         }[]
@@ -865,6 +957,60 @@ export interface Database {
           like: boolean
           profiles: Json
         }[]
+      }
+      get_recruit_jobs:
+        | {
+            Args: {
+              type: Database["public"]["Enums"]["recruit_jobs_category"]
+              item_count?: number
+              page_number?: number
+            }
+            Returns: {
+              id: number
+              category: Database["public"]["Enums"]["recruit_jobs_category"]
+              title: string
+              contents: string
+              company_name: string
+              company_image_url: string
+              created_at: string
+              profile_id: string
+            }[]
+          }
+        | {
+            Args: {
+              type: Database["public"]["Enums"]["recruit_jobs_category"]
+              filter_all?: boolean
+              item_count?: number
+              page_number?: number
+            }
+            Returns: {
+              id: number
+              category: Database["public"]["Enums"]["recruit_jobs_category"]
+              title: string
+              contents: string
+              company_name: string
+              company_image_url: string
+              created_at: string
+              profile_id: string
+            }[]
+          }
+      increment_feed_comment: {
+        Args: {
+          feed_id: number
+        }
+        Returns: undefined
+      }
+      increment_feed_like: {
+        Args: {
+          feed_id: number
+        }
+        Returns: undefined
+      }
+      increment_feed_view: {
+        Args: {
+          feed_id: number
+        }
+        Returns: undefined
       }
     }
     Enums: {
@@ -965,6 +1111,11 @@ export interface Database {
         | "TEACHER"
         | "ART_ORGANIZATION_YOUTH"
         | "ART_ORGANIZATION_ADULT"
+      recruit_jobs_category:
+        | "RELIGION"
+        | "LECTURER"
+        | "ETC"
+        | "ART_ORGANIZATION"
       religion_category: "CONDUCTOR" | "ACCOMPANIMENT" | "VOCAL" | "INSTRUMENT"
       table_type:
         | "POST"
@@ -1088,7 +1239,7 @@ export interface Database {
             columns: ["bucket_id"]
             referencedRelation: "buckets"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
     }

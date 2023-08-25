@@ -1,100 +1,33 @@
 "use client"
 
-import {
-  JOB_POSITION_1DEPTH_CATEGORY_ITEMS,
-  JOB_POSITION_ADMINISTRATION_CATEGORY_ITEMS,
-  JOB_POSITION_CHORUS_CATEGORY_ITEMS,
-  JOB_POSITION_KOREAN_MUSIC_CATEGORY_ITEMS,
-  JOB_POSITION_ORCHESTRA_CATEGORY_ITEMS,
-} from "@/types/types"
 import { useQuery } from "@tanstack/react-query"
 import Image from "next/image"
-import {
-  ArrowDownTrayIcon,
-  MapPinIcon,
-  DocumentDuplicateIcon,
-  ShareIcon,
-} from "@heroicons/react/20/solid"
-import { useMemo } from "react"
-import useFilters from "@/hooks/useFilters"
 import { fetchJob } from "@/app/Api"
+import { useRouter } from "next/navigation"
+import { ShareIcon } from "@heroicons/react/24/outline"
+import Link from "next/link"
 
 interface IProps {
   jobId: number
 }
 
 export default function Container({ jobId }: IProps) {
+  const router = useRouter()
+
   const { data: job } = useQuery({
     queryKey: ["job", jobId],
     suspense: true,
     queryFn: () => fetchJob(jobId),
   })
 
-  const address = job?.address.split(" ") || []
-
-  const positions2DepthItems = {
-    ...JOB_POSITION_ORCHESTRA_CATEGORY_ITEMS,
-    ...JOB_POSITION_CHORUS_CATEGORY_ITEMS,
-    ...JOB_POSITION_KOREAN_MUSIC_CATEGORY_ITEMS,
-    ...JOB_POSITION_ADMINISTRATION_CATEGORY_ITEMS,
-  } as any
-
-  const positionName = useMemo(() => {
-    if (!job?.job_positions.length) {
-      return
-    }
-    const jobPositions = job.job_positions
-    const position = jobPositions[0]
-
-    const firstPosition = (JOB_POSITION_1DEPTH_CATEGORY_ITEMS as any)[
-      position.position_1depth_category
-    ]
-    const added =
-      jobPositions.length > 1 ? ` 외 ${jobPositions.length - 1}` : ""
-
-    // eslint-disable-next-line consistent-return
-    return `${firstPosition}${added}`
-  }, [job])
-
-  const filters = useFilters()
-  const buttonText = useMemo(() => {
-    if (filters.IS_DATE_FUTURE(job?.start_date)) {
-      return "접수대기"
-    }
-    if (!job?.duedate) {
-      return "상시모집"
-    }
-    if (filters.IS_DATE_FUTURE(job?.duedate)) {
-      const days = filters.DIFF_FROM_NOW(job?.duedate)
-      return `지원하기 (D-${days})`
-    }
-    return "기한지남"
-  }, [job?.start_date, job?.duedate, filters])
-
-  const moveToApply = () => {
-    const site = job?.submission_website
-    if (site) {
-      window.open(site, "_blank")
-    }
-  }
-
-  const openNaverMap = () => {
-    const address = job?.organizations?.address
-    if (address) {
-      const encodedAddress = encodeURIComponent(address)
-      const map = `https://m.map.naver.com/search2/search.naver?query=${encodedAddress}#/map`
-      window.open(map, "_blank")
-    }
-  }
-
   return (
     <div className="sm:container mx-auto mt-4 relative pb-10 px-4">
       <div className="flex">
         <div className="flex-1">
           <div className="w-full overflow-hidden relative">
-            {job?.poster_images?.length && (
+            {job?.company_image_url?.length && (
               <Image
-                src={job?.poster_images[0]}
+                src={job?.company_image_url}
                 alt="아트인포"
                 layout="responsive"
                 sizes="(max-width: 480px) 800px, (max-width: 1200px) 1200px, 400px"
@@ -104,19 +37,27 @@ export default function Container({ jobId }: IProps) {
             )}
           </div>
 
-          <section className="mt-4">
-            <h2 className="text-3xl font-semi-bold mb-2">{job?.title}</h2>
+          <section className="my-6">
+            <h2 className="text-3xl font-semi-bold mb-2 break-keep">
+              {job?.title}
+            </h2>
             <div className="flex items-center">
-              <div className="text-xl mr-2">{job?.organizations?.name}</div>
-              <div className="text-gray-500">
+              <div className="text-xl mr-2">{job?.company_name}</div>
+              {/* <div className="text-gray-500">
                 {address[0]}
                 <span style={{ position: "relative", top: -5 }}>.</span>
                 {address[1]}
-              </div>
+              </div> */}
             </div>
           </section>
+          {job?.contents && (
+            <div
+              className="w-10/12 mx-auto"
+              dangerouslySetInnerHTML={{ __html: job.contents }}
+            />
+          )}
 
-          <section className="my-10">
+          {/* <section className="my-10">
             <h3 className="text-lg font-semibold mb-2">채용 중인 포지션</h3>
             <div className="flex flex-wrap gap-2">
               {job?.job_positions.map(item => (
@@ -136,9 +77,9 @@ export default function Container({ jobId }: IProps) {
                 </div>
               ))}
             </div>
-          </section>
+          </section> */}
 
-          {job?.qualification && (
+          {/* {job?.qualification && (
             <section>
               <h3 className="text-lg font-semibold mb-2">자격요건</h3>
               <div className="whitespace-pre-wrap">{job?.qualification}</div>
@@ -175,9 +116,9 @@ export default function Container({ jobId }: IProps) {
               <h3 className="text-lg font-semibold mb-2">기타</h3>
               <div className="whitespace-pre-wrap">{job?.etc}</div>
             </section>
-          )}
+          )} */}
 
-          {job?.attachements && (
+          {/* {job?.attachements && (
             <section className="my-10">
               <h3 className="text-lg font-semibold mb-2">첨부파일</h3>
               <div>
@@ -205,11 +146,11 @@ export default function Container({ jobId }: IProps) {
                 </ul>
               </div>
             </section>
-          )}
+          )} */}
 
           {/* <div className="border-b border-gray-500" /> */}
 
-          <section className="mt-10 py-6 border-t border-b border-gray-500">
+          {/* <section className="mt-10 py-6 border-t border-b border-gray-500">
             <div className="flex items-center">
               <div className="mr-4 text-gray-400" style={{ width: 80 }}>
                 마감일
@@ -241,16 +182,16 @@ export default function Container({ jobId }: IProps) {
                 </div>
               </div>
             </div>
-          </section>
+          </section> */}
 
-          <section className="my-10">
+          {/* <section className="my-10">
             <h3 className="text-lg font-semibold mb-2">기관소개</h3>
             <div className="whitespace-pre-wrap">
               {job?.organizations?.desc}
             </div>
-          </section>
+          </section> */}
         </div>
-        <div className="hidden md:block ml-4 relative" style={{ width: 300 }}>
+        {/* <div className="hidden md:block ml-4 relative" style={{ width: 300 }}>
           <div
             className="border rounded border-gray-500 p-4 flex flex-col items-center justify-center fixed"
             style={{ top: 80, width: 300 }}
@@ -259,9 +200,9 @@ export default function Container({ jobId }: IProps) {
               style={{ width: 50, height: 50 }}
               className="rounded-md bg-gray-300 mr-2 overflow-hidden relative"
             >
-              {job?.organizations?.logo_image && (
+              {job?.company_image_url && (
                 <Image
-                  src={job?.organizations?.logo_image}
+                  src={job?.company_image_url}
                   alt="아트인포"
                   fill
                   sizes="50px"
@@ -278,20 +219,15 @@ export default function Container({ jobId }: IProps) {
 
             <button
               className="mt-4 transition ease-in-out duration-150 inline-flex items-center w-full justify-center rounded-md bg-indigo-600 py-3 text-md leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50"
-              disabled={
-                !!job?.duedate &&
-                (!filters.IS_DATE_FUTURE(job.duedate) ||
-                  filters.IS_DATE_FUTURE(job.start_date))
-              }
+
               onClick={moveToApply}
             >
-              {buttonText}
+              바로가기
             </button>
           </div>
-        </div>
+        </div> */}
       </div>
-
-      <div className="bg-indigo-900 flex md:hidden fixed w-full bottom-0 left-0">
+      {/* <div className="bg-indigo-900 flex md:hidden fixed w-full bottom-0 left-0">
         <div
           className="flex flex-1"
           style={{ paddingBottom: "constant(safe-area-inset-bottom)" }}
@@ -301,16 +237,32 @@ export default function Container({ jobId }: IProps) {
           </button>
           <button
             className="flex-1 transition ease-in-out duration-150 bg-indigo-600 py-3 text-md leading-6 hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50"
-            disabled={
-              !!job?.duedate &&
-              (!filters.IS_DATE_FUTURE(job.duedate) ||
-                filters.IS_DATE_FUTURE(job.start_date))
-            }
-            onClick={moveToApply}
+            // disabled={
+            //   !!job?.duedate &&
+            //   (!filters.IS_DATE_FUTURE(job.duedate) ||
+            //     filters.IS_DATE_FUTURE(job.start_date))
+            // }
+            // onClick={moveToApply}
           >
-            {buttonText}
+            지원하기
           </button>
         </div>
+      </div> */}
+      <div className="flex text-white">
+        <button
+          className="mt-4 transition ease-in-out duration-150 inline-flex items-center w-full justify-center rounded-md bg-indigo-600 py-3 text-md leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 mr-2"
+          onClick={() => router.back()}
+        >
+          뒤로가기
+        </button>
+        <button className="ml-2 mt-4  transition ease-in-out duration-150 inline-flex items-center w-full justify-center rounded-md bg-indigo-600 py-3 text-md leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50">
+          바로가기
+        </button>
+        {job?.link_url && (
+          <button className="mt-4  transition ease-in-out duration-150 inline-flex items-center w-full justify-center rounded-md bg-indigo-600 py-3 text-md leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50">
+            바로가기
+          </button>
+        )}
       </div>
     </div>
   )

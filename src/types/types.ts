@@ -187,34 +187,40 @@ export const MAJOR_CATEGORY_ITEMS = {
 
 type JobRow = Database["public"]["Tables"]["jobs"]["Row"]
 export type Job = {
-  organizations?: {
-    id: number
-    name: string
-    logo_image?: string
-    desc?: string
-  } | null
-  job_positions: {
-    position_1depth_category: string
-    position_2depth_category?: string
-    amount?: number
-  }[]
+  // organizations?: {
+  //   id: number
+  //   name: string
+  //   logo_image?: string
+  //   desc?: string
+  // } | null
+  // job_positions: {
+  //   position_1depth_category: string
+  //   position_2depth_category?: string
+  //   amount?: number
+  // }[]
+  title: string
+  created_at: string
+  category: JOB_POSITION_1DEPTH_CATEGORY
+  contents: string
+  company_name: string
+  company_image_url: string
+  profile_id: string
 } & JobRow
 
 export type JOB_POSITION_1DEPTH_CATEGORY =
-  | "ORCHESTRA"
-  | "CHORUS"
-  | "KOREAN_MUSIC"
-  | "UNIVERSITY"
+  | "RELIGION"
+  | "LECTURER"
+  | "ART_ORGANIZATION"
   | "ETC"
 
 export const JOB_POSITION_1DEPTH_CATEGORY_ITEMS = {
-  ADMINISTRATION: "행정",
-  ORCHESTRA: "오케스트라",
-  CHORUS: "합창",
-  KOREAN_MUSIC: "국악",
-  UNIVERSITY: "대학교",
-  RELIGION: "종교단체",
+  RELIGION: "종교",
+  LECTURER: "교원",
   ETC: "기타",
+  ART_ORGANIZATION: "연주단체",
+  // UNIVERSITY: "대학교",
+  // RELIGION: "종교단체",
+  // ETC: "기타",
 }
 
 export const JOB_POSITION_1DEPTH_CATEGORY_SELECT_ITEMS = (

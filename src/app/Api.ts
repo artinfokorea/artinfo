@@ -1,5 +1,5 @@
 import useSupabase from "@/hooks/useSupabase"
-import { CommentType } from "@/types/types"
+import { CommentType, JOB_POSITION_1DEPTH_CATEGORY } from "@/types/types"
 
 /* ****************************************************** CONNCERT ****************************************************** */
 export async function fetchConcerts(category?: string) {
@@ -42,12 +42,20 @@ export async function fetchConcert(id: number) {
 }
 
 /* ****************************************************** JOB ****************************************************** */
-export async function fetchJobs(position_1depth: string) {
+export async function fetchJobs(
+  category: JOB_POSITION_1DEPTH_CATEGORY | "ALL",
+  page: number,
+) {
   const supabase = useSupabase()
-  const { data, error } = await supabase.rpc("get_jobs", {
-    position_1depth,
-    position_2depths: [],
-    limit_count: 50,
+  const itemCount = 10
+  const isFilter = category === "ALL"
+  const type = category !== "ALL" ? category : "RELIGION"
+
+  const { data, error } = await supabase.rpc("get_recruit_jobs", {
+    type,
+    filter_all: isFilter,
+    item_count: itemCount,
+    page_number: page,
   })
 
   if (error) {
@@ -59,10 +67,8 @@ export async function fetchJobs(position_1depth: string) {
 export async function fetchJob(id: number) {
   const supabase = useSupabase()
   const { data, error } = await supabase
-    .from("jobs")
-    .select(
-      "*, organizations(id, name, logo_image, desc, site, address), job_positions(id, position_1depth_category, position_2depth_category, amount)",
-    )
+    .from("recruit_jobs")
+    .select("*")
     .eq("id", id)
     .single()
 
@@ -70,10 +76,10 @@ export async function fetchJob(id: number) {
     throw error
   }
 
-  await supabase
-    .from("jobs")
-    .update({ count_of_views: (data.count_of_views || 0) + 1 })
-    .eq("id", id)
+  // await supabase
+  //   .from("jobs")
+  //   .update({ count_of_views: (data.count_of_views || 0) + 1 })
+  //   .eq("id", id)
 
   return data
 }

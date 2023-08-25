@@ -14,19 +14,21 @@ export default function JobContainer() {
     ...JOB_POSITION_1DEPTH_CATEGORY_SELECT_ITEMS,
   ]
 
-  const [position1depth, setPosition1depth] = useState("ALL")
+  const [category, setCategory] = useState("ALL")
+  const [page, setPage] = useState(1)
 
   const { data: jobs } = useQuery({
-    queryKey: ["jobs", position1depth],
+    queryKey: ["jobs", category],
     suspense: true,
-    queryFn: () => fetchJobs(position1depth),
+    cacheTime: 0,
+    queryFn: () => fetchJobs(category, page),
   })
 
   const updatedPosition1depth = (value: string) => {
-    setPosition1depth(value)
+    setCategory(value)
   }
 
-  const position1depthItem = items.find(item => item.value === position1depth)
+  const position1depthItem = items.find(item => item.value === category)
 
   return (
     <div className="">
