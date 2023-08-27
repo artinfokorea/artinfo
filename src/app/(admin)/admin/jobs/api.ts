@@ -7,7 +7,7 @@ export async function fetchJobs(page: number) {
     count,
     error,
   } = await supabase
-    .from("jobs")
+    .from("recruit_jobs")
     .select("*", {
       count: "exact",
     })
@@ -22,7 +22,7 @@ export async function fetchJobs(page: number) {
 export async function fetchJob(id: number) {
   const supabase = useSupabase()
   const { data, error } = await supabase
-    .from("jobs")
+    .from("recruit_jobs")
     .select("*")
     .eq("id", id)
     .single()

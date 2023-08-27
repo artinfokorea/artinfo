@@ -10,7 +10,7 @@ export default function JobDataProvider() {
     const queryClient = GetQueryClient()
 
     await queryClient.prefetchQuery({
-      queryKey: ["jobs"],
+      queryKey: ["recruit_jobs"],
       queryFn: () => fetchJobs(1),
     })
     const dehydratedState = dehydrate(queryClient)

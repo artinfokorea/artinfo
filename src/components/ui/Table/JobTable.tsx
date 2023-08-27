@@ -1,5 +1,6 @@
 "use client"
 
+import { Button } from "@material-tailwind/react"
 import { useRouter } from "next/navigation"
 import React from "react"
 
@@ -7,14 +8,15 @@ interface IProps {
   ths: { title: string; value: string }[]
   items: any[]
   to: string
+  handleDelete: (id: number) => void
 }
 
-const Table = ({ ths, items, to }: IProps) => {
+const JobTable = ({ ths, items, to, handleDelete }: IProps) => {
   const router = useRouter()
 
-  const goToDetail = (id: string) => {
-    router.push(`/admin/${to}/${id}`)
-  }
+  // const goToDetail = (id: string) => {
+  //   router.push(`/admin/${to}/${id}`)
+  // }
 
   return (
     <div className="relative overflow-x-auto">
@@ -36,14 +38,19 @@ const Table = ({ ths, items, to }: IProps) => {
             return (
               <tr
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200 cursor-pointer"
-                onClick={() => goToDetail(item.id)}
                 key={item.id}
               >
                 {ths.map(th => (
                   <td key={th.title} className="px-6 py-4">
-                    {item[th.value]}
+                    <div>{item[th.value]}</div>
                   </td>
                 ))}
+                <Button
+                  className="h-12 bg-white text-black"
+                  onClick={() => handleDelete(item.id)}
+                >
+                  삭제
+                </Button>
               </tr>
             )
           })}
@@ -53,4 +60,4 @@ const Table = ({ ths, items, to }: IProps) => {
   )
 }
 
-export default Table
+export default JobTable
