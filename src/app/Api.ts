@@ -1,12 +1,23 @@
 import useSupabase from "@/hooks/useSupabase"
-import { CommentType, JOB_POSITION_1DEPTH_CATEGORY } from "@/types/types"
+import {
+  CONCERT_CATEGORY,
+  CommentType,
+  JOB_POSITION_1DEPTH_CATEGORY,
+} from "@/types/types"
 
 /* ****************************************************** CONNCERT ****************************************************** */
-export async function fetchConcerts(category?: string) {
+export async function fetchConcerts(
+  page: number,
+  category?: CONCERT_CATEGORY | "ALL",
+) {
   const match = {} as any
-  if (category) {
+  if (category !== "ALL") {
     match.category = category
   }
+
+  const itemCount = 10
+  const startRange = (page - 1) * itemCount
+  const endRange = startRange + itemCount - 1
   const supabase = useSupabase()
   const { data, error } = await supabase
     .from("concerts")
@@ -14,7 +25,8 @@ export async function fetchConcerts(category?: string) {
       "id, title, poster_url, location, performance_time, created_at, profiles(id, name)",
     )
     .match(match)
-    .limit(50)
+    .limit(itemCount)
+    .range(startRange, endRange)
     .order("created_at", { ascending: false })
 
   if (error) {

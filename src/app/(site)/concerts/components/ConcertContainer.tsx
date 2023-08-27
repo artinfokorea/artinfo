@@ -4,18 +4,72 @@ import { useQuery } from "@tanstack/react-query"
 import { useState } from "react"
 import Link from "next/link"
 import { fetchConcerts } from "@/app/Api"
+import { useInfiniteQuery } from "@tanstack/react-query"
+import { useDidUpdate } from "@toss/react"
 import { ChipButton } from "@/components/ui/Button/LinkChipButton"
+import { useInView } from "react-intersection-observer"
+import { CONCERT_CATEGORY } from "@/types/types"
 import ConcertCard from "./ConcertCard"
 import ConcertCategory from "./ConcertCategory"
 
 export default function ConcertContainer() {
-  const [category, selectCategory] = useState("ALL")
+  const [category, selectCategory] = useState<"ALL" | CONCERT_CATEGORY>("ALL")
 
-  const { data } = useQuery({
-    queryKey: ["concerts", category],
-    suspense: false,
-    queryFn: () => fetchConcerts(category === "ALL" ? undefined : category),
+  // const { data } = useQuery({
+  //   queryKey: ["concerts", category],
+  //   suspense: false,
+  //   queryFn: () => fetchConcerts(category === "ALL" ? undefined : category),
+  // })
+
+  const getConcerts = async (
+    category: "ALL" | CONCERT_CATEGORY,
+    pageParam: number,
+  ): Promise<any> => {
+    const response = await fetchConcerts(pageParam, category)
+    return {
+      concerts: response,
+      nextPage: pageParam + 1,
+      isLast: response.length < 10,
+    }
+  }
+
+  const [ref, inView] = useInView({
+    delay: 500,
+    threshold: 0.5,
   })
+
+  const {
+    isLoading,
+    isFetching,
+    isError,
+    error,
+    data,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery(
+    ["jobs", category],
+    ({ pageParam = 1 }) => {
+      return getConcerts(category, pageParam)
+    },
+    {
+      getNextPageParam: lastPage => {
+        if (!lastPage.isLast) return lastPage.nextPage
+        return null
+      },
+      refetchOnMount: true,
+      refetchOnWindowFocus: false,
+    },
+  )
+  console.log("data", data)
+  useDidUpdate(() => {
+    console.log("inView", inView)
+    console.log("hasNextPage", hasNextPage)
+    if (inView && hasNextPage) {
+      fetchNextPage()
+    }
+  }, [inView, hasNextPage])
+
+  if (isLoading) return <div> ...loading</div>
 
   const updatedCategory = (_category: string) => {
     selectCategory(_category)
@@ -31,12 +85,16 @@ export default function ConcertContainer() {
         <ChipButton url="/concerts/create" title="공연등록" />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {data?.map(item => (
-          <Link key={item.id} href={`/concerts/${item.id}`}>
-            <ConcertCard item={item} />
-          </Link>
-        ))}
+        {data?.pages.map(
+          page =>
+            page?.concerts.map(concert => (
+              <Link key={concert.id} href={`/concerts/${concert.id}`}>
+                <ConcertCard item={concert} />
+              </Link>
+            )),
+        )}
       </div>
+      <div ref={ref} />
     </div>
   )
 }

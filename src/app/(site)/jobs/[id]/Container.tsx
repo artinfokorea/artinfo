@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query"
 import Image from "next/image"
 import { fetchJob } from "@/app/Api"
 import { useRouter } from "next/navigation"
-import { ShareIcon } from "@heroicons/react/24/outline"
 import Link from "next/link"
 
 interface IProps {
@@ -248,20 +247,27 @@ export default function Container({ jobId }: IProps) {
           </button>
         </div>
       </div> */}
-      <div className="flex text-white">
+      <div className="flex flex-col text-white">
         <button
           className="mt-4 transition ease-in-out duration-150 inline-flex items-center w-full justify-center rounded-md bg-indigo-600 py-3 text-md leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 mr-2"
           onClick={() => router.back()}
         >
           뒤로가기
         </button>
-        <button className="ml-2 mt-4  transition ease-in-out duration-150 inline-flex items-center w-full justify-center rounded-md bg-indigo-600 py-3 text-md leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50">
-          바로가기
-        </button>
+        {/* 
         {job?.link_url && (
           <button className="mt-4  transition ease-in-out duration-150 inline-flex items-center w-full justify-center rounded-md bg-indigo-600 py-3 text-md leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50">
             바로가기
           </button>
+        )} */}
+        {job?.link_url && (
+          <Link
+            className="mt-4  transition ease-in-out duration-150 inline-flex items-center w-full justify-center rounded-md bg-indigo-600 py-3 text-md leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50"
+            href={job?.link_url}
+            target="_blank"
+          >
+            공고 바로가기
+          </Link>
         )}
       </div>
     </div>

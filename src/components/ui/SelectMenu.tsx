@@ -3,6 +3,7 @@
 import { Fragment } from "react"
 import { Listbox, Transition } from "@headlessui/react"
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid"
+import { JOB_POSITION_1DEPTH_CATEGORY } from "@/types/types"
 
 function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(" ")
@@ -12,7 +13,7 @@ interface IProps {
   label?: string
   items: { title: string; value: string }[]
   selectedItem: { title: string; value: string }
-  updateItem?: (value: string) => void
+  updateItem?: (value: "ALL" | JOB_POSITION_1DEPTH_CATEGORY) => void
 }
 
 export default function SelectMenu({

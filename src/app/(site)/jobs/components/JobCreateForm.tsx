@@ -94,7 +94,7 @@ const JobCreateForm = () => {
         company_name,
         contents: htmlStr,
         title,
-        linkUrl: payload.linkUrl,
+        link_url: payload.linkUrl,
         category: selectedType as RECRUIT_JOBS_CATEGORY,
       }
       const { data, error } = await supabase
@@ -272,7 +272,7 @@ const JobCreateForm = () => {
                 />
               </svg>
             </IconButton>
-            <span className="text-sm">배경사진 업로드</span>
+            <span className="text-sm">대표사진 업로드</span>
             <FileUploader
               ref={fileUploader}
               uploadedFiles={handleUploadedFiles}

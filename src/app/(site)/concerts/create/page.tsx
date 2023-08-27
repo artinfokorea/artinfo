@@ -15,7 +15,15 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker"
 import { useRouter } from "next/navigation"
-import Editor from "@/components/ui/Editor"
+import dynamic from "next/dynamic"
+
+const QuillEditor = dynamic(
+  () => import("@/components/ui/Editor/QuillEditor"),
+  {
+    loading: () => <div>...loading</div>,
+    ssr: false,
+  },
+)
 
 const items = [
   { title: "합창", value: "CHORUS" },
@@ -39,6 +47,7 @@ const page = () => {
   const [startedAt, setStartedAt] = useState("")
   const [htmlStr, setHtmlStr] = useState<string>("")
   const [uploadedImageUrl, setUploadedImageUrl] = useState("")
+  const quillRef = useRef()
 
   // const uploadedImageUrl = uploadedImage && URL.createObjectURL(uploadedImage)
 
@@ -190,7 +199,12 @@ const page = () => {
             </LocalizationProvider>
           </div>
 
-          <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr} />
+          {/* <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr} /> */}
+          <QuillEditor
+            quillRef={quillRef}
+            htmlContent={htmlStr}
+            setHtmlContent={setHtmlStr}
+          />
           {uploadedImageUrl && (
             <div className="relative bg-gray-300">
               <img
@@ -208,28 +222,32 @@ const page = () => {
           )}
           <div>
             <div className="flex w-full items-center justify-between border-t py-4 gap-x-2">
-              <IconButton
-                variant="text"
-                color="blue-gray"
-                size="md"
-                disabled={!!uploadedImageUrl}
-                onClick={openFileUploader}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  className="h-4 w-4"
+              <div>
+                <IconButton
+                  variant="text"
+                  color="blue-gray"
+                  size="md"
+                  disabled={!!uploadedImageUrl}
+                  onClick={openFileUploader}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
-                  />
-                </svg>
-              </IconButton>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    className="h-4 w-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+                    />
+                  </svg>
+                </IconButton>
+                <span className="text-sm">대표사진 업로드</span>
+              </div>
+
               <div className="flex gap-2 flex-1 md:flex-none">
                 <Link href="/posts">
                   <Button
