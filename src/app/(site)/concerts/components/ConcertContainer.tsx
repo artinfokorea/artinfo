@@ -1,6 +1,5 @@
 "use client"
 
-import { useQuery } from "@tanstack/react-query"
 import { useState } from "react"
 import Link from "next/link"
 import { fetchConcerts } from "@/app/Api"
@@ -71,7 +70,7 @@ export default function ConcertContainer() {
 
   if (isLoading) return <div> ...loading</div>
 
-  const updatedCategory = (_category: string) => {
+  const updatedCategory = (_category: "ALL" | CONCERT_CATEGORY) => {
     selectCategory(_category)
   }
 

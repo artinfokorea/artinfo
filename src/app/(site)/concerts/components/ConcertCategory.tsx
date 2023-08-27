@@ -1,10 +1,10 @@
 "use client"
 
-import { CONCERT_CATEGORY_SELECT_ITEMS } from "@/types/types"
+import { CONCERT_CATEGORY, CONCERT_CATEGORY_SELECT_ITEMS } from "@/types/types"
 
 interface IProps {
   category: string
-  updatedCategory?: (category: string) => void
+  updatedCategory?: (category: "ALL" | CONCERT_CATEGORY) => void
 }
 
 export default function ConcertCategory({ category, updatedCategory }: IProps) {
@@ -15,9 +15,9 @@ export default function ConcertCategory({ category, updatedCategory }: IProps) {
     ...CONCERT_CATEGORY_SELECT_ITEMS,
   ]
 
-  const handleUpdateCategory = (slectedCategory: string) => {
+  const handleUpdateCategory = (selectedCategory: "ALL" | CONCERT_CATEGORY) => {
     if (updatedCategory) {
-      updatedCategory(slectedCategory)
+      updatedCategory(selectedCategory)
     }
   }
 
@@ -28,7 +28,9 @@ export default function ConcertCategory({ category, updatedCategory }: IProps) {
         return (
           <button
             key={item.value}
-            onClick={() => handleUpdateCategory(item.value)}
+            onClick={() =>
+              handleUpdateCategory(item.value as "ALL" | CONCERT_CATEGORY)
+            }
           >
             <span
               className={`${
