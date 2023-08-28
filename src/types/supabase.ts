@@ -830,6 +830,33 @@ export interface Database {
           }
         ]
       }
+      server_logs: {
+        Row: {
+          class_name: string | null
+          created_at: string
+          function_name: string | null
+          id: number
+          level: string | null
+          message: string | null
+        }
+        Insert: {
+          class_name?: string | null
+          created_at?: string
+          function_name?: string | null
+          id?: number
+          level?: string | null
+          message?: string | null
+        }
+        Update: {
+          class_name?: string | null
+          created_at?: string
+          function_name?: string | null
+          id?: number
+          level?: string | null
+          message?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -880,6 +907,25 @@ export interface Database {
           name: string
           redirect_url: string | null
           type: string
+        }[]
+      }
+      get_concerts: {
+        Args: {
+          type: Database["public"]["Enums"]["concert_category"]
+          item_count?: number
+          page_number?: number
+        }
+        Returns: {
+          id: number
+          category: Database["public"]["Enums"]["concert_category"]
+          title: string
+          contents: string
+          poster_url: string
+          count_of_views: number
+          location: string
+          performance_time: string
+          created_at: string
+          profile_id: string
         }[]
       }
       get_feed: {
@@ -962,6 +1008,7 @@ export interface Database {
         | {
             Args: {
               type: Database["public"]["Enums"]["recruit_jobs_category"]
+              filter_all?: boolean
               item_count?: number
               page_number?: number
             }
@@ -979,7 +1026,6 @@ export interface Database {
         | {
             Args: {
               type: Database["public"]["Enums"]["recruit_jobs_category"]
-              filter_all?: boolean
               item_count?: number
               page_number?: number
             }
