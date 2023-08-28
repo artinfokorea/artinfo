@@ -10,13 +10,13 @@ interface IProps {
 export default async function DataProvider({ pageId }: IProps) {
   const jobId = Number(pageId)
 
-  const queryClient = GetQueryClient()
-  await queryClient.prefetchQuery(["job", jobId], () => fetchJob(jobId))
-  const dehydratedState = dehydrate(queryClient)
+  // const queryClient = GetQueryClient()
+  // await queryClient.prefetchQuery(["job", jobId], () => fetchJob(jobId))
+  // const dehydratedState = dehydrate(queryClient)
 
   return (
-    <Hydrate state={dehydratedState}>
-      <Container jobId={jobId} />
-    </Hydrate>
+    // <Hydrate state={dehydratedState}>
+    <Container jobId={jobId} />
+    // </Hydrate>
   )
 }
