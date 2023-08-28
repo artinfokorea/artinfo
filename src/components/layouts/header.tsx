@@ -43,15 +43,15 @@ function ProfileMenu() {
   }
 
   const profileMenuItems = [
-    {
-      key: "myprofile",
-      label: "My Profile",
-      icon: UserCircleIcon,
-      to: `/profile/${user!.id}`,
-    },
+    // {
+    //   key: "myprofile",
+    //   label: "My Profile",
+    //   icon: UserCircleIcon,
+    //   to: `/profile/${user!.id}`,
+    // },
     {
       key: "signout",
-      label: "Sign Out",
+      label: "로그아웃",
       icon: PowerIcon,
     },
   ]
@@ -115,11 +115,11 @@ function ProfileMenu() {
 }
 
 const items = [
-  {
-    title: "포스트",
-    to: "/posts",
-    icon: HomeIcon,
-  },
+  // {
+  //   title: "포스트",
+  //   to: "/posts",
+  //   icon: HomeIcon,
+  // },
   {
     title: "채용",
     to: "/jobs",
@@ -199,9 +199,9 @@ export default function Header() {
             <div>
               {user ? (
                 <div className="flex items-center gap-x-4">
-                  <Link href="/notifications">
+                  {/* <Link href="/notifications">
                     <BellAlertIcon className="w-5" />
-                  </Link>
+                  </Link> */}
                   <ProfileMenu />
                 </div>
               ) : (

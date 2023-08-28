@@ -141,8 +141,12 @@ export function PostCard({
     router.push(`/profile/${feed.profile_id}`)
   }
 
+  const handleMoveToPostDetail = () => {
+    router.push(`/posts/${feed.id}`)
+  }
+
   return (
-    <Card>
+    <Card className="cursor-pointer " onClick={handleMoveToPostDetail}>
       <CardHeader
         shadow={false}
         floated={false}

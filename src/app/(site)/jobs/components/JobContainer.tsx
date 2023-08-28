@@ -73,6 +73,8 @@ export default function JobContainer() {
   //   queryFn: () => fetchJobs(category, page),
   // })
 
+  console.log("data", data)
+
   useDidUpdate(() => {
     if (inView && hasNextPage) {
       fetchNextPage()
@@ -102,7 +104,7 @@ export default function JobContainer() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4">
         {data?.pages?.map(
           page =>
-            page?.jobs.map((item: Job) => (
+            page?.jobs?.map((item: Job) => (
               <Link key={item.id} href={`/jobs/${item.id}`}>
                 <JobCard job={item as any} />
               </Link>

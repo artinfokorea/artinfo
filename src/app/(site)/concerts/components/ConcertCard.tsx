@@ -20,7 +20,10 @@ interface IProps {
 
 export default function ConcertCard({ item }: IProps) {
   const filters = useFilters()
-  const date = filters.YYYYMMDD(item.created_at, "YYYY-MM-DD(ddd) a h:mm")
+  const date = filters.DIFF_FROM_NOW_ADD_TIME(
+    item.performance_time,
+    "YYYY-MM-DD(ddd) a h:mm",
+  )
   return (
     <div className="card flex flex-col bg-zinc-900 border border-stone-800 rounded-md">
       <div className="overflow-hidden relative" style={{ maxHeight: 380 }}>

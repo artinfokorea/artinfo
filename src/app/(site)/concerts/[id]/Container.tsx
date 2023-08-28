@@ -3,7 +3,6 @@
 import { useQuery } from "@tanstack/react-query"
 import Image from "next/image"
 import { EyeIcon, ClockIcon, ShareIcon } from "@heroicons/react/20/solid"
-import ReactHtmlParser from "react-html-parser"
 import useFilters from "@/hooks/useFilters"
 import { fetchConcert } from "@/app/Api"
 
@@ -70,7 +69,12 @@ export default function Container({ pageId }: IProps) {
       </div>
 
       <section className="mt-10">
-        {concert?.contents && ReactHtmlParser(concert.contents)}
+        {concert?.contents && (
+          <div
+            className="w-10/12 mx-auto"
+            dangerouslySetInnerHTML={{ __html: concert.contents }}
+          />
+        )}
       </section>
     </div>
   )

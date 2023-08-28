@@ -13,6 +13,19 @@ export default function useFilters() {
       }
       return dayjs(date).format(format)
     },
+    DIFF_FROM_NOW_ADD_TIME(date?: Date | string | null, format = "YYYY.MM.DD") {
+      if (!date) {
+        return null
+      }
+
+      const originalDate = dayjs(date)
+
+      const dateWith9HoursAdded = originalDate.add(9, "hour")
+
+      const result = dateWith9HoursAdded.format(format)
+
+      return result
+    },
     IS_DATE_FUTURE(value?: string | null | Date) {
       if (!value) {
         return false

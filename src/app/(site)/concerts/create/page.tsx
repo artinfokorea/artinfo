@@ -84,8 +84,9 @@ const page = () => {
           | "ENSEMBLE"
           | "SOLO"
           | "ETC",
+        created_at: new Date().toISOString(),
       }
-      console.log("##", formData)
+
       const { data, error } = await supabase
         .from("concerts")
         .insert({ ...formData })

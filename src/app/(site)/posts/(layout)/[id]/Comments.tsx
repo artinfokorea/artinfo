@@ -5,6 +5,7 @@ import { ResizteTextArea } from "@/components/ui/ResizteTextArea"
 import { useState } from "react"
 import { Comment } from "@/types/types"
 import useFilters from "@/hooks/useFilters"
+import useAuth from "@/hooks/useAuth"
 
 export function CommentContainer({
   children,
@@ -63,9 +64,13 @@ export function CommentForm({
 
 interface ICommentProps {
   comment: Comment
+  handleDeleteComment: (commentId: number) => void
 }
-export function CommentRow({ comment }: ICommentProps) {
+export function CommentRow({ comment, handleDeleteComment }: ICommentProps) {
   const filters = useFilters()
+  const auth = useAuth()
+
+  const isCurrentUserComment = comment.profile_id === auth?.user?.id
   return (
     <div className="px-4 py-4">
       <div className="flex gap-x-2">
@@ -75,10 +80,22 @@ export function CommentRow({ comment }: ICommentProps) {
           src={comment.profiles?.icon_image_url || "/img/placeholder_user.png"}
           alt="user profile"
         />
-        <div className="flex-1">
-          <div className="text-sm leading-4">{comment.profiles?.name}</div>
-          <div className="text-xs font-light">
-            {filters.FROM_NOW(comment.created_at)}
+        <div className="flex-1 ">
+          <div className="flex justify-between">
+            <div>
+              <div className="text-sm leading-4">{comment.profiles?.name}</div>
+              <div className="text-xs font-light">
+                {filters.FROM_NOW(comment.created_at)}
+              </div>
+            </div>
+            {isCurrentUserComment && (
+              <button
+                className="bg-indigo-500 py-2 px-4 text-xs text-white rounded disabled:opacity-50 hover:opacity-80"
+                onClick={() => handleDeleteComment(comment.id)}
+              >
+                삭제
+              </button>
+            )}
           </div>
           <div className="p-2 bg-gray-100 rounded font-light text-sm mt-2 whitespace-pre-wrap">
             {comment.contents}

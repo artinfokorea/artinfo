@@ -7,28 +7,17 @@ import {
 
 /* ****************************************************** CONNCERT ****************************************************** */
 export async function fetchConcerts(
-  page: number,
+  page_number: number,
   category?: CONCERT_CATEGORY | "ALL",
 ) {
-  const match = {} as any
-  if (category !== "ALL") {
-    match.category = category
-  }
-
-  const itemCount = 10
-  const startRange = (page - 1) * itemCount
-  const endRange = startRange + itemCount - 1
+  const item_count = 10
+  const type = category !== "ALL" ? category : null
   const supabase = useSupabase()
-  const { data, error } = await supabase
-    .from("concerts")
-    .select(
-      "id, title, poster_url, location, performance_time, created_at, profiles(id, name)",
-    )
-    .match(match)
-    .limit(itemCount)
-    .range(startRange, endRange)
-    .order("created_at", { ascending: false })
-
+  const { data, error } = await supabase.rpc("get_concerts", {
+    type: type as CONCERT_CATEGORY,
+    item_count,
+    page_number,
+  })
   if (error) {
     throw error
   }
@@ -60,12 +49,10 @@ export async function fetchJobs(
 ) {
   const supabase = useSupabase()
   const itemCount = 10
-  const isFilter = category === "ALL"
-  const type = category !== "ALL" ? category : "RELIGION"
+  const type = category !== "ALL" ? category : null
 
   const { data, error } = await supabase.rpc("get_recruit_jobs", {
-    type,
-    filter_all: isFilter,
+    type: type as JOB_POSITION_1DEPTH_CATEGORY,
     item_count: itemCount,
     page_number: page,
   })
@@ -209,6 +196,15 @@ export async function createComment({
   }
 
   return data.id
+}
+
+export async function deleteComment(postId: number) {
+  const supabase = useSupabase()
+  const { error } = await supabase.from("comments").delete().eq("id", postId)
+
+  if (error) {
+    throw error
+  }
 }
 
 /* ****************************************************** ADVERTISEMENT ****************************************************** */

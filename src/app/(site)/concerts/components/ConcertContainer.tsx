@@ -33,8 +33,8 @@ export default function ConcertContainer() {
   }
 
   const [ref, inView] = useInView({
-    delay: 500,
-    threshold: 0.5,
+    delay: 300,
+    threshold: 0.3,
   })
 
   const {
@@ -56,7 +56,7 @@ export default function ConcertContainer() {
         return null
       },
       refetchOnMount: true,
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: true,
     },
   )
   console.log("data", data)
@@ -86,7 +86,7 @@ export default function ConcertContainer() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {data?.pages.map(
           page =>
-            page?.concerts.map(concert => (
+            page?.concerts?.map((concert: any) => (
               <Link key={concert.id} href={`/concerts/${concert.id}`}>
                 <ConcertCard item={concert} />
               </Link>

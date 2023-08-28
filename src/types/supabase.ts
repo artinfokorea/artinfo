@@ -121,7 +121,7 @@ export interface Database {
           category: Database["public"]["Enums"]["concert_category"]
           contents: string
           count_of_views?: number
-          created_at?: string
+          created_at: string
           id?: number
           location: string
           performance_time: string
@@ -738,7 +738,7 @@ export interface Database {
           company_image_url?: string | null
           company_name: string
           contents: string
-          created_at?: string
+          created_at: string
           id?: number
           is_active?: boolean
           link_url?: string | null
@@ -1004,42 +1004,24 @@ export interface Database {
           profiles: Json
         }[]
       }
-      get_recruit_jobs:
-        | {
-            Args: {
-              type: Database["public"]["Enums"]["recruit_jobs_category"]
-              filter_all?: boolean
-              item_count?: number
-              page_number?: number
-            }
-            Returns: {
-              id: number
-              category: Database["public"]["Enums"]["recruit_jobs_category"]
-              title: string
-              contents: string
-              company_name: string
-              company_image_url: string
-              created_at: string
-              profile_id: string
-            }[]
-          }
-        | {
-            Args: {
-              type: Database["public"]["Enums"]["recruit_jobs_category"]
-              item_count?: number
-              page_number?: number
-            }
-            Returns: {
-              id: number
-              category: Database["public"]["Enums"]["recruit_jobs_category"]
-              title: string
-              contents: string
-              company_name: string
-              company_image_url: string
-              created_at: string
-              profile_id: string
-            }[]
-          }
+      get_recruit_jobs: {
+        Args: {
+          type: Database["public"]["Enums"]["recruit_jobs_category"]
+          item_count?: number
+          page_number?: number
+        }
+        Returns: {
+          id: number
+          category: Database["public"]["Enums"]["recruit_jobs_category"]
+          title: string
+          contents: string
+          company_name: string
+          company_image_url: string
+          created_at: string
+          profile_id: string
+          is_active: boolean
+        }[]
+      }
       increment_feed_comment: {
         Args: {
           feed_id: number

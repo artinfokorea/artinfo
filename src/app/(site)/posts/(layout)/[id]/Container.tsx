@@ -11,6 +11,7 @@ import { useAuth } from "@/app/(auth)/auth/components/AuthProvider"
 import { notFound } from "next/navigation"
 import {
   createComment,
+  deleteComment,
   fetchComments,
   fetchFeed,
   updatePostLike,
@@ -45,6 +46,7 @@ export default function Container({ pageId }: IProps) {
     hasNextPage,
     fetchNextPage,
     isFetching,
+    refetch,
     isLoading,
   } = useInfiniteQuery({
     queryKey: ["comments", pageId],
@@ -122,6 +124,51 @@ export default function Container({ pageId }: IProps) {
     } as any)
   }
 
+  const deleteCommentMutation = useMutation({
+    mutationFn: (comment: { id: number }) => {
+      return deleteComment(comment.id)
+    },
+    // onMutate: commentId => {
+    //   // 삭제되기 전에 데이터를 삭제 전 상태로 업데이트 (옵티미스틱 업데이트)
+    //   queryClient.setQueryData(["comments", pageId], (old: any) => {
+    //     // old 데이터에서 commentId와 일치하는 댓글을 찾아 삭제
+    //     const firstPage = old.pages[0]
+    //     const firstPageComments = firstPage.comments.filter(
+    //       (comment: any) => comment.id !== commentId,
+    //     )
+    //     old.pages[0].comments = firstPageComments
+    //     return {
+    //       pages: [...old.pages],
+    //       pageParams: [...old.pageParams],
+    //     }
+    //   })
+
+    //   return { commentId } // 삭제된 commentId를 반환
+    // },
+    onSuccess: (newCommentId, variables) => {
+      // queryClient.setQueryData(["comments", pageId], (old: any) => {
+      //   const firstPage = old.pages[0]
+      //   const firstPageComments = firstPage.comments
+      //   firstPageComments[0].id = newCommentId
+      //   // eslint-disable-next-line no-param-reassign
+      //   old.pages[0].comments = firstPageComments
+
+      //   return {
+      //     pages: [...old.pages],
+      //     pageParams: [...old.pageParams],
+      //   }
+      // })
+      refetch()
+    },
+  })
+
+  const handleDeleteComment = (commentId: number) => {
+    console.log(postId)
+    deleteCommentMutation.mutate({
+      id: commentId,
+    })
+  }
+
   const updateFeedLikeMutation = useMutation({
     mutationFn: (payload: {
       like: boolean
@@ -169,7 +216,11 @@ export default function Container({ pageId }: IProps) {
           )}
           {commentsData?.pages.map(group => {
             return group.comments.map(comment => (
-              <CommentRow key={comment.id} comment={comment} />
+              <CommentRow
+                key={comment.id}
+                comment={comment}
+                handleDeleteComment={handleDeleteComment}
+              />
             ))
           })}
         </CommentContainer>
