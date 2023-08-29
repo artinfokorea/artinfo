@@ -1,20 +1,33 @@
-import { ArrowUpIcon } from "@heroicons/react/24/outline"
+import { ArrowUpIcon, ListBulletIcon } from "@heroicons/react/24/outline"
 import { IconButton } from "@material-tailwind/react"
-import { Link } from "react-scroll"
 import React from "react"
+import { useRouter } from "next/navigation"
 
-const ScrollButton = () => {
+interface IProps {
+  handleScroll: () => void
+}
+
+const ScrollButton = ({ handleScroll }: IProps) => {
+  const router = useRouter()
+
   return (
-    <Link to="top" smooth>
+    <div className="fixed bottom-1/4 right-3 flex flex-col">
       <IconButton
         ripple={false}
         variant="text"
         size="md"
         className=" text-darkgrey my-2 bg-whitesmoke rounded-full"
+        onClick={handleScroll}
       >
         <ArrowUpIcon className="w-8" />
       </IconButton>
-    </Link>
+      <IconButton
+        className="bg-whitesmoke text-darkgrey py-2 rounded-full my-3"
+        onClick={() => router.back()}
+      >
+        <ListBulletIcon className="w-8" />
+      </IconButton>
+    </div>
   )
 }
 

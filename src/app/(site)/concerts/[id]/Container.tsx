@@ -5,6 +5,16 @@ import Image from "next/image"
 import { EyeIcon, ClockIcon, ShareIcon } from "@heroicons/react/20/solid"
 import useFilters from "@/hooks/useFilters"
 import { fetchConcert } from "@/app/Api"
+import dynamic from "next/dynamic"
+import { isMobileWeb } from "@toss/utils"
+
+const ScrollButton = dynamic(
+  () => import("@/components/ui/Button/ScrollButton"),
+  {
+    ssr: false,
+    loading: () => <div>loading...</div>,
+  },
+)
 
 interface IProps {
   pageId: number
@@ -17,11 +27,25 @@ export default function Container({ pageId }: IProps) {
     queryFn: () => fetchConcert(pageId),
   })
 
+  const isMobile = isMobileWeb()
+
   const filters = useFilters()
+
+  const handleScroll = () => {
+    const element = document.getElementById("top")
+
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+      })
+    }
+  }
 
   return (
     <div className="sm:container mx-auto mt-4">
-      <h2 className="text-2xl font-semi-bold">{concert?.title}</h2>
+      <h2 className="text-2xl font-semi-bold" id="top">
+        {concert?.title}
+      </h2>
 
       <div className="flex items-center gap-x-2 my-6">
         {concert?.profiles?.icon_image_url && (
@@ -76,6 +100,8 @@ export default function Container({ pageId }: IProps) {
           />
         )}
       </section>
+
+      {isMobile && <ScrollButton handleScroll={handleScroll} />}
     </div>
   )
 }

@@ -33,10 +33,20 @@ export default function Container({ jobId }: IProps) {
     queryFn: () => fetchJob(jobId),
   })
 
+  const handleScroll = () => {
+    const element = document.getElementById("top")
+
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+      })
+    }
+  }
+
   return (
     <div className="sm:container mx-auto mt-4 relative pb-10 px-4">
-      <Element name="top" />
-      <div className="flex">
+      {/* <Element id="top" /> */}
+      <div className="flex" id="top">
         <div className="flex-1">
           <div className="w-full overflow-hidden relative">
             {job?.company_image_url?.length && (
@@ -97,26 +107,7 @@ export default function Container({ jobId }: IProps) {
           공고 바로가기
         </Link>
       )}
-      {isMobile && (
-        <div className="fixed bottom-1/4 right-3 flex flex-col">
-          {/* <IconButton
-            ripple={false}
-            variant="text"
-            size="md"
-            className=" text-darkgrey my-2 bg-whitesmoke rounded-full"
-            onClick={handleScroll}
-          >
-            <ArrowUpIcon className="w-8" />
-          </IconButton> */}
-          <ScrollButton />
-          <IconButton
-            className="bg-whitesmoke text-darkgrey py-2 rounded-full my-3"
-            onClick={() => router.push("/jobs")}
-          >
-            <ListBulletIcon className="w-8" />
-          </IconButton>
-        </div>
-      )}
+      {isMobile && <ScrollButton handleScroll={handleScroll} />}
     </div>
   )
 }
