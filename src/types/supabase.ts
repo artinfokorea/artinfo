@@ -101,7 +101,7 @@ export interface Database {
             columns: ["profile_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       concerts: {
@@ -147,7 +147,7 @@ export interface Database {
             columns: ["profile_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       debate_answers: {
@@ -184,7 +184,7 @@ export interface Database {
             columns: ["profile_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       debates: {
@@ -227,7 +227,7 @@ export interface Database {
             columns: ["profile_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       educations: {
@@ -264,7 +264,7 @@ export interface Database {
             columns: ["profile_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       feeds: {
@@ -313,7 +313,7 @@ export interface Database {
             columns: ["profile_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       freedoms: {
@@ -347,7 +347,7 @@ export interface Database {
             columns: ["profile_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       inquiries: {
@@ -408,7 +408,7 @@ export interface Database {
             columns: ["profile_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       job_positions: {
@@ -442,7 +442,7 @@ export interface Database {
             columns: ["job_id"]
             referencedRelation: "jobs"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       jobs: {
@@ -518,7 +518,7 @@ export interface Database {
             columns: ["organization_id"]
             referencedRelation: "organizations"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       likes: {
@@ -549,7 +549,7 @@ export interface Database {
             columns: ["profile_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       messages: {
@@ -589,7 +589,7 @@ export interface Database {
             columns: ["to_user"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       notices: {
@@ -623,7 +623,7 @@ export interface Database {
             columns: ["profile_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       organizations: {
@@ -717,7 +717,7 @@ export interface Database {
             columns: ["id"]
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       recruit_jobs: {
@@ -763,7 +763,7 @@ export interface Database {
             columns: ["profile_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       recruits: {
@@ -827,7 +827,7 @@ export interface Database {
             columns: ["profile_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       server_logs: {
@@ -1267,7 +1267,7 @@ export interface Database {
             columns: ["bucket_id"]
             referencedRelation: "buckets"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
     }

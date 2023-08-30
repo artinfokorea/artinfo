@@ -137,7 +137,7 @@ export default function Snackbar({ children }: IProps) {
         <div>
           <div className="snackbar" style={customStyles}>
             {/* Snackbar's text */}
-            <div className="snackbar__text">{text}</div>
+            <div className="snackbar__text whitespace-pre-wrap">{text}</div>
 
             {/* Snackbar's close button */}
             <button

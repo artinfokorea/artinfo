@@ -106,10 +106,12 @@ export async function fetchFeeds({
   //   .limit(itemCount)
   //   .range((pageParam - 1) * itemCount, pageParam * itemCount - 1)
 
-  const { data, error } = await supabase.rpc("get_posts", {
-    item_count: itemCount,
-    page_number: pageParam,
-  })
+  const { data, error } = await supabase
+    .rpc("get_feeds", {
+      item_count: itemCount,
+      page_number: pageParam,
+    })
+    .eq("deleted", false)
 
   if (error) {
     throw error
@@ -130,6 +132,23 @@ export async function fetchFeed(id: number) {
       feed_id: id,
     })
     .single()
+
+  if (error) {
+    throw error
+  }
+  return data
+}
+
+export async function deleteFeed(id: number) {
+  const supabase = useSupabase()
+
+  // const { data, error } = await supabase.from("feeds").delete().eq("id", id)
+  const { data, error } = await supabase
+    .from("feeds")
+    .update({
+      deleted: true,
+    })
+    .eq("id", id)
 
   if (error) {
     throw error
@@ -195,6 +214,10 @@ export async function createComment({
     throw error
   }
 
+  await supabase.rpc("increment_feed_comment", {
+    feed_id: postId,
+  })
+
   return data.id
 }
 
@@ -237,11 +260,17 @@ export async function updatePostLike({
       table_id: post_id,
       type: "POST",
     })
+    await supabase.rpc("increment_feed_like", {
+      feed_id: post_id,
+    })
   } else {
     await likeTable.delete().match({
       profile_id: user_id,
       table_id: post_id,
       type: "POST",
+    })
+    await supabase.rpc("decrement_feed_like", {
+      feed_id: post_id,
     })
   }
 }

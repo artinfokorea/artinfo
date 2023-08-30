@@ -115,7 +115,6 @@ export default function Container({ pageId }: IProps) {
   })
 
   const handleCreateComment = (comment: string) => {
-    console.log(comment)
     createCommentMutation.mutate({
       postId,
       contents: comment,
