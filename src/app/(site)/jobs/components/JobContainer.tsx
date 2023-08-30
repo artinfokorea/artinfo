@@ -28,7 +28,7 @@ export default function JobContainer() {
 
   const [ref, inView] = useInView({
     delay: 300,
-    threshold: 1,
+    threshold: 0.5,
   })
 
   const getJobs = async (
@@ -52,7 +52,7 @@ export default function JobContainer() {
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery(
-    ["jobs", category],
+    ["recruit_jobs", category],
     ({ pageParam = 1 }) => {
       return getJobs(category, pageParam)
     },
@@ -62,21 +62,13 @@ export default function JobContainer() {
         return null
       },
       refetchOnMount: true,
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: true,
     },
   )
 
-  // const { data: jobs } = useQuery({
-  //   queryKey: ["jobs", category],
-  //   suspense: true,
-  //   cacheTime: 0,
-  //   queryFn: () => fetchJobs(category, page),
-  // })
-
-  console.log("data", data)
-
   useDidUpdate(() => {
     if (inView && hasNextPage) {
+      console.log("next")
       fetchNextPage()
     }
   }, [inView, hasNextPage])
@@ -103,15 +95,16 @@ export default function JobContainer() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4">
         {data?.pages?.map(
-          page =>
-            page?.jobs?.map((item: Job) => (
+          group =>
+            group?.jobs?.map((item: Job) => (
               <Link key={item.id} href={`/jobs/${item.id}`}>
                 <JobCard job={item as any} />
               </Link>
             )),
         )}
-        {data?.pages[0].jobs.length === 0 && <div>데이터가 없습니다.</div>}
+        {data?.pages[0].jobs?.length === 0 && <div>데이터가 없습니다.</div>}
       </div>
+
       <div ref={ref} />
     </div>
   )

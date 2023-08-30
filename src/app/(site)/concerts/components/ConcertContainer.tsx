@@ -34,19 +34,11 @@ export default function ConcertContainer() {
 
   const [ref, inView] = useInView({
     delay: 300,
-    threshold: 0.3,
+    threshold: 1,
   })
 
-  const {
-    isLoading,
-    isFetching,
-    isError,
-    error,
-    data,
-    fetchNextPage,
-    hasNextPage,
-  } = useInfiniteQuery(
-    ["jobs", category],
+  const { isLoading, data, fetchNextPage, hasNextPage } = useInfiniteQuery(
+    ["concerts", category],
     ({ pageParam = 1 }) => {
       return getConcerts(category, pageParam)
     },
@@ -59,10 +51,8 @@ export default function ConcertContainer() {
       refetchOnWindowFocus: true,
     },
   )
-  console.log("data", data)
+
   useDidUpdate(() => {
-    console.log("inView", inView)
-    console.log("hasNextPage", hasNextPage)
     if (inView && hasNextPage) {
       fetchNextPage()
     }

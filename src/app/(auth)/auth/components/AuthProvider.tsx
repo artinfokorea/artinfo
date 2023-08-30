@@ -52,12 +52,16 @@ export default function AuthProvider({ children }: IProps) {
       return
     }
 
+    if (Notification.permission === "denied") {
+      await Notification.requestPermission()
+    }
+
     const isSupported =
       "Notification" in window &&
       "serviceWorker" in navigator &&
       "PushManager" in window
 
-    if (isSupported) {
+    if (isSupported && Notification.permission === "granted") {
       const messaging = getMessaging(firebaseApp)
       const token = await getToken(messaging, {
         vapidKey:

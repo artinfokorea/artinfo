@@ -90,9 +90,8 @@ export function PostCard({
 
   const fetchSiteData = async (url: string) => {
     const sitePreviewKey = `preview-url:${url}`
-    const sitePreviewDataFromDB = await getLocalData<SitePreviewMetaType>(
-      sitePreviewKey,
-    )
+    const sitePreviewDataFromDB =
+      await getLocalData<SitePreviewMetaType>(sitePreviewKey)
     if (sitePreviewDataFromDB) {
       setSitePreviewData(sitePreviewDataFromDB)
       return

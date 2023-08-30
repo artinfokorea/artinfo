@@ -10,13 +10,13 @@ export default function ListWithLatestJobs() {
   const { data: jobs } = useQuery({
     queryKey: ["jobs"],
     suspense: true,
-    queryFn: () => fetchJobs({ position_1depth: "ALL", limit_count: 5 }),
+    queryFn: () => fetchJobs("ALL", 1),
   })
 
   return (
     <Card className="">
       <div className="px-4 pt-4">
-        <h5 className="font-bold">최근 Job TOP 5</h5>
+        <h5 className="font-bold">최근 Job TOP 10</h5>
         <div className="text-sm">최근 채용에 올라온 게시물 입니다.</div>
       </div>
 
@@ -28,9 +28,9 @@ export default function ListWithLatestJobs() {
                 style={{ width: 36, height: 36 }}
                 className="rounded-md bg-gray-300 mr-2 overflow-hidden relative"
               >
-                {(job.organizations as any).logo_image && (
+                {job.company_image_url && (
                   <Image
-                    src={(job.organizations as any).logo_image}
+                    src={job.company_image_url}
                     alt="아트인포"
                     fill
                     sizes="40px"
@@ -43,7 +43,7 @@ export default function ListWithLatestJobs() {
                   {job.title}
                 </div>
                 <div className="text-xs text-gray-400">
-                  {(job.organizations as any).name}
+                  {job.company_name}
                   {/* <span> • </span>
                 지휘 1명 */}
                 </div>

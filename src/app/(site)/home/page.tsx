@@ -43,9 +43,7 @@ export default function Home() {
 
         <section className="mb-10">
           <h2 className="text-xl mb-4">채용 정보 🚀</h2>
-          <Suspense fallback={<Loading />}>
-            <JobContainer />
-          </Suspense>
+          <Suspense fallback={<Loading />}>{/* <JobContainer /> */}</Suspense>
         </section>
 
         <section className="mb-10">

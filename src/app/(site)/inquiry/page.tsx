@@ -10,12 +10,20 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useAuth } from "@/app/(auth)/auth/components/AuthProvider"
+import useSnackbar from "@/hooks/useSnackbar"
 
 export default function CreatePost() {
   const router = useRouter()
   const { user } = useAuth()
   const supabase = useSupabase()
   const [isLoading, setIsLoading] = useState(false)
+
+  const [openSnackbar, closeSnackbar] = useSnackbar({
+    position: "top-center",
+    style: {
+      // backgroundColor: "red",
+    },
+  })
 
   const schema = yup
     .object({
@@ -42,7 +50,6 @@ export default function CreatePost() {
   type FormData = yup.InferType<typeof schema>
 
   const handleCreateInquiry = async (payload: FormData) => {
-    console.log("payload", payload)
     if (!user) {
       return
     }
@@ -57,7 +64,10 @@ export default function CreatePost() {
       if (error) {
         throw error
       }
-      reset()
+
+      openSnackbar("문의가 등록되었습니다.", 2000)
+
+      router.push("/posts")
     } catch (e) {
       console.log("error", e)
     } finally {

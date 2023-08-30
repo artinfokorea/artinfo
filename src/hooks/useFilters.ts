@@ -68,7 +68,12 @@ export default function useFilters() {
       if (!value) {
         return undefined
       }
-      return dayjs(value).fromNow()
+
+      const originalDate = dayjs(value)
+
+      const dateWith9HoursAdded = originalDate.add(9, "hour")
+
+      return dayjs(dateWith9HoursAdded).fromNow()
     },
     EXTRACT_URL(text?: string) {
       if (!text) {
