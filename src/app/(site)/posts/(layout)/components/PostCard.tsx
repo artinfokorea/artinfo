@@ -159,7 +159,10 @@ export function PostCard({
 
   return (
     <>
-      <Card>
+      <Card
+        className="transition-transform transform hover:scale-95 cursor-pointer"
+        onClick={() => router.push(`/posts/${feed.id}`)}
+      >
         <CardHeader
           shadow={false}
           floated={false}

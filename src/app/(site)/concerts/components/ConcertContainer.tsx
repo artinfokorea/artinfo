@@ -28,7 +28,7 @@ export default function ConcertContainer() {
     return {
       concerts: response,
       nextPage: pageParam + 1,
-      isLast: response.length < 10,
+      isLast: response.length < 12,
     }
   }
 

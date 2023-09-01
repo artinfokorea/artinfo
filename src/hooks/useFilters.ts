@@ -75,6 +75,16 @@ export default function useFilters() {
 
       return dayjs(dateWith9HoursAdded).fromNow()
     },
+    FROM_NOW_COMMENT(value?: string | Date | null) {
+      if (!value) {
+        return undefined
+      }
+
+      const originalDate = dayjs(value)
+
+      return dayjs(originalDate).fromNow()
+    },
+
     EXTRACT_URL(text?: string) {
       if (!text) {
         return null

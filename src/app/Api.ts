@@ -10,7 +10,7 @@ export async function fetchConcerts(
   page_number: number,
   category?: CONCERT_CATEGORY | "ALL",
 ) {
-  const item_count = 10
+  const item_count = 12
   const type = category !== "ALL" ? category : null
   const supabase = useSupabase()
   const { data, error } = await supabase.rpc("get_concerts", {
@@ -48,7 +48,7 @@ export async function fetchJobs(
   page: number,
 ) {
   const supabase = useSupabase()
-  const itemCount = 10
+  const itemCount = 12
   const type = category !== "ALL" ? category : null
 
   const { data, error } = await supabase.rpc("get_recruit_jobs", {

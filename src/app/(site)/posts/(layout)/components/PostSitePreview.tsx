@@ -29,7 +29,7 @@ export default function PostSitePreview({ meta }: IProps) {
         <img
           src={meta.image}
           alt="preview img"
-          className="object-cover object-center object-fill"
+          className="object-cover object-center"
         />
       </div>
       <div className="p-4 bg-gray-200">
