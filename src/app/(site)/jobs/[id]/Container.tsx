@@ -6,13 +6,10 @@ import { fetchJob } from "@/app/Api"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { isMobileWeb } from "@toss/utils"
-import { IconButton } from "@material-tailwind/react"
-import { Element } from "react-scroll"
-import { ArrowUpIcon, ListBulletIcon } from "@heroicons/react/24/outline"
 import dynamic from "next/dynamic"
 
-const ScrollButton = dynamic(
-  () => import("@/components/ui/Button/ScrollButton"),
+const ScrollButtonWrap = dynamic(
+  () => import("@/components/ui/Button/ScrollButtonWrap"),
   {
     ssr: false,
     loading: () => <div>loading...</div>,
@@ -107,7 +104,7 @@ export default function Container({ jobId }: IProps) {
           공고 바로가기
         </Link>
       )}
-      {isMobile && <ScrollButton handleScroll={handleScroll} />}
+      {isMobile && <ScrollButtonWrap handleScroll={handleScroll} />}
     </div>
   )
 }

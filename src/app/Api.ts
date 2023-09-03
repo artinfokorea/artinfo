@@ -95,16 +95,6 @@ export async function fetchFeeds({
   user_id,
 }: FeedsPayload) {
   const supabase = useSupabase()
-  // const { data, error } = await supabase
-  //   .from("feeds")
-  //   .select("*, profiles(id, name, icon_image_url)", {
-  //     count: "exact",
-  //   })
-  //   .order("id", {
-  //     ascending: false,
-  //   })
-  //   .limit(itemCount)
-  //   .range((pageParam - 1) * itemCount, pageParam * itemCount - 1)
 
   const { data, error } = await supabase
     .rpc("get_feeds", {

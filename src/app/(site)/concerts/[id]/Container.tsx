@@ -8,8 +8,8 @@ import { fetchConcert } from "@/app/Api"
 import dynamic from "next/dynamic"
 import { isMobileWeb } from "@toss/utils"
 
-const ScrollButton = dynamic(
-  () => import("@/components/ui/Button/ScrollButton"),
+const ScrollButtonWrap = dynamic(
+  () => import("@/components/ui/Button/ScrollButtonWrap"),
   {
     ssr: false,
     loading: () => <div>loading...</div>,
@@ -101,7 +101,7 @@ export default function Container({ pageId }: IProps) {
         )}
       </section>
 
-      {isMobile && <ScrollButton handleScroll={handleScroll} />}
+      {isMobile && <ScrollButtonWrap handleScroll={handleScroll} />}
     </div>
   )
 }

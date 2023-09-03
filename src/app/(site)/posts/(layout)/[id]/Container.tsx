@@ -9,6 +9,8 @@ import {
 import { CommentType, Feed } from "@/types/types"
 import { useAuth } from "@/app/(auth)/auth/components/AuthProvider"
 import { notFound } from "next/navigation"
+import dynamic from "next/dynamic"
+import { isMobileWeb } from "@toss/utils"
 import {
   createComment,
   deleteComment,
@@ -20,6 +22,11 @@ import { PostCard } from "../components/PostCard"
 import { CommentContainer, CommentForm, CommentRow } from "./Comments"
 import CommentCardSkeleton from "./CommentCardSkeleton"
 
+const ListButton = dynamic(() => import("@/components/ui/Button/ListButton"), {
+  ssr: false,
+  loading: () => <div>loading...</div>,
+})
+
 interface IProps {
   pageId: string
 }
@@ -27,6 +34,7 @@ interface IProps {
 export default function Container({ pageId }: IProps) {
   const queryClient = useQueryClient()
   const { user } = useAuth()
+  const isMobile = isMobileWeb()
 
   const { data: feed } = useQuery({
     queryKey: ["feed", pageId],
@@ -194,7 +202,7 @@ export default function Container({ pageId }: IProps) {
   }
 
   return (
-    <div className="pb-8">
+    <div className="pb-8 relative">
       <PostCard
         feed={feed as any}
         handleUpdatePostLike={handleUpdatePostLike}
@@ -255,6 +263,11 @@ export default function Container({ pageId }: IProps) {
           </button>
         )}
       </div>
+      {isMobile && (
+        <div className="fixed bottom-1/4 right-3">
+          <ListButton />
+        </div>
+      )}
     </div>
   )
 }
