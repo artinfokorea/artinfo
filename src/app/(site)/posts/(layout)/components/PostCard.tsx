@@ -21,7 +21,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { clipboard } from "@toss/utils"
 import { useAuth } from "@/app/(auth)/auth/components/AuthProvider"
-import useSnackbar from "@/hooks/useSnackbar"
+// import useSnackbar from "@/hooks/useSnackbar"
 import useLocalforge from "@/hooks/useLocalforage"
 import { fetchSiteMetaData } from "@/app/Api"
 import { Modal } from "@/components/ui/Modal"
@@ -113,24 +113,24 @@ export function PostCard({
     }
   }, [feed.content])
 
-  const [openSnackbar, closeSnackbar] = useSnackbar({
-    position: "top-center",
-    style: {
-      // backgroundColor: "red",
-    },
-  })
+  // const [openSnackbar, closeSnackbar] = useSnackbar({
+  //   position: "top-center",
+  //   style: {
+  //     // backgroundColor: "red",
+  //   },
+  // })
 
   const handleCopyClipboard = async () => {
     const shareUrl = `https://${window.location.host}/posts/${feed.id}`
     const isSuccess = await clipboard.writeText(shareUrl)
     if (isSuccess) {
-      openSnackbar("공유할 포스트 URL을 클립보드에 복사했어요!", 2000)
+      // openSnackbar("공유할 포스트 URL을 클립보드에 복사했어요!", 2000)
     }
   }
 
   const handleToggleLike = () => {
     if (!user) {
-      openSnackbar("로그인이 필요합니다.", 2000)
+      // openSnackbar("로그인이 필요합니다.", 2000)
       return
     }
 
@@ -147,7 +147,7 @@ export function PostCard({
   }
 
   const handleBookmark = () => {
-    openSnackbar("아직 지원하지 않는 기능입니다.", 2000)
+    // openSnackbar("아직 지원하지 않는 기능입니다.", 2000)
   }
 
   const handleDeleteFeedItem = () => {

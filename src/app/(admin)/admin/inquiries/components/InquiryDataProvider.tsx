@@ -4,21 +4,19 @@ import { fetchInquiries } from "@/app/(admin)/admin/inquiries/api"
 import InquiryList from "./InquiryList"
 
 export default function InquiryDataProvider() {
-  const prefetchData = async () => {
-    "use server"
-
-    const queryClient = GetQueryClient()
-    await queryClient.prefetchQuery({
-      queryKey: ["inquiries"],
-      queryFn: () => fetchInquiries(1),
-    })
-    const dehydratedState = dehydrate(queryClient)
-    return dehydratedState
-  }
+  // const prefetchData = async () => {
+  //   const queryClient = GetQueryClient()
+  //   await queryClient.prefetchQuery({
+  //     queryKey: ["inquiries"],
+  //     queryFn: () => fetchInquiries(1),
+  //   })
+  //   const dehydratedState = dehydrate(queryClient)
+  //   return dehydratedState
+  // }
 
   return (
-    <Hydrate state={prefetchData()}>
-      <InquiryList />
-    </Hydrate>
+    // <Hydrate state={prefetchData()}>
+    <InquiryList />
+    // </Hydrate>
   )
 }

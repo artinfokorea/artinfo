@@ -1,22 +1,24 @@
-import {
-  SnackbarContext,
-  defaultDuration,
-  defaultPosition,
-} from "@/components/ui/Snackbar/Snackbar"
-import { useContext } from "react"
+// "use client"
 
-// Custom hook to trigger the snackbar on function components
-export default function useSnackbar({
-  position = defaultPosition,
-  style = {},
-  closeStyle = {},
-} = {}) {
-  const { openSnackbar, closeSnackbar } = useContext(SnackbarContext)
+// import {
+//   SnackbarContext,
+//   defaultDuration,
+//   defaultPosition,
+// } from "@/components/ui/Snackbar/Snackbar"
+// import { useContext } from "react"
 
-  function open(text = "", duration = defaultDuration) {
-    openSnackbar({ text, duration, position, style, closeStyle })
-  }
+// // Custom hook to trigger the snackbar on function components
+// export default function useSnackbar({
+//   position = defaultPosition,
+//   style = {},
+//   closeStyle = {},
+// } = {}) {
+//   const { openSnackbar, closeSnackbar } = useContext(SnackbarContext)
 
-  // Returns methods in hooks array way
-  return [open, closeSnackbar]
-}
+//   function open(text = "", duration = defaultDuration) {
+//     openSnackbar({ text, duration, position, style, closeStyle })
+//   }
+
+//   // Returns methods in hooks array way
+//   return [open, closeSnackbar]
+// }

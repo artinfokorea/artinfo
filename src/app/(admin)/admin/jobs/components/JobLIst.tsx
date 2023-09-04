@@ -5,18 +5,11 @@ import { useState } from "react"
 import JobTable from "@/components/ui/Table/JobTable"
 import useSupabase from "@/hooks/useSupabase"
 import { Pagination } from "@/components/ui/Pagination"
-import useSnackbar from "@/hooks/useSnackbar"
 import { fetchJobs } from "../api"
 
 export default function JobList() {
   const [page, setPage] = useState(1)
   const supabase = useSupabase()
-  const [openSnackbar, closeSnackbar] = useSnackbar({
-    position: "top-center",
-    style: {
-      // backgroundColor: "red",
-    },
-  })
 
   const { data: jobs, refetch } = useQuery({
     queryKey: ["recruit_jobs", page],
@@ -37,11 +30,11 @@ export default function JobList() {
         .eq("id", id)
 
       if (error) {
-        openSnackbar("삭제 실패", 2000)
+        throw new Error("삭제실패")
       }
       refetch()
     } catch (error: any) {
-      openSnackbar(`데이터 삭제 중 오류 발생:${error.message}`, 2000)
+      throw new Error("삭제실패")
     }
   }
 

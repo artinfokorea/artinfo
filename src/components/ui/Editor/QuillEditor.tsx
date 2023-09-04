@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useMemo, useCallback, memo } from "react"
+import React, { useMemo, useCallback } from "react"
 import useAuth from "@/hooks/useAuth"
 import useSupabase from "@/hooks/useSupabase"
 import "react-quill/dist/quill.snow.css"

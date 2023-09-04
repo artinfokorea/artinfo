@@ -96,6 +96,7 @@ const JobCreateForm = () => {
         title,
         link_url: payload.linkUrl,
         category: selectedType as RECRUIT_JOBS_CATEGORY,
+        created_at: new Date().toISOString(),
       }
       const { data, error } = await supabase
         .from("recruit_jobs")

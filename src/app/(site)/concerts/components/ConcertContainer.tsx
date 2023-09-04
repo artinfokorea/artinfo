@@ -9,9 +9,9 @@ import { ChipButton } from "@/components/ui/Button/LinkChipButton"
 import { isMobileWeb } from "@toss/utils"
 import { useInView } from "react-intersection-observer"
 import { CONCERT_CATEGORY } from "@/types/types"
+import ScrollUpButton from "@/components/ui/Button/ScrollUpButton"
 import ConcertCard from "./ConcertCard"
 import ConcertCategory from "./ConcertCategory"
-import ScrollUpButton from "@/components/ui/Button/ScrollUpButton"
 
 export default function ConcertContainer() {
   const [category, selectCategory] = useState<"ALL" | CONCERT_CATEGORY>("ALL")

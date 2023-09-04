@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"
 import { createContext, useContext, useEffect, useMemo, useState } from "react"
 import { getMessaging, getToken, onMessage } from "firebase/messaging"
 import { initializeApp } from "firebase/app"
-import useSnackbar from "@/hooks/useSnackbar"
+// import useSnackbar from "@/hooks/useSnackbar"
 
 export const AuthContext = createContext<any>(null)
 
@@ -32,10 +32,10 @@ export default function AuthProvider({ children }: IProps) {
   const supabase = useSupabase()
   const router = useRouter()
 
-  const [openSnackbar, closeSnackbar] = useSnackbar({
-    position: "top-center",
-    style: {},
-  })
+  // const [openSnackbar, closeSnackbar] = useSnackbar({
+  //   position: "top-center",
+  //   style: {},
+  // })
 
   async function getActiveSession() {
     const {
@@ -87,7 +87,7 @@ export default function AuthProvider({ children }: IProps) {
       onMessage(messaging, (fcmMessage: any) => {
         console.log(fcmMessage)
         const text = `${fcmMessage.data.title}\r\n${fcmMessage.data.body}`
-        openSnackbar(text, 4000)
+        // openSnackbar(text, 4000)
       })
     }
   }

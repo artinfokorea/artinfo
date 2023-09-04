@@ -2,7 +2,7 @@ import "../globals.css"
 import Header from "@/components/layouts/header"
 import type { Metadata } from "next"
 import { ThemeProvider } from "@/components/material"
-import SnackbarProvider from "@/components/ui/Snackbar/Snackbar"
+// import SnackbarProvider from "@/components/ui/Snackbar/Snackbar"
 import { BottomNavigation } from "@/components/layouts/bottom-naviation"
 import HomeScreenContainer from "@/components/ui/HomeScreen/HomeScreenContainer"
 import QueryProvider from "../QueryProvider"
@@ -49,14 +49,14 @@ export default async function RootLayout({
       <body className="bg-[#f8fafc] flex flex-col h-full">
         <ThemeProvider>
           <QueryProvider>
-            <SnackbarProvider>
-              <AuthProvider>
-                <Header />
-                <main className="flex-1 overflow-y-auto">{children}</main>
-                <BottomNavigation />
-                <HomeScreenContainer />
-              </AuthProvider>
-            </SnackbarProvider>
+            {/* <SnackbarProvider> */}
+            <AuthProvider>
+              <Header />
+              <main className="flex-1 overflow-y-auto">{children}</main>
+              <BottomNavigation />
+              <HomeScreenContainer />
+            </AuthProvider>
+            {/* </SnackbarProvider> */}
           </QueryProvider>
         </ThemeProvider>
       </body>

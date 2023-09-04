@@ -16,7 +16,6 @@ import Link from "next/link"
 import {
   useInfiniteQuery,
   useMutation,
-  useQuery,
   useQueryClient,
 } from "@tanstack/react-query"
 import { deleteFeed, fetchFeeds, updatePostLike } from "@/app/Api"
@@ -132,10 +131,6 @@ function AdSection() {
 export default function Container() {
   const queryClient = useQueryClient()
   const { user } = useAuth()
-  // console.log(isLoading)
-  // if (isLoading) {
-  //   return <div />
-  // }
 
   const [ref, inView] = useInView({
     delay: 300,
@@ -271,12 +266,13 @@ export default function Container() {
             <FeedSkeleton />
           </>
         )}
+        <AdSection />
 
         {feedsData?.pages.map(group => (
           <div key={group.page}>
             {/* <div>page: {group.page}</div> */}
 
-            {group.page === 2 && <AdSection />}
+            {/* {group.page === 2 && } */}
 
             {group.feeds.map((feed: Feed) => (
               <div key={feed.id} className="my-4">

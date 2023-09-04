@@ -42,7 +42,6 @@ export default function Container({ pageId }: IProps) {
     queryFn: () => fetchFeed(Number(pageId)),
   })
 
-  // console.log(feed)
   if (!feed) {
     notFound()
   }

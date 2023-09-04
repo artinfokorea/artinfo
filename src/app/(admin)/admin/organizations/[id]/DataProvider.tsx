@@ -10,20 +10,18 @@ interface IProps {
 export default function DataProvider({ pageId }: IProps) {
   const organizationId = Number(pageId)
 
-  const prefetchData = async () => {
-    "use server"
+  // const prefetchData = async () => {
+  //   const queryClient = GetQueryClient()
+  //   await queryClient.prefetchQuery(["organizations"], () =>
+  //     fetchOrganization(organizationId),
+  //   )
+  //   const dehydratedState = dehydrate(queryClient)
 
-    const queryClient = GetQueryClient()
-    await queryClient.prefetchQuery(["organizations"], () =>
-      fetchOrganization(organizationId),
-    )
-    const dehydratedState = dehydrate(queryClient)
-
-    return dehydratedState
-  }
+  //   return dehydratedState
+  // }
   return (
-    <Hydrate state={prefetchData}>
-      <Container organizationId={organizationId} />
-    </Hydrate>
+    // <Hydrate state={prefetchData}>
+    <Container organizationId={organizationId} />
+    // </Hydrate>
   )
 }

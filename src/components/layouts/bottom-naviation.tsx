@@ -148,7 +148,7 @@ export function BottomNavigation() {
   if (user) {
     items[3] = {
       title: "Inquiry",
-      href: `/inquiry/create`,
+      href: `/inquiry`,
       icon: InquiryIcon,
     }
   }
