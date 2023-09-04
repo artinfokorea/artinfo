@@ -6,19 +6,16 @@ import { fetchConcerts } from "@/app/Api"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { useDidUpdate } from "@toss/react"
 import { ChipButton } from "@/components/ui/Button/LinkChipButton"
+import { isMobileWeb } from "@toss/utils"
 import { useInView } from "react-intersection-observer"
 import { CONCERT_CATEGORY } from "@/types/types"
 import ConcertCard from "./ConcertCard"
 import ConcertCategory from "./ConcertCategory"
+import ScrollUpButton from "@/components/ui/Button/ScrollUpButton"
 
 export default function ConcertContainer() {
   const [category, selectCategory] = useState<"ALL" | CONCERT_CATEGORY>("ALL")
-
-  // const { data } = useQuery({
-  //   queryKey: ["concerts", category],
-  //   suspense: false,
-  //   queryFn: () => fetchConcerts(category === "ALL" ? undefined : category),
-  // })
+  const isMobile = isMobileWeb()
 
   const getConcerts = async (
     category: "ALL" | CONCERT_CATEGORY,
@@ -63,9 +60,18 @@ export default function ConcertContainer() {
   const updatedCategory = (_category: "ALL" | CONCERT_CATEGORY) => {
     selectCategory(_category)
   }
+  const handleScroll = () => {
+    const element = document.getElementById("top")
+
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+      })
+    }
+  }
 
   return (
-    <div>
+    <div id="top">
       <div className="mb-4 flex align-center justify-between">
         <ConcertCategory
           category={category}
@@ -83,6 +89,11 @@ export default function ConcertContainer() {
             )),
         )}
       </div>
+      {isMobile && (
+        <div className="fixed bottom-1/4 right-3">
+          <ScrollUpButton handleScroll={handleScroll} />
+        </div>
+      )}
       <div ref={ref} />
     </div>
   )

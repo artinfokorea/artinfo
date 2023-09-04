@@ -20,8 +20,14 @@ import {
   useQueryClient,
 } from "@tanstack/react-query"
 import { deleteFeed, fetchFeeds, updatePostLike } from "@/app/Api"
+import { useInView } from "react-intersection-observer"
+import { useDidUpdate } from "@toss/react"
+import { isMobileWeb } from "@toss/utils"
+import ScrollUpButton from "@/components/ui/Button/ScrollUpButton"
+import { Feed } from "@/types/types"
 import { PostCard } from "./PostCard"
 import AdContainer from "../../../home/components/ad/AdContainer"
+import FeedSkeleton from "./FeedSkeleton"
 
 function ProfileCard() {
   return (
@@ -131,22 +137,56 @@ export default function Container() {
   //   return <div />
   // }
 
-  const itemCount = 10
+  const [ref, inView] = useInView({
+    delay: 300,
+    threshold: 0.5,
+  })
+
+  const isMobile = isMobileWeb()
+
+  const getFeeds = async (pageParam: number): Promise<any> => {
+    const response = await fetchFeeds({ pageParam })
+    return {
+      feeds: response,
+      nextPage: pageParam + 1,
+      isLast: response.length < 10,
+    }
+  }
   const {
     data: feedsData,
     hasNextPage,
     fetchNextPage,
     isFetching,
+    isLoading,
   } = useInfiniteQuery({
     queryKey: ["feeds"],
     suspense: false,
-    queryFn: async ({ pageParam = 0 }) => {
-      const feeds = await fetchFeeds({ pageParam: pageParam + 1 })
-      return { feeds, page: pageParam + 1 }
+    queryFn: ({ pageParam = 1 }) => {
+      return getFeeds(pageParam)
     },
-    getNextPageParam: (lastPage, pages) =>
-      (lastPage.feeds?.length || 0) >= itemCount && lastPage.page,
+    getNextPageParam: lastPage => {
+      if (!lastPage.isLast) return lastPage.nextPage
+      return null
+    },
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
   })
+
+  useDidUpdate(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage()
+    }
+  }, [inView, hasNextPage])
+
+  const handleScroll = () => {
+    const element = document.getElementById("top")
+
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+      })
+    }
+  }
 
   const updateFeedLikeMutation = useMutation({
     mutationFn: (payload: {
@@ -212,7 +252,7 @@ export default function Container() {
 
   return (
     <>
-      <div className="mb-5">
+      <div className="mb-5" id="top">
         <WriteFeedCard />
       </div>
 
@@ -220,6 +260,17 @@ export default function Container() {
         {/* <div className="mt-5">
           <ProfileCard />
         </div> */}
+        {isLoading && (
+          <>
+            <FeedSkeleton />
+            <FeedSkeleton />
+            <FeedSkeleton />
+            <FeedSkeleton />
+            <FeedSkeleton />
+            <FeedSkeleton />
+            <FeedSkeleton />
+          </>
+        )}
 
         {feedsData?.pages.map(group => (
           <div key={group.page}>
@@ -227,7 +278,7 @@ export default function Container() {
 
             {group.page === 2 && <AdSection />}
 
-            {group.feeds.map(feed => (
+            {group.feeds.map((feed: Feed) => (
               <div key={feed.id} className="my-4">
                 <PostCard
                   feed={feed as any}
@@ -240,36 +291,11 @@ export default function Container() {
             ))}
           </div>
         ))}
-
-        {hasNextPage && (
-          <button
-            className="transition ease-in-out duration-150 inline-flex items-center w-full justify-center rounded-md bg-indigo-600 py-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50"
-            disabled={isFetching}
-            onClick={() => fetchNextPage()}
-          >
-            {isFetching ? (
-              <svg
-                className="animate-spin h-5 w-5 text-white"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx={12}
-                  cy={12}
-                  r={10}
-                  stroke="currentColor"
-                  strokeWidth={4}
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                />
-              </svg>
-            ) : (
-              <span>더보기</span>
-            )}
-          </button>
+        <div ref={ref} />
+        {isMobile && (
+          <div className="fixed bottom-1/4 right-3">
+            <ScrollUpButton handleScroll={handleScroll} />
+          </div>
         )}
       </div>
     </>

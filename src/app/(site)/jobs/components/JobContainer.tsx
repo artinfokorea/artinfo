@@ -12,6 +12,8 @@ import {
 } from "@/types/types"
 import Link from "next/link"
 import { fetchJobs } from "@/app/Api"
+import { isMobileWeb } from "@toss/utils"
+import ScrollUpButton from "@/components/ui/Button/ScrollUpButton"
 import JobCard from "./JobCard"
 
 export default function JobContainer() {
@@ -24,7 +26,7 @@ export default function JobContainer() {
     "ALL" | JOB_POSITION_1DEPTH_CATEGORY
   >("ALL")
 
-  const [page, setPage] = useState(1)
+  const isMobile = isMobileWeb()
 
   const [ref, inView] = useInView({
     delay: 300,
@@ -82,8 +84,18 @@ export default function JobContainer() {
 
   const position1depthItem = items.find(item => item.value === category)
 
+  const handleScroll = () => {
+    const element = document.getElementById("top")
+
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+      })
+    }
+  }
+
   return (
-    <div className="">
+    <div id="top">
       <div className="mb-5 bg-white">
         <SelectMenu
           label="단체별"
@@ -104,7 +116,11 @@ export default function JobContainer() {
         )}
         {data?.pages[0].jobs?.length === 0 && <div>데이터가 없습니다.</div>}
       </div>
-
+      {isMobile && (
+        <div className="fixed bottom-1/4 right-3">
+          <ScrollUpButton handleScroll={handleScroll} />
+        </div>
+      )}
       <div ref={ref} />
     </div>
   )
