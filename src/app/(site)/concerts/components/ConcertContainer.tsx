@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { fetchConcerts } from "@/app/Api"
 import { useInfiniteQuery } from "@tanstack/react-query"
@@ -10,11 +10,14 @@ import { isMobileWeb } from "@toss/utils"
 import { useInView } from "react-intersection-observer"
 import { CONCERT_CATEGORY } from "@/types/types"
 import ScrollUpButton from "@/components/ui/Button/ScrollUpButton"
+import dynamic from "next/dynamic"
 import ConcertCard from "./ConcertCard"
 import ConcertCategory from "./ConcertCategory"
+import ConcertSkeleton from "./ConcertSkeleton"
 
 export default function ConcertContainer() {
   const [category, selectCategory] = useState<"ALL" | CONCERT_CATEGORY>("ALL")
+  const [isMounted, setIsMounted] = useState(false)
   const isMobile = isMobileWeb()
 
   const getConcerts = async (
@@ -33,6 +36,10 @@ export default function ConcertContainer() {
     delay: 300,
     threshold: 1,
   })
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   const { isLoading, data, fetchNextPage, hasNextPage } = useInfiniteQuery(
     ["concerts", category],
@@ -55,11 +62,10 @@ export default function ConcertContainer() {
     }
   }, [inView, hasNextPage])
 
-  if (isLoading) return <div> ...loading</div>
-
   const updatedCategory = (_category: "ALL" | CONCERT_CATEGORY) => {
     selectCategory(_category)
   }
+
   const handleScroll = () => {
     const element = document.getElementById("top")
 
@@ -79,6 +85,22 @@ export default function ConcertContainer() {
         />
         <ChipButton url="/concerts/create" title="공연등록" />
       </div>
+
+      {isLoading && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <ConcertSkeleton />
+          <ConcertSkeleton />
+          <ConcertSkeleton />
+          <ConcertSkeleton />
+          <ConcertSkeleton />
+          <ConcertSkeleton />
+          <ConcertSkeleton />
+          <ConcertSkeleton />
+          <ConcertSkeleton />
+          <ConcertSkeleton />
+        </div>
+      )}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {data?.pages.map(
           page =>
@@ -89,7 +111,7 @@ export default function ConcertContainer() {
             )),
         )}
       </div>
-      {isMobile && (
+      {isMounted && isMobile && (
         <div className="fixed bottom-1/4 right-3">
           <ScrollUpButton handleScroll={handleScroll} />
         </div>

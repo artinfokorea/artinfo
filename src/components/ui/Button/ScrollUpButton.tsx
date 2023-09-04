@@ -1,5 +1,7 @@
+"use client"
+
 import { ArrowUpIcon } from "@heroicons/react/24/outline"
-import { IconButton } from "@material-tailwind/react"
+import { IconButton } from "@/components/material"
 import React from "react"
 
 interface IProps {

@@ -1,5 +1,7 @@
+"use client"
+
 import { Suspense } from "react"
-import Loading from "./loading"
+import Loading from "@/components/ui/Loading"
 import { DataProvider } from "./DataProvider"
 
 export const revalidate = 10 // revalidate this page every 60 seconds

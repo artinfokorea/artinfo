@@ -1,6 +1,8 @@
+"use client"
+
 import { Suspense } from "react"
 import { ChipButton } from "@/components/ui/Button/LinkChipButton"
-import Loading from "./loading"
+import Loading from "@/components/ui/Loading"
 import JobDataProvider from "./components/JobDataProvider"
 
 export default function Recruits() {

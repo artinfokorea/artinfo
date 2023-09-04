@@ -77,6 +77,7 @@ export default function SignUp() {
       if (error) {
         throw error
       }
+      router.push("/posts")
     } catch (error) {
       console.error(error)
     } finally {
@@ -95,7 +96,10 @@ export default function SignUp() {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" onSubmit={handleSubmit(handleSignUp)}>
+        <form
+          className="space-y-6 text-primary"
+          onSubmit={handleSubmit(handleSignUp)}
+        >
           <div>
             <label
               htmlFor="email"
@@ -108,7 +112,7 @@ export default function SignUp() {
                 {...register("email")}
                 type="email"
                 autoComplete="off"
-                className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 bg-white/5 py-1.5 shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
               />
               <p className="text-sm text-red-500 mt-1">
                 {errors.email?.message}
@@ -129,7 +133,7 @@ export default function SignUp() {
                 type="text"
                 autoComplete="off"
                 maxLength={8}
-                className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-primary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
               />
               <p className="text-sm text-red-500 mt-1">
                 {errors.name?.message}
@@ -151,7 +155,7 @@ export default function SignUp() {
                 {...register("password")}
                 type="password"
                 autoComplete="off"
-                className="block w-full rounded-md border-0  bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0  bg-white/5 py-1.5 text-primary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
               />
               <p className="text-sm text-red-500 mt-1">
                 {errors.password?.message}
@@ -173,7 +177,7 @@ export default function SignUp() {
                 {...register("re_password")}
                 type="password"
                 autoComplete="off"
-                className="block w-full rounded-md border-0  bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0  bg-white/5 py-1.5 text-primary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
               />
               <p className="text-sm text-red-500 mt-1">
                 {errors.re_password?.message}

@@ -3,7 +3,7 @@ import GetQueryClient from "@/app/GetQueryClient"
 import { fetchJobs } from "@/app/Api"
 import JobContainer from "./JobContainer"
 
-export default async function JobDataProvider() {
+export default function JobDataProvider() {
   // const queryClient = GetQueryClient()
   // await queryClient.prefetchQuery(["jobs", "ALL"], () => fetchJobs("ALL", 1))
   // const dehydratedState = dehydrate(queryClient)

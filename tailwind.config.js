@@ -27,6 +27,8 @@ module.exports = withMT({
         whitesmoke: "#f8f8f8",
         primary: "#34363D",
         darkgrey: "#3c3a3a",
+        aliceblue: "#f1f4ff",
+        cornflowerblue: "#7493ff",
       },
     },
   },

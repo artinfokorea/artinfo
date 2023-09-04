@@ -1,6 +1,8 @@
 "use client"
 
-import { Job } from "@/types/types"
+import PositionTag from "@/components/ui/PositionTag"
+import useFilters from "@/hooks/useFilters"
+import { Job, RECRUIT_JOBS_CATEGORY_ITEMS } from "@/types/types"
 import Image from "next/image"
 
 interface IProps {
@@ -8,29 +10,10 @@ interface IProps {
 }
 
 export default function JobCard({ job }: IProps) {
-  // const remaininDays = useMemo(() => {
-  //   if (filters.IS_DATE_FUTURE(job.start_date)) {
-  //     return ": 접수대기"
-  //   }
-  //   if (!job.duedate) {
-  //     return ": 상시모집"
-  //   }
-  //   if (filters.IS_DATE_FUTURE(job.duedate)) {
-  //     const days = filters.DIFF_FROM_NOW(job.duedate)
-  //     return `: ${days}일남음`
-  //   }
-  //   return ": 기한지남"
-  // }, [job.start_date, job.duedate, filters])
-
-  // const jobPositionAllItems = {
-  //   ...JOB_POSITION_ORCHESTRA_CATEGORY_ITEMS,
-  //   ...JOB_POSITION_CHORUS_CATEGORY_ITEMS,
-  //   ...JOB_POSITION_KOREAN_MUSIC_CATEGORY_ITEMS,
-  //   ...JOB_POSITION_ADMINISTRATION_CATEGORY_ITEMS,
-  // } as any
+  const filters = useFilters()
 
   return (
-    <div className="card bg-white border border-stone-800 rounded">
+    <div className="card  rounded">
       <div className="overflow-hidden relative" style={{ height: "150px" }}>
         {job.company_image_url && (
           <Image
@@ -43,30 +26,22 @@ export default function JobCard({ job }: IProps) {
           />
         )}
       </div>
-      <div className="p-4">
-        <div className="flex items-center mb-1">
-          {/* <div
-            style={{ width: 28, height: 28 }}
-            className="rounded-md bg-gray-300 mr-2 overflow-hidden relative"
-          >
-            {job.organizations?.logo_image && (
-              <Image
-                src={job.organizations?.logo_image}
-                alt="아트인포"
-                fill
-                sizes="40px"
-                style={{ objectFit: "cover" }}
-              />
-            )}
-          </div> */}
-          {/* <div className="text-sm truncate flex-1">
-            {(JOB_POSITION_1DEPTH_CATEGORY_ITEMS as any)[job.category]}
-          </div> */}
-          <div className="text-sm truncate flex-1">{job.company_name}</div>
+      <div className="py-2">
+        <div className="flex flex-col  mb-1">
+          <div className="text-sm  text-darkgrey truncate flex-1 my-2 flex justify-between items-center ">
+            <span>{job.company_name} </span>
+            <span className="mr-2">
+              <PositionTag tag={RECRUIT_JOBS_CATEGORY_ITEMS[job.category]} />
+            </span>
+          </div>
+          <div className="text-lg font-semibold my-2 line-clamp-3 break-keep">
+            {job.title}
+          </div>
+          <span className="text- text-darkgrey">
+            {filters.YYYYMMDD(job.created_at)}
+          </span>
         </div>
-        <div className="text-base font-semibold mt-4 line-clamp-3">
-          {job.title}
-        </div>
+
         {/* <div className="mt-2 flex flex-wrap gap-x-1.5 gap-y-2">
           {job.job_positions.map(position => (
             <span
@@ -88,11 +63,11 @@ export default function JobCard({ job }: IProps) {
           </div>
         )} */}
 
-        <div className="mt-3">
+        {/* <div className="mt-3">
           <button className="border border-indigo-800 px-4 py-2 w-full rounded text-indigo-600 text-sm">
             지원하기
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   )

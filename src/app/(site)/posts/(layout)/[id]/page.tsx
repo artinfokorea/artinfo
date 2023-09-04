@@ -1,7 +1,7 @@
 import { Suspense } from "react"
 import { Metadata } from "next/types"
 import SupabaseServer from "@/lib/supabase-server"
-import Loading from "../loading"
+import Loading from "@/components/ui/Loading/Loading"
 import { DataProvider } from "./DataProvider"
 
 type Props = {

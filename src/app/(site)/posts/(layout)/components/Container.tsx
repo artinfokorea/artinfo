@@ -27,6 +27,7 @@ import { Feed } from "@/types/types"
 import { PostCard } from "./PostCard"
 import AdContainer from "../../../home/components/ad/AdContainer"
 import FeedSkeleton from "./FeedSkeleton"
+import { useEffect, useState } from "react"
 
 function ProfileCard() {
   return (
@@ -131,6 +132,7 @@ function AdSection() {
 export default function Container() {
   const queryClient = useQueryClient()
   const { user } = useAuth()
+  const [isMounted, setIsMounted] = useState(false)
 
   const [ref, inView] = useInView({
     delay: 300,
@@ -172,6 +174,10 @@ export default function Container() {
       fetchNextPage()
     }
   }, [inView, hasNextPage])
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   const handleScroll = () => {
     const element = document.getElementById("top")
@@ -269,7 +275,7 @@ export default function Container() {
         <AdSection />
 
         {feedsData?.pages.map(group => (
-          <div key={group.page}>
+          <div key={group.nextPage}>
             {/* <div>page: {group.page}</div> */}
 
             {/* {group.page === 2 && } */}
@@ -288,7 +294,7 @@ export default function Container() {
           </div>
         ))}
         <div ref={ref} />
-        {isMobile && (
+        {isMounted && isMobile && (
           <div className="fixed bottom-1/4 right-3">
             <ScrollUpButton handleScroll={handleScroll} />
           </div>

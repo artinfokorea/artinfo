@@ -15,11 +15,15 @@ export async function middleware(req: NextRequest) {
     if (!data.session) {
       return NextResponse.redirect(new URL("/auth", req.url))
     }
+  } else if (pathname === "/inquiry") {
+    if (!data.session) {
+      return NextResponse.redirect(new URL("/auth", req.url))
+    }
   }
 
   return res
 }
 
 export const config = {
-  matcher: ["/auth:path*", "/posts/create", "/home:path*"],
+  matcher: ["/auth:path*", "/posts/create", "/home:path*", "/inquiry"],
 }

@@ -3,7 +3,7 @@
 import SelectMenu from "@/components/ui/SelectMenu"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { useInView } from "react-intersection-observer"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useDidUpdate } from "@toss/react"
 import {
   JOB_POSITION_1DEPTH_CATEGORY_SELECT_ITEMS,
@@ -15,8 +15,10 @@ import { fetchJobs } from "@/app/Api"
 import { isMobileWeb } from "@toss/utils"
 import ScrollUpButton from "@/components/ui/Button/ScrollUpButton"
 import JobCard from "./JobCard"
+import JobSkeleton from "./JobSkeleton"
 
 export default function JobContainer() {
+  const [isMounted, setIsMounted] = useState(false)
   const items = [
     { title: "전체", value: "ALL" },
     ...JOB_POSITION_1DEPTH_CATEGORY_SELECT_ITEMS,
@@ -32,6 +34,10 @@ export default function JobContainer() {
     delay: 300,
     threshold: 0.5,
   })
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   const getJobs = async (
     category: "ALL" | JOB_POSITION_1DEPTH_CATEGORY,
@@ -80,7 +86,6 @@ export default function JobContainer() {
   ) => {
     setCategory(value)
   }
-  if (isLoading) return <div>...loading</div>
 
   const position1depthItem = items.find(item => item.value === category)
 
@@ -104,6 +109,20 @@ export default function JobContainer() {
           updateItem={updatedPosition1depth}
         />
       </div>
+      {isLoading && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4">
+          <JobSkeleton />
+          <JobSkeleton />
+          <JobSkeleton />
+          <JobSkeleton />
+          <JobSkeleton />
+          <JobSkeleton />
+          <JobSkeleton />
+          <JobSkeleton />
+          <JobSkeleton />
+          <JobSkeleton />
+        </div>
+      )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4">
         {data?.pages?.map(
@@ -116,7 +135,7 @@ export default function JobContainer() {
         )}
         {data?.pages[0].jobs?.length === 0 && <div>데이터가 없습니다.</div>}
       </div>
-      {isMobile && (
+      {isMounted && isMobile && (
         <div className="fixed bottom-1/4 right-3">
           <ScrollUpButton handleScroll={handleScroll} />
         </div>

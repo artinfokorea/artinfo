@@ -3,7 +3,7 @@ import GetQueryClient from "@/app/GetQueryClient"
 import { fetchConcerts } from "@/app/Api"
 import ConcertContainer from "./ConcertContainer"
 
-export default async function ConcertDataProvider() {
+export default function ConcertDataProvider() {
   // const queryClient = GetQueryClient()
   // await queryClient.prefetchQuery(["concerts", "ALL"], () => fetchConcerts())
   // const dehydratedState = dehydrate(queryClient)

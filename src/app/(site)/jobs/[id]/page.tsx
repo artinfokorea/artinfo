@@ -1,6 +1,5 @@
 import { Suspense } from "react"
-import { useSearchParams } from "next/navigation"
-import Loading from "../loading"
+import Loading from "@/components/ui/Loading/Loading"
 import DataProvider from "./DataProvider"
 
 export default function page({ params }: { params: { id: string } }) {
