@@ -19,11 +19,26 @@ export async function middleware(req: NextRequest) {
     if (!data.session) {
       return NextResponse.redirect(new URL("/auth", req.url))
     }
+  } else if (pathname === "/concerts/create") {
+    if (!data.session) {
+      return NextResponse.redirect(new URL("/auth", req.url))
+    }
+  } else if (pathname === "/jobs/create") {
+    if (!data.session) {
+      return NextResponse.redirect(new URL("/auth", req.url))
+    }
   }
 
   return res
 }
 
 export const config = {
-  matcher: ["/auth:path*", "/posts/create", "/home:path*", "/inquiry"],
+  matcher: [
+    "/auth:path*",
+    "/posts/create",
+    "/home:path*",
+    "/inquiry",
+    "/concerts/create",
+    "/jobs/create",
+  ],
 }
