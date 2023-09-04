@@ -24,10 +24,10 @@ import { useDidUpdate } from "@toss/react"
 import { isMobileWeb } from "@toss/utils"
 import ScrollUpButton from "@/components/ui/Button/ScrollUpButton"
 import { Feed } from "@/types/types"
+import { useEffect, useState } from "react"
 import { PostCard } from "./PostCard"
 import AdContainer from "../../../home/components/ad/AdContainer"
 import FeedSkeleton from "./FeedSkeleton"
-import { useEffect, useState } from "react"
 
 function ProfileCard() {
   return (
