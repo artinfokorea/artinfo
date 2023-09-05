@@ -4,7 +4,6 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useRouter } from "next/navigation"
 import { Modal } from "@/components/ui/Modal"
@@ -62,7 +61,7 @@ export default function Login() {
 
       router.refresh()
       router.push("/")
-    } catch (error) {
+    } catch (error: any) {
       setIsOpenModal(true)
     } finally {
       setIsLoading(false)

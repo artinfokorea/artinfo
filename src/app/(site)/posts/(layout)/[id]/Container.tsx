@@ -10,6 +10,7 @@ import { CommentType, Feed } from "@/types/types"
 import { useAuth } from "@/app/(auth)/auth/components/AuthProvider"
 import { notFound } from "next/navigation"
 import dynamic from "next/dynamic"
+import toast, { Toaster } from "react-hot-toast"
 import { isMobileWeb } from "@toss/utils"
 import {
   createComment,
@@ -70,6 +71,24 @@ export default function Container({ pageId }: IProps) {
       (lastPage.comments?.length || 0) >= itemCount && lastPage.page,
   })
 
+  const notify = (text: string) =>
+    toast.success(text, {
+      duration: 4000,
+      position: "bottom-center",
+
+      // Change colors of success/error/loading icon
+      iconTheme: {
+        primary: "#449F3C",
+        secondary: "#fff",
+      },
+
+      // Aria
+      ariaProps: {
+        role: "status",
+        "aria-live": "polite",
+      },
+    })
+
   const createCommentMutation = useMutation({
     mutationFn: (comment: {
       postId: number
@@ -118,6 +137,8 @@ export default function Container({ pageId }: IProps) {
           pageParams: [...old.pageParams],
         }
       })
+      queryClient.invalidateQueries(["feeds"])
+      notify("댓글이 등록되었습니다.")
     },
   })
 
@@ -263,10 +284,11 @@ export default function Container({ pageId }: IProps) {
         )}
       </div>
       {isMobile && (
-        <div className="fixed bottom-1/4 right-3">
+        <div className="fixed bottom-32 right-3">
           <ListButton />
         </div>
       )}
+      <Toaster />
     </div>
   )
 }

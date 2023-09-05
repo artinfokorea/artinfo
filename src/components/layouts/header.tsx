@@ -196,6 +196,11 @@ export default function Header() {
                 <MagnifyingGlassIcon className="w-5" />
               </Link>
             </div> */}
+            {user && (
+              <span className="text-sm whitespace-pre-line">
+                {user?.user_metadata.name} 님
+              </span>
+            )}
             <div>
               {user ? (
                 <div className="flex items-center gap-x-4">

@@ -295,7 +295,7 @@ export default function Container() {
         ))}
         <div ref={ref} />
         {isMounted && isMobile && (
-          <div className="fixed bottom-1/4 right-3">
+          <div className="fixed bottom-32 right-3">
             <ScrollUpButton handleScroll={handleScroll} />
           </div>
         )}

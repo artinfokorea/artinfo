@@ -83,7 +83,6 @@ export default function ConcertContainer() {
           category={category}
           updatedCategory={updatedCategory}
         />
-        <ChipButton url="/concerts/create" title="공연등록" />
       </div>
 
       {isLoading && (
@@ -112,7 +111,7 @@ export default function ConcertContainer() {
         )}
       </div>
       {isMounted && isMobile && (
-        <div className="fixed bottom-1/4 right-3">
+        <div className="fixed bottom-32 right-3">
           <ScrollUpButton handleScroll={handleScroll} />
         </div>
       )}

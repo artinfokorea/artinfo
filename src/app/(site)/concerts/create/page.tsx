@@ -10,6 +10,7 @@ import { Button, IconButton, Option, Select } from "@material-tailwind/react"
 import { useQueryClient } from "@tanstack/react-query"
 import Link from "next/link"
 import React, { useRef, useState } from "react"
+import toast, { Toaster } from "react-hot-toast"
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
@@ -60,6 +61,24 @@ const page = () => {
   const openFileUploader = () => {
     fileUploader.current?.click()
   }
+
+  const notify = (text: string) =>
+    toast(text, {
+      duration: 4000,
+      position: "bottom-center",
+
+      // Change colors of success/error/loading icon
+      iconTheme: {
+        primary: "#000",
+        secondary: "#fff",
+      },
+
+      // Aria
+      ariaProps: {
+        role: "status",
+        "aria-live": "polite",
+      },
+    })
 
   const isValidForm =
     location?.length >= 5 && (title.length ? title.length >= 5 : true)
@@ -129,10 +148,11 @@ const page = () => {
       }
 
       await queryClient.invalidateQueries({ queryKey: ["concerts"] })
-
+      notify("공연이 등록되었습니다.")
       console.log("SUCCESS!")
       router.replace("/concerts")
-    } catch (error) {
+    } catch (error: any) {
+      notify(error.message)
       console.error(error)
     } finally {
       setIsLoading(false)
@@ -274,6 +294,7 @@ const page = () => {
         </div>
         <FileUploader ref={fileUploader} uploadedFiles={handleUploadedFiles} />
       </form>
+      <Toaster />
     </div>
   )
 }

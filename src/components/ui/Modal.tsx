@@ -1,5 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react"
-import { Fragment } from "react"
+import { Fragment, MouseEvent } from "react"
 
 type Props = {
   title: string

@@ -136,7 +136,7 @@ export default function JobContainer() {
         {data?.pages[0].jobs?.length === 0 && <div>데이터가 없습니다.</div>}
       </div>
       {isMounted && isMobile && (
-        <div className="fixed bottom-1/4 right-3">
+        <div className="fixed bottom-32 right-3">
           <ScrollUpButton handleScroll={handleScroll} />
         </div>
       )}

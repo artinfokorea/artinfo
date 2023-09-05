@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-
+import toast, { Toaster } from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import useSupabase from "@/hooks/useSupabase"
 import { Modal } from "@/components/ui/Modal"
@@ -61,6 +61,24 @@ export default function SignUp() {
   const supabase = useSupabase()
   const router = useRouter()
 
+  const notify = (text: string) =>
+    toast.error(text, {
+      duration: 4000,
+      position: "bottom-center",
+
+      // Change colors of success/error/loading icon
+      iconTheme: {
+        primary: "#EA2A2A",
+        secondary: "#fff",
+      },
+
+      // Aria
+      ariaProps: {
+        role: "status",
+        "aria-live": "polite",
+      },
+    })
+
   const handleSignUp = async (payload: FormData) => {
     setIsLoading(true)
 
@@ -78,7 +96,8 @@ export default function SignUp() {
         throw error
       }
       router.push("/posts")
-    } catch (error) {
+    } catch (error: any) {
+      notify(error.message)
       console.error(error)
     } finally {
       setIsLoading(false)
@@ -241,6 +260,7 @@ export default function SignUp() {
           </button>
         </div>
       </Modal>
+      <Toaster />
     </div>
   )
 }

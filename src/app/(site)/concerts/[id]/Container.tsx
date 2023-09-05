@@ -43,11 +43,11 @@ export default function Container({ pageId }: IProps) {
 
   return (
     <div className="sm:container mx-auto mt-4">
-      <h2 className="text-2xl font-semi-bold" id="top">
+      <h2 className="text-2xl font-semi-bold px-2" id="top">
         {concert?.title}
       </h2>
 
-      <div className="flex items-center gap-x-2 my-6">
+      <div className="flex items-center gap-x-2 my-6 px-2">
         {concert?.profiles?.icon_image_url && (
           <div className="w-10 h-10 rounded-full overflow-hidden">
             <Image
