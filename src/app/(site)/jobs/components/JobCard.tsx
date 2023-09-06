@@ -28,11 +28,11 @@ export default function JobCard({ job }: IProps) {
       </div>
       <div className="py-2">
         <div className="flex flex-col  mb-1">
-          <div className="text-sm  text-darkgrey truncate flex-1 my-2 flex justify-between items-center ">
-            <span>{job.company_name} </span>
+          <div className="text-sm  text-darkgrey truncate flex-1 my-2 flex items-center ">
             <span className="mr-2">
               <PositionTag tag={RECRUIT_JOBS_CATEGORY_ITEMS[job.category]} />
             </span>
+            <span>{job.company_name} </span>
           </div>
           <div className="text-lg font-semibold my-2 line-clamp-3 break-keep">
             {job.title}
