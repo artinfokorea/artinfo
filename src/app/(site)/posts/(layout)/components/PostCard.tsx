@@ -263,6 +263,7 @@ export function PostCard({
                   src={image}
                   alt="feed-image"
                   fill
+                  priority
                   sizes="(max-width: 1200px) 276px, 150px"
                 />
               </div>
@@ -331,7 +332,12 @@ export function PostCard({
               <BookmarkIcon className="w-5" />
             </button> */}
             {user?.id === feed.profile_id && (
-              <button onClick={() => setIsOpenModal(true)}>
+              <button
+                onClick={(event: React.MouseEvent) => {
+                  event.stopPropagation()
+                  setIsOpenModal(true)
+                }}
+              >
                 <TrashIcon className="w-5" />
               </button>
             )}

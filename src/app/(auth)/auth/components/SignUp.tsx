@@ -26,8 +26,8 @@ const schema = yup
     name: yup
       .string()
       .required("이름을 입력해주세요.")
-      .min(3, "이름은 3자 이상 8자 이하로 입력해주세요.")
-      .max(8, "이름은 3자 이상 8자 이하로 입력해주세요."),
+      .min(3, "이름은 3자 이상 20자 이하로 입력해주세요.")
+      .max(20, "이름은 3자 이상 20자 이하로 입력해주세요."),
     password: yup
       .string()
       .required("비밀번호를 입력해주세요.")
@@ -95,7 +95,7 @@ export default function SignUp() {
       if (error) {
         throw error
       }
-      router.push("/posts")
+      setIsOpenModal(true)
     } catch (error: any) {
       notify(error.message)
       console.error(error)
@@ -151,7 +151,7 @@ export default function SignUp() {
                 {...register("name")}
                 type="text"
                 autoComplete="off"
-                maxLength={8}
+                maxLength={20}
                 className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-primary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
               />
               <p className="text-sm text-red-500 mt-1">
@@ -238,9 +238,12 @@ export default function SignUp() {
       </div>
 
       <Modal
-        title="로그인 실패"
+        title="이메일 인증"
         isOpen={isOpenModal}
-        closeModal={() => setIsOpenModal(false)}
+        closeModal={() => {
+          setIsOpenModal(false)
+          router.push("/posts")
+        }}
       >
         <div className="mt-2">
           <p className="text-sm text-gray-500">
@@ -254,7 +257,10 @@ export default function SignUp() {
           <button
             type="button"
             className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-            onClick={() => setIsOpenModal(false)}
+            onClick={() => {
+              setIsOpenModal(false)
+              router.push("/posts")
+            }}
           >
             확인
           </button>

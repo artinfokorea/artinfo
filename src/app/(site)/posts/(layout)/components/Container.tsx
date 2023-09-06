@@ -176,7 +176,6 @@ export default function Container() {
   }, [inView, hasNextPage])
 
   useEffect(() => {
-    console.log("feedsData", feedsData)
     setIsMounted(true)
   }, [])
 
@@ -228,16 +227,19 @@ export default function Container() {
     mutationFn: (feedId: number) => {
       return deleteFeed(feedId)
     },
-    onMutate: feedId => {
-      queryClient.setQueryData(["feeds"], (data: any) => {
-        // eslint-disable-next-line no-param-reassign
-        data.pages = data.pages.map((page: any) => {
-          // eslint-disable-next-line no-param-reassign
-          page.feeds = page.feeds.filter((feed: any) => feed.id !== feedId)
-          return page
-        })
-        return data
-      })
+    // onMutate: feedId => {
+    //   queryClient.setQueryData(["feeds"], (data: any) => {
+    //     // eslint-disable-next-line no-param-reassign
+    //     data.pages = data.pages.map((page: any) => {
+    //       // eslint-disable-next-line no-param-reassign
+    //       page.feeds = page.feeds.filter((feed: any) => feed.id !== feedId)
+    //       return page
+    //     })
+    //     return data
+    //   })
+    // },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["feeds"])
     },
   })
 

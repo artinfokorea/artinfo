@@ -35,7 +35,7 @@ export default function ConcertCard({ item }: IProps) {
             // blurDataURL="/img/placeholder_user.png"
             sizes="276px, 150px"
             fill
-            className="hover:scale-125 transition ease delay-100 "
+            className="transition ease delay-100 "
           />
         )}
       </div>
