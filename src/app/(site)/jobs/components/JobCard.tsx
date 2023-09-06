@@ -13,9 +13,9 @@ export default function JobCard({ job }: IProps) {
   const filters = useFilters()
 
   return (
-    <div className="card  rounded">
-      <div className="overflow-hidden relative" style={{ height: "150px" }}>
-        {job.company_image_url && (
+    <div className="card  rounded ">
+      <div className="overflow-hidden relative h-[150px]">
+        {/* {job.company_image_url && (
           <Image
             src={job.company_image_url}
             alt="concert-image"
@@ -23,6 +23,17 @@ export default function JobCard({ job }: IProps) {
             style={{ objectFit: "cover" }}
             sizes="(max-width: 1200px) 276px, 150px"
             className="max-w-full hover:scale-125 transition ease delay-200"
+          />
+        )} */}
+        {job.company_image_url && (
+          <Image
+            src={job.company_image_url ?? "/img/placeholder_user.png"}
+            alt="job"
+            placeholder="blur"
+            blurDataURL="/img/placeholder_user.png"
+            sizes="(max-width: 1200px) 276px, 150px"
+            fill
+            className="hover:scale-125 transition ease delay-100 "
           />
         )}
       </div>

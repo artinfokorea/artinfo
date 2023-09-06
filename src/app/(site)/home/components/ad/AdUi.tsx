@@ -37,14 +37,14 @@ export default function AdUi({ posters }: IProps) {
         <SwiperSlide key={item.id} style={{ width: 180 }}>
           <div
             style={{ height: 260 }}
-            className="cursor-pointer"
+            className="cursor-pointer relative h-[150px]"
             onClick={() => handleOpenNewTab(item.redirect_url)}
           >
             <Image
               src={item.image_url!}
-              alt="Vercel Logo"
+              alt="concert-image"
               fill
-              style={{ objectFit: "cover" }}
+              priority
               sizes="(max-width: 680px) 100px 40px, (max-width: 1200px) 200px, 100px"
               className="max-w-full rounded-md shadow hover:shadow-lg"
             />

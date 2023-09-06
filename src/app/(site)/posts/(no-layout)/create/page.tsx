@@ -103,7 +103,7 @@ export default function CreatePost() {
   }
 
   const isValidForm =
-    content?.length >= 10 && (title.length ? title.length >= 5 : true)
+    content?.length >= 1 && (title.length ? title.length >= 3 : true)
 
   const tags = [
     { title: "정보", value: "INFORMATION" },

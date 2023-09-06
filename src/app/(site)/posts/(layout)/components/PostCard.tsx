@@ -258,13 +258,12 @@ export function PostCard({
             )}
 
             {image && (
-              <div className="relative pt-[100%] mt-2" style={{}}>
+              <div className="relative pt-[100%] mt-2 h-[250px]" style={{}}>
                 <Image
                   src={image}
-                  alt="아트인포"
-                  objectFit="cover"
+                  alt="feed-image"
                   fill
-                  className="w-full h-full top-0 left-0 object-cover rounded-md"
+                  sizes="(max-width: 1200px) 276px, 150px"
                 />
               </div>
             )}

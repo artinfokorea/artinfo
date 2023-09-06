@@ -25,19 +25,17 @@ export default function ConcertCard({ item }: IProps) {
     "YYYY-MM-DD(ddd) a h:mm",
   )
   return (
-    <div className="card flex flex-col bg-zinc-900 border border-stone-800 rounded-md">
-      <div className="overflow-hidden relative" style={{ maxHeight: 380 }}>
+    <div className="card flex flex-col bg-zinc-900 rounded-md">
+      <div className=" relative h-[380px]">
         {item.poster_url && (
           <Image
-            src={item.poster_url ?? "/img/placeholder_user.png"}
+            src={`${item.poster_url}`}
             alt="concert_image"
-            layout="responsive"
-            placeholder="blur"
-            blurDataURL="/img/placeholder_user.png"
-            sizes="300px"
-            width={280}
-            height={380}
-            className="hover:scale-125 transition ease delay-100"
+            // placeholder="blur"
+            // blurDataURL="/img/placeholder_user.png"
+            sizes="276px, 150px"
+            fill
+            className="hover:scale-125 transition ease delay-100 "
           />
         )}
       </div>

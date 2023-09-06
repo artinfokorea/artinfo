@@ -176,6 +176,7 @@ export default function Container() {
   }, [inView, hasNextPage])
 
   useEffect(() => {
+    console.log("feedsData", feedsData)
     setIsMounted(true)
   }, [])
 
@@ -289,7 +290,7 @@ export default function Container() {
             ))}
           </div>
         ))}
-        <div ref={ref} />
+
         {isMounted && isMobile && (
           <div className="fixed bottom-32 right-3">
             <ScrollUpButton handleScroll={handleScroll} />
