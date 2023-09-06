@@ -29,7 +29,7 @@ export default function ConcertCard({ item }: IProps) {
       <div className="overflow-hidden relative" style={{ maxHeight: 380 }}>
         {item.poster_url && (
           <Image
-            src={item.poster_url!}
+            src={item.poster_url ?? "/images/placeholder.png"}
             alt="Vercel Logo"
             layout="responsive"
             sizes="300px"
