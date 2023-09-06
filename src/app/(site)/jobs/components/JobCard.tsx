@@ -18,7 +18,7 @@ export default function JobCard({ job }: IProps) {
         {job.company_image_url && (
           <Image
             src={job.company_image_url}
-            alt="Vercel Logo"
+            alt="concert-image"
             fill
             style={{ objectFit: "cover" }}
             sizes="(max-width: 1200px) 276px, 150px"

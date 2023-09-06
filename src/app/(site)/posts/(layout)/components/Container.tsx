@@ -276,10 +276,6 @@ export default function Container() {
 
         {feedsData?.pages.map(group => (
           <div key={group.nextPage}>
-            {/* <div>page: {group.page}</div> */}
-
-            {/* {group.page === 2 && } */}
-
             {group.feeds.map((feed: Feed) => (
               <div key={feed.id} className="my-4">
                 <PostCard
@@ -300,6 +296,7 @@ export default function Container() {
           </div>
         )}
       </div>
+      <div ref={ref} />
     </>
   )
 }

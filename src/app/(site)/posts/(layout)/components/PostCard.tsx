@@ -212,7 +212,7 @@ export function PostCard({
               {/* <span className="text-sm">
                     [{FEED_CATEGORIES[feed.category!]}]
                   </span> */}
-              <span className="ml-2">{filters.FROM_NOW(feed.created_at)}</span>
+              <span className="ml-2">{filters.FROM_NOW(feed?.created_at)}</span>
             </div>
           </div>
           {/* {feed.category && (

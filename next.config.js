@@ -1,5 +1,5 @@
-const withPWA = require("next-pwa");
-const isProduction = process.env.NODE_ENV === "production";
+const withPWA = require("next-pwa")
+const isProduction = process.env.NODE_ENV === "production"
 
 /** @type {import('next').NextConfig} */
 const config = {
@@ -7,7 +7,7 @@ const config = {
   //   serverActions: true,
   // },
   images: {
-    domains: ["ycuajmirzlqpgzuonzca.supabase.co"],
+    domains: ["ycuajmirzlqpgzuonzca.supabase.co", "www.sac.or.kr"],
     remotePatterns: [
       {
         protocol: "https",
@@ -44,6 +44,6 @@ const nextConfig = withPWA({
   dest: "public",
   disable: !isProduction,
   runtimeCaching: [],
-})(config);
+})(config)
 
 module.exports = nextConfig

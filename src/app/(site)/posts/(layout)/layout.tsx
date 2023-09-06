@@ -1,4 +1,5 @@
 import { Suspense } from "react"
+import Loading from "@/components/ui/Loading/Loading"
 import ListWithLatestJobs from "./components/ListWithLatestJobs"
 
 export default function PostLayout({
@@ -11,7 +12,7 @@ export default function PostLayout({
       <div className="flex pt-4">
         <div className="flex-1 overflow-hidden">{children}</div>
         <div className="ml-5 hidden md:block" style={{ width: 300 }}>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loading />}>
             <ListWithLatestJobs />
           </Suspense>
         </div>
