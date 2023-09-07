@@ -1,7 +1,9 @@
 "use client"
 
 import useFilters from "@/hooks/useFilters"
+import { Spinner } from "@material-tailwind/react"
 import Image from "next/image"
+import { useState } from "react"
 
 interface IProps {
   item: {
@@ -20,21 +22,32 @@ interface IProps {
 
 export default function ConcertCard({ item }: IProps) {
   const filters = useFilters()
+  const [isLoading, setIsLoading] = useState(true)
   const date = filters.DIFF_FROM_NOW_ADD_TIME(
     item.performance_time,
     "YYYY-MM-DD(ddd) a h:mm",
   )
+
+  const handleImageLoad = () => {
+    setIsLoading(false)
+  }
+
   return (
     <div className="card flex flex-col bg-zinc-900 rounded-md">
-      <div className=" relative h-[380px]">
+      <div className="relative h-[380px]">
+        {isLoading && (
+          <div className="flex items-center justify-center absolute inset-0">
+            <Spinner />
+          </div>
+        )}
         {item.poster_url && (
           <Image
             src={`${item.poster_url}`}
             alt="concert_image"
-            // placeholder="blur"
-            // blurDataURL="/img/placeholder_user.png"
             sizes="276px, 150px"
             fill
+            priority
+            onLoad={handleImageLoad}
             className="transition ease delay-100 "
           />
         )}

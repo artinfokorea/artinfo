@@ -103,6 +103,24 @@ export function PostCard({
       },
     })
 
+  const notifyError = (text: string) =>
+    toast.error(text, {
+      duration: 4000,
+      position: "bottom-center",
+
+      // Change colors of success/error/loading icon
+      iconTheme: {
+        primary: "#EA2A2A",
+        secondary: "#fff",
+      },
+
+      // Aria
+      ariaProps: {
+        role: "status",
+        "aria-live": "polite",
+      },
+    })
+
   const filters = useFilters()
   const image = feed.image_urls?.length ? feed.image_urls[0] : null
 
@@ -133,25 +151,18 @@ export function PostCard({
     }
   }, [feed.content])
 
-  // const [openSnackbar, closeSnackbar] = useSnackbar({
-  //   position: "top-center",
-  //   style: {
-  //     // backgroundColor: "red",
-  //   },
-  // })
-
   const handleCopyClipboard = async () => {
     const shareUrl = `https://${window.location.host}/posts/${feed.id}`
     const isSuccess = await clipboard.writeText(shareUrl)
     if (isSuccess) {
       notify("공유할 포스트 URL을 클립보드에 복사했어요!")
-      // openSnackbar("공유할 포스트 URL을 클립보드에 복사했어요!", 2000)
     }
   }
 
   const handleToggleLike = () => {
     if (!user) {
-      // openSnackbar("로그인이 필요합니다.", 2000)
+      notifyError("로그인이 필요합니다.")
+
       return
     }
 
@@ -177,6 +188,8 @@ export function PostCard({
       handleDeleteFeed(feed.id)
     }
   }
+
+  // console.log("feed", feed)
 
   return (
     <>
