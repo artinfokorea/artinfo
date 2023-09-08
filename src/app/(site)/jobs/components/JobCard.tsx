@@ -20,7 +20,7 @@ export default function JobCard({ job }: IProps) {
   }
 
   return (
-    <div className="card  rounded ">
+    <div className="card rounded ">
       <div className="overflow-hidden relative h-[150px]">
         {isLoading && (
           <div className="flex items-center justify-center absolute inset-0">
