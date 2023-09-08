@@ -179,9 +179,6 @@ export default function Container() {
   }, [inView, hasNextPage])
 
   useEffect(() => {
-    console.log("isLoading", isLoading)
-    console.log("isFetching", isFetching)
-    console.log("feedsData", feedsData)
     setIsMounted(true)
   }, [])
 

@@ -48,7 +48,7 @@ export default function ConcertCard({ item }: IProps) {
             fill
             priority
             onLoad={handleImageLoad}
-            className="transition ease delay-100 "
+            className="rounded-md"
           />
         )}
       </div>

@@ -188,7 +188,6 @@ export default function Container({ pageId }: IProps) {
 
   const handleDeleteFeed = (feedId: number) => {
     deleteFeedMutation.mutate(feedId)
-    router.refresh()
     router.back()
   }
 

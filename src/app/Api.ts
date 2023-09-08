@@ -95,12 +95,10 @@ export async function fetchFeeds({
 }: FeedsPayload) {
   const supabase = useSupabase()
 
-  const { data, error } = await supabase
-    .rpc("get_feeds", {
-      item_count: itemCount,
-      page_number: pageParam,
-    })
-    .eq("deleted", false)
+  const { data, error } = await supabase.rpc("get_feeds", {
+    item_count: itemCount,
+    page_number: pageParam,
+  })
 
   if (error) {
     throw error

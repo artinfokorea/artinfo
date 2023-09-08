@@ -20,7 +20,7 @@ export default function JobCard({ job }: IProps) {
   }
 
   return (
-    <div className="card rounded ">
+    <div className="card  ">
       <div className="overflow-hidden relative h-[150px]">
         {isLoading && (
           <div className="flex items-center justify-center absolute inset-0">
@@ -34,6 +34,7 @@ export default function JobCard({ job }: IProps) {
             sizes="(max-width: 1200px) 276px, 150px"
             fill
             priority
+            className="rounded-md"
             onLoad={handleImageLoad}
           />
         )}
