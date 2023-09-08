@@ -3,7 +3,7 @@
 import useSupabase from "@/hooks/useSupabase"
 import type { AuthError, User } from "@supabase/supabase-js"
 import { useRouter } from "next/navigation"
-import { createContext, useContext, useEffect, useMemo, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
 import { getMessaging, getToken, onMessage } from "firebase/messaging"
 import { initializeApp } from "firebase/app"
 // import useSnackbar from "@/hooks/useSnackbar"

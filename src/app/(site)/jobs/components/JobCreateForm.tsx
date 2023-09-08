@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation"
 import useAuth from "@/hooks/useAuth"
 import { RECRUIT_JOBS_CATEGORY } from "@/types/types"
 import dynamic from "next/dynamic"
+import { useQueryClient } from "@tanstack/react-query"
 
 const QuillEditor = dynamic(
   () => import("@/components/ui/Editor/QuillEditor"),
@@ -58,6 +59,7 @@ const JobCreateForm = () => {
   const supabase = useSupabase()
   const router = useRouter()
   const quillRef = useRef()
+  const queryClient = useQueryClient()
 
   const {
     register,
@@ -137,6 +139,7 @@ const JobCreateForm = () => {
           throw updateError
         }
       }
+      await queryClient.invalidateQueries({ queryKey: ["recruit_jobs"] })
       console.log("SUCCESS!")
       router.push("/jobs")
     } catch (error) {

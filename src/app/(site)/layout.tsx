@@ -2,7 +2,8 @@ import "../globals.css"
 import Header from "@/components/layouts/header"
 import type { Metadata } from "next"
 import { ThemeProvider } from "@/components/material"
-// import SnackbarProvider from "@/components/ui/Snackbar/Snackbar"
+import Script from "next/script"
+import * as gtag from "@/lib/gtag"
 import { BottomNavigation } from "@/components/layouts/bottom-naviation"
 import HomeScreenContainer from "@/components/ui/HomeScreen/HomeScreenContainer"
 import QueryProvider from "../QueryProvider"
@@ -44,6 +45,24 @@ export default async function RootLayout({
     <html lang="ko" className="h-full">
       <head>
         <link rel="manifest" href="/manifest.json" />
+        <Script
+          strategy="afterInteractive"
+          src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
+        />
+        <Script
+          id="gtag-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${gtag.GA_TRACKING_ID}', {
+              page_path: window.location.pathname,
+            });
+          `,
+          }}
+        />
       </head>
       {/* <body className={cls(notoSansKr.className, roboto.variable)}> */}
       <body className="bg-[#f8fafc] flex flex-col h-full">

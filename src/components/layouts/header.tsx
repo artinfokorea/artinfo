@@ -2,17 +2,12 @@
 
 import { useAuth } from "@/app/(auth)/auth/components/AuthProvider"
 import Link from "next/link"
-import React from "react"
-
+import React, { useEffect, useState } from "react"
 import {
   BriefcaseIcon,
   MusicalNoteIcon,
   ChevronDownIcon,
-  UserCircleIcon,
   PowerIcon,
-  MagnifyingGlassIcon,
-  BellAlertIcon,
-  HomeIcon,
   QuestionMarkCircleIcon,
 } from "@heroicons/react/24/outline"
 import { useRouter } from "next/navigation"
@@ -25,7 +20,9 @@ import {
   MenuHandler,
   Avatar,
   MenuList,
-} from "../material"
+} from "@/components//material"
+import { useQuery } from "@tanstack/react-query"
+import { fetchProfile } from "@/app/Api"
 
 function ProfileMenu() {
   const { user, signOut } = useAuth()
@@ -176,6 +173,21 @@ function NavList() {
 
 export default function Header() {
   const { user } = useAuth()
+  const [userName, setUserName] = useState("")
+
+  useEffect(() => {
+    if (user) {
+      fetchProfile(user.id)
+        .then(res => {
+          setUserName(res[0].name)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    } else {
+      setUserName("")
+    }
+  }, [user])
 
   return (
     <Navbar className="sticky top-0 z-5 h-max max-w-full rounded-none py-2 px-4 lg:px-8">
@@ -191,22 +203,12 @@ export default function Header() {
           </div>
 
           <div className="ml-10 flex items-center gap-x-4">
-            {/* <div>
-              <Link href="/search">
-                <MagnifyingGlassIcon className="w-5" />
-              </Link>
-            </div> */}
-            {user && (
-              <span className="text-sm whitespace-pre-line">
-                {user?.user_metadata.name} 님
-              </span>
+            {userName && (
+              <span className="text-sm whitespace-pre-line">{userName} 님</span>
             )}
             <div>
               {user ? (
                 <div className="flex items-center gap-x-4">
-                  {/* <Link href="/notifications">
-                    <BellAlertIcon className="w-5" />
-                  </Link> */}
                   <ProfileMenu />
                 </div>
               ) : (

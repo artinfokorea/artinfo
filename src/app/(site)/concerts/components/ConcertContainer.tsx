@@ -10,8 +10,10 @@ import { isMobileWeb } from "@toss/utils"
 import { useInView } from "react-intersection-observer"
 import { CONCERT_CATEGORY } from "@/types/types"
 import ScrollUpButton from "@/components/ui/Button/ScrollUpButton"
+import useAuth from "@/hooks/useAuth"
 import dynamic from "next/dynamic"
 import ConcertCard from "./ConcertCard"
+
 import ConcertCategory from "./ConcertCategory"
 import ConcertSkeleton from "./ConcertSkeleton"
 
@@ -19,6 +21,7 @@ export default function ConcertContainer() {
   const [category, selectCategory] = useState<"ALL" | CONCERT_CATEGORY>("ALL")
   const [isMounted, setIsMounted] = useState(false)
   const isMobile = isMobileWeb()
+  const auth = useAuth()
 
   const getConcerts = async (
     category: "ALL" | CONCERT_CATEGORY,
