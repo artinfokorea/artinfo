@@ -23,6 +23,8 @@ import {
 } from "@/components//material"
 import { useQuery } from "@tanstack/react-query"
 import { fetchProfile } from "@/app/Api"
+import { userProfileState } from "@/atoms/userProfile"
+import { useRecoilState } from "recoil"
 
 function ProfileMenu() {
   const { user, signOut } = useAuth()
@@ -173,19 +175,19 @@ function NavList() {
 
 export default function Header() {
   const { user } = useAuth()
-  const [userName, setUserName] = useState("")
+  const [userProfile, setUserProfile] = useRecoilState(userProfileState)
 
   useEffect(() => {
     if (user) {
       fetchProfile(user.id)
         .then(res => {
-          setUserName(res[0].name)
+          setUserProfile(res[0].name)
         })
         .catch(err => {
           console.log(err)
         })
     } else {
-      setUserName("")
+      setUserProfile("")
     }
   }, [user])
 
@@ -203,8 +205,10 @@ export default function Header() {
           </div>
 
           <div className="ml-10 flex items-center gap-x-4">
-            {userName && (
-              <span className="text-sm whitespace-pre-line">{userName} 님</span>
+            {userProfile && (
+              <span className="text-sm whitespace-pre-line">
+                {userProfile} 님
+              </span>
             )}
             <div>
               {user ? (

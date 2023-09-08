@@ -8,13 +8,15 @@ import {
 } from "@tanstack/react-query"
 import { CommentType, Feed } from "@/types/types"
 import { useAuth } from "@/app/(auth)/auth/components/AuthProvider"
-import { notFound } from "next/navigation"
+import { notFound, useRouter } from "next/navigation"
 import dynamic from "next/dynamic"
-import toast, { Toaster } from "react-hot-toast"
+import { Toaster } from "react-hot-toast"
 import { isMobileWeb } from "@toss/utils"
+import useToast from "@/hooks/useToast"
 import {
   createComment,
   deleteComment,
+  deleteFeed,
   fetchComments,
   fetchFeed,
   updatePostLike,
@@ -36,6 +38,8 @@ export default function Container({ pageId }: IProps) {
   const queryClient = useQueryClient()
   const { user } = useAuth()
   const isMobile = isMobileWeb()
+  const { successToast, errorToast } = useToast()
+  const router = useRouter()
 
   const { data: feed } = useQuery({
     queryKey: ["feed", pageId],
@@ -71,74 +75,47 @@ export default function Container({ pageId }: IProps) {
       (lastPage.comments?.length || 0) >= itemCount && lastPage.page,
   })
 
-  const notify = (text: string) =>
-    toast.success(text, {
-      duration: 4000,
-      position: "bottom-center",
-
-      // Change colors of success/error/loading icon
-      iconTheme: {
-        primary: "#449F3C",
-        secondary: "#fff",
-      },
-
-      // Aria
-      ariaProps: {
-        role: "status",
-        "aria-live": "polite",
-      },
-    })
-
   const createCommentMutation = useMutation({
     mutationFn: (comment: {
       postId: number
       contents: string
       type: CommentType
       profile_id: string
+      created_at: string
     }) => {
       return createComment(comment)
     },
     onMutate: commentData => {
-      const optimisticComment = {
-        ...commentData,
-        id: 0,
-        profiles: {
-          id: user!.id,
-          name: user!.user_metadata.name,
-          icon_image_url: user!.user_metadata.icon_image_url,
-        },
-        created_at: new Date(),
-      }
-      queryClient.setQueryData(["comments", pageId], (old: any) => {
-        // console.log(old)
-        const firstPage = old.pages[0]
-        const firstPageComments = firstPage.comments
-        const newFirstPageComments = [optimisticComment, ...firstPageComments]
-        // eslint-disable-next-line no-param-reassign
-        old.pages[0].comments = newFirstPageComments
-        return {
-          pages: [...old.pages],
-          pageParams: [...old.pageParams],
-        }
-      })
-
-      return { optimisticComment }
+      // const optimisticComment = {
+      //   ...commentData,
+      //   id: 0,
+      //   profiles: {
+      //     id: user!.id,
+      //     name: user!.user_metadata.name,
+      //     icon_image_url: user!.user_metadata.icon_image_url,
+      //   },
+      //   created_at: new Date(),
+      // }
+      // queryClient.setQueryData(["comments", pageId], (old: any) => {
+      //   // console.log(old)
+      //   const firstPage = old.pages[0]
+      //   const firstPageComments = firstPage.comments
+      //   const newFirstPageComments = [optimisticComment, ...firstPageComments]
+      //   // eslint-disable-next-line no-param-reassign
+      //   old.pages[0].comments = newFirstPageComments
+      //   return {
+      //     pages: [...old.pages],
+      //     pageParams: [...old.pageParams],
+      //   }
+      // })
+      // return { optimisticComment }
+    },
+    onError: (error: any) => {
+      errorToast(error.message)
     },
     onSuccess: (newCommentId, variables) => {
-      queryClient.setQueryData(["comments", pageId], (old: any) => {
-        const firstPage = old.pages[0]
-        const firstPageComments = firstPage.comments
-        firstPageComments[0].id = newCommentId
-        // eslint-disable-next-line no-param-reassign
-        old.pages[0].comments = firstPageComments
-
-        return {
-          pages: [...old.pages],
-          pageParams: [...old.pageParams],
-        }
-      })
-      queryClient.invalidateQueries(["feeds"])
-      notify("댓글이 등록되었습니다.")
+      queryClient.invalidateQueries(["comments"])
+      successToast("댓글이 등록되었습니다.")
     },
   })
 
@@ -148,6 +125,7 @@ export default function Container({ pageId }: IProps) {
       contents: comment,
       type: "POST",
       profile_id: user!.id,
+      created_at: new Date().toISOString(),
     } as any)
   }
 
@@ -155,42 +133,16 @@ export default function Container({ pageId }: IProps) {
     mutationFn: (comment: { id: number }) => {
       return deleteComment(comment.id)
     },
-    // onMutate: commentId => {
-    //   // 삭제되기 전에 데이터를 삭제 전 상태로 업데이트 (옵티미스틱 업데이트)
-    //   queryClient.setQueryData(["comments", pageId], (old: any) => {
-    //     // old 데이터에서 commentId와 일치하는 댓글을 찾아 삭제
-    //     const firstPage = old.pages[0]
-    //     const firstPageComments = firstPage.comments.filter(
-    //       (comment: any) => comment.id !== commentId,
-    //     )
-    //     old.pages[0].comments = firstPageComments
-    //     return {
-    //       pages: [...old.pages],
-    //       pageParams: [...old.pageParams],
-    //     }
-    //   })
-
-    //   return { commentId } // 삭제된 commentId를 반환
-    // },
-    onSuccess: (newCommentId, variables) => {
-      // queryClient.setQueryData(["comments", pageId], (old: any) => {
-      //   const firstPage = old.pages[0]
-      //   const firstPageComments = firstPage.comments
-      //   firstPageComments[0].id = newCommentId
-      //   // eslint-disable-next-line no-param-reassign
-      //   old.pages[0].comments = firstPageComments
-
-      //   return {
-      //     pages: [...old.pages],
-      //     pageParams: [...old.pageParams],
-      //   }
-      // })
+    onError: (error: any) => {
+      errorToast(error.message)
+    },
+    onSuccess: () => {
       refetch()
+      successToast("댓글이 삭제되었습니다.")
     },
   })
 
   const handleDeleteComment = (commentId: number) => {
-    console.log(postId)
     deleteCommentMutation.mutate({
       id: commentId,
     })
@@ -221,11 +173,31 @@ export default function Container({ pageId }: IProps) {
     updateFeedLikeMutation.mutate({ ...payload, user_id: user!.id })
   }
 
+  const deleteFeedMutation = useMutation({
+    mutationFn: (feedId: number) => {
+      return deleteFeed(feedId)
+    },
+    onError: (error: any) => {
+      errorToast(error.message)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["feeds"])
+      successToast("댓글이 삭제되었습니다.")
+    },
+  })
+
+  const handleDeleteFeed = (feedId: number) => {
+    deleteFeedMutation.mutate(feedId)
+    router.refresh()
+    router.back()
+  }
+
   return (
     <div className="pb-8 relative">
       <PostCard
         feed={feed as any}
         handleUpdatePostLike={handleUpdatePostLike}
+        handleDeleteFeed={handleDeleteFeed}
       />
       <div className="mt-14">
         <CommentContainer commentsCount={commentsData?.pages[0].count || 0}>

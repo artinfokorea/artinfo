@@ -86,7 +86,7 @@ export default function Login() {
   }
 
   return (
-    <div className="flex flex-1 flex-col justify-center py-2 px-4">
+    <div className="flex flex-1 flex-col justify-center px-4">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-2 text-center text-3xl font-bold leading-9 tracking-tight font-roboto text-indigo-700 drop-shadow-xl">
           <Link href="/">ARTINFO</Link>
@@ -96,7 +96,7 @@ export default function Login() {
         </h3>
       </div>
 
-      <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+      <div className="mt-2 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-3" onSubmit={handleSubmit(handleSignIn)}>
           <div>
             <label
@@ -211,7 +211,7 @@ export default function Login() {
           </svg>
           <span className="mr-8">구글 로그인</span>
         </button>
-        <p className="mt-10 text-center text-sm text-gray-500">
+        <p className="mt-5 text-center text-sm text-gray-500">
           아직 회원이 아니신가요?{" "}
           <a
             href="#"

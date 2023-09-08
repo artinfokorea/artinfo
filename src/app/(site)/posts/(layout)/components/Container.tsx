@@ -24,6 +24,8 @@ import { useDidUpdate } from "@toss/react"
 import { isMobileWeb } from "@toss/utils"
 import ScrollUpButton from "@/components/ui/Button/ScrollUpButton"
 import { Feed } from "@/types/types"
+import { Toaster } from "react-hot-toast"
+import useToast from "@/hooks/useToast"
 import { useEffect, useState } from "react"
 import { PostCard } from "./PostCard"
 import AdContainer from "../../../home/components/ad/AdContainer"
@@ -133,6 +135,7 @@ export default function Container() {
   const queryClient = useQueryClient()
   const { user } = useAuth()
   const [isMounted, setIsMounted] = useState(false)
+  const { successToast, errorToast } = useToast()
 
   const [ref, inView] = useInView({
     delay: 300,
@@ -176,6 +179,9 @@ export default function Container() {
   }, [inView, hasNextPage])
 
   useEffect(() => {
+    console.log("isLoading", isLoading)
+    console.log("isFetching", isFetching)
+    console.log("feedsData", feedsData)
     setIsMounted(true)
   }, [])
 
@@ -227,19 +233,12 @@ export default function Container() {
     mutationFn: (feedId: number) => {
       return deleteFeed(feedId)
     },
-    // onMutate: feedId => {
-    //   queryClient.setQueryData(["feeds"], (data: any) => {
-    //     // eslint-disable-next-line no-param-reassign
-    //     data.pages = data.pages.map((page: any) => {
-    //       // eslint-disable-next-line no-param-reassign
-    //       page.feeds = page.feeds.filter((feed: any) => feed.id !== feedId)
-    //       return page
-    //     })
-    //     return data
-    //   })
-    // },
+    onError: (error: any) => {
+      errorToast(error.message)
+    },
     onSuccess: () => {
       queryClient.invalidateQueries(["feeds"])
+      successToast("댓글이 삭제되었습니다.")
     },
   })
 
@@ -261,9 +260,6 @@ export default function Container() {
       </div>
 
       <div className="feed-groups pb-10">
-        {/* <div className="mt-5">
-          <ProfileCard />
-        </div> */}
         {isLoading && (
           <>
             <FeedSkeleton />
@@ -300,6 +296,7 @@ export default function Container() {
         )}
       </div>
       <div ref={ref} />
+      <Toaster />
     </>
   )
 }

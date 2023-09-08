@@ -48,7 +48,7 @@ export async function fetchJobs(
   page: number,
 ) {
   const supabase = useSupabase()
-  const itemCount = 12
+  const itemCount = 10
   const type = category !== "ALL" ? category : null
 
   const { data, error } = await supabase.rpc("get_recruit_jobs", {
@@ -180,12 +180,14 @@ type CreateCommentPayload = {
   contents: string
   type: CommentType
   profile_id: string
+  created_at: string
 }
 export async function createComment({
   postId,
   contents,
   type,
   profile_id,
+  created_at,
 }: CreateCommentPayload) {
   const supabase = useSupabase()
   const { data, error } = await supabase
@@ -195,6 +197,7 @@ export async function createComment({
       contents: contents.trim(),
       type,
       profile_id,
+      created_at,
     })
     .select("id")
     .single()

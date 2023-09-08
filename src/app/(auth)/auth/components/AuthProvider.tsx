@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation"
 import { createContext, useContext, useEffect, useState } from "react"
 import { getMessaging, getToken, onMessage } from "firebase/messaging"
 import { initializeApp } from "firebase/app"
-// import useSnackbar from "@/hooks/useSnackbar"
 
 export const AuthContext = createContext<any>(null)
 
@@ -14,8 +13,11 @@ interface IProps {
   children: React.ReactNode
 }
 
+const fcm_vapid_key = process.env.NEXT_PUBLIC_FCM_VAPID_KEY
+const fcm_api_key = process.env.NEXT_PUBLIC_FCM_API_KEY
+
 const fcmConfig = {
-  apiKey: "AIzaSyBFRNarqYsPUKBLjNm2qwvULSfd3aQgW2M",
+  apiKey: fcm_api_key,
   authDomain: "artinfo-c5248.firebaseapp.com",
   projectId: "artinfo-c5248",
   storageBucket: "artinfo-c5248.appspot.com",
@@ -32,11 +34,6 @@ export default function AuthProvider({ children }: IProps) {
   const supabase = useSupabase()
   const router = useRouter()
 
-  // const [openSnackbar, closeSnackbar] = useSnackbar({
-  //   position: "top-center",
-  //   style: {},
-  // })
-
   async function getActiveSession() {
     const {
       data: { session: activeSession },
@@ -44,7 +41,7 @@ export default function AuthProvider({ children }: IProps) {
     setUser(activeSession?.user)
     setIsLoading(false)
 
-    getFcmToken(activeSession?.user)
+    // getFcmToken(activeSession?.user)
   }
 
   async function getFcmToken(user: any) {
@@ -64,8 +61,7 @@ export default function AuthProvider({ children }: IProps) {
     if (isSupported && Notification.permission === "granted") {
       const messaging = getMessaging(firebaseApp)
       const token = await getToken(messaging, {
-        vapidKey:
-          "BAmSb8SmdCYbDsckO68O9ejK4A0QONSGZTOJI0SPBM6x0LlFYrP0U8IbQXv17CeakTD28xvMelWaCUIve_LK9rI",
+        vapidKey: fcm_vapid_key,
       })
       // console.log(token)
       // const r = await fetch("/api/fcm/subscribe", {

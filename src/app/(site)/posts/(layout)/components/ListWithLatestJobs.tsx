@@ -23,7 +23,7 @@ export default function ListWithLatestJobs() {
       <div className="mt-2 px-4 pt-4 pb-2">
         {jobs?.map(job => (
           <Link key={job.id} href={`/jobs/${job.id}`}>
-            <div className="flex flex-wrap items-center mb-4">
+            <div className="flex flex-wrap items-center mb-6">
               <div
                 style={{ width: 36, height: 36 }}
                 className="rounded-md bg-gray-300 mr-2 overflow-hidden relative"

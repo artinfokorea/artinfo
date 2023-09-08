@@ -17,6 +17,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker"
 import { useRouter } from "next/navigation"
 import dynamic from "next/dynamic"
+import useToast from "@/hooks/useToast"
 
 const QuillEditor = dynamic(
   () => import("@/components/ui/Editor/QuillEditor"),
@@ -49,6 +50,7 @@ const page = () => {
   const [htmlStr, setHtmlStr] = useState<string>("")
   const [uploadedImageUrl, setUploadedImageUrl] = useState("")
   const quillRef = useRef()
+  const { successToast, errorToast } = useToast()
 
   // const uploadedImageUrl = uploadedImage && URL.createObjectURL(uploadedImage)
 
@@ -61,24 +63,6 @@ const page = () => {
   const openFileUploader = () => {
     fileUploader.current?.click()
   }
-
-  const notify = (text: string) =>
-    toast(text, {
-      duration: 4000,
-      position: "bottom-center",
-
-      // Change colors of success/error/loading icon
-      iconTheme: {
-        primary: "#000",
-        secondary: "#fff",
-      },
-
-      // Aria
-      ariaProps: {
-        role: "status",
-        "aria-live": "polite",
-      },
-    })
 
   const isValidForm =
     location?.length >= 5 && (title.length ? title.length >= 5 : true)
@@ -148,11 +132,11 @@ const page = () => {
       }
 
       await queryClient.invalidateQueries({ queryKey: ["concerts"] })
-      notify("공연이 등록되었습니다.")
+      successToast("공연이 등록되었습니다.")
       console.log("SUCCESS!")
       router.replace("/concerts")
     } catch (error: any) {
-      notify(error.message)
+      errorToast(error.message)
       console.error(error)
     } finally {
       setIsLoading(false)

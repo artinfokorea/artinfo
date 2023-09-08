@@ -3,11 +3,9 @@
 import Image from "next/image"
 import {
   ShareIcon,
-  BookmarkIcon,
   ChatBubbleLeftEllipsisIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline"
-
 import {
   Avatar,
   Card,
@@ -20,15 +18,15 @@ import useFilters from "@/hooks/useFilters"
 import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { clipboard } from "@toss/utils"
-import toast, { Toaster } from "react-hot-toast"
+import { Toaster } from "react-hot-toast"
 import { useAuth } from "@/app/(auth)/auth/components/AuthProvider"
 import PositionTag from "@/components/ui/PositionTag"
 import useLocalforge from "@/hooks/useLocalforage"
 import { fetchSiteMetaData } from "@/app/Api"
+import useToast from "@/hooks/useToast"
 import { Modal } from "@/components/ui/Modal"
 import ReactHtmlParser from "react-html-parser"
 import PostSitePreview from "./PostSitePreview"
-// import useSnackbar from "@/hooks/useSnackbar"
 
 const useTruncatedElement = ({ ref }: any) => {
   const [isTruncated, setIsTruncated] = useState(false)
@@ -64,8 +62,8 @@ interface IProps {
   feed: Feed
   showCommentBtn?: boolean
   shortContent?: boolean
-  handleUpdatePostLike?: (payload: { like: boolean; post_id: number }) => void
-  handleDeleteFeed?: (id: number) => void
+  handleUpdatePostLike: (payload: { like: boolean; post_id: number }) => void
+  handleDeleteFeed: (id: number) => void
 }
 
 export function PostCard({
@@ -84,46 +82,9 @@ export function PostCard({
   const { isTruncated, isReadingMore, setIsReadingMore } = useTruncatedElement({
     ref,
   })
-
-  const notify = (text: string) =>
-    toast.success(text, {
-      duration: 4000,
-      position: "bottom-center",
-
-      // Change colors of success/error/loading icon
-      iconTheme: {
-        primary: "#449F3C",
-        secondary: "#fff",
-      },
-
-      // Aria
-      ariaProps: {
-        role: "status",
-        "aria-live": "polite",
-      },
-    })
-
-  const notifyError = (text: string) =>
-    toast.error(text, {
-      duration: 4000,
-      position: "bottom-center",
-
-      // Change colors of success/error/loading icon
-      iconTheme: {
-        primary: "#EA2A2A",
-        secondary: "#fff",
-      },
-
-      // Aria
-      ariaProps: {
-        role: "status",
-        "aria-live": "polite",
-      },
-    })
-
+  const { successToast, errorToast } = useToast()
   const filters = useFilters()
   const image = feed.image_urls?.length ? feed.image_urls[0] : null
-
   const { getLocalData, setLocalData } = useLocalforge()
 
   const fetchSiteData = async (url: string) => {
@@ -134,7 +95,7 @@ export function PostCard({
       setSitePreviewData(sitePreviewDataFromDB)
       return
     }
-
+    console.log("sitePreviewData", sitePreviewData)
     try {
       const data = await fetchSiteMetaData(url)
       setSitePreviewData(data)
@@ -155,13 +116,13 @@ export function PostCard({
     const shareUrl = `https://${window.location.host}/posts/${feed.id}`
     const isSuccess = await clipboard.writeText(shareUrl)
     if (isSuccess) {
-      notify("공유할 포스트 URL을 클립보드에 복사했어요!")
+      successToast("공유할 포스트 URL을 클립보드에 복사했어요!")
     }
   }
 
   const handleToggleLike = () => {
     if (!user) {
-      notifyError("로그인이 필요합니다.")
+      errorToast("로그인이 필요합니다.")
 
       return
     }
@@ -184,12 +145,8 @@ export function PostCard({
 
   const handleDeleteFeedItem = () => {
     setIsOpenModal(false)
-    if (handleDeleteFeed) {
-      handleDeleteFeed(feed.id)
-    }
+    handleDeleteFeed(feed.id)
   }
-
-  // console.log("feed", feed)
 
   return (
     <>
@@ -217,22 +174,13 @@ export function PostCard({
           >
             <div className="text-md font-semibold">{feed.profiles?.name}</div>
             <div className="text-sm flex items-center">
-              {/* Frontend Lead @ Google
-            <span> • </span> */}
               {feed.category && (
                 <PositionTag tag={FEED_CATEGORIES[feed.category!]} />
               )}
-              {/* <span className="text-sm">
-                    [{FEED_CATEGORIES[feed.category!]}]
-                  </span> */}
+
               <span className="ml-2">{filters.FROM_NOW(feed?.created_at)}</span>
             </div>
           </div>
-          {/* {feed.category && (
-          <div>
-            <span className="text-sm">[{FEED_CATEGORIES[feed.category!]}]</span>
-          </div>
-        )} */}
         </CardHeader>
         <CardBody>
           <div className="mb-2">
@@ -256,7 +204,14 @@ export function PostCard({
                   {ReactHtmlParser(filters.URLFY(feed.content) || "")}
                 </p>
                 {isTruncated && !isReadingMore && (
-                  <button onClick={() => setIsReadingMore(true)}>더보기</button>
+                  <button
+                    onClick={(event: React.MouseEvent) => {
+                      event.stopPropagation()
+                      setIsReadingMore(true)
+                    }}
+                  >
+                    더보기
+                  </button>
                 )}
               </>
             ) : (

@@ -408,3 +408,23 @@ export const RECRUIT_JOBS_CATEGORY_ITEMS = {
   ETC: "기타",
   ART_ORGANIZATION: "연주단체",
 }
+
+/*
+ * --------------------------------------------------- PROFILE ---------------------------------------------------------
+ */
+
+export type PROFILE = {
+  alarm_recruit: boolean
+  article_cnt: 40
+  comment_cnt: 17
+  created_at: string
+  email: string
+  fcm_web_token?: string
+  grade?: string
+  icon_image_url?: string
+  id: string
+  intro?: string
+  major?: string
+  name: string
+  school?: string
+}

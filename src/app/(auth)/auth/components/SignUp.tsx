@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation"
 import useSupabase from "@/hooks/useSupabase"
 import { Modal } from "@/components/ui/Modal"
 import Link from "next/link"
+import useToast from "@/hooks/useToast"
 
 interface IForm {
   email: string
@@ -49,6 +50,7 @@ type FormData = yup.InferType<typeof schema>
 export default function SignUp() {
   const [isLoading, setIsLoading] = useState(false)
   const [isOpenModal, setIsOpenModal] = useState(false)
+  const { errorToast } = useToast()
 
   const {
     register,
@@ -60,24 +62,6 @@ export default function SignUp() {
 
   const supabase = useSupabase()
   const router = useRouter()
-
-  const notify = (text: string) =>
-    toast.error(text, {
-      duration: 4000,
-      position: "bottom-center",
-
-      // Change colors of success/error/loading icon
-      iconTheme: {
-        primary: "#EA2A2A",
-        secondary: "#fff",
-      },
-
-      // Aria
-      ariaProps: {
-        role: "status",
-        "aria-live": "polite",
-      },
-    })
 
   const handleSignUp = async (payload: FormData) => {
     setIsLoading(true)
@@ -97,7 +81,7 @@ export default function SignUp() {
       }
       setIsOpenModal(true)
     } catch (error: any) {
-      notify(error.message)
+      errorToast(error.message)
       console.error(error)
     } finally {
       setIsLoading(false)
@@ -106,7 +90,7 @@ export default function SignUp() {
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center  px-4">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h2 className="mt-5 text-center text-3xl font-bold leading-9 tracking-tight font-roboto text-indigo-700 drop-shadow-xl">
+        <h2 className="mt-2 text-center text-3xl font-bold leading-9 tracking-tight font-roboto text-indigo-700 drop-shadow-xl">
           <Link href="/">ARTINFO</Link>
         </h2>
         <h3 className="mt-2 text-center text-md font-medium leading-9 tracking-tight">
@@ -114,7 +98,7 @@ export default function SignUp() {
         </h3>
       </div>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <div className="mt-2 sm:mx-auto sm:w-full sm:max-w-sm">
         <form
           className="space-y-6 text-primary"
           onSubmit={handleSubmit(handleSignUp)}
@@ -131,7 +115,7 @@ export default function SignUp() {
                 {...register("email")}
                 type="email"
                 autoComplete="off"
-                className="block w-full rounded-md border-0 bg-white/5 py-1.5 shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-1 border-grey bg-white/5 py-1.5 shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
               />
               <p className="text-sm text-red-500 mt-1">
                 {errors.email?.message}
@@ -152,7 +136,7 @@ export default function SignUp() {
                 type="text"
                 autoComplete="off"
                 maxLength={20}
-                className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-primary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-1 border-grey bg-white/5 py-1.5 text-primary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
               />
               <p className="text-sm text-red-500 mt-1">
                 {errors.name?.message}
@@ -174,7 +158,7 @@ export default function SignUp() {
                 {...register("password")}
                 type="password"
                 autoComplete="off"
-                className="block w-full rounded-md border-0  bg-white/5 py-1.5 text-primary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-1 border-grey  bg-white/5 py-1.5 text-primary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
               />
               <p className="text-sm text-red-500 mt-1">
                 {errors.password?.message}
@@ -196,7 +180,7 @@ export default function SignUp() {
                 {...register("re_password")}
                 type="password"
                 autoComplete="off"
-                className="block w-full rounded-md border-0  bg-white/5 py-1.5 text-primary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-1 border-grey  bg-white/5 py-1.5 text-primary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
               />
               <p className="text-sm text-red-500 mt-1">
                 {errors.re_password?.message}
