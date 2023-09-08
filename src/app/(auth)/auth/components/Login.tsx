@@ -86,9 +86,9 @@ export default function Login() {
   }
 
   return (
-    <div className="flex flex-1 flex-col justify-center py-12 px-4">
+    <div className="flex flex-1 flex-col justify-center py-2 px-4">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h2 className="mt-10 text-center text-3xl font-bold leading-9 tracking-tight font-roboto text-indigo-700 drop-shadow-xl">
+        <h2 className="mt-2 text-center text-3xl font-bold leading-9 tracking-tight font-roboto text-indigo-700 drop-shadow-xl">
           <Link href="/">ARTINFO</Link>
         </h2>
         <h3 className="mt-2 text-center text-md font-medium leading-9 tracking-tight">
@@ -96,8 +96,8 @@ export default function Login() {
         </h3>
       </div>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" onSubmit={handleSubmit(handleSignIn)}>
+      <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form className="space-y-3" onSubmit={handleSubmit(handleSignIn)}>
           <div>
             <label
               htmlFor="email"
