@@ -175,9 +175,11 @@ export default function Header() {
   const [userProfile, setUserProfile] = useRecoilState(userProfileState)
 
   useEffect(() => {
+    console.log("user", user)
     if (user) {
       fetchProfile(user.id)
         .then(res => {
+          console.log("res", res)
           setUserProfile(res[0].name)
         })
         .catch(err => {
