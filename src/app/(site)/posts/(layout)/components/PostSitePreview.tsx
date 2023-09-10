@@ -44,6 +44,7 @@ export default function PostSitePreview({ meta }: IProps) {
           <img
             src={meta.image}
             alt="preview img"
+            onError={handleImageError}
             className="object-cover object-center"
           />
         )}
