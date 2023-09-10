@@ -20,7 +20,7 @@ export default function JobCard({ job }: IProps) {
   }
 
   return (
-    <div className="card  ">
+    <div className="card">
       <div className="overflow-hidden relative h-[150px]">
         {isLoading && (
           <div className="flex items-center justify-center absolute inset-0">
@@ -29,7 +29,7 @@ export default function JobCard({ job }: IProps) {
         )}
         {job.company_image_url && (
           <Image
-            src={job.company_image_url ?? "/img/placeholder_user.png"}
+            src={job.company_image_url ?? "/icon-192x192.png"}
             alt="job"
             sizes="(max-width: 1200px) 276px, 150px"
             fill
@@ -40,17 +40,17 @@ export default function JobCard({ job }: IProps) {
         )}
       </div>
       <div className="py-2">
-        <div className="flex flex-col  mb-1">
-          <div className="text-sm  text-darkgrey truncate flex-1 my-2 flex items-center ">
+        <div className="flex flex-col mb-1">
+          <div className="text-sm  text-darkgrey truncate flex-1 flex items-center my-1 lg:my-2 ">
             <span className="mr-2">
               <PositionTag tag={RECRUIT_JOBS_CATEGORY_ITEMS[job.category]} />
             </span>
             <span>{job.company_name} </span>
           </div>
-          <div className="text-lg font-semibold my-2 line-clamp-3 break-keep">
+          <div className="text-sm font-semibold my-0 line-clamp-3 break-keep lg:text-base sm:my-0 md:my-1 lg:my-2">
             {job.title}
           </div>
-          <span className="text- text-darkgrey">
+          <span className="text-darkgrey opacity-75">
             {filters.YYYYMMDD(job.created_at)}
           </span>
         </div>

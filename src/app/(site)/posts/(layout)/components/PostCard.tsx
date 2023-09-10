@@ -107,6 +107,7 @@ export function PostCard({
 
   useEffect(() => {
     const siteUrl = filters.EXTRACT_URL(feed.content)
+
     if (siteUrl) {
       fetchSiteData(siteUrl)
     }
@@ -127,12 +128,10 @@ export function PostCard({
       return
     }
 
-    if (handleUpdatePostLike) {
-      handleUpdatePostLike({
-        like: !feed.like,
-        post_id: feed.id,
-      })
-    }
+    handleUpdatePostLike({
+      like: !feed.like,
+      post_id: feed.id,
+    })
   }
 
   const handleMoveToUserProfile = () => {
