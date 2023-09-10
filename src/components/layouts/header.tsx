@@ -21,7 +21,6 @@ import {
   Avatar,
   MenuList,
 } from "@/components//material"
-import { useQuery } from "@tanstack/react-query"
 import { fetchProfile } from "@/app/Api"
 import { userProfileState } from "@/atoms/userProfile"
 import { useRecoilState } from "recoil"
@@ -68,9 +67,7 @@ function ProfileMenu() {
             size="sm"
             alt="tania andrew"
             className="border border-blue-500 p-0.5"
-            src={
-              user!.user_metadata.icon_image_url || "/img/placeholder_user.png"
-            }
+            src={user!.user_metadata.avatar_url || "/img/placeholder_user.png"}
           />
           <ChevronDownIcon
             strokeWidth={2.5}

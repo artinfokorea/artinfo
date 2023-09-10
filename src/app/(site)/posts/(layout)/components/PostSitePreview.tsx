@@ -1,5 +1,7 @@
 "use client"
 
+import { useState } from "react"
+
 interface IProps {
   meta: {
     fullUrl: string
@@ -12,9 +14,15 @@ interface IProps {
 }
 
 export default function PostSitePreview({ meta }: IProps) {
+  const [imageError, setImageError] = useState(false)
+
   const handleOpenPreview = () => {
     const siteUrl = meta.fullUrl
     window.open(siteUrl, "_blank")
+  }
+
+  const handleImageError = () => {
+    setImageError(true)
   }
 
   return (
@@ -26,11 +34,19 @@ export default function PostSitePreview({ meta }: IProps) {
         className="relative overflow-hidden flex items-center justify-center"
         style={{ maxHeight: 280 }}
       >
-        <img
-          src={meta.image}
-          alt="preview img"
-          className="object-cover object-center"
-        />
+        {imageError ? (
+          <img
+            src="/icon-384x384.png"
+            alt="fallback image"
+            className="object-cover object-center"
+          />
+        ) : (
+          <img
+            src={meta.image}
+            alt="preview img"
+            className="object-cover object-center"
+          />
+        )}
       </div>
       <div className="p-4 bg-gray-200">
         <div>{meta.host}</div>
