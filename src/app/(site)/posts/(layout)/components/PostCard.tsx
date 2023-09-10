@@ -204,6 +204,7 @@ export function PostCard({
                 </p>
                 {isTruncated && !isReadingMore && (
                   <button
+                    className="mt-1 text-primary opacity-60 hover:opacity-100"
                     onClick={(event: React.MouseEvent) => {
                       event.stopPropagation()
                       setIsReadingMore(true)
