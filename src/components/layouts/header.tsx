@@ -9,6 +9,7 @@ import {
   ChevronDownIcon,
   PowerIcon,
   QuestionMarkCircleIcon,
+  UserCircleIcon,
 } from "@heroicons/react/24/outline"
 import { useRouter } from "next/navigation"
 import {
@@ -27,7 +28,8 @@ import { useRecoilState } from "recoil"
 
 function ProfileMenu() {
   const { user, signOut } = useAuth()
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [userProfile] = useRecoilState(userProfileState)
   const router = useRouter()
 
   const selectMenu = (item: any) => {
@@ -41,12 +43,12 @@ function ProfileMenu() {
   }
 
   const profileMenuItems = [
-    // {
-    //   key: "myprofile",
-    //   label: "My Profile",
-    //   icon: UserCircleIcon,
-    //   to: `/profile/${user!.id}`,
-    // },
+    {
+      key: "myprofile",
+      label: "내 프로필",
+      icon: UserCircleIcon,
+      to: `/profile/${user!.id}`,
+    },
     {
       key: "signout",
       label: "로그아웃",
@@ -67,7 +69,7 @@ function ProfileMenu() {
             size="sm"
             alt="tania andrew"
             className="border border-blue-500 p-0.5"
-            src={user!.user_metadata.avatar_url || "/img/placeholder_user.png"}
+            src={userProfile.userImage || "/img/placeholder_user.png"}
           />
           <ChevronDownIcon
             strokeWidth={2.5}
@@ -175,18 +177,20 @@ export default function Header() {
   const [userProfile, setUserProfile] = useRecoilState(userProfileState)
 
   useEffect(() => {
-    console.log("user", user)
     if (user) {
       fetchProfile(user.id)
         .then(res => {
           console.log("res", res)
-          setUserProfile(res[0].name)
+          setUserProfile({
+            userImage: res[0].icon_image_url ?? "",
+            name: res[0].name,
+          })
         })
         .catch(err => {
           console.log(err)
         })
     } else {
-      setUserProfile("")
+      setUserProfile({ ...userProfile, name: "" })
     }
   }, [user])
 
@@ -204,9 +208,9 @@ export default function Header() {
           </div>
 
           <div className="ml-10 flex items-center gap-x-4">
-            {userProfile && (
+            {userProfile.name && (
               <span className="text-sm whitespace-pre-line">
-                {userProfile} 님
+                {userProfile.name} 님
               </span>
             )}
             <div>

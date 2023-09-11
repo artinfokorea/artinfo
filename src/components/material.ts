@@ -31,6 +31,7 @@ import {
   ButtonGroup,
   Select,
   Option,
+  Spinner,
 } from "@material-tailwind/react"
 
 export {
@@ -64,4 +65,5 @@ export {
   Chip,
   ButtonGroup,
   Option,
+  Spinner,
 }

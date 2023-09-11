@@ -428,3 +428,9 @@ export type PROFILE = {
   name: string
   school?: string
 }
+
+export type PROFILE_PAYLOAD = {
+  id?: string
+  name?: string | null
+  icon_image_url?: string | null
+}

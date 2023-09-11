@@ -3,6 +3,7 @@ import {
   CONCERT_CATEGORY,
   CommentType,
   JOB_POSITION_1DEPTH_CATEGORY,
+  PROFILE_PAYLOAD,
 } from "@/types/types"
 
 /* ****************************************************** CONNCERT ****************************************************** */
@@ -277,5 +278,29 @@ export async function fetchProfile(id: string) {
   if (error) {
     throw error
   }
+  return data
+}
+
+export const updateProfile = async (payload: PROFILE_PAYLOAD) => {
+  const supabase = useSupabase()
+  const updateData: any = {}
+
+  if (payload.name) {
+    updateData.name = payload.name
+  }
+
+  if (payload.icon_image_url) {
+    updateData.icon_image_url = payload.icon_image_url
+  }
+
+  const { data, error } = await supabase
+    .from("profiles")
+    .update(updateData)
+    .eq("id", payload.id as string)
+
+  if (error) {
+    throw error
+  }
+
   return data
 }

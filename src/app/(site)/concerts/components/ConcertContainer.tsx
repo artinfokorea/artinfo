@@ -5,13 +5,11 @@ import Link from "next/link"
 import { fetchConcerts } from "@/app/Api"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { useDidUpdate } from "@toss/react"
-import { ChipButton } from "@/components/ui/Button/LinkChipButton"
 import { isMobileWeb } from "@toss/utils"
 import { useInView } from "react-intersection-observer"
 import { CONCERT_CATEGORY } from "@/types/types"
 import ScrollUpButton from "@/components/ui/Button/ScrollUpButton"
 import useAuth from "@/hooks/useAuth"
-import dynamic from "next/dynamic"
 import ConcertCard from "./ConcertCard"
 
 import ConcertCategory from "./ConcertCategory"
@@ -89,7 +87,7 @@ export default function ConcertContainer() {
       </div>
 
       {isLoading && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
           <ConcertSkeleton />
           <ConcertSkeleton />
           <ConcertSkeleton />
@@ -103,7 +101,7 @@ export default function ConcertContainer() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-5 gap-4">
         {data?.pages.map(
           page =>
             page?.concerts?.map((concert: any) => (

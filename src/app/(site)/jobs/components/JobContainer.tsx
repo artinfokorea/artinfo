@@ -110,7 +110,7 @@ export default function JobContainer() {
         />
       </div>
       {isLoading && (
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5  gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5  gap-4">
           <JobSkeleton />
           <JobSkeleton />
           <JobSkeleton />
@@ -124,7 +124,7 @@ export default function JobContainer() {
         </div>
       )}
 
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5  gap-4 ">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5  gap-4 ">
         {data?.pages?.map(
           group =>
             group?.jobs?.map((item: Job) => (

@@ -47,6 +47,10 @@ export default async function RootLayout({
     <html lang="ko" className="h-full">
       <head>
         <link rel="manifest" href="/manifest.json" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+        />
         <Script
           strategy="afterInteractive"
           src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
@@ -73,7 +77,7 @@ export default async function RootLayout({
             <AuthProvider>
               <RecoilProvider>
                 <Header />
-                <main className="flex-1 overflow-y-auto">{children}</main>
+                <main className="flex-1 overflow-y-auto ">{children}</main>
                 <BottomNavigation />
                 <HomeScreenContainer />
               </RecoilProvider>
