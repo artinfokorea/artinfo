@@ -26,6 +26,14 @@ export const metadata: Metadata = {
     siteName: "ARTINFO",
     locale: "ko-KR",
     type: "website",
+    images: [
+      {
+        url: "https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/concerts/289/1694427431399.jpg",
+        width: 580,
+        height: 580,
+        alt: "아트인포-ARTINFO",
+      },
+    ],
   },
   viewport: {
     width: "width=device-width",
