@@ -25,18 +25,18 @@ import RecoilProvider from "../RecoilProvider"
 //   variable: "--roboto", // CSS 변수 방식으로 스타일을 지정할 경우에 사용합니다.
 // })
 
-// export const metadata: Metadata = {
-//   title: "아트인포-ARTINFO",
-//   description: "아트인포",
-//   openGraph: {
-//     title: "아트인포-ARTINFO",
-//     description: "아트인포",
-//     url: "http://artinfokorea.com",
-//     siteName: "ARTINFO",
-//     locale: "ko-KR",
-//     type: "website",
-//   },
-// }
+export const metadata: Metadata = {
+  title: "아트인포-ARTINFO",
+  description: "아트인포",
+  openGraph: {
+    title: "아트인포-ARTINFO",
+    description: "아트인포",
+    url: "http://artinfokorea.com",
+    siteName: "ARTINFO",
+    locale: "ko-KR",
+    type: "website",
+  },
+}
 
 export default async function RootLayout({
   children,
