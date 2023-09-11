@@ -34,7 +34,7 @@ export default function ConcertCard({ item }: IProps) {
 
   return (
     <div className="card flex flex-col bg-zinc-900 rounded-md">
-      <div className="relative h-[380px]">
+      <div className="relative h-[220px] lg:h-[300px]">
         {isLoading && (
           <div className="flex items-center justify-center absolute inset-0">
             <Spinner />
@@ -44,7 +44,7 @@ export default function ConcertCard({ item }: IProps) {
           <Image
             src={`${item.poster_url}`}
             alt="concert_image"
-            sizes="276px, 150px"
+            sizes="250px, 250px"
             fill
             priority
             onLoad={handleImageLoad}
@@ -52,12 +52,14 @@ export default function ConcertCard({ item }: IProps) {
           />
         )}
       </div>
-      <div className="px-4 py-2 flex flex-col flex-1">
+      <div className="py-1 flex flex-col break-keep">
         <div className="flex-1">
-          <div className="mt-2 mb-1 text-sm font-semibold">{item.title}</div>
-          <div className="text-sm mt-2">{item.location}</div>
+          <div className="mt-2 mb-1 text-sm font-semibold lg:text-base">
+            {item.title}
+          </div>
+          <div className="text-sm mt-2 mb-1">{item.location}</div>
         </div>
-        <div className="text-sm">{date}</div>
+        <div className="text-sm text-darkgrey opacity-75">{date}</div>
       </div>
     </div>
   )

@@ -5,7 +5,7 @@ const ConcertSkeleton = () => {
     <div className="card flex flex-col bg-zinc-900 border border-stone-800 rounded-md">
       <div
         className="overflow-hidden relative bg-whitesmoke rounded-t-md"
-        style={{ maxHeight: 380 }}
+        style={{ maxHeight: 300 }}
       >
         <div className="w-full h-[300px] bg-lightgrey" />
       </div>

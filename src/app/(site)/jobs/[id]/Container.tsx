@@ -104,7 +104,7 @@ export default function Container({ jobId }: IProps) {
           공고 바로가기
         </Link>
       )}
-      {isMobile && <ScrollButtonWrap handleScroll={handleScroll} />}
+      {isMobile && <ScrollButtonWrap handleScroll={handleScroll} list="jobs" />}
     </div>
   )
 }

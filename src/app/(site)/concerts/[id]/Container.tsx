@@ -68,15 +68,7 @@ export default function Container({ pageId }: IProps) {
       </div>
 
       <div className="flex border-t border-b border-gray-600 py-3 px-2">
-        <div className="flex flex-1 items-center gap-x-5">
-          {/* <div className="flex items-center">
-            <ChatBubbleLeftIcon className="w-5 mr-1" />
-            <span className="text-sm">2</span>
-          </div> */}
-          <div className="flex items-center">
-            <EyeIcon className="w-5 mr-1" />
-            <span className="text-sm">{concert?.count_of_views}</span>
-          </div>
+        <div className="flex flex-1 items-center gap-x-4">
           <div className="flex items-center">
             <ClockIcon className="w-5 mr-1" />
             <span className="text-sm">
@@ -101,7 +93,9 @@ export default function Container({ pageId }: IProps) {
         )}
       </section>
 
-      {isMobile && <ScrollButtonWrap handleScroll={handleScroll} />}
+      {isMobile && (
+        <ScrollButtonWrap handleScroll={handleScroll} list="concerts" />
+      )}
     </div>
   )
 }

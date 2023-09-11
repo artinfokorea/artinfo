@@ -3,6 +3,7 @@
 import useAuth from "@/hooks/useAuth"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import "../../../public/css/custom.css"
 
 function HomeIcon({ className }: { className?: string } = {}) {
   return (
@@ -153,7 +154,7 @@ export function BottomNavigation() {
     }
   }
   return (
-    <div className="sm:hidden sticky bottom-0 left-0 z-10 w-full h-16 bg-white border-t border-gray-200 dark:bg-gray-700 dark:border-gray-600 pb-safe">
+    <div className="sm:hidden sticky bottom-0 left-0 z-10 w-full h-20 bg-white border-t border-gray-200 dark:bg-gray-700 dark:border-gray-600 safe-area">
       <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
         {items.map(item => (
           <NavItemButton

@@ -256,7 +256,7 @@ export default function Container({ pageId }: IProps) {
       </div>
       {isMobile && (
         <div className="fixed bottom-32 right-3">
-          <ListButton />
+          <ListButton list="posts" />
         </div>
       )}
       <Toaster />

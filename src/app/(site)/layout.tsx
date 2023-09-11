@@ -25,18 +25,18 @@ import RecoilProvider from "../RecoilProvider"
 //   variable: "--roboto", // CSS 변수 방식으로 스타일을 지정할 경우에 사용합니다.
 // })
 
-export const metadata: Metadata = {
-  title: "아트인포-ARTINFO",
-  description: "아트인포",
-  openGraph: {
-    title: "아트인포-ARTINFO",
-    description: "아트인포",
-    url: "http://artinfokorea.com",
-    siteName: "ARTINFO",
-    locale: "ko-KR",
-    type: "website",
-  },
-}
+// export const metadata: Metadata = {
+//   title: "아트인포-ARTINFO",
+//   description: "아트인포",
+//   openGraph: {
+//     title: "아트인포-ARTINFO",
+//     description: "아트인포",
+//     url: "http://artinfokorea.com",
+//     siteName: "ARTINFO",
+//     locale: "ko-KR",
+//     type: "website",
+//   },
+// }
 
 export default async function RootLayout({
   children,
@@ -46,7 +46,11 @@ export default async function RootLayout({
   return (
     <html lang="ko" className="h-full">
       <head>
-        <link rel="manifest" href="/manifest.json" />
+        {/* <link rel="manifest" href="/manifest.json" />
+        <meta
+          name="naver-site-verification"
+          content="f40177a0b22957c1976295abef657fd8c8dce9e6"
+        />
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1.0, viewport-fit=cover"
@@ -68,9 +72,8 @@ export default async function RootLayout({
             });
           `,
           }}
-        />
+        /> */}
       </head>
-      {/* <body className={cls(notoSansKr.className, roboto.variable)}> */}
       <body className="bg-[#f8fafc] flex flex-col h-full">
         <ThemeProvider>
           <QueryProvider>
