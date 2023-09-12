@@ -35,6 +35,7 @@ export const metadata: Metadata = {
       },
     ],
   },
+  manifest: "/manifest.json",
   viewport: {
     width: "width=device-width",
     initialScale: 1,
@@ -55,7 +56,7 @@ export default async function RootLayout({
   return (
     <html lang="ko">
       <head>
-        <link rel="manifest" href="/manifest.json" />
+        {/* <link rel="manifest" href="/manifest.json" /> */}
         <Script
           strategy="afterInteractive"
           src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}

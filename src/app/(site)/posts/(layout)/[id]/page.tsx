@@ -34,13 +34,18 @@ export async function generateMetadata({
     url: img,
   }))
 
+  console.log("pageImages", pageImages)
+
   return {
     title: `${pageTitle}|아트인포`,
     description: pageDesc,
     openGraph: {
       title: pageTitle,
       description: pageDesc,
-      images: pageImages,
+      images: pageImages ?? {
+        url: "https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/concerts/288/1694427064047.jpg",
+        alt: "아트인포-ARTINFO",
+      },
     },
   }
 }

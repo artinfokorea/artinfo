@@ -150,9 +150,7 @@ export function PostCard({
   return (
     <>
       <Card
-        className={`transition-transform transform cursor-pointer ${
-          !params.id && "hover:scale-95"
-        }`}
+        className={`transition-transform transform cursor-pointer `}
         onClick={() => router.push(`/posts/${feed.id}`)}
       >
         <CardHeader
@@ -226,7 +224,7 @@ export function PostCard({
             )}
 
             {image && (
-              <div className="relative pt-[100%] mt-2 h-[250px]" style={{}}>
+              <div className="relative pt-[100%] mt-2 h-[250px]">
                 <Image
                   src={image}
                   alt="feed-image"
