@@ -1,6 +1,6 @@
 import { Suspense } from "react"
 import Loading from "@/components/ui/Loading/Loading"
-import ListWithLatestJobs from "./components/ListWithLatestJobs"
+import ListWithLatestJobs from "../../../../components/ui/LatestJobs/ListWithLatestJobs"
 
 export default function PostLayout({
   children,

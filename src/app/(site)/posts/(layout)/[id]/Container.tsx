@@ -21,7 +21,7 @@ import {
   fetchFeed,
   updatePostLike,
 } from "@/app/Api"
-import { PostCard } from "../components/PostCard"
+import { PostCard } from "../../../../../components/ui/Card/PostCard"
 import { CommentContainer, CommentForm, CommentRow } from "./Comments"
 import CommentCardSkeleton from "./CommentCardSkeleton"
 

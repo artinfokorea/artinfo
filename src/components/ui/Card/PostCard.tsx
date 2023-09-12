@@ -26,7 +26,7 @@ import { fetchSiteMetaData } from "@/app/Api"
 import useToast from "@/hooks/useToast"
 import { Modal } from "@/components/ui/Modal"
 import ReactHtmlParser from "react-html-parser"
-import PostSitePreview from "./PostSitePreview"
+import PostSitePreview from "../../../app/(site)/posts/(layout)/components/PostSitePreview"
 
 const useTruncatedElement = ({ ref }: any) => {
   const [isTruncated, setIsTruncated] = useState(false)

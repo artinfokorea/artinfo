@@ -3,7 +3,7 @@
 import { Suspense } from "react"
 import { ChipButton } from "@/components/ui/Button/LinkChipButton"
 import Loading from "@/components/ui/Loading"
-import JobDataProvider from "./components/JobDataProvider"
+import JobContainer from "./components/JobContainer"
 
 export default function Recruits() {
   return (
@@ -13,7 +13,7 @@ export default function Recruits() {
         <ChipButton url="/jobs/create" title="채용등록" />
       </div>
       <Suspense fallback={<Loading />}>
-        <JobDataProvider />
+        <JobContainer />
       </Suspense>
     </div>
   )

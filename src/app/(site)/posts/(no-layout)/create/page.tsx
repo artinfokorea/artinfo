@@ -21,7 +21,7 @@ export default function CreatePost() {
   const [isLoading, setIsLoading] = useState(false)
   const [category, setCategory] = useState<
     "RECRUIT" | "INFORMATION" | "REVIEW" | "QUESTION"
-  >("INFORMATION")
+  >()
   const [title, setTitle] = useState<string>("")
   const [content, setContent] = useState<string>("")
   const [uploadedImages, setUploadedImages] = useState<File[]>([])

@@ -27,9 +27,9 @@ import { Feed } from "@/types/types"
 import { Toaster } from "react-hot-toast"
 import useToast from "@/hooks/useToast"
 import { useEffect, useState } from "react"
-import { PostCard } from "./PostCard"
+import { PostCard } from "../../../../../components/ui/Card/PostCard"
 import AdContainer from "../../../home/components/ad/AdContainer"
-import FeedSkeleton from "./FeedSkeleton"
+import FeedSkeleton from "../../../../../components/ui/Skeleton/FeedSkeleton"
 
 function ProfileCard() {
   return (
