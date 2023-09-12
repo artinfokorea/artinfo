@@ -11,7 +11,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline"
 import { useQueryClient } from "@tanstack/react-query"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useRef, useState } from "react"
+import { use, useMemo, useRef, useState } from "react"
 
 export default function CreatePost() {
   const queryClient = useQueryClient()
@@ -19,18 +19,16 @@ export default function CreatePost() {
   const { user } = useAuth()
   const supabase = useSupabase()
   const [isLoading, setIsLoading] = useState(false)
-
   const [category, setCategory] = useState<
     "RECRUIT" | "INFORMATION" | "REVIEW" | "QUESTION"
-  >()
+  >("INFORMATION")
   const [title, setTitle] = useState<string>("")
   const [content, setContent] = useState<string>("")
-  const [uploadedImage, setUploadedImage] = useState<File>()
+  const [uploadedImages, setUploadedImages] = useState<File[]>([])
   const fileUploader = useRef<HTMLInputElement>(null)
 
   const handleUploadedFiles = (files: File[]) => {
-    const file = files[0]
-    setUploadedImage(file)
+    setUploadedImages(files)
   }
 
   const openFileUploader = () => {
@@ -62,27 +60,32 @@ export default function CreatePost() {
 
       // upload file
       const postId = data.id
-      if (uploadedImage && postId) {
-        // const filename = uploadedImage.name
-        const filename = new Date().getTime().toString()
-        const extension = uploadedImage.name.split(".")[1]
-        const path = `posts/${postId}/${filename}.${extension}`
-        const { error: uploadError, data } = await supabase.storage
-          .from("artinfo")
-          .upload(path, uploadedImage, {
-            cacheControl: "36000",
-            upsert: true,
-          })
-        if (uploadError) {
-          throw uploadError
-        }
-        const fileUrl = `https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/${data.path}`
-        console.log(fileUrl)
 
-        const { error: updateError } = await supabase
+      if (uploadedImages.length > 0 && postId) {
+        const fileUrls: string[] = []
+
+        for await (const uploadedImage of uploadedImages) {
+          const filename = new Date().getTime().toString()
+          const extension = uploadedImage.name.split(".")[1]
+          const path = `posts/${postId}/${filename}.${extension}`
+          const { error: uploadError, data } = await supabase.storage
+            .from("artinfo")
+            .upload(path, uploadedImage, {
+              cacheControl: "36000",
+              upsert: true,
+            })
+          if (uploadError) {
+            throw uploadError
+          }
+
+          const fileUrl = `https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/${data.path}`
+          fileUrls.push(fileUrl)
+        }
+
+        const { error: updateError, data: updateData } = await supabase
           .from("feeds")
           .update({
-            image_urls: [fileUrl],
+            image_urls: fileUrls,
           })
           .eq("id", postId)
 
@@ -112,7 +115,30 @@ export default function CreatePost() {
     { title: "구인", value: "RECRUIT" },
   ]
 
-  const uploadedImageUrl = uploadedImage && URL.createObjectURL(uploadedImage)
+  const uploadedImageUrls = useMemo(() => {
+    const urls: string[] = []
+    uploadedImages.forEach(uploadedImage => {
+      urls.push(URL.createObjectURL(uploadedImage))
+    })
+    return urls
+  }, [uploadedImages])
+
+  const deleteImage = async (index: number) => {
+    // const blob = await fetch(url).then(response => response.blob())
+    // const newUrls = uploadedImages.filter(uploadedImage => {
+    //   console.log("blob", blob)
+
+    //   return uploadedImages !== blob
+    // })
+    // console.log("newUrls", newUrls)
+    // setUploadedImages(newUrls)
+    // 비교할 URL을 Blob으로 가져옵니다.
+
+    const newUploadedImages = [...uploadedImages]
+    newUploadedImages.splice(index, 1)
+
+    setUploadedImages(newUploadedImages)
+  }
 
   return (
     <div
@@ -171,7 +197,7 @@ export default function CreatePost() {
               />
             </InputCounter>
           </div>
-          <div className="mt-8 flex-1 overflow-y-auto">
+          <div className="mt-8 flex-1 overflow-y-auto h-1/2 max-h-full">
             <ResizteTextArea
               value={content}
               maxLength={1000}
@@ -179,21 +205,24 @@ export default function CreatePost() {
               className="md:text-xl"
               onChange={value => setContent(value)}
             />
-            {uploadedImageUrl && (
-              <div className="relative bg-gray-300">
+            {uploadedImageUrls?.map((uploadedImageUrl, index) => (
+              <div
+                className="relative bg-gray-300 h-screen"
+                key={uploadedImageUrl}
+              >
                 <img
                   src={uploadedImageUrl}
                   alt="community-write-img"
                   className="w-full"
                 />
                 <button
-                  className="absolute right-2 top-2 text-white md:hidden bg-gray-600 rounded-full p-1"
-                  onClick={() => setUploadedImage(undefined)}
+                  className="absolute right-2 top-2 text-red  bg-gray-600 rounded-full p-1"
+                  onClick={() => deleteImage(index)}
                 >
                   <XMarkIcon className="w-5" />
                 </button>
               </div>
-            )}
+            ))}
           </div>
           <div>
             <InputCounter
@@ -206,7 +235,6 @@ export default function CreatePost() {
                 variant="text"
                 color="blue-gray"
                 size="md"
-                disabled={!!uploadedImageUrl}
                 onClick={openFileUploader}
               >
                 <svg
@@ -249,7 +277,11 @@ export default function CreatePost() {
         </div>
       </div>
 
-      <FileUploader ref={fileUploader} uploadedFiles={handleUploadedFiles} />
+      <FileUploader
+        ref={fileUploader}
+        uploadedFiles={handleUploadedFiles}
+        multiple
+      />
     </div>
   )
 }

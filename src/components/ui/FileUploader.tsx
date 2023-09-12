@@ -1,20 +1,32 @@
 "use client"
 
+import useToast from "@/hooks/useToast"
 import { ChangeEvent, forwardRef, ForwardedRef } from "react"
+import { Toaster } from "react-hot-toast"
 
 type Props = {
   acceptType?: "IMAGE" | "VIDEO" | "DOC"
   uploadedFiles?: (files: File[]) => void
+  multiple?: boolean
 }
 
 function FileUploader(
-  { acceptType, uploadedFiles }: Props,
+  { acceptType, uploadedFiles, multiple }: Props,
   ref: ForwardedRef<HTMLInputElement>,
 ) {
+  const { errorToast } = useToast()
+
   const handleChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target as any
     if (!files) {
       return
+    }
+
+    const maxFile = 5
+
+    if (files.length > maxFile) {
+      errorToast("5장이상은 등록 할 수 없습니다.")
+      e.preventDefault()
     }
 
     if (uploadedFiles) {
@@ -26,9 +38,11 @@ function FileUploader(
       <input
         type="file"
         ref={ref}
-        accept="image/jpg,impge/png,image/jpeg,image/gif"
+        multiple={multiple}
+        accept="image/jpg,image/png,image/jpeg,image/gif"
         onChange={handleChangeFile}
       />
+      <Toaster />
     </div>
   )
 }

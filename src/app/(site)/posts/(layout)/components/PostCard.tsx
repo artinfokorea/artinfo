@@ -84,7 +84,7 @@ export function PostCard({
   })
   const { successToast, errorToast } = useToast()
   const filters = useFilters()
-  const image = feed.image_urls?.length ? feed.image_urls[0] : null
+  const images = feed.image_urls?.length ? feed.image_urls : null
   const { getLocalData, setLocalData } = useLocalforge()
 
   const fetchSiteData = async (url: string) => {
@@ -223,8 +223,8 @@ export function PostCard({
               </p>
             )}
 
-            {image && (
-              <div className="relative pt-[100%] mt-2 h-[250px]">
+            {images?.map(image => (
+              <div className="relative pt-[100%] mt-2 h-[250px]" key={image}>
                 <Image
                   src={image}
                   alt="feed-image"
@@ -233,7 +233,7 @@ export function PostCard({
                   sizes="(max-width: 1200px) 276px, 150px"
                 />
               </div>
-            )}
+            ))}
           </div>
 
           {sitePreviewData && <PostSitePreview meta={sitePreviewData} />}

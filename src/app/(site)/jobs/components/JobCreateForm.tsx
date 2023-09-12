@@ -126,7 +126,6 @@ const JobCreateForm = () => {
           throw uploadError
         }
         const fileUrl = `https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/${data.path}`
-        console.log(fileUrl)
 
         const { error: updateError } = await supabase
           .from("recruit_jobs")

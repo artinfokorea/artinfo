@@ -41,6 +41,8 @@
     "@typescript-eslint/no-throw-literal": "off",
     "@typescript-eslint/no-shadow": "off",
     "@typescript-eslint/naming-convention": "off",
+    "no-iterator": "off", // iterator 관련 경고를 비활성화
+    "no-restricted-syntax": "off", // 제한된 구문 경고를 비활성화
     "react/no-danger": "off",
     "jsx-a11y/img-redundant-alt": "off",
     "react/function-component-definition": [

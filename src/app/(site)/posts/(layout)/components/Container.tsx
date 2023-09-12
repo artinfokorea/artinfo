@@ -235,7 +235,7 @@ export default function Container() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["feeds"])
-      successToast("댓글이 삭제되었습니다.")
+      successToast("게시글이 삭제되었습니다.")
     },
   })
 
