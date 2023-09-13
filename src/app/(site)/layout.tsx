@@ -53,35 +53,6 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="ko" className="h-full">
-      <head>
-        {/* <link rel="manifest" href="/manifest.json" />
-        <meta
-          name="naver-site-verification"
-          content="f40177a0b22957c1976295abef657fd8c8dce9e6"
-        />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-        />
-        <Script
-          strategy="afterInteractive"
-          src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
-        />
-        <Script
-          id="gtag-init"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${gtag.GA_TRACKING_ID}', {
-              page_path: window.location.pathname,
-            });
-          `,
-          }}
-        /> */}
-      </head>
       <body className="bg-[#f8fafc] flex flex-col h-full">
         <ThemeProvider>
           <QueryProvider>
