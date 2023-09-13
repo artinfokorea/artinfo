@@ -3,13 +3,22 @@
 import React from "react"
 
 interface Props {
+  isIPhone: boolean
   handleOpen: () => void
   modalIgnoreForAWeek: () => void
 }
 
-const HomeScreenModal = ({ handleOpen, modalIgnoreForAWeek }: Props) => {
+const HomeScreenModal = ({
+  isIPhone,
+  handleOpen,
+  modalIgnoreForAWeek,
+}: Props) => {
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-1">
+    <div
+      className={`fixed ${
+        isIPhone ? "top-10" : "top-0"
+      } left-0 w-full h-full flex justify-center items-center z-1`}
+    >
       <div className="fixed top-0 left-0 w-full h-full backdrop-blur-sm z-2" />
       <div className="absolute rounded-t-xl bottom-16 z-3 bg-white shadow-md w-full">
         <div className="py-3 px-8 flex justify-between text-xl">

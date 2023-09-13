@@ -4,6 +4,7 @@ import useAuth from "@/hooks/useAuth"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import "../../../public/css/custom.css"
+import { useEffect, useState } from "react"
 
 function HomeIcon({ className }: { className?: string } = {}) {
   return (
@@ -114,7 +115,11 @@ function NavItemButton({
       className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group"
       prefetch
     >
-      <Icon className={active ? activeColor : defaultColor} />
+      <Icon
+        className={`${active ? activeColor : defaultColor} ${
+          title === "inquiry" && "w-5 h-5"
+        }`}
+      />
       <span className={`text-sm ${active ? activeColor : defaultColor}`}>
         {title}
       </span>
@@ -124,6 +129,7 @@ function NavItemButton({
 
 export function BottomNavigation() {
   const { user } = useAuth()
+  const [isIPhone, setIsIPhone] = useState(false)
   const items = [
     {
       title: "Home",
@@ -153,8 +159,21 @@ export function BottomNavigation() {
       icon: InquiryIcon,
     }
   }
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent.toLowerCase()
+
+    if (userAgent.indexOf("iphone") > -1) {
+      setIsIPhone(true)
+    }
+  }, [])
+
   return (
-    <div className="sm:hidden sticky bottom-0 left-0 z-10 w-full h-[90px] bg-white border-t border-gray-200 dark:bg-gray-700 dark:border-gray-600 safe-area">
+    <div
+      className={`sm:hidden sticky bottom-0 left-0 z-10 w-full ${
+        isIPhone ? "h-[90px] safe-area" : "h-16"
+      } bg-white border-t border-gray-200 dark:bg-gray-700 dark:border-gray-600`}
+    >
       <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
         {items.map(item => (
           <NavItemButton

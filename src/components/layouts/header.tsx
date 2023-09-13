@@ -25,12 +25,14 @@ import {
 import { fetchProfile } from "@/app/Api"
 import { userProfileState } from "@/atoms/userProfile"
 import { useRecoilState } from "recoil"
+import { isMobileWeb } from "@toss/utils"
 
 function ProfileMenu() {
   const { user, signOut } = useAuth()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [userProfile] = useRecoilState(userProfileState)
   const router = useRouter()
+  const isMobile = isMobileWeb()
 
   const selectMenu = (item: any) => {
     if (item.to) {
@@ -208,7 +210,7 @@ export default function Header() {
           </div>
 
           <div className="ml-10 flex items-center gap-x-4">
-            {userProfile.name && (
+            {userProfile.name && !isMobileWeb && (
               <span className="text-sm whitespace-pre-line">
                 {userProfile.name} 님
               </span>

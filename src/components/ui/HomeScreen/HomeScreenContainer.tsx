@@ -8,6 +8,7 @@ import HomeScreenModal from "./HomeScreenModal"
 const HomeScreenContainer = () => {
   const [isOpen, setIsOpen] = useState(false)
   const isMobile = isMobileWeb()
+  const [isIPhone, setIsIPhone] = useState(false)
   const cookies = new Cookies()
   const isModalExpires = cookies.get("modal_expires")
   const handleOpen = () => setIsOpen(!isOpen)
@@ -26,6 +27,12 @@ const HomeScreenContainer = () => {
   }
 
   useEffect(() => {
+    const userAgent = navigator.userAgent.toLowerCase()
+
+    if (userAgent.indexOf("iphone") > -1) {
+      setIsIPhone(true)
+    }
+
     if (isMobile && !isModalExpires) {
       setIsOpen(true)
     }
@@ -35,6 +42,7 @@ const HomeScreenContainer = () => {
     <div>
       {isOpen && (
         <HomeScreenModal
+          isIPhone={isIPhone}
           handleOpen={handleOpen}
           modalIgnoreForAWeek={modalIgnoreForAWeek}
         />

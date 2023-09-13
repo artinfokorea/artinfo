@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { isMobileWeb } from "@toss/utils"
 import dynamic from "next/dynamic"
+import { useEffect, useState } from "react"
 
 const ScrollButtonWrap = dynamic(
   () => import("@/components/ui/Button/ScrollButtonWrap"),
@@ -23,6 +24,7 @@ interface IProps {
 export default function Container({ jobId }: IProps) {
   const router = useRouter()
   const isMobile = isMobileWeb()
+  const [isIPhone, setIsIPhone] = useState(false)
 
   const { data: job } = useQuery({
     queryKey: ["job", jobId],
@@ -39,6 +41,14 @@ export default function Container({ jobId }: IProps) {
       })
     }
   }
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent.toLowerCase()
+
+    if (userAgent.indexOf("iphone") > -1) {
+      setIsIPhone(true)
+    }
+  }, [])
 
   return (
     <div className="sm:container mx-auto mt-4 relative pb-10 px-4">
@@ -95,9 +105,8 @@ export default function Container({ jobId }: IProps) {
       )}
       {isMobile && job?.link_url && (
         <Link
-          className="
-          fixed bottom-[90px] left-0
-          transition ease-in-out duration-150 inline-flex items-center w-full justify-center  bg-indigo-600 py-3 text-md leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50"
+          className={`fixed ${isIPhone ? "bottom-[90px]" : "bottom-16"} left-0
+          transition ease-in-out duration-150 inline-flex items-center w-full justify-center  bg-indigo-600 py-3 text-md leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50`}
           href={job?.link_url}
           target="_blank"
         >
