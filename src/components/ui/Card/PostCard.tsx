@@ -226,7 +226,7 @@ export function PostCard({
               </p>
             )}
             {images && (
-              <div className="overflow-hidden bg-white py-4 px-4 mt-4 drop-shadow-md shawdow-md rounded-lg">
+              <div className="bg-white py-4 px-4 mt-4 drop-shadow-md shawdow-md rounded-lg overflow-x-auto">
                 <Swiper
                   spaceBetween={10}
                   slidesPerView="auto"
@@ -234,7 +234,7 @@ export function PostCard({
                 >
                   {images?.map(image => (
                     <SwiperSlide key={image} style={{ width: "100%" }}>
-                      <div className="relative pt-[70%] mt-2 h-[250px] drop-shadow-md shawdow-md rounded-lg overflow-x-auto">
+                      <div className="relative pt-[70%] mt-2 h-[250px] ">
                         <Image
                           src={image}
                           alt="feed-image"
