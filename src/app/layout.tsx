@@ -64,7 +64,7 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body className="touch-manipulation">{children}</body>
+      <body className="touch-none">{children}</body>
     </html>
   )
 }
