@@ -268,7 +268,7 @@ export default function CreatePost() {
                     />
                   </svg>
                 </IconButton>
-                <span className="text-primary pt-1">
+                <span className="text-primary">
                   사진은 최대 5장까지 등록가능합니다.
                 </span>
               </div>
