@@ -177,6 +177,7 @@ function NavList() {
 export default function Header() {
   const { user } = useAuth()
   const [userProfile, setUserProfile] = useRecoilState(userProfileState)
+  const isMobile = isMobileWeb()
 
   useEffect(() => {
     if (user) {
@@ -210,7 +211,7 @@ export default function Header() {
           </div>
 
           <div className="ml-10 flex items-center gap-x-4">
-            {userProfile.name && !isMobileWeb && (
+            {userProfile.name && !isMobile && (
               <span className="text-sm whitespace-pre-line">
                 {userProfile.name} 님
               </span>

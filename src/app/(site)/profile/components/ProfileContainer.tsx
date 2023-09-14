@@ -1,6 +1,5 @@
 "use client"
 
-import useSupabase from "@/hooks/useSupabase"
 import { useQuery } from "@tanstack/react-query"
 import { fetchProfile } from "@/app/Api"
 import { Spinner } from "@material-tailwind/react"
@@ -11,8 +10,6 @@ interface IProps {
 }
 
 export default function ProfileContainer({ userId }: IProps) {
-  const supabase = useSupabase()
-
   const {
     data: user,
     refetch,

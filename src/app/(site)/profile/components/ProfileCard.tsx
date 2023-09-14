@@ -4,8 +4,8 @@ import { Button, Input, IconButton } from "@/components/material"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { useForm } from "react-hook-form"
-import { useRef, useState } from "react"
-import { updateProfile } from "@/app/Api"
+import { useEffect, useMemo, useRef, useState } from "react"
+import { fetchProfile, updateProfile } from "@/app/Api"
 import useToast from "@/hooks/useToast"
 import { Toaster } from "react-hot-toast"
 import { useRecoilState } from "recoil"
@@ -13,6 +13,8 @@ import { userProfileState } from "@/atoms/userProfile"
 import { CameraIcon } from "@heroicons/react/24/outline"
 import FileUploader from "@/components/ui/FileUploader"
 import { PROFILE_PAYLOAD } from "@/types/types"
+import useSupabase from "@/hooks/useSupabase"
+import useAuth from "@/hooks/useAuth"
 
 type IProps = {
   user: {
@@ -49,6 +51,9 @@ export default function ProfileCard({ user, refetch }: IProps) {
   const { successToast, errorToast } = useToast()
   const [userProfile, setUserProfile] = useRecoilState(userProfileState)
   const fileUploader = useRef<HTMLInputElement>(null)
+  const [uploadedImages, setUploadedImages] = useState<File[]>([])
+  const supabase = useSupabase()
+  const auth = useAuth()
 
   const {
     register,
@@ -67,12 +72,9 @@ export default function ProfileCard({ user, refetch }: IProps) {
       await updateProfile({
         id: user.id,
         name: payload.name,
-        icon_image_url: payload.icon_image_url,
       })
-      if (payload.name) setUserProfile({ ...userProfile, name: payload.name })
-      if (payload.icon_image_url)
-        setUserProfile({ ...userProfile, userImage: payload.icon_image_url })
-      successToast("프로필이 변경되었습니다.")
+      if (payload?.name) setUserProfile({ ...userProfile, name: payload.name })
+      successToast("닉네임이 변경되었습니다.")
       refetch()
     } catch (error: any) {
       errorToast(error.message)
@@ -82,15 +84,64 @@ export default function ProfileCard({ user, refetch }: IProps) {
     }
   }
 
+  const handleProfileImage = async () => {
+    const fileUrls = []
+
+    if (!auth.user) {
+      return
+    }
+
+    try {
+      if (uploadedImages.length > 0) {
+        for await (const uploadedImage of uploadedImages) {
+          const filename = new Date().getTime().toString()
+          const extension = uploadedImage.name.split(".")[1]
+          const path = `profiles/${auth.user.id}/${filename}.${extension}`
+          const { error: uploadError, data } = await supabase.storage
+            .from("artinfo")
+            .upload(path, uploadedImage, {
+              cacheControl: "36000",
+              upsert: true,
+            })
+          if (uploadError) {
+            throw uploadError
+          }
+          const fileUrl = `https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/${data.path}`
+          fileUrls.push(fileUrl)
+        }
+        const { error: updateError } = await supabase
+          .from("profiles")
+          .update({
+            icon_image_url: fileUrls[0],
+          })
+          .eq("id", auth.user.id)
+
+        if (updateError) {
+          throw updateError
+        }
+      }
+      successToast("프로필 이미지가 변경되었습니다.")
+      setUserProfile({ ...userProfile, userImage: fileUrls[0] })
+      refetch()
+    } catch (error: any) {
+      successToast(error.message)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (uploadedImages.length > 0) {
+      handleProfileImage()
+    }
+  }, [uploadedImages])
+
   const openFileUploader = () => {
     fileUploader.current?.click()
   }
 
   const handleUploadedFiles = (files: File[]) => {
-    const file = files[0]
-    handleProfile({
-      icon_image_url: URL.createObjectURL(file),
-    })
+    setUploadedImages(files)
   }
 
   return (
@@ -99,7 +150,7 @@ export default function ProfileCard({ user, refetch }: IProps) {
         <div className="relative">
           <img
             className="inline-block h-24 w-24 rounded-full"
-            src={userProfile.userImage || "/img/placeholder_user.png"}
+            src={user.icon_image_url || "/img/placeholder_user.png"}
             alt="profile"
           />
           <IconButton
