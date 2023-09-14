@@ -6,7 +6,9 @@ import FileUploader from "@/components/ui/FileUploader"
 import { InputCounter } from "@/components/ui/InputCounter"
 import { ResizteTextArea } from "@/components/ui/ResizteTextArea"
 import useSupabase from "@/hooks/useSupabase"
-
+import { Swiper, SwiperSlide } from "swiper/react"
+import "swiper/css"
+import { Pagination } from "swiper/modules"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import { useQueryClient } from "@tanstack/react-query"
 import Link from "next/link"
@@ -197,32 +199,45 @@ export default function CreatePost() {
               />
             </InputCounter>
           </div>
-          <div className="mt-8 flex-1 overflow-y-auto h-1/2 max-h-full">
+          <div className="mt-8 flex-1 overflow-y-auto relative">
             <ResizteTextArea
               value={content}
               maxLength={1000}
               placeholder="내용을 작성해주세요(필수)"
-              className="md:text-xl"
+              className="md:text-xl "
               onChange={value => setContent(value)}
             />
-            {uploadedImageUrls?.map((uploadedImageUrl, index) => (
-              <div
-                className="relative bg-gray-300 h-screen"
-                key={uploadedImageUrl}
-              >
-                <img
-                  src={uploadedImageUrl}
-                  alt="community-write-img"
-                  className="w-full"
-                />
-                <button
-                  className="absolute right-2 top-2 text-red  bg-gray-600 rounded-full p-1"
-                  onClick={() => deleteImage(index)}
+
+            {uploadedImageUrls.length > 0 && (
+              <div className="overflow-x-auto h-[200px] absolute bottom-0 left-0">
+                <Swiper
+                  spaceBetween={10}
+                  slidesPerView="auto"
+                  modules={[Pagination]}
                 >
-                  <XMarkIcon className="w-5" />
-                </button>
+                  {uploadedImageUrls?.map((uploadedImageUrl, index) => (
+                    <SwiperSlide key={uploadedImageUrl} style={{ width: 180 }}>
+                      <div
+                        className="relative bg-gray-300 h-screen"
+                        key={uploadedImageUrl}
+                      >
+                        <img
+                          src={uploadedImageUrl}
+                          alt="community-write-img"
+                          className="w-[200px] h-[200px]"
+                        />
+                        <button
+                          className="absolute right-2 top-2 text-red  bg-gray-600 rounded-full p-1"
+                          onClick={() => deleteImage(index)}
+                        >
+                          <XMarkIcon className="w-5" />
+                        </button>
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
               </div>
-            ))}
+            )}
           </div>
           <div>
             <InputCounter
@@ -231,27 +246,32 @@ export default function CreatePost() {
               className="text-right mb-1"
             />
             <div className="flex w-full items-center justify-between border-t py-4 gap-x-2">
-              <IconButton
-                variant="text"
-                color="blue-gray"
-                size="md"
-                onClick={openFileUploader}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  className="h-4 w-4"
+              <div className="flex items-center">
+                <IconButton
+                  variant="text"
+                  color="blue-gray"
+                  size="md"
+                  onClick={openFileUploader}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
-                  />
-                </svg>
-              </IconButton>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    className="h-4 w-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+                    />
+                  </svg>
+                </IconButton>
+                <span className="text-primary pt-1">
+                  사진은 최대 5장까지 등록가능합니다.
+                </span>
+              </div>
               <div className="flex gap-2 flex-1 md:flex-none">
                 <Link href="/posts">
                   <Button
