@@ -25,6 +25,9 @@ import useLocalforge from "@/hooks/useLocalforage"
 import { fetchSiteMetaData } from "@/app/Api"
 import useToast from "@/hooks/useToast"
 import { Modal } from "@/components/ui/Modal"
+import { Swiper, SwiperSlide } from "swiper/react"
+import "swiper/css"
+import { Pagination } from "swiper/modules"
 import ReactHtmlParser from "react-html-parser"
 import PostSitePreview from "../../../app/(site)/posts/(layout)/components/PostSitePreview"
 
@@ -222,18 +225,29 @@ export function PostCard({
                 {ReactHtmlParser(filters.URLFY(feed.content) || "")}
               </p>
             )}
-
-            {images?.map(image => (
-              <div className="relative pt-[100%] mt-2 h-[250px]" key={image}>
-                <Image
-                  src={image}
-                  alt="feed-image"
-                  fill
-                  priority
-                  sizes="(max-width: 1200px) 276px, 150px"
-                />
+            {images && (
+              <div className="erflow-hidden bg-white py-4 px-4 mt-4 drop-shadow-md shawdow-md rounded-lg">
+                <Swiper
+                  spaceBetween={10}
+                  slidesPerView="auto"
+                  modules={[Pagination]}
+                >
+                  {images?.map(image => (
+                    <SwiperSlide key={image} style={{ width: "100%" }}>
+                      <div className="relative pt-[100%] mt-2 h-[250px] drop-shadow-md shawdow-md rounded-lg overflow-x-auto">
+                        <Image
+                          src={image}
+                          alt="feed-image"
+                          fill
+                          priority
+                          sizes="(max-width: 1200px) 276px, 150px"
+                        />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
               </div>
-            ))}
+            )}
           </div>
 
           {sitePreviewData && <PostSitePreview meta={sitePreviewData} />}

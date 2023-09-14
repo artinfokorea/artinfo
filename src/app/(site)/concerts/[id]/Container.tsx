@@ -49,14 +49,12 @@ export default function Container({ pageId }: IProps) {
 
       <div className="flex items-center gap-x-2 my-6 px-2">
         {concert?.profiles?.icon_image_url && (
-          <div className="w-10 h-10 rounded-full overflow-hidden">
+          <div className="w-10 h-10 rounded-full overflow-hidden relative">
             <Image
               src={concert?.profiles?.icon_image_url}
-              alt="Vercel Logo"
-              layout="responsive"
+              alt="user_image"
+              fill
               sizes="100px"
-              width={100}
-              height={100}
             />
           </div>
         )}

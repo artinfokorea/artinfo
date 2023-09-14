@@ -183,7 +183,6 @@ export default function Header() {
     if (user) {
       fetchProfile(user.id)
         .then(res => {
-          console.log("res", res)
           setUserProfile({
             userImage: res[0].icon_image_url ?? "",
             name: res[0].name,
