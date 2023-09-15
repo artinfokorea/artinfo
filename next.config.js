@@ -20,16 +20,16 @@ const config = {
     minimumCacheTTL: 60 * 60 * 24 * 30,
   },
 
-  async rewrites() {
-    return [
-      {
-        // source : 유저가 진입할 path
-        // destination : 유저가 이동할 path
-        source: "/",
-        destination: "/home",
-      },
-    ]
-  },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       // source : 유저가 진입할 path
+  //       // destination : 유저가 이동할 path
+  //       source: "/",
+  //       destination: "/home",
+  //     },
+  //   ]
+  // },
   async redirects() {
     return [
       {
