@@ -35,7 +35,7 @@ const config = {
       {
         source: "/",
         destination: "/posts",
-        permanent: true,
+        permanent: false,
       },
     ]
   },
