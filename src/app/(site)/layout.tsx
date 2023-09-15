@@ -53,7 +53,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="ko" className="h-full">
-      <body className="bg-[#f8fafc] flex flex-col h-full">
+      <body className="touch-none bg-[#f8fafc] flex flex-col h-full">
         <ThemeProvider>
           <QueryProvider>
             <AuthProvider>

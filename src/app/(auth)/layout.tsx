@@ -15,7 +15,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className="bg-[#f8fafc]">
+      <body className="touch-none bg-[#f8fafc]">
         <ThemeProvider>
           <QueryProvider>
             <main className="">{children}</main>

@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   },
   verification: {
     other: {
-      "naver-site-verification": ["f40177a0b22957c1976295abef657fd8c8dce9e6"],
+      "naver-site-verification": ["eb1c30e483eed014548bceaa3325c74cc15490db"],
     },
   },
 }
@@ -64,7 +64,7 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body className="touch-none">{children}</body>
+      <body>{children}</body>
     </html>
   )
 }
