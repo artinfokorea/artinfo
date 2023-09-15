@@ -30,15 +30,15 @@ const config = {
   //     },
   //   ]
   // },
-  async redirects() {
-    return [
-      {
-        source: "/",
-        destination: "/posts",
-        permanent: true,
-      },
-    ]
-  },
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: "/",
+  //       destination: "/posts",
+  //       permanent: true,
+  //     },
+  //   ]
+  // },
 }
 
 const nextConfig = withPWA({

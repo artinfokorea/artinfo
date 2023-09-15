@@ -7,6 +7,10 @@ export async function middleware(req: NextRequest) {
   const { data } = await supabase.auth.getSession()
   const { pathname } = req.nextUrl
 
+  if (pathname === "/") {
+    return NextResponse.redirect("/posts", { status: 301 })
+  }
+
   if (pathname === "/auth") {
     if (data.session) {
       return NextResponse.redirect(new URL("/", req.url))
