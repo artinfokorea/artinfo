@@ -106,7 +106,7 @@ export default function Container({ jobId }: IProps) {
       {isMobile && job?.link_url && (
         <Link
           className={`fixed ${isIPhone ? "bottom-[90px]" : "bottom-16"} left-0
-          transition ease-in-out duration-150 inline-flex items-center w-full justify-center  bg-indigo-600 py-3 text-md leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50`}
+          transition ease-in-out duration-150 inline-flex items-center w-full justify-center  bg-indigo-600 py-3 text-md leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 text-white`}
           href={job?.link_url}
           target="_blank"
         >

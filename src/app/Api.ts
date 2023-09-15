@@ -36,10 +36,6 @@ export async function fetchConcert(id: number) {
     throw error
   }
 
-  await supabase
-    .from("concerts")
-    .update({ count_of_views: data.count_of_views + 1 })
-    .eq("id", id)
   return data
 }
 

@@ -110,6 +110,7 @@ export default function ConcertContainer() {
             )),
         )}
       </div>
+
       {isMounted && isMobile && (
         <div className="fixed bottom-32 right-3">
           <ScrollUpButton handleScroll={handleScroll} />

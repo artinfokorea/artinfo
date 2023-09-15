@@ -2,11 +2,13 @@
 
 import { useQuery } from "@tanstack/react-query"
 import Image from "next/image"
-import { EyeIcon, ClockIcon, ShareIcon } from "@heroicons/react/20/solid"
+import { ClockIcon, ShareIcon } from "@heroicons/react/20/solid"
 import useFilters from "@/hooks/useFilters"
 import { fetchConcert } from "@/app/Api"
 import dynamic from "next/dynamic"
 import { isMobileWeb } from "@toss/utils"
+import Link from "next/link"
+import { useEffect, useState } from "react"
 
 const ScrollButtonWrap = dynamic(
   () => import("@/components/ui/Button/ScrollButtonWrap"),
@@ -21,6 +23,8 @@ interface IProps {
 }
 
 export default function Container({ pageId }: IProps) {
+  const [isIPhone, setIsIPhone] = useState(false)
+
   const { data: concert } = useQuery({
     queryKey: ["concert", pageId],
     suspense: true,
@@ -30,6 +34,14 @@ export default function Container({ pageId }: IProps) {
   const isMobile = isMobileWeb()
 
   const filters = useFilters()
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent.toLowerCase()
+
+    if (userAgent.indexOf("iphone") > -1) {
+      setIsIPhone(true)
+    }
+  }, [])
 
   const handleScroll = () => {
     const element = document.getElementById("top")
@@ -90,7 +102,16 @@ export default function Container({ pageId }: IProps) {
           />
         )}
       </section>
-
+      {/* {isMobile && concert?.link_url && (
+        <Link
+          className={`fixed ${isIPhone ? "bottom-[90px]" : "bottom-16"} left-0
+          transition ease-in-out duration-150 inline-flex items-center w-full justify-center  bg-indigo-600 py-3 text-md leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 text-white`}
+          href={concert?.link_url}
+          target="_blank"
+        >
+          공고 바로가기
+        </Link>
+      )} */}
       {isMobile && (
         <ScrollButtonWrap handleScroll={handleScroll} list="concerts" />
       )}
