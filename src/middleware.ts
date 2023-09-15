@@ -7,6 +7,10 @@ export async function middleware(req: NextRequest) {
   const { data } = await supabase.auth.getSession()
   const { pathname } = req.nextUrl
 
+  if (pathname === "/") {
+    return NextResponse.redirect(new URL("/posts", req.url), { status: 301 })
+  }
+
   if (pathname === "/auth") {
     if (data.session) {
       return NextResponse.redirect(new URL("/", req.url))
@@ -38,12 +42,13 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/auth:path*",
-    "/posts/create",
-    "/home:path*",
-    "/inquiry",
-    "/concerts/create",
-    "/jobs/create",
-    "/jobs/:path*",
+    "/:path*",
+    // "/auth:path*",
+    // "/posts/create",
+    // "/home:path*",
+    // "/inquiry",
+    // "/concerts/create",
+    // "/jobs/create",
+    // "/jobs/:path*",
   ],
 }
