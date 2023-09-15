@@ -16,7 +16,7 @@ const HomeScreenModal = ({
   return (
     <div
       className={`fixed ${
-        isIPhone ? "top-10" : "top-0"
+        isIPhone ? "bottom-6" : "top-0"
       } left-0 w-full h-full flex justify-center items-center z-1`}
     >
       <div className="fixed top-0 left-0 w-full h-full backdrop-blur-sm z-2" />
