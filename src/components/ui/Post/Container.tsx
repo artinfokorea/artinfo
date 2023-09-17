@@ -140,7 +140,7 @@ export default function Container() {
 
   const [ref, inView] = useInView({
     delay: 300,
-    threshold: 0.5,
+    threshold: 0.3,
   })
 
   const isMobile = isMobileWeb()
@@ -259,7 +259,7 @@ export default function Container() {
             <WriteFeedCard />
           </div>
 
-          <div className="feed-groups pb-10">
+          <div className="feed-groups pb-5">
             {isLoading && (
               <>
                 <FeedSkeleton />
@@ -295,7 +295,7 @@ export default function Container() {
               </div>
             )}
           </div>
-          <div ref={ref} />
+          <div ref={ref} className="h-4" />
           <Toaster />
         </div>
         <div className="ml-5 hidden md:block" style={{ width: 300 }}>
