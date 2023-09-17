@@ -17,7 +17,7 @@ export default function NotFound() {
           메인페이지로 이동해주세요.
         </p>
         <a
-          href="/posts"
+          href="/"
           className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 mt-6 rounded transition duration-150"
           title="Return Home"
         >

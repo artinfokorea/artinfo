@@ -16,7 +16,7 @@ const error = () => {
           color="red"
           variant="text"
           className="rounded-md md:inline-block text-lg"
-          onClick={() => router.push("/posts")}
+          onClick={() => router.push("/")}
         >
           메인 페이지로 돌아가기
         </Button>

@@ -29,7 +29,7 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import "swiper/css"
 import { Pagination } from "swiper/modules"
 import ReactHtmlParser from "react-html-parser"
-import PostSitePreview from "../../../app/(site)/posts/(layout)/components/PostSitePreview"
+import PostSitePreview from "@/components/ui/Post/PostSitePreview"
 
 const useTruncatedElement = ({ ref }: any) => {
   const [isTruncated, setIsTruncated] = useState(false)
@@ -154,7 +154,7 @@ export function PostCard({
     <>
       <Card
         className={`transition-transform transform cursor-pointer `}
-        onClick={() => router.push(`/posts/${feed.id}`)}
+        onClick={() => router.push(`/${feed.id}`)}
       >
         <CardHeader
           shadow={false}

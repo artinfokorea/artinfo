@@ -26,10 +26,11 @@ import ScrollUpButton from "@/components/ui/Button/ScrollUpButton"
 import { Feed } from "@/types/types"
 import { Toaster } from "react-hot-toast"
 import useToast from "@/hooks/useToast"
+import ListWithLatestJobs from "@/components/ui/LatestJobs/ListWithLatestJobs"
 import { useEffect, useState } from "react"
-import { PostCard } from "../../../../../components/ui/Card/PostCard"
-import AdContainer from "../../../home/components/ad/AdContainer"
-import FeedSkeleton from "../../../../../components/ui/Skeleton/FeedSkeleton"
+import { PostCard } from "../Card/PostCard"
+import AdContainer from "../../../app/(site)/home/components/ad/AdContainer"
+import FeedSkeleton from "../Skeleton/FeedSkeleton"
 
 function ProfileCard() {
   return (
@@ -109,7 +110,7 @@ function WriteFeedCard() {
 
         <div className="bg-gray-100 rounded-lg flex-1">
           {user && (
-            <Link href="/posts/create" className="block px-4 py-3">
+            <Link href="/create" className="block px-4 py-3">
               나누고 싶은 생각...
             </Link>
           )}
@@ -251,49 +252,56 @@ export default function Container() {
   }
 
   return (
-    <>
-      <div className="mb-5" id="top">
-        <WriteFeedCard />
-      </div>
+    <div className="mx-auto max-w-screen-lg px-4 lg:px-0">
+      <div className="flex pt-4">
+        <div className="flex-1 overflow-hidden">
+          <div className="mb-5" id="top">
+            <WriteFeedCard />
+          </div>
 
-      <div className="feed-groups pb-10">
-        {isLoading && (
-          <>
-            <FeedSkeleton />
-            <FeedSkeleton />
-            <FeedSkeleton />
-            <FeedSkeleton />
-            <FeedSkeleton />
-            <FeedSkeleton />
-            <FeedSkeleton />
-          </>
-        )}
-        <AdSection />
+          <div className="feed-groups pb-10">
+            {isLoading && (
+              <>
+                <FeedSkeleton />
+                <FeedSkeleton />
+                <FeedSkeleton />
+                <FeedSkeleton />
+                <FeedSkeleton />
+                <FeedSkeleton />
+                <FeedSkeleton />
+              </>
+            )}
+            <AdSection />
 
-        {feedsData?.pages.map(group => (
-          <div key={group.nextPage}>
-            {group.feeds.map((feed: Feed) => (
-              <div key={feed.id} className="my-4">
-                <PostCard
-                  feed={feed as any}
-                  handleUpdatePostLike={handleUpdatePostLike}
-                  handleDeleteFeed={handleDeleteFeed}
-                  showCommentBtn
-                  shortContent
-                />
+            {feedsData?.pages.map(group => (
+              <div key={group.nextPage}>
+                {group.feeds.map((feed: Feed) => (
+                  <div key={feed.id} className="my-4">
+                    <PostCard
+                      feed={feed as any}
+                      handleUpdatePostLike={handleUpdatePostLike}
+                      handleDeleteFeed={handleDeleteFeed}
+                      showCommentBtn
+                      shortContent
+                    />
+                  </div>
+                ))}
               </div>
             ))}
-          </div>
-        ))}
 
-        {isMounted && isMobile && (
-          <div className="fixed bottom-32 right-3">
-            <ScrollUpButton handleScroll={handleScroll} />
+            {isMounted && isMobile && (
+              <div className="fixed bottom-32 right-3">
+                <ScrollUpButton handleScroll={handleScroll} />
+              </div>
+            )}
           </div>
-        )}
+          <div ref={ref} />
+          <Toaster />
+        </div>
+        <div className="ml-5 hidden md:block" style={{ width: 300 }}>
+          <ListWithLatestJobs />
+        </div>
       </div>
-      <div ref={ref} />
-      <Toaster />
-    </>
+    </div>
   )
 }

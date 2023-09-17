@@ -7,15 +7,15 @@ export async function middleware(req: NextRequest) {
   const { data } = await supabase.auth.getSession()
   const { pathname } = req.nextUrl
 
-  // if (pathname === "/") {
-  //   return NextResponse.redirect(new URL("/posts", req.url), { status: 301 })
-  // }
+  if (pathname === "/posts") {
+    return NextResponse.redirect(new URL("/", req.url), { status: 301 })
+  }
 
   if (pathname === "/auth") {
     if (data.session) {
       return NextResponse.redirect(new URL("/", req.url))
     }
-  } else if (pathname === "/posts/create") {
+  } else if (pathname === "/create") {
     if (!data.session) {
       return NextResponse.redirect(new URL("/auth", req.url))
     }
@@ -42,9 +42,10 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    // "/:path*",
+    "/posts",
+    "/posts/:path*",
     "/auth:path*",
-    "/posts/create",
+    "/create",
     "/home:path*",
     "/inquiry",
     "/concerts/create",

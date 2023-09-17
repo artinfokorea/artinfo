@@ -99,7 +99,7 @@ export default function CreatePost() {
       await queryClient.invalidateQueries({ queryKey: ["feeds"] })
 
       console.log("SUCCESS!")
-      router.replace("/posts")
+      router.replace("/")
     } catch (error) {
       console.error(error)
     } finally {
@@ -144,7 +144,7 @@ export default function CreatePost() {
 
   return (
     <div
-      className=""
+      className="mx-auto max-w-screen-lg px-4 lg:px-0"
       style={{
         height: "calc(100vh - 58px)",
       }}

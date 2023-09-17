@@ -133,7 +133,7 @@ export function BottomNavigation() {
   const items = [
     {
       title: "Home",
-      href: "/posts",
+      href: "/",
       icon: HomeIcon,
     },
     {
