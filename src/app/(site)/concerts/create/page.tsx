@@ -18,6 +18,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker"
 import { useRouter } from "next/navigation"
 import dynamic from "next/dynamic"
 import useToast from "@/hooks/useToast"
+import { link } from "fs"
 
 const QuillEditor = dynamic(
   () => import("@/components/ui/Editor/QuillEditor"),
@@ -40,6 +41,7 @@ const page = () => {
   const queryClient = useQueryClient()
   const [title, setTitle] = useState<string>("")
   const [location, setLocation] = useState<string>("")
+  const [linkUrl, setLinkUrl] = useState<string>("")
   const [isLoading, setIsLoading] = useState(false)
   const supabase = useSupabase()
   const [uploadedImage, setUploadedImage] = useState<File>()
@@ -67,6 +69,12 @@ const page = () => {
   const isValidForm =
     location?.length >= 5 && (title.length ? title.length >= 5 : true)
 
+  const isValidUrl = () => {
+    const urlPattern = /^https:\/\//i
+    if (!linkUrl) return false
+    return urlPattern.test(linkUrl)
+  }
+
   const handleCreateConcert = async () => {
     if (!user) {
       return
@@ -78,6 +86,7 @@ const page = () => {
         profile_id: user.id,
         poster_url: null,
         performance_time: startedAt,
+        link_url: linkUrl,
         title,
         contents: htmlStr,
         location,
@@ -164,7 +173,7 @@ const page = () => {
         <div className="pb-2 border-b border-gray-300">
           <InputCounter
             currentLength={title?.length || 0}
-            maxLength={50}
+            maxLength={30}
             className="text-right"
           >
             <ResizteTextArea
@@ -179,8 +188,8 @@ const page = () => {
         </div>
         <div className="mt-8 flex-1 overflow-y-auto">
           <InputCounter
-            currentLength={title?.length || 0}
-            maxLength={50}
+            currentLength={location?.length || 0}
+            maxLength={30}
             className="text-right"
           >
             <ResizteTextArea
@@ -189,6 +198,21 @@ const page = () => {
               placeholder="장소를 입력해주세요(필수)"
               className="md:text-xl"
               onChange={value => setLocation(value)}
+            />
+          </InputCounter>
+
+          <InputCounter
+            currentLength={linkUrl?.length || 0}
+            maxLength={50}
+            className="text-right"
+          >
+            <ResizteTextArea
+              value={linkUrl}
+              maxRows={5}
+              maxLength={50}
+              placeholder="공연 링크를 입력해주세요(예: https://naver.com)"
+              className="md:text-2xl"
+              onChange={value => setLinkUrl(value)}
             />
           </InputCounter>
 
@@ -265,7 +289,7 @@ const page = () => {
                   </Button>
                 </Link>
                 <Button
-                  disabled={!isValidForm || isLoading}
+                  disabled={!isValidForm || !isValidUrl()}
                   size="lg"
                   className="rounded-md bg-indigo-500 w-full md:w-32"
                   onClick={handleCreateConcert}
