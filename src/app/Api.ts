@@ -80,6 +80,21 @@ export async function fetchJob(id: number) {
   return data
 }
 
+export async function deleteJob(id: number) {
+  const supabase = useSupabase()
+
+  // const { data, error } = await supabase.from("feeds").delete().eq("id", id)
+  const { data, error } = await supabase
+    .from("recruit_jobs")
+    .delete()
+    .eq("id", id)
+
+  if (error) {
+    throw error
+  }
+  return data
+}
+
 /* ****************************************************** FEED ****************************************************** */
 type FeedsPayload = {
   pageParam?: number
@@ -149,7 +164,7 @@ type CommentsPayload = {
 export async function fetchComments({
   postId,
   pageParam = 0,
-  itemCount = 10,
+  itemCount = 20,
 }: CommentsPayload) {
   const supabase = useSupabase()
   const { data, count, error } = await supabase
@@ -158,8 +173,8 @@ export async function fetchComments({
       count: "exact",
     })
     .match({ type: "POST", post_id: postId })
-    .order("id", {
-      ascending: false,
+    .order("created_at", {
+      ascending: true,
     })
     .limit(itemCount)
     .range(pageParam * itemCount, (pageParam + 1) * itemCount - 1)

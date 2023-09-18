@@ -104,15 +104,25 @@ function NavItemButton({
   icon: any
 }) {
   const path = usePathname()
-
+  const [isIPhone, setIsIPhone] = useState(false)
   const defaultColor =
     "text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500"
   const activeColor = "text-blue-500"
   const active = path === href
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent.toLowerCase()
+
+    if (userAgent.indexOf("iphone") > -1) {
+      setIsIPhone(true)
+    }
+  }, [])
   return (
     <Link
       href={href}
-      className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group"
+      className={`inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group
+      ${isIPhone && "py-4"}
+      `}
       prefetch
     >
       <Icon
@@ -171,7 +181,7 @@ export function BottomNavigation() {
   return (
     <div
       className={`sm:hidden sticky bottom-0 left-0 z-10 w-full ${
-        isIPhone ? "h-20 safe-area pt-4" : "h-16"
+        isIPhone ? "h-20 safe-area " : "h-16"
       } bg-white border-t border-gray-200 dark:bg-gray-700 dark:border-gray-600`}
     >
       <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
