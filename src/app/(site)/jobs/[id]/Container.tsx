@@ -69,7 +69,7 @@ export default function Container({ jobId }: IProps) {
     onSuccess: () => {
       router.replace("/jobs")
       queryClient.invalidateQueries(["recruit_jobs"])
-      successToast("댓글이 삭제되었습니다.")
+      successToast("채용 게시글이 삭제되었습니다.")
     },
   })
 

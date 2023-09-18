@@ -153,10 +153,10 @@ const page = () => {
   }
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center px-4  ">
       <div className="text-left text-2xl my-12 font-semibold">공연 등록</div>
 
-      <form className="w-3/4">
+      <form className="w-full lg:w-3/4">
         <div className="w-20 mb-5">
           <Select
             variant="static"
@@ -180,7 +180,7 @@ const page = () => {
               value={title}
               maxRows={5}
               maxLength={50}
-              placeholder="제목을 입력해주세요(선택사항: 입력시 5글자 이상)"
+              placeholder="제목을 입력해주세요(5글자 이상)"
               className="md:text-2xl"
               onChange={value => setTitle(value)}
             />
@@ -189,13 +189,13 @@ const page = () => {
         <div className="mt-8 flex-1 overflow-y-auto">
           <InputCounter
             currentLength={location?.length || 0}
-            maxLength={30}
+            maxLength={50}
             className="text-right"
           >
             <ResizteTextArea
               value={location}
               maxLength={1000}
-              placeholder="장소를 입력해주세요(필수)"
+              placeholder="장소를 입력해주세요(예: 예술의 전당)"
               className="md:text-xl"
               onChange={value => setLocation(value)}
             />
