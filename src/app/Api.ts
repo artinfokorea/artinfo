@@ -2,6 +2,7 @@ import useSupabase from "@/hooks/useSupabase"
 import {
   CONCERT_CATEGORY,
   CommentType,
+  IConcert,
   JOB_POSITION_1DEPTH_CATEGORY,
   PROFILE_PAYLOAD,
 } from "@/types/types"
@@ -24,7 +25,7 @@ export async function fetchConcerts(
   }
   return data
 }
-export async function fetchConcert(id: number) {
+export async function fetchConcert(id: number): Promise<IConcert> {
   const supabase = useSupabase()
   const { data, error } = await supabase
     .from("concerts")
@@ -36,6 +37,18 @@ export async function fetchConcert(id: number) {
     throw error
   }
 
+  return data
+}
+
+export async function deleteConcert(id: number) {
+  const supabase = useSupabase()
+
+  // const { data, error } = await supabase.from("feeds").delete().eq("id", id)
+  const { data, error } = await supabase.from("concerts").delete().eq("id", id)
+
+  if (error) {
+    throw error
+  }
   return data
 }
 

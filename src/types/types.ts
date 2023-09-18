@@ -115,6 +115,27 @@ export const CONCERT_CATEGORY_ITEMS = {
   SOLO: "솔로",
   ETC: "기타",
 }
+
+export type IConcert = {
+  id: number
+  title: string
+  contents?: string
+  poster_url?: string | null
+  count_of_views: number
+  location?: string
+  performence_time?: string
+  created_at: string
+  profile_id?: string
+  category: CONCERT_CATEGORY
+  link_url?: string
+  profiles?: {
+    id: string
+    name: string
+    email: string
+    icon_image_url?: string | null
+  } | null
+}
+
 export const CONCERT_CATEGORY_SELECT_ITEMS = (
   Object.keys(CONCERT_CATEGORY_ITEMS) as CONCERT_CATEGORY[]
 ).map(key => ({ title: CONCERT_CATEGORY_ITEMS[key], value: key }))

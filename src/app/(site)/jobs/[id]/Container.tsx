@@ -12,6 +12,7 @@ import useAuth from "@/hooks/useAuth"
 import { TrashIcon } from "@heroicons/react/24/outline"
 import { Modal } from "@/components/ui/Modal"
 import useToast from "@/hooks/useToast"
+import { Toaster } from "react-hot-toast"
 
 const ScrollButtonWrap = dynamic(
   () => import("@/components/ui/Button/ScrollButtonWrap"),
@@ -150,7 +151,7 @@ export default function Container({ jobId }: IProps) {
           )}
 
           <Link
-            className="flex-1 transition ease-in-out duration-150
+            className="flex-1 transition ease-in-out duration-150 
            inline-flex items-center w-full justify-center text-md pt-1 leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 text-white "
             href={job?.link_url}
             target="_blank"
@@ -187,6 +188,7 @@ export default function Container({ jobId }: IProps) {
           </button>
         </div>
       </Modal>
+      <Toaster />
     </div>
   )
 }
