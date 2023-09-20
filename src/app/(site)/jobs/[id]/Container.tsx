@@ -137,7 +137,7 @@ export default function Container({ jobId }: IProps) {
         <div
           className={`w-full flex fixed ${
             isIPhone ? "bottom-20" : "bottom-16"
-          } left-0 h-12
+          } left-0 h-14
           bg-indigo-600
           `}
         >
@@ -152,7 +152,7 @@ export default function Container({ jobId }: IProps) {
 
           <Link
             className="flex-1 transition ease-in-out duration-150 
-           inline-flex items-center w-full justify-center text-md pt-1 leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 text-white "
+           inline-flex items-center w-full justify-center text-md pt-1 leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 text-white"
             href={job?.link_url}
             target="_blank"
           >

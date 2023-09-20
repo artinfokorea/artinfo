@@ -153,7 +153,7 @@ export default function Container({ pageId }: IProps) {
         <div
           className={`w-full flex fixed ${
             isIPhone ? "bottom-20" : "bottom-16"
-          } left-0 h-12
+          } left-0 h-14
           bg-indigo-600
           `}
         >
