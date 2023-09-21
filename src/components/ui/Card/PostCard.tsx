@@ -216,19 +216,18 @@ export function PostCard({
                 )}
               </>
             ) : (
-              <p
+              <div
                 className="whitespace-pre-wrap"
                 style={{
                   overflowWrap: "break-word",
                 }}
               >
-                {/* {ReactHtmlParser(filters.URLFY(feed.content) || "")} */}
                 <div
                   dangerouslySetInnerHTML={{
                     __html: filters.URLFY(feed.content) || "",
                   }}
                 />
-              </p>
+              </div>
             )}
             {images && (
               <div className="bg-white py-4 px-4 mt-4 drop-shadow-md shawdow-md rounded-lg overflow-x-auto">
