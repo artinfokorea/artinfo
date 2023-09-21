@@ -123,7 +123,7 @@ export type IConcert = {
   poster_url?: string | null
   count_of_views: number
   location?: string
-  performence_time?: string
+  performance_time?: string
   created_at: string
   profile_id?: string
   category: CONCERT_CATEGORY

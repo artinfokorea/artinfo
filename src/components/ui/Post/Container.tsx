@@ -26,8 +26,9 @@ import ScrollUpButton from "@/components/ui/Button/ScrollUpButton"
 import { Feed } from "@/types/types"
 import { Toaster } from "react-hot-toast"
 import useToast from "@/hooks/useToast"
+import PullToRefresh from "@/components/PullToRefresh"
 import ListWithLatestJobs from "@/components/ui/LatestJobs/ListWithLatestJobs"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { PostCard } from "../Card/PostCard"
 import AdContainer from "../../../app/(site)/home/components/ad/AdContainer"
 import FeedSkeleton from "../Skeleton/FeedSkeleton"
@@ -137,6 +138,7 @@ export default function Container() {
   const { user } = useAuth()
   const [isMounted, setIsMounted] = useState(false)
   const { successToast, errorToast } = useToast()
+  const containerEl = useRef<HTMLDivElement>(null)
 
   const [ref, inView] = useInView({
     delay: 300,
@@ -159,6 +161,7 @@ export default function Container() {
     fetchNextPage,
     isFetching,
     isLoading,
+    refetch,
   } = useInfiniteQuery({
     queryKey: ["feeds"],
     suspense: false,
@@ -252,7 +255,8 @@ export default function Container() {
   }
 
   return (
-    <div className="mx-auto max-w-screen-lg px-4 lg:px-0">
+    <div ref={containerEl} className="mx-auto max-w-screen-lg px-4 lg:px-0">
+      {/* <PullToRefresh ref={containerEl} refetch={refetch} /> */}
       <div className="flex pt-4">
         <div className="flex-1 overflow-hidden">
           <div className="mb-5" id="top">
