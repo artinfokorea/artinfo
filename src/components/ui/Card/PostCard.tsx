@@ -28,7 +28,6 @@ import { Modal } from "@/components/ui/Modal"
 import { Swiper, SwiperSlide } from "swiper/react"
 import "swiper/css"
 import { Pagination } from "swiper/modules"
-import ReactHtmlParser from "react-html-parser"
 import PostSitePreview from "@/components/ui/Post/PostSitePreview"
 
 const useTruncatedElement = ({ ref }: any) => {
@@ -192,7 +191,7 @@ export function PostCard({
 
             {shortContent ? (
               <>
-                <p
+                <div
                   ref={ref}
                   className={`whitespace-pre-wrap ${
                     !isReadingMore && "line-clamp-4"
@@ -201,8 +200,12 @@ export function PostCard({
                     overflowWrap: "break-word",
                   }}
                 >
-                  {ReactHtmlParser(filters.URLFY(feed.content) || "")}
-                </p>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: filters.URLFY(feed.content) || "",
+                    }}
+                  />
+                </div>
                 {isTruncated && !isReadingMore && (
                   <button
                     className="mt-1 text-primary opacity-60 hover:opacity-100"
