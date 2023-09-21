@@ -222,7 +222,12 @@ export function PostCard({
                   overflowWrap: "break-word",
                 }}
               >
-                {ReactHtmlParser(filters.URLFY(feed.content) || "")}
+                {/* {ReactHtmlParser(filters.URLFY(feed.content) || "")} */}
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: filters.URLFY(feed.content) || "",
+                  }}
+                />
               </p>
             )}
             {images && (

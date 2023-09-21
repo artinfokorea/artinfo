@@ -398,6 +398,7 @@ export const FEED_CATEGORIES = {
   RECRUIT: "채용",
   REVIEW: "공연후기",
   QUESTION: "질문",
+  EVENT: "이벤트",
 }
 
 /*

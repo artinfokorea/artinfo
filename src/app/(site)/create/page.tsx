@@ -207,38 +207,37 @@ export default function CreatePost() {
               className="md:text-xl "
               onChange={value => setContent(value)}
             />
-
-            {uploadedImageUrls.length > 0 && (
-              <div className="overflow-x-auto h-[200px] absolute bottom-0 left-0">
-                <Swiper
-                  spaceBetween={10}
-                  slidesPerView="auto"
-                  modules={[Pagination]}
-                >
-                  {uploadedImageUrls?.map((uploadedImageUrl, index) => (
-                    <SwiperSlide key={uploadedImageUrl} style={{ width: 180 }}>
-                      <div
-                        className="relative bg-gray-300 h-screen"
-                        key={uploadedImageUrl}
-                      >
-                        <img
-                          src={uploadedImageUrl}
-                          alt="community-write-img"
-                          className="w-[200px] h-[200px]"
-                        />
-                        <button
-                          className="absolute right-2 top-2 text-red  bg-gray-600 rounded-full p-1"
-                          onClick={() => deleteImage(index)}
-                        >
-                          <XMarkIcon className="w-5" />
-                        </button>
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              </div>
-            )}
           </div>
+          {uploadedImageUrls.length > 0 && (
+            <div className="overflow-x-auto h-[200px]">
+              <Swiper
+                spaceBetween={10}
+                slidesPerView="auto"
+                modules={[Pagination]}
+              >
+                {uploadedImageUrls?.map((uploadedImageUrl, index) => (
+                  <SwiperSlide key={uploadedImageUrl} style={{ width: 180 }}>
+                    <div
+                      className="relative bg-gray-300 h-screen"
+                      key={uploadedImageUrl}
+                    >
+                      <img
+                        src={uploadedImageUrl}
+                        alt="community-write-img"
+                        className="w-[200px] h-[200px]"
+                      />
+                      <button
+                        className="absolute right-2 top-2 text-red  bg-gray-600 rounded-full p-1"
+                        onClick={() => deleteImage(index)}
+                      >
+                        <XMarkIcon className="w-5" />
+                      </button>
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+          )}
           <div>
             <InputCounter
               currentLength={content?.length || 0}
