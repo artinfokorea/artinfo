@@ -158,8 +158,15 @@ export default function Container({ pageId }: IProps) {
     },
     onMutate: updateLike => {
       queryClient.setQueryData(["feed", pageId], (old: any) => {
+        const feed = old
+
+        if (updateLike.like) {
+          feed.count_of_likes += 1
+        } else {
+          feed.count_of_likes -= 1
+        }
         return {
-          ...old,
+          ...feed,
           like: updateLike.like,
         }
       })
