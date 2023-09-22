@@ -189,7 +189,7 @@ export default function Container({ pageId }: IProps) {
                   href={concert?.link_url}
                   target="_blank"
                 >
-                  공고 바로가기
+                  공연 바로가기
                 </Link>
               )}
             </div>
@@ -223,7 +223,7 @@ export default function Container({ pageId }: IProps) {
                 href={concert?.link_url}
                 target="_blank"
               >
-                공고 바로가기
+                공연 바로가기
               </Link>
             </div>
           )}

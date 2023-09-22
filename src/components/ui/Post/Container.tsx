@@ -124,7 +124,7 @@ function WriteFeedCard() {
 
 function AdSection() {
   return (
-    <div className="overflow-hidden bg-white py-4 px-4 mt-4 drop-shadow-md shawdow-md rounded-lg">
+    <div className="overflow-hidden bg-white py-4 px-4 drop-shadow-md shawdow-md rounded-lg">
       <h5 className="font-semibold mb-2">콘서트</h5>
       <div className="overflow-x-auto">
         <AdContainer />
@@ -257,13 +257,14 @@ export default function Container() {
   return (
     <div ref={containerEl} className="mx-auto max-w-screen-lg px-4 lg:px-0">
       {/* <PullToRefresh ref={containerEl} refetch={refetch} /> */}
-      <div className="flex pt-4">
+      <div className="flex pt-2">
         <div className="flex-1 overflow-hidden">
-          <div className="mb-5" id="top">
+          <div className="mb-4" id="top">
             <WriteFeedCard />
           </div>
 
           <div className="feed-groups pb-5">
+            <AdSection />
             {isLoading && (
               <>
                 <FeedSkeleton />
@@ -275,7 +276,6 @@ export default function Container() {
                 <FeedSkeleton />
               </>
             )}
-            <AdSection />
 
             {feedsData?.pages.map(group => (
               <div key={group.nextPage}>

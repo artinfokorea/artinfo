@@ -198,7 +198,7 @@ export default function Container({ pageId }: IProps) {
         handleUpdatePostLike={handleUpdatePostLike}
         handleDeleteFeed={handleDeleteFeed}
       />
-      <div className="mt-14">
+      <div className="mt-14 mx-2">
         <CommentContainer commentsCount={commentsData?.pages[0].count || 0}>
           {user && (
             <CommentForm

@@ -56,7 +56,9 @@ export default async function RootLayout({
             <AuthProvider>
               <RecoilProvider>
                 <Header />
-                <main className="flex-1 overflow-y-auto ">{children}</main>
+                <main className="flex-1 overflow-y-auto relative z-1 mt-16 ">
+                  {children}
+                </main>
                 <BottomNavigation />
                 <HomeScreenContainer />
               </RecoilProvider>

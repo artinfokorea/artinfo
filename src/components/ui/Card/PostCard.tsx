@@ -152,7 +152,7 @@ export function PostCard({
   return (
     <>
       <Card
-        className={`transition-transform transform cursor-pointer `}
+        className={`transition-transform transform cursor-pointer my-2 mx-2  `}
         onClick={() => router.push(`/${feed.id}`)}
       >
         <CardHeader
@@ -176,9 +176,10 @@ export function PostCard({
               {feed.category && (
                 <PositionTag tag={FEED_CATEGORIES[feed.category!]} />
               )}
-
-              <span className="ml-2">{filters.FROM_NOW(feed?.created_at)}</span>
             </div>
+            <span className="text-sm">
+              {filters.FROM_NOW(feed?.created_at)}
+            </span>
           </div>
         </CardHeader>
         <CardBody>
