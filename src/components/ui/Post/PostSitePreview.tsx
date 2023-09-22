@@ -52,7 +52,7 @@ export default function PostSitePreview({ meta }: IProps) {
       <div className="p-4 bg-gray-200">
         <div>{meta.host}</div>
         <div className="font-bold text-md">{meta.title}</div>
-        <div className="text-sm">{meta.description}</div>
+        {/* <div className="text-sm">{meta.description}</div> */}
       </div>
     </div>
   )
