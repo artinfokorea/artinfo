@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${pageTitle}|아트인포`,
-    // description: pageDesc,
+    description: "공연 바로가기",
     openGraph: {
       title: pageTitle,
       images: {
