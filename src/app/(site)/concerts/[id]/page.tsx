@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {}
   }
 
-  const pageTitle = (data?.title || data?.contents || "").substring(0, 35)
+  const pageTitle = data?.title.substring(0, 35)
   const pageDesc = (data?.contents || "").substring(0, 100)
   const pageImage = data?.poster_url
 
