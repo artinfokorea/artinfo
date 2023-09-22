@@ -3,10 +3,10 @@ import cheerio from "cheerio"
 import NodeCache from "node-cache"
 
 const pattern = /^((http|https):\/\/)/
-const myCache = new NodeCache({
-  stdTTL: 86400 * 30, // 1 mon
-  checkperiod: 86400 * 15, // 15 day
-})
+// const myCache = new NodeCache({
+//   stdTTL: 86400 * 30, // 1 mon
+//   checkperiod: 86400 * 15, // 15 day
+// })
 
 async function fetchWithTimeout(
   resource: string,
@@ -38,12 +38,12 @@ export async function GET(request: NextRequest) {
   const baseUrl = `${siteUrl.protocol}//${siteUrl.host}`
 
   const cacheKey = `preview-url:${urlStr}`
-  const siteInfoCache = myCache.get(cacheKey)
-  // console.log("siteInfoCache", siteInfoCache)
-  if (siteInfoCache) {
-    // return siteInfoCache
-    return NextResponse.json(siteInfoCache)
-  }
+  // const siteInfoCache = myCache.get(cacheKey)
+  // // console.log("siteInfoCache", siteInfoCache)
+  // if (siteInfoCache) {
+  //   // return siteInfoCache
+  //   return NextResponse.json(siteInfoCache)
+  // }
 
   const metadata = {
     fullUrl: urlStr,
@@ -91,7 +91,7 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    myCache.set(cacheKey, metadata)
+    // myCache.set(cacheKey, metadata)
     console.log("metadata", metadata)
     return NextResponse.json(metadata)
   } catch (e: any) {
