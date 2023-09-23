@@ -63,8 +63,6 @@ const ConcertForm = ({ type, concert }: Props) => {
   const quillRef = useRef()
   const { successToast, errorToast } = useToast()
 
-  // const uploadedImageUrl = uploadedImage && URL.createObjectURL(uploadedImage)
-
   const handleUploadedFiles = (files: File[]) => {
     const file = files[0]
     setUploadedImage(file)
@@ -75,8 +73,7 @@ const ConcertForm = ({ type, concert }: Props) => {
     fileUploader.current?.click()
   }
 
-  const isValidForm =
-    location?.length >= 5 && (title.length ? title.length >= 5 : true)
+  const isValidForm = location?.length >= 5 && title.length && uploadedImageUrl
 
   const isValidUrl = () => {
     const urlPattern = /^https:\/\//i

@@ -171,18 +171,17 @@ export function PostCard({
             className="flex-1 flex flex-col"
             onClick={handleMoveToUserProfile}
           >
+            <div className="text-md font-semibold">{feed.profiles?.name}</div>
             <div className="flex items-center">
-              <div className="text-md font-semibold">{feed.profiles?.name}</div>
-              <div className="text-sm flex items-center ml-2">
+              <div className="text-sm flex items-center">
                 {feed.category && (
                   <PositionTag tag={FEED_CATEGORIES[feed.category!]} />
                 )}
               </div>
+              <span className={`text-sm ${feed.category ? "ml-1" : ""}`}>
+                {filters.FROM_NOW(feed?.created_at)}
+              </span>
             </div>
-
-            <span className="text-sm">
-              {filters.FROM_NOW(feed?.created_at)}
-            </span>
           </div>
         </CardHeader>
         <CardBody>
