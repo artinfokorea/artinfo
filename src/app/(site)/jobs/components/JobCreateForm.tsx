@@ -20,11 +20,12 @@ import useAuth from "@/hooks/useAuth"
 import { RECRUIT_JOBS_CATEGORY } from "@/types/types"
 import dynamic from "next/dynamic"
 import { useQueryClient } from "@tanstack/react-query"
+import Loading from "@/components/ui/Loading/Loading"
 
 const QuillEditor = dynamic(
   () => import("@/components/ui/Editor/QuillEditor"),
   {
-    loading: () => <div>...loading</div>,
+    loading: () => <Loading />,
     ssr: false,
   },
 )

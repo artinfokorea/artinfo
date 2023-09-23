@@ -19,11 +19,12 @@ import { useRouter } from "next/navigation"
 import dynamic from "next/dynamic"
 import useToast from "@/hooks/useToast"
 import { IConcert } from "@/types/types"
+import Loading from "@/components/ui/Loading/Loading"
 
 const QuillEditor = dynamic(
   () => import("@/components/ui/Editor/QuillEditor"),
   {
-    loading: () => <div>...loading</div>,
+    loading: () => <Loading />,
     ssr: false,
   },
 )
@@ -357,7 +358,7 @@ const ConcertForm = ({ type, concert }: Props) => {
                     />
                   </svg>
                 </IconButton>
-                <span className="text-sm">대표사진 업로드</span>
+                <span className="text-sm">대표사진 업로드(필수)</span>
               </div>
 
               <div className="flex gap-2 flex-1 md:flex-none">
