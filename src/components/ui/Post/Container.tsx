@@ -32,6 +32,7 @@ import { useEffect, useRef, useState } from "react"
 import { PostCard } from "../Card/PostCard"
 import AdContainer from "../../../app/(site)/home/components/ad/AdContainer"
 import FeedSkeleton from "../Skeleton/FeedSkeleton"
+import { useRouter } from "next/navigation"
 
 function ProfileCard() {
   return (
@@ -139,6 +140,7 @@ export default function Container() {
   const [isMounted, setIsMounted] = useState(false)
   const { successToast, errorToast } = useToast()
   const containerEl = useRef<HTMLDivElement>(null)
+  const router = useRouter()
 
   const [ref, inView] = useInView({
     delay: 300,
@@ -294,8 +296,27 @@ export default function Container() {
             ))}
 
             {isMounted && isMobile && (
-              <div className="fixed bottom-32 right-3">
+              <div className="fixed bottom-32 right-3 flex flex-col">
                 <ScrollUpButton handleScroll={handleScroll} />
+                <button
+                  className="text-darkgrey my-2 bg-whitesmoke rounded-full drop-shadow-md "
+                  onClick={() => router.push("/create")}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-10 h-10"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 4.5v15m7.5-7.5h-15"
+                    />
+                  </svg>
+                </button>
               </div>
             )}
           </div>

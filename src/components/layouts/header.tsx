@@ -196,6 +196,8 @@ export default function Header() {
     }
   }, [user])
 
+  
+
   return (
     <Navbar className="fixed top-0 left-0 z-999 h-max max-w-full rounded-none py-2 px-4 lg:px-8">
       <div className="flex items-center text-blue-gray-900 mx-auto max-w-screen-lg">

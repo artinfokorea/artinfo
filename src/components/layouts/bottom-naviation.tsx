@@ -117,6 +117,7 @@ function NavItemButton({
       setIsIPhone(true)
     }
   }, [])
+
   return (
     <Link
       href={href}

@@ -14,7 +14,7 @@ const ScrollUpButton = ({ handleScroll }: IProps) => {
       ripple={false}
       variant="text"
       size="md"
-      className=" text-darkgrey my-2 bg-whitesmoke rounded-full"
+      className=" text-darkgrey my-2 bg-whitesmoke rounded-full drop-shadow-md"
       onClick={handleScroll}
     >
       <ArrowUpIcon className="w-8" />

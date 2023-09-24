@@ -8,7 +8,7 @@ const ListButton = ({ list }: { list: string }) => {
 
   return (
     <IconButton
-      className="bg-whitesmoke text-darkgrey py-2 rounded-full my-3"
+      className="bg-whitesmoke text-darkgrey py-2 rounded-full my-3 drop-shadow-md"
       onClick={() => {
         router.push(`/${list}`)
       }}
