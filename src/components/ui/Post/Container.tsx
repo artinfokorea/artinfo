@@ -10,7 +10,6 @@ import {
   Tooltip,
   Button,
 } from "@/components/material"
-
 import { useAuth } from "@/app/(auth)/auth/components/AuthProvider"
 import Link from "next/link"
 import {
@@ -28,11 +27,11 @@ import { Toaster } from "react-hot-toast"
 import useToast from "@/hooks/useToast"
 // import PullToRefresh from "@/components/PullToRefresh"
 import ListWithLatestJobs from "@/components/ui/LatestJobs/ListWithLatestJobs"
+import { useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import { PostCard } from "../Card/PostCard"
 import AdContainer from "../../../app/(site)/home/components/ad/AdContainer"
 import FeedSkeleton from "../Skeleton/FeedSkeleton"
-import { useRouter } from "next/navigation"
 
 function ProfileCard() {
   return (
