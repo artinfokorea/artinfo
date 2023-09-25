@@ -29,7 +29,7 @@ import useToast from "@/hooks/useToast"
 import ListWithLatestJobs from "@/components/ui/LatestJobs/ListWithLatestJobs"
 import { useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
-import { PostCard } from "../Card/PostCard"
+import { PostCard } from "./PostCard"
 import AdContainer from "../../../app/(site)/home/components/ad/AdContainer"
 import FeedSkeleton from "../Skeleton/FeedSkeleton"
 

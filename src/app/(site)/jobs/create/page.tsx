@@ -1,5 +1,5 @@
 import React from "react"
-import JobCreateForm from "../components/JobCreateForm"
+import JobCreateForm from "../../../../components/ui/Job/JobCreateForm"
 
 const page = () => {
   return (

@@ -3,7 +3,7 @@
 import { Suspense } from "react"
 import { ChipButton } from "@/components/ui/Button/LinkChipButton"
 import Loading from "@/components/ui/Loading"
-import JobContainer from "./components/JobContainer"
+import JobContainer from "../../../components/ui/Job/JobContainer"
 
 export default function Recruits() {
   return (

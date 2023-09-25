@@ -10,9 +10,9 @@ import { useInView } from "react-intersection-observer"
 import { CONCERT_CATEGORY } from "@/types/types"
 import ScrollUpButton from "@/components/ui/Button/ScrollUpButton"
 import useAuth from "@/hooks/useAuth"
-import ConcertCard from "../../../../components/ui/Card/ConcertCard"
+import ConcertCard from "./ConcertCard"
 import ConcertCategory from "./ConcertCategory"
-import ConcertSkeleton from "../../../../components/ui/Skeleton/ConcertSkeleton"
+import ConcertSkeleton from "../Skeleton/ConcertSkeleton"
 
 export default function ConcertContainer() {
   const [category, selectCategory] = useState<"ALL" | CONCERT_CATEGORY>("ALL")

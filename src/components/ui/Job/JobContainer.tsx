@@ -14,8 +14,8 @@ import Link from "next/link"
 import { fetchJobs } from "@/app/Api"
 import { isMobileWeb } from "@toss/utils"
 import ScrollUpButton from "@/components/ui/Button/ScrollUpButton"
-import JobCard from "../../../../components/ui/Card/JobCard"
-import JobSkeleton from "../../../../components/ui/Skeleton/JobSkeleton"
+import JobCard from "./JobCard"
+import JobSkeleton from "../Skeleton/JobSkeleton"
 
 export default function JobContainer() {
   const [isMounted, setIsMounted] = useState(false)

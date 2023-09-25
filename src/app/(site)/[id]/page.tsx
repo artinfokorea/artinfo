@@ -2,7 +2,9 @@ import { Suspense } from "react"
 import { Metadata } from "next/types"
 import SupabaseServer from "@/lib/supabase-server"
 import Loading from "@/components/ui/Loading/Loading"
-import { DataProvider } from "./DataProvider"
+import { Hydrate, dehydrate } from "@tanstack/react-query"
+import GetQueryClient from "@/app/GetQueryClient"
+import Container from "./Container"
 
 type Props = {
   params: { id: string }
@@ -47,11 +49,35 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default function PostDetail({ params }: { params: { id: string } }) {
+export default async function PostDetail({
+  params,
+}: {
+  params: { id: string }
+}) {
+  const supabase = SupabaseServer()
+
+  const queryClient = GetQueryClient()
+  await queryClient.prefetchQuery(["feed", params.id], async () => {
+    const { data, error } = await supabase
+      .rpc("get_feed", {
+        feed_id: Number(params.id),
+      })
+      .single()
+    if (error) throw error
+
+    await supabase.rpc("increment_feed_view", {
+      feed_id: Number(params.id),
+    })
+    return data
+  })
+  const dehydratedState = dehydrate(queryClient)
+
   return (
     <div className="mx-auto max-w-screen-lg">
       <Suspense fallback={<Loading />}>
-        <DataProvider pageId={params.id} />
+        <Hydrate state={dehydratedState}>
+          <Container pageId={params.id} />
+        </Hydrate>
       </Suspense>
     </div>
   )

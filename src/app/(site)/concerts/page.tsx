@@ -3,7 +3,7 @@
 import { Suspense } from "react"
 import Loading from "@/components/ui/Loading/Loading"
 import { ChipButton } from "@/components/ui/Button/LinkChipButton"
-import ConcertContainer from "./components/ConcertContainer"
+import ConcertContainer from "../../../components/ui/Concert/ConcertContainer"
 
 export default function Concerts() {
   return (
