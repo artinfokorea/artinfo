@@ -21,7 +21,7 @@ export default function ProfileContainer({ userId }: IProps) {
   })
 
   return (
-    <div className="sm:container mx-auto mt-4 px-4">
+    <div className="sm:container mx-auto my-2">
       {isLoading && <Spinner />}
       {user && <ProfileCard user={user[0]} refetch={refetch} />}
     </div>

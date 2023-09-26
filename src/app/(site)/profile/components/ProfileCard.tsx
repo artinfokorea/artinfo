@@ -145,7 +145,7 @@ export default function ProfileCard({ user, refetch }: IProps) {
   }
 
   return (
-    <div className="bg-white p-8 rounded-lg shadow-md">
+    <div className="bg-white p-8 md:rounded-md shadow-md">
       <div className="text-center flex flex-col items-center">
         <div className="relative">
           <img

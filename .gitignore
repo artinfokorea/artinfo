@@ -4,7 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
-/supabase
+
 # testing
 /coverage
 
@@ -28,7 +28,9 @@ yarn-error.log*
 #.env*.local
 .env
 
-/supabase/
+/supabase
+supabase/
+**/supabase/
 
 # vercel
 .vercel
