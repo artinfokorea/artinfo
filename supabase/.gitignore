@@ -1,4 +1,5 @@
 # Supabase
 .branches
 .temp
-.functions
+supabase/functions/sendPushMessage/index.ts
+functions
