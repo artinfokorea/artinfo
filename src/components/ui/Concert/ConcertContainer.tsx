@@ -111,11 +111,11 @@ export default function ConcertContainer() {
         )}
       </div>
 
-      {isMounted && isMobile && (
+      {/* {isMounted && isMobile && (
         <div className="fixed bottom-32 right-3">
           <ScrollUpButton handleScroll={handleScroll} />
         </div>
-      )}
+      )} */}
       <div ref={ref} />
     </div>
   )

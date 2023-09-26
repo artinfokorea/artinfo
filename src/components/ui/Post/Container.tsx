@@ -294,7 +294,7 @@ export default function Container() {
               </div>
             ))}
 
-            {isMounted && isMobile && (
+            {/* {isMounted && isMobile && (
               <div className="fixed bottom-32 right-3 flex flex-col">
                 <ScrollUpButton handleScroll={handleScroll} />
                 <button
@@ -317,7 +317,7 @@ export default function Container() {
                   </svg>
                 </button>
               </div>
-            )}
+            )} */}
           </div>
           <div ref={ref} className="h-4" />
           <Toaster />

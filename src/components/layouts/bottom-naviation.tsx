@@ -32,6 +32,26 @@ function ProfileIcon({ className }: { className?: string } = {}) {
     </svg>
   )
 }
+
+function PlusIcon({ className }: { className?: string } = {}) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className={`w-6 h-6 mb-1 ${className} `}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
+    </svg>
+  )
+}
+
 function JobIcon({ className }: { className?: string } = {}) {
   return (
     <svg
@@ -83,7 +103,7 @@ const InquiryIcon = ({ className }: { className?: string } = {}) => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className={`w-6 h-6 mb-2 ${className}`}
+      className={`w-6 h-6 mb-1 ${className} `}
     >
       <path
         strokeLinecap="round"
@@ -153,21 +173,32 @@ export function BottomNavigation() {
       icon: JobIcon,
     },
     {
+      title: "Write",
+      href: "/create",
+      icon: PlusIcon,
+    },
+    {
       title: "Concert",
       href: "/concerts",
       icon: ConcertIcon,
     },
-    {
-      title: "Login",
-      href: `/auth`,
-      icon: ProfileIcon,
-    },
+    // {
+    //   title: "Login",
+    //   href: `/auth`,
+    //   icon: ProfileIcon,
+    // },
   ]
   if (user) {
-    items[3] = {
+    items[4] = {
       title: "Inquiry",
       href: `/inquiry`,
       icon: InquiryIcon,
+    }
+  } else {
+    items[4] = {
+      title: "Login",
+      href: `/auth`,
+      icon: ProfileIcon,
     }
   }
 
@@ -185,7 +216,7 @@ export function BottomNavigation() {
         isIPhone ? "h-20 safe-area " : "h-16"
       } bg-white border-t border-gray-200 dark:bg-gray-700 dark:border-gray-600`}
     >
-      <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
+      <div className="grid h-full max-w-lg grid-cols-5 mx-auto font-medium">
         {items.map(item => (
           <NavItemButton
             key={item.title}

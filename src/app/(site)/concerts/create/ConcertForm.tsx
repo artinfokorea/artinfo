@@ -236,8 +236,19 @@ const ConcertForm = ({ type, concert }: Props) => {
 
   return (
     <div className="flex flex-col items-center px-4  ">
-      <div className="text-left text-2xl my-12 font-semibold">
-        {type === "create" ? "공연 등록" : "공연 수정"}
+      <div className=" flex items-center ">
+        <IconButton
+          ripple={false}
+          variant="text"
+          size="md"
+          className=" text-black md:hidden"
+        >
+          <XMarkIcon className="w-6" />
+        </IconButton>
+
+        <h2 className="text-left text-2xl my-6 font-semibold">
+          {type === "create" ? "공연 등록" : "공연 수정"}
+        </h2>
       </div>
 
       <form className="w-full lg:w-3/4">
