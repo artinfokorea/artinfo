@@ -256,11 +256,11 @@ export default function Container() {
   }
 
   return (
-    <div ref={containerEl} className="mx-auto max-w-screen-lg px-4 lg:px-0">
+    <div ref={containerEl} className="mx-auto max-w-screen-lg  lg:px-0">
       {/* <PullToRefresh ref={containerEl} refetch={refetch} /> */}
-      <div className="flex pt-2">
+      <div className="flex ">
         <div className="flex-1 overflow-hidden">
-          <div className="mb-4" id="top">
+          <div className="mb-2" id="top">
             <WriteFeedCard />
           </div>
 
@@ -281,7 +281,7 @@ export default function Container() {
             {feedsData?.pages.map(group => (
               <div key={group.nextPage}>
                 {group.feeds.map((feed: Feed) => (
-                  <div key={feed.id} className="my-4">
+                  <div key={feed.id} className="my-2">
                     <PostCard
                       feed={feed as any}
                       handleUpdatePostLike={handleUpdatePostLike}
@@ -322,7 +322,7 @@ export default function Container() {
           <div ref={ref} className="h-4" />
           <Toaster />
         </div>
-        <div className="ml-5 hidden md:block" style={{ width: 300 }}>
+        <div className="ml-5 hidden md:block " style={{ width: 300 }}>
           <ListWithLatestJobs />
         </div>
       </div>
