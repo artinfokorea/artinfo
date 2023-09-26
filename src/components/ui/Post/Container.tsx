@@ -95,7 +95,7 @@ function WriteFeedCard() {
   //   return null
   // }
   return (
-    <Card className="overflow-hidden p-4">
+    <Card className="overflow-hidden p-4 rounded-none md:rounded-md">
       <div className="flex items-center gap-x-4">
         {user && (
           <Avatar
@@ -124,7 +124,7 @@ function WriteFeedCard() {
 
 function AdSection() {
   return (
-    <div className="overflow-hidden bg-white py-4 px-4 drop-shadow-md shawdow-md rounded-lg">
+    <div className="overflow-hidden bg-white py-4 px-4 drop-shadow-md shawdow-md md:rounded-md">
       <h5 className="font-semibold mb-2">콘서트</h5>
       <div className="overflow-x-auto">
         <AdContainer />
@@ -260,7 +260,7 @@ export default function Container() {
       {/* <PullToRefresh ref={containerEl} refetch={refetch} /> */}
       <div className="flex ">
         <div className="flex-1 overflow-hidden">
-          <div className="mb-2" id="top">
+          <div className="mb-2 " id="top">
             <WriteFeedCard />
           </div>
 

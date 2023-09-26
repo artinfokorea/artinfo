@@ -152,7 +152,7 @@ export function PostCard({
   return (
     <>
       <Card
-        className={`transition-transform transform cursor-pointer my-2  `}
+        className={`transition-transform transform cursor-pointer my-2 rounded-none md:rounded-md `}
         onClick={() => router.push(`/${feed.id}`)}
       >
         <CardHeader
