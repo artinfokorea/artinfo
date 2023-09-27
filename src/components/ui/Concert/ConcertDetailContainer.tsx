@@ -14,7 +14,7 @@ import { Modal } from "@/components/ui/Modal"
 import useToast from "@/hooks/useToast"
 import { Toaster } from "react-hot-toast"
 import { useRouter } from "next/navigation"
-import ConcertForm from "../create/ConcertForm"
+import ConcertForm from "./ConcertForm"
 
 const ScrollButtonWrap = dynamic(
   () => import("@/components/ui/Button/ScrollButtonWrap"),
@@ -28,7 +28,7 @@ interface IProps {
   pageId: number
 }
 
-export default function Container({ pageId }: IProps) {
+export default function ConcertDetailContainer({ pageId }: IProps) {
   const [isIPhone, setIsIPhone] = useState(false)
   const [isOpenModal, setIsOpenModal] = useState(false)
   const { errorToast, successToast } = useToast()

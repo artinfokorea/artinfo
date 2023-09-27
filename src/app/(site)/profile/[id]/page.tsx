@@ -1,6 +1,6 @@
 import { Suspense } from "react"
 import Loading from "@/components/ui/Loading/Loading"
-import ProfileContainer from "../components/ProfileContainer"
+import ProfileContainer from "../../../../components/ui/Profile/ProfileContainer"
 
 interface IProps {
   params: {

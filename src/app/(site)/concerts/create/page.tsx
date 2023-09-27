@@ -1,5 +1,5 @@
 import React from "react"
-import ConcertForm from "./ConcertForm"
+import ConcertForm from "../../../../components/ui/Concert/ConcertForm"
 
 const page = () => {
   return (

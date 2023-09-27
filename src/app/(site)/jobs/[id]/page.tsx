@@ -1,13 +1,11 @@
 import { Suspense } from "react"
-import { Metadata } from "next/types"
-import SupabaseServer from "@/lib/supabase-server"
 import Loading from "@/components/ui/Loading/Loading"
-import Container from "./Container"
+import JobDetailContainer from "@/components/ui/Job/JobDetailContainer"
 
 export default function page({ params }: { params: { id: string } }) {
   return (
     <Suspense fallback={<Loading />}>
-      <Container jobId={Number(params.id)} />
+      <JobDetailContainer jobId={Number(params.id)} />
     </Suspense>
   )
 }

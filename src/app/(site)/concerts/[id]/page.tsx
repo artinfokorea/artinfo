@@ -5,7 +5,7 @@ import Loading from "@/components/ui/Loading/Loading"
 import GetQueryClient from "@/app/GetQueryClient"
 import { Hydrate, dehydrate } from "@tanstack/react-query"
 import { fetchConcert } from "@/app/Api"
-import Container from "./Container"
+import ConcertDetailContainer from "@/components/ui/Concert/ConcertDetailContainer"
 
 type Props = {
   params: { id: string }
@@ -56,7 +56,7 @@ export default async function page({ params }: { params: { id: string } }) {
   return (
     <Suspense fallback={<Loading />}>
       <Hydrate state={dehydratedState}>
-        <Container pageId={id} />
+        <ConcertDetailContainer pageId={id} />
       </Hydrate>
     </Suspense>
   )

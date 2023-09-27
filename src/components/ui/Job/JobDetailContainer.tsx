@@ -26,7 +26,7 @@ interface IProps {
   jobId: number
 }
 
-export default function Container({ jobId }: IProps) {
+export default function JobDetailContainer({ jobId }: IProps) {
   const router = useRouter()
   const isMobile = isMobileWeb()
   const [isIPhone, setIsIPhone] = useState(false)
