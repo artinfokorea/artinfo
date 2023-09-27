@@ -51,7 +51,7 @@ export default function JobCard({ job }: IProps) {
             {job.title}
           </div>
           <span className="text-darkgrey opacity-75">
-            {filters.YYYYMMDD(job.created_at)}
+            {filters.DIFF_FROM_NOW_ADD_TIME(job.created_at)}
           </span>
         </div>
       </div>

@@ -125,9 +125,9 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
               <div className="flex items-center">
                 <ClockIcon className="w-5 mr-1" />
                 <span className="text-sm">
-                  {filters.YYYYMMDD(
+                  {filters.DIFF_FROM_NOW_ADD_TIME(
                     concert?.performance_time,
-                    "YYYY.MM.DD HH:mm",
+                    "YYYY-MM-DD HH:mm",
                   )}
                 </span>
               </div>

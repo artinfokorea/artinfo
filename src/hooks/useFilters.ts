@@ -16,6 +16,7 @@ export default function useFilters() {
       if (!date) {
         return null
       }
+
       return dayjs(date).format(format)
     },
     DIFF_FROM_NOW_ADD_TIME(date?: Date | string | null, format = "YYYY.MM.DD") {
