@@ -23,5 +23,3 @@ Artinfo는 한국의 예술 정보를 제공하는 웹사이트입니다. 공연
 
 - 웹사이트: [https://artinfokorea.com](https://artinfokorea.com)
 - 이메일: artinfokorea2022@gmail.com
-
-Art Info는 예술을 사랑하고 예술을 통해 사회를 더 아름답게 만들고자 하는 이용자와 아티스트들을 위한 온라인 플랫폼입니다. 한국의 예술과 문화를 탐구하고 발견하고 싶은 분들을 환영합니다.
