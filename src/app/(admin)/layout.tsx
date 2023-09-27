@@ -17,7 +17,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className="">
+      <body>
         <ThemeProvider>
           <QueryProvider>
             <AuthProvider>
