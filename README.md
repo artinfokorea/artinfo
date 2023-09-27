@@ -3,7 +3,7 @@
 ![Art Info Korea Logo](https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/advertisements/artinfo2.png)
 
 **소개:**
-Art Info Korea(아트인포코리아)는 한국의 예술과 문화를 소개하고 홍보하는 웹 플랫폼입니다. 미술, 음악, 연극, 무용, 문학 등 다양한 예술 분야의 정보와 이벤트를 제공하여 예술 관심가와 예술 작품을 찾는 이용자들을 연결합니다.
+Artinfo는 한국의 예술 정보를 제공하는 웹사이트입니다. 공연, 전시, 축제, 교육 등 다양한 예술 활동에 대한 정보를 제공합니다.
 
 **특징:**
 
