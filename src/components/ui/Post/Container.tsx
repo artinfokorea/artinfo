@@ -114,7 +114,10 @@ function WriteFeedCard() {
           {user && (
             <button
               className="block px-4 py-3"
-              onClick={() => router.push("/create")}
+              onClick={() => {
+                console.log("test")
+                router.push("/create")
+              }}
             >
               나누고 싶은 생각...
             </button>
