@@ -218,7 +218,7 @@ export default function CreatePost() {
                 {uploadedImageUrls?.map((uploadedImageUrl, index) => (
                   <SwiperSlide key={uploadedImageUrl} style={{ width: 180 }}>
                     <div
-                      className="relative bg-gray-300 h-screen"
+                      className="relative bg-gray-300"
                       key={uploadedImageUrl}
                     >
                       <img

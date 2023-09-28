@@ -91,6 +91,7 @@ function ProfileCard() {
 
 function WriteFeedCard() {
   const { user } = useAuth()
+  const router = useRouter()
   // if (!user) {
   //   return null
   // }
@@ -111,9 +112,12 @@ function WriteFeedCard() {
 
         <div className="bg-gray-100 rounded-lg flex-1">
           {user && (
-            <Link href="/create" className="block px-4 py-3">
+            <button
+              className="block px-4 py-3"
+              onClick={() => router.push("/create")}
+            >
               나누고 싶은 생각...
-            </Link>
+            </button>
           )}
           {!user && <div className="px-4 py-3">로그인이 필요합니다.</div>}
         </div>
