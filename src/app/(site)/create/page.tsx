@@ -142,12 +142,6 @@ export default function CreatePost() {
     setUploadedImages(newUploadedImages)
   }
 
-  useEffect(() => {
-    if (!user) {
-      router.push("/auth")
-    }
-  }, [])
-
   return (
     <div
       className="mx-auto max-w-screen-lg px-4 lg:px-0"
