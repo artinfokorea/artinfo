@@ -7,11 +7,11 @@ export async function middleware(req: NextRequest) {
   const { data } = await supabase.auth.getSession()
   const { pathname } = req.nextUrl
 
-  if (pathname === "/create") {
-    if (!data.session) {
-      return NextResponse.redirect(new URL("/auth", req.url))
-    }
-  }
+  // if (pathname === "/create") {
+  //   if (!data.session) {
+  //     return NextResponse.redirect(new URL("/auth", req.url))
+  //   }
+  // }
 
   if (pathname === "/auth") {
     if (data.session) {
@@ -45,7 +45,7 @@ export const config = {
     "/posts",
     "/posts/:path*",
     "/auth:path*",
-    "/create",
+    // "/create",
     "/home:path*",
     "/inquiry",
     "/concerts/create",
