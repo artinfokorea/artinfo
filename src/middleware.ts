@@ -7,6 +7,8 @@ export async function middleware(req: NextRequest) {
   const { data } = await supabase.auth.getSession()
   const { pathname } = req.nextUrl
 
+  console.log("data.session", data.session)
+
   if (pathname === "/posts") {
     return NextResponse.redirect(new URL("/", req.url), { status: 301 })
   }
@@ -14,10 +16,6 @@ export async function middleware(req: NextRequest) {
   if (pathname === "/auth") {
     if (data.session) {
       return NextResponse.redirect(new URL("/", req.url))
-    }
-  } else if (pathname === "/create") {
-    if (!data.session) {
-      return NextResponse.redirect(new URL("/auth", req.url))
     }
   } else if (pathname === "/inquiry") {
     if (!data.session) {
@@ -36,6 +34,11 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL("/auth", req.url))
     }
   }
+  // else if (pathname === "/create") {
+  //   if (!data.session) {
+  //     return NextResponse.redirect(new URL("/auth", req.url))
+  //   }
+  // }
 
   return res
 }
@@ -45,7 +48,7 @@ export const config = {
     "/posts",
     "/posts/:path*",
     "/auth:path*",
-    "/create",
+    // "/create",
     "/home:path*",
     "/inquiry",
     "/concerts/create",

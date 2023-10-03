@@ -1,5 +1,3 @@
-"use client"
-
 import { Suspense } from "react"
 import Loading from "@/components/ui/Loading"
 import Container from "../../components/ui/Post/Container"

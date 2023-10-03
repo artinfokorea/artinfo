@@ -1,7 +1,7 @@
 "use client"
 
 import { useAuth } from "@/components/ui/Auth/AuthProvider"
-import { Button, Chip, IconButton } from "@/components/material"
+import { Button, IconButton } from "@/components/material"
 import FileUploader from "@/components/ui/FileUploader"
 import { InputCounter } from "@/components/ui/InputCounter"
 import { ResizteTextArea } from "@/components/ui/ResizteTextArea"
@@ -13,7 +13,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline"
 import { useQueryClient } from "@tanstack/react-query"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { use, useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 
 export default function CreatePost() {
   const queryClient = useQueryClient()
@@ -141,6 +141,12 @@ export default function CreatePost() {
 
     setUploadedImages(newUploadedImages)
   }
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/auth")
+    }
+  }, [])
 
   return (
     <div
