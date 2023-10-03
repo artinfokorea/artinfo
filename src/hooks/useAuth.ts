@@ -1,4 +1,4 @@
-import { AuthContext } from "@/app/(auth)/auth/components/AuthProvider"
+import { AuthContext } from "@/components/ui/Auth/AuthProvider"
 import { AuthError, User } from "@supabase/supabase-js"
 import { useContext } from "react"
 

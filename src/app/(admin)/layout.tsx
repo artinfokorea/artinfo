@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import { ThemeProvider } from "@/components/material"
 import QueryProvider from "@/app/QueryProvider"
 // import SnackbarProvider from "@/components/ui/Snackbar/Snackbar"
-import AuthProvider from "../(auth)/auth/components/AuthProvider"
+import AuthProvider from "../../components/ui/Auth/AuthProvider"
 
 export const metadata: Metadata = {
   title: "관리자",

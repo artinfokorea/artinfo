@@ -7,7 +7,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query"
 import { CommentType, Feed } from "@/types/types"
-import { useAuth } from "@/app/(auth)/auth/components/AuthProvider"
+import { useAuth } from "@/components/ui/Auth/AuthProvider"
 import { notFound, useRouter } from "next/navigation"
 import dynamic from "next/dynamic"
 import { Toaster } from "react-hot-toast"

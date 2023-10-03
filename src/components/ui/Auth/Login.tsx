@@ -59,8 +59,7 @@ export default function Login() {
         throw error
       }
 
-      router.refresh()
-      router.push("/")
+      router.replace("/")
     } catch (error: any) {
       setIsOpenModal(true)
     } finally {

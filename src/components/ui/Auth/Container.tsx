@@ -7,8 +7,8 @@ import {
   TabsBody,
   TabsHeader,
 } from "@/components/material"
-import Login from "./components/Login"
-import SignUp from "./components/SignUp"
+import Login from "./Login"
+import SignUp from "./SignUp"
 
 export function Container() {
   return (

@@ -10,7 +10,7 @@ import {
   Tooltip,
   Button,
 } from "@/components/material"
-import { useAuth } from "@/app/(auth)/auth/components/AuthProvider"
+import { useAuth } from "@/components/ui/Auth/AuthProvider"
 import Link from "next/link"
 import {
   useInfiniteQuery,

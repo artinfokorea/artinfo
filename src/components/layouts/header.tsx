@@ -1,6 +1,6 @@
 "use client"
 
-import { useAuth } from "@/app/(auth)/auth/components/AuthProvider"
+import { useAuth } from "@/components/ui/Auth/AuthProvider"
 import Link from "next/link"
 import React, { useEffect, useState } from "react"
 import {

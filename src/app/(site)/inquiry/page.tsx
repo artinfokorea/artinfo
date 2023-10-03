@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { useAuth } from "@/app/(auth)/auth/components/AuthProvider"
+import { useAuth } from "@/components/ui/Auth/AuthProvider"
 
 export default function CreatePost() {
   const router = useRouter()

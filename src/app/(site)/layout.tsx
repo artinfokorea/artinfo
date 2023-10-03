@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/components/material"
 import { BottomNavigation } from "@/components/layouts/bottom-naviation"
 import HomeScreenContainer from "@/components/ui/HomeScreen/HomeScreenContainer"
 import QueryProvider from "../QueryProvider"
-import AuthProvider from "../(auth)/auth/components/AuthProvider"
+import AuthProvider from "../../components/ui/Auth/AuthProvider"
 import RecoilProvider from "../RecoilProvider"
 
 // import { Noto_Sans_KR, Roboto } from "next/font/google"

@@ -1,6 +1,6 @@
 "use client"
 
-import { useAuth } from "@/app/(auth)/auth/components/AuthProvider"
+import { useAuth } from "@/components/ui/Auth/AuthProvider"
 import { Button, Chip, IconButton } from "@/components/material"
 import FileUploader from "@/components/ui/FileUploader"
 import { InputCounter } from "@/components/ui/InputCounter"
