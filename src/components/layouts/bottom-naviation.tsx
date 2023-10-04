@@ -117,10 +117,12 @@ const InquiryIcon = ({ className }: { className?: string } = {}) => {
 function NavItemButton({
   title,
   href,
+  prefetch,
   icon: Icon,
 }: {
   title: string
   href: string
+  prefetch: boolean
   icon: any
 }) {
   const path = usePathname()
@@ -166,21 +168,25 @@ export function BottomNavigation() {
       title: "Home",
       href: "/",
       icon: HomeIcon,
+      prefetch: true,
     },
     {
       title: "Job",
       href: "/jobs",
       icon: JobIcon,
+      prefetch: true,
     },
     {
       title: "Write",
       href: "/create",
       icon: PlusIcon,
+      prefetch: false,
     },
     {
       title: "Concert",
       href: "/concerts",
       icon: ConcertIcon,
+      prefetch: true,
     },
     // {
     //   title: "Login",
@@ -193,12 +199,14 @@ export function BottomNavigation() {
       title: "Inquiry",
       href: `/inquiry`,
       icon: InquiryIcon,
+      prefetch: false,
     }
   } else {
     items[4] = {
       title: "Login",
       href: `/auth`,
       icon: ProfileIcon,
+      prefetch: false,
     }
   }
 
@@ -222,6 +230,7 @@ export function BottomNavigation() {
             key={item.title}
             title={item.title}
             href={item.href}
+            prefetch={item.prefetch}
             icon={item.icon}
           />
         ))}
