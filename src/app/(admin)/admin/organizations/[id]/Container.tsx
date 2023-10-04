@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import useAuth from "@/hooks/useAuth"
-import FileUploader from "@/components/ui/FileUploader"
+import FileUploader from "@/components/Common/FileUploader"
 import { fetchOrganization } from "../api"
 
 interface IProps {

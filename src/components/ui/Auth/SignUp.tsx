@@ -7,7 +7,7 @@ import * as yup from "yup"
 import toast, { Toaster } from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import useSupabase from "@/hooks/useSupabase"
-import { Modal } from "@/components/ui/Modal"
+import { Modal } from "@/components/Common/Modal"
 import Link from "next/link"
 import useToast from "@/hooks/useToast"
 

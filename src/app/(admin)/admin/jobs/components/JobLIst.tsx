@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 import { useState } from "react"
 import JobTable from "@/components/ui/Table/JobTable"
 import useSupabase from "@/hooks/useSupabase"
-import { Pagination } from "@/components/ui/Pagination"
+import { Pagination } from "@/components/Common/Pagination"
 import { fetchJobs } from "../api"
 
 export default function JobList() {

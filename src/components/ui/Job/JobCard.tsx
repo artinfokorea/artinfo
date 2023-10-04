@@ -1,6 +1,6 @@
 "use client"
 
-import PositionTag from "@/components/ui/PositionTag"
+import PositionTag from "@/components/Common/PositionTag"
 import useFilters from "@/hooks/useFilters"
 import { Job, RECRUIT_JOBS_CATEGORY_ITEMS } from "@/types/types"
 import { Spinner } from "@material-tailwind/react"
