@@ -146,7 +146,7 @@ function NavItemButton({
       className={`inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group
       ${isIPhone && "py-4"}
       `}
-      prefetch={href !== "/create"}
+      prefetch={prefetch}
     >
       <Icon
         className={`${active ? activeColor : defaultColor} ${
