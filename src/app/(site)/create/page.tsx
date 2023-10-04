@@ -142,9 +142,9 @@ export default function CreatePost() {
     setUploadedImages(newUploadedImages)
   }
 
-  useEffect(() => {
-    if (!user) router.replace("/auth")
-  }, [])
+  // useEffect(() => {
+  //   if (!user) router.replace("/auth")
+  // }, [])
 
   return (
     <div
