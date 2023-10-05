@@ -9,8 +9,8 @@ import { XMarkIcon } from "@heroicons/react/24/outline"
 import { Button, IconButton, Option, Select } from "@material-tailwind/react"
 import { useQueryClient } from "@tanstack/react-query"
 import Link from "next/link"
-import React, { useRef, useState } from "react"
-import toast, { Toaster } from "react-hot-toast"
+import React, { useRef, useState, Fragment } from "react"
+import { Toaster } from "react-hot-toast"
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
@@ -19,7 +19,10 @@ import { useRouter } from "next/navigation"
 import dynamic from "next/dynamic"
 import useToast from "@/hooks/useToast"
 import { IConcert } from "@/types/types"
+import dayjs from "dayjs"
+import { Listbox } from "@headlessui/react"
 import Loading from "@/components/ui/Loading/Loading"
+import useFilters from "@/hooks/useFilters"
 
 const QuillEditor = dynamic(
   () => import("@/components/ui/Editor/QuillEditor"),
@@ -53,10 +56,16 @@ const ConcertForm = ({ type, concert }: Props) => {
   const [uploadedImage, setUploadedImage] = useState<File>()
   const fileUploader = useRef<HTMLInputElement>(null)
   const [selectedType, setSelectedType] = useState(
-    concert?.category || "CHORUS",
+    type === "create" ? "ETC" : concert?.category || "ETC",
   )
+  const filters = useFilters()
   const router = useRouter()
-  const [startedAt, setStartedAt] = useState(concert?.performance_time || "")
+  const [startedAt, setStartedAt] = useState(
+    concert?.performance_time
+      ? dayjs(concert?.performance_time).add(9, "hour")
+      : dayjs(),
+  )
+
   const [htmlStr, setHtmlStr] = useState<string>(concert?.contents || "")
   const [uploadedImageUrl, setUploadedImageUrl] = useState(
     concert?.poster_url || "",
@@ -92,7 +101,7 @@ const ConcertForm = ({ type, concert }: Props) => {
       const formData = {
         profile_id: user.id,
         poster_url: null,
-        performance_time: startedAt,
+        performance_time: startedAt.toISOString(),
         link_url: linkUrl,
         title,
         contents: htmlStr,
@@ -168,8 +177,8 @@ const ConcertForm = ({ type, concert }: Props) => {
 
     try {
       const formData = {
-        poster_url: null,
-        performance_time: startedAt,
+        poster_url: uploadedImageUrl,
+        performance_time: startedAt.toString(),
         link_url: linkUrl,
         title,
         contents: htmlStr,
@@ -181,6 +190,8 @@ const ConcertForm = ({ type, concert }: Props) => {
           | "SOLO"
           | "ETC",
       }
+
+      console.log("formData", formData)
 
       const { data, error } = await supabase
         .from("concerts")
@@ -252,21 +263,43 @@ const ConcertForm = ({ type, concert }: Props) => {
       </div>
 
       <form className="w-full lg:w-3/4">
-        <div className="w-20 mb-5">
-          <Select
-            variant="static"
-            label="공연 유형을 선택해주세요."
-            defaultValue={selectedType}
+        <div className=" mb-5 text-[#a3a3a3] font-medium text-xl cursor-pointer">
+          <Listbox
             value={selectedType}
-            onChange={() => setSelectedType(selectedType)}
+            onChange={value => setSelectedType(value)}
           >
-            {items.map(item => (
-              <Option key={item.value}>{item.title}</Option>
-            ))}
-          </Select>
+            <Listbox.Button className="border-b border-grey pb-2 flex">
+              {items.filter(item => item.value === selectedType)[0].title}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6 ml-2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                />
+              </svg>
+            </Listbox.Button>
+            <Listbox.Options>
+              {items.map(item => (
+                <Listbox.Option
+                  key={item.value}
+                  value={item.value}
+                  className="my-2  border-b-1 border-grey"
+                >
+                  {item.title}
+                </Listbox.Option>
+              ))}
+            </Listbox.Options>
+          </Listbox>
         </div>
 
-        <div className="pb-2 border-b border-gray-300">
+        <div className=" border-b border-gray-300">
           <InputCounter
             currentLength={title?.length || 0}
             maxLength={30}
@@ -282,11 +315,12 @@ const ConcertForm = ({ type, concert }: Props) => {
             />
           </InputCounter>
         </div>
-        <div className="mt-8 flex-1 overflow-y-auto">
+        <div className="mt-6 flex-1 overflow-y-auto">
           <InputCounter
             currentLength={location?.length || 0}
             maxLength={50}
-            className="text-right"
+            className="text-right
+            "
           >
             <ResizteTextArea
               value={location}
@@ -318,7 +352,11 @@ const ConcertForm = ({ type, concert }: Props) => {
                 <DateTimePicker
                   label="공연 시간을 설정해주세요."
                   className="py-2"
-                  onChange={(newValue: any) => setStartedAt(newValue.$d)}
+                  value={startedAt}
+                  onChange={(newValue: any) => {
+                    console.log("newValue", newValue.$d)
+                    setStartedAt(dayjs(newValue.$d))
+                  }}
                 />
               </DemoContainer>
             </LocalizationProvider>
