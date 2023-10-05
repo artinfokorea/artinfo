@@ -12,7 +12,7 @@ import { useRecoilState } from "recoil"
 import { userProfileState } from "@/atoms/userProfile"
 import { CameraIcon } from "@heroicons/react/24/outline"
 import FileUploader from "@/components/common/FileUploader"
-import { PROFILE_PAYLOAD } from "@/types/types"
+import { MAJOR_CATEGORY_ITEMS, PROFILE_PAYLOAD } from "@/types/types"
 import useSupabase from "@/hooks/useSupabase"
 import useAuth from "@/hooks/useAuth"
 
@@ -210,27 +210,28 @@ export default function ProfileCard({ user, refetch }: IProps) {
         </div>
       </div>
 
-      {/* <section className="mt-10">
-        <div className="border border-gray-400 p-6 mb-4">
-          <div className="text-xl font-semi-bold">소개</div>
-          <div>{user.intro}</div>
-        </div>
-        <div className="border border-gray-400 p-6 mb-4">
-          <div className="text-xl font-semi-bold">전공</div>
-          <div>{(MAJOR_CATEGORY_ITEMS as any)[user.major]}</div>
-        </div>
-        <div className="border border-gray-400 p-6 mb-4">
-          <div className="text-xl font-semi-bold">학교</div>
-          <div>{user.school}</div>
-          {!user.school && (
-            <div>
-              아직 학교정보를 입력하지 않으셨네요.
-              <br />
-              내용을 입력해주세요.
-            </div>
-          )}
-        </div>
-      </section> */}
+      {/* <section className="mt-10"> */}
+      {/*  <div className="border border-gray-400 p-6 mb-4"> */}
+      {/*    <div className="text-xl font-semi-bold">소개</div> */}
+      {/*    <div>{user.intro}</div> */}
+      {/*  </div> */}
+      {/*  <div className="border border-gray-400 p-6 mb-4"> */}
+      {/*    <div className="text-xl font-semi-bold">전공</div> */}
+      {/*    <div>{(MAJOR_CATEGORY_ITEMS as any)[user.major]}</div> */}
+      {/*  </div> */}
+      {/*  <div className="border border-gray-400 p-6 mb-4"> */}
+      {/*    <div className="text-xl font-semi-bold">학교</div> */}
+      {/*    {user.school?.map((el, index) => { */}
+      {/*      const degree = Object.keys(el)[0] */}
+      {/*      const schoolName = el[degree] */}
+      {/*      return ( */}
+      {/*        <div key={index}> */}
+      {/*          <span className="font-bold">{degree}:</span> {schoolName} */}
+      {/*        </div> */}
+      {/*      ) */}
+      {/*    })} */}
+      {/*  </div> */}
+      {/* </section> */}
       <Toaster />
     </div>
   )
