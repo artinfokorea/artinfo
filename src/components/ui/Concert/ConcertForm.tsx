@@ -1,8 +1,8 @@
 "use client"
 
-import FileUploader from "@/components/Common/FileUploader"
-import { InputCounter } from "@/components/Common/InputCounter"
-import { ResizteTextArea } from "@/components/Common/ResizteTextArea"
+import FileUploader from "@/components/common/FileUploader"
+import { InputCounter } from "@/components/common/InputCounter"
+import { ResizteTextArea } from "@/components/common/ResizteTextArea"
 import useAuth from "@/hooks/useAuth"
 import useSupabase from "@/hooks/useSupabase"
 import { XMarkIcon } from "@heroicons/react/24/outline"

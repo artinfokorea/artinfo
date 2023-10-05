@@ -2,9 +2,9 @@
 
 import { useAuth } from "@/components/ui/Auth/AuthProvider"
 import { Button, IconButton } from "@/components/material"
-import FileUploader from "@/components/Common/FileUploader"
-import { InputCounter } from "@/components/Common/InputCounter"
-import { ResizteTextArea } from "@/components/Common/ResizteTextArea"
+import FileUploader from "@/components/common/FileUploader"
+import { InputCounter } from "@/components/common/InputCounter"
+import { ResizteTextArea } from "@/components/common/ResizteTextArea"
 import useSupabase from "@/hooks/useSupabase"
 import { Swiper, SwiperSlide } from "swiper/react"
 import "swiper/css"

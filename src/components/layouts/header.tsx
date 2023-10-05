@@ -10,6 +10,7 @@ import {
   PowerIcon,
   QuestionMarkCircleIcon,
   UserCircleIcon,
+  AcademicCapIcon,
 } from "@heroicons/react/24/outline"
 import { useRouter } from "next/navigation"
 import {
@@ -129,6 +130,11 @@ const items = [
     title: "공연",
     to: "/concerts",
     icon: MusicalNoteIcon,
+  },
+  {
+    title: "교육",
+    to: "/educations",
+    icon: AcademicCapIcon,
   },
   // {
   //   title: "이슈",

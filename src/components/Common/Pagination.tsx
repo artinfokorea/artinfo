@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction } from "react"
 import { Button, IconButton } from "@material-tailwind/react"
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline"
+import { isMobileWeb } from "@toss/utils"
 
 interface IProps {
   page: number
@@ -10,6 +11,7 @@ interface IProps {
 
 export function Pagination({ page, totalCount, setPage }: IProps) {
   const numButtons = Math.ceil(totalCount / 10)
+  const isMobile = isMobileWeb()
 
   const next = () => {
     if (page === 5) return
@@ -42,11 +44,11 @@ export function Pagination({ page, totalCount, setPage }: IProps) {
         </IconButton>,
       )
     }
-    return buttons
+    return buttons.slice(0, isMobile ? 3 : 5)
   }
 
   return (
-    <div className="flex items-center gap-4 w-1/2 mx-auto mt-3">
+    <div className="flex items-center gap-2  mt-3 md:gap-4 md:w-1/2 md:mx-auto">
       <Button
         variant="text"
         className="flex items-center gap-2"

@@ -10,7 +10,7 @@ import dynamic from "next/dynamic"
 import { useEffect, useState } from "react"
 import useAuth from "@/hooks/useAuth"
 import { TrashIcon } from "@heroicons/react/24/outline"
-import { Modal } from "@/components/Common/Modal"
+import { Modal } from "@/components/common/Modal"
 import useToast from "@/hooks/useToast"
 import { Toaster } from "react-hot-toast"
 
