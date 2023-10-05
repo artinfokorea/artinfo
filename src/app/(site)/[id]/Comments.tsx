@@ -1,7 +1,7 @@
 "use client"
 
 import { Avatar } from "@/components/material"
-import { ResizteTextArea } from "@/components/Common/ResizteTextArea"
+import { ResizteTextArea } from "@/components/common/ResizteTextArea"
 import { useState } from "react"
 import { Comment } from "@/types/types"
 import useFilters from "@/hooks/useFilters"

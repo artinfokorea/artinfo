@@ -2,24 +2,19 @@
 
 import Link from "next/link"
 import React, { useRef, useState } from "react"
-import {
-  Button,
-  IconButton,
-  Input,
-  Select,
-  Option,
-} from "@/components/material"
+import { Button, IconButton, Input } from "@/components/material"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import { useForm } from "react-hook-form"
 import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
-import FileUploader from "@/components/Common/FileUploader"
+import FileUploader from "@/components/common/FileUploader"
 import useSupabase from "@/hooks/useSupabase"
 import { useRouter } from "next/navigation"
 import useAuth from "@/hooks/useAuth"
 import { RECRUIT_JOBS_CATEGORY } from "@/types/types"
 import dynamic from "next/dynamic"
 import { useQueryClient } from "@tanstack/react-query"
+import { Listbox } from "@headlessui/react"
 import Loading from "@/components/ui/Loading/Loading"
 
 const QuillEditor = dynamic(
@@ -178,19 +173,40 @@ const JobCreateForm = () => {
           </h2>
         </div>
         <div className="flex-1 flex flex-col overflow-y-auto mt-4">
-          <div className="w-20 my-5">
-            <Select
-              variant="static"
-              label="공연 유형을 선택해주세요."
+          <div className=" mb-5 text-[#a3a3a3] text-sm cursor-pointer w-32">
+            <Listbox
               value={selectedType}
-              onChange={handleSelect}
+              onChange={value => setSelectedType(value)}
             >
-              {items.map(item => (
-                <Option key={item.value} value={item.value}>
-                  {item.title}
-                </Option>
-              ))}
-            </Select>
+              <Listbox.Button className="w-full border bg-white px-2 items-center py-1 rounded-lg flex justify-between">
+                {items.filter(item => item.value === selectedType)[0].title}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6 ml-2"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                  />
+                </svg>
+              </Listbox.Button>
+              <Listbox.Options>
+                {items.map(item => (
+                  <Listbox.Option
+                    key={item.value}
+                    value={item.value}
+                    className=" border bg-white py-1 px-2 w-32 rounded-lg"
+                  >
+                    {item.title}
+                  </Listbox.Option>
+                ))}
+              </Listbox.Options>
+            </Listbox>
           </div>
           <div>
             <div className="">

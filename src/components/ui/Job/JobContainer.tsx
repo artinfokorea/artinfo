@@ -1,6 +1,6 @@
 "use client"
 
-import SelectMenu from "@/components/Common/SelectMenu"
+import SelectMenu from "@/components/common/SelectMenu"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { useInView } from "react-intersection-observer"
 import { useEffect, useState } from "react"

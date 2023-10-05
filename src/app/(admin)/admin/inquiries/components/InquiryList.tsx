@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query"
 import { useState } from "react"
 import Table from "@/components/ui/Table/Table"
-import { Pagination } from "@/components/Common/Pagination"
+import { Pagination } from "@/components/common/Pagination"
 import { fetchInquiries } from "../api"
 
 export default function InquiryList() {
