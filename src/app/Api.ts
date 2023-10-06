@@ -328,3 +328,30 @@ export const updateProfile = async (payload: PROFILE_PAYLOAD) => {
 
   return data
 }
+
+/* ****************************************************** LESSON ****************************************************** */
+
+type LessonsPayload = {
+  pageParam?: number
+  itemCount?: number
+}
+
+export async function fetchLessons({ pageParam = 1 }: LessonsPayload) {
+  const itemCount = 12
+  const supabase = useSupabase()
+  const { data, count, error } = await supabase
+    .from("lessons")
+    .select("*, profiles(id, name, icon_image_url)", {
+      count: "exact",
+    })
+    .order("created_at", {
+      ascending: true,
+    })
+    .limit(itemCount)
+    .range(pageParam * itemCount, (pageParam + 1) * itemCount - 1)
+
+  if (error) {
+    throw error
+  }
+  return { lessons: data, count }
+}

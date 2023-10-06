@@ -43,6 +43,8 @@ const QuillEditor = ({ quillRef, htmlContent, setHtmlContent }: any) => {
 
       quill.setSelection(range, 1)
 
+      console.log("url", url)
+
       quill.clipboard.dangerouslyPasteHTML(
         range,
         `<img src=${url} alt="image" />`,

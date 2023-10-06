@@ -456,3 +456,18 @@ export type PROFILE_PAYLOAD = {
   name?: string | null
   icon_image_url?: string | null
 }
+
+/*
+ * --------------------------------------------------- LESSON ---------------------------------------------------------
+ */
+
+export type LESSON = {
+  id: number
+  created_at: string
+  profile_id: string
+  image_url: string
+  locations: string[]
+  name: string
+  majors: string[]
+  profiles: PROFILE
+}
