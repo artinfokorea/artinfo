@@ -191,8 +191,6 @@ const ConcertForm = ({ type, concert }: Props) => {
           | "ETC",
       }
 
-      console.log("formData", formData)
-
       const { data, error } = await supabase
         .from("concerts")
         .update({ ...formData })

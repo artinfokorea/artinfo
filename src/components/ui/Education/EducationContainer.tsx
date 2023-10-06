@@ -1,15 +1,28 @@
 "use client"
 
 import React, { useState } from "react"
-import { Pagination } from "@/components/common/Pagination"
-import EducationTable from "./EducationTable"
+import EducationCard from "./EducationCard"
+import TestCard from "./TestCard"
 
 const EducationContainer = () => {
-  const [page, setPage] = useState(1)
+  const [category, setCategory] = useState("ALL")
+
+  const items = [1, 2, 3, 4]
+
   return (
     <div>
-      <EducationTable />
-      <Pagination page={page} setPage={setPage} totalCount={120} />
+      <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
+        {items.map((item, index) => (
+          <TestCard key={item} index={index} />
+        ))}
+      </div>
+
+      <h1 className="text-xl mt-10 ">레슨</h1>
+
+      <EducationCard />
+      <EducationCard />
+      <EducationCard />
+      <EducationCard />
     </div>
   )
 }
