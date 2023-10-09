@@ -53,18 +53,9 @@ export default async function RootLayout({
     <html lang="ko">
       <body className="touch-manipulation bg-[#f8fafc] flex flex-col h-screen">
         <ThemeProvider>
-          <QueryProvider>
-            <AuthProvider>
-              <RecoilProvider>
-                <Header />
-                <main className="flex-1 overflow-y-auto relative z-1 mt-16 ">
-                  {children}
-                </main>
-                <BottomNavigation />
-                <HomeScreenContainer />
-              </RecoilProvider>
-            </AuthProvider>
-          </QueryProvider>
+          <main className="flex-1 overflow-y-auto relative z-1 mt-16 ">
+            {children}
+          </main>
         </ThemeProvider>
       </body>
     </html>

@@ -7,32 +7,35 @@ export async function middleware(req: NextRequest) {
   const { data } = await supabase.auth.getSession()
   const { pathname } = req.nextUrl
 
-  if (pathname === "/create") {
-    if (!data.session) {
-      return NextResponse.redirect(new URL("/auth", req.url))
-    }
-  } else if (pathname === "/auth") {
-    if (data.session) {
-      return NextResponse.redirect(new URL("/", req.url))
-    }
-  } else if (pathname === "/inquiry") {
-    if (!data.session) {
-      return NextResponse.redirect(new URL("/auth", req.url))
-    }
-  } else if (pathname === "/concerts/create") {
-    if (!data.session) {
-      return NextResponse.redirect(new URL("/auth", req.url))
-    }
-  } else if (pathname === "/jobs/create") {
-    if (!data.session) {
-      return NextResponse.redirect(new URL("/auth", req.url))
-    }
-  } else if (pathname.startsWith("/jobs/")) {
-    if (!data.session) {
-      return NextResponse.redirect(new URL("/auth", req.url))
-    }
-  } else if (pathname === "/posts") {
-    return NextResponse.redirect(new URL("/", req.url), { status: 301 })
+  // if (pathname === "/create") {
+  //   if (!data.session) {
+  //     return NextResponse.redirect(new URL("/auth", req.url))
+  //   }
+  // } else if (pathname === "/auth") {
+  //   if (data.session) {
+  //     return NextResponse.redirect(new URL("/", req.url))
+  //   }
+  // } else if (pathname === "/inquiry") {
+  //   if (!data.session) {
+  //     return NextResponse.redirect(new URL("/auth", req.url))
+  //   }
+  // } else if (pathname === "/concerts/create") {
+  //   if (!data.session) {
+  //     return NextResponse.redirect(new URL("/auth", req.url))
+  //   }
+  // } else if (pathname === "/jobs/create") {
+  //   if (!data.session) {
+  //     return NextResponse.redirect(new URL("/auth", req.url))
+  //   }
+  // } else if (pathname.startsWith("/jobs/")) {
+  //   if (!data.session) {
+  //     return NextResponse.redirect(new URL("/auth", req.url))
+  //   }
+  // } else if (pathname === "/posts") {
+  //   return NextResponse.redirect(new URL("/", req.url), { status: 301 })
+  // }
+  if (pathname !== "/inspection") {
+    return NextResponse.redirect(new URL("/inspection", req.url))
   }
 
   return res
@@ -49,5 +52,7 @@ export const config = {
     "/concerts/create",
     "/jobs/create",
     "/jobs/:path*",
+    "/",
+    "/:path*",
   ],
 }
