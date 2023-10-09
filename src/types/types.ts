@@ -468,6 +468,6 @@ export type LESSON = {
   image_url: string
   locations: string[]
   name: string
-  majors: string[]
+  subjects: string[]
   profiles: PROFILE
 }

@@ -1,4 +1,8 @@
-export const RegionData = {
+type RegionType = {
+  [key: string]: string[]
+}
+
+export const RegionData: RegionType = {
   서울특별시: [
     "강남구",
     "강동구",
@@ -139,7 +143,7 @@ export const RegionData = {
     "태안군",
   ],
   대전광역시: ["대덕구", "동구", "서구", "유성구", "중구"],
-  세종특별자치시: ["세종특별자치시"],
+  세종시: ["세종시"],
 
   전라북도: [
     "전주시 완산구",
@@ -263,7 +267,6 @@ export const RegionData = {
     "달성군",
   ],
   울산광역시: ["남구", "동구", "북구", "중구", "울주군"],
-  제주권: {
-    제주특별자치도: ["서귀포시", "제주시"],
-  },
+
+  제주: ["서귀포시", "제주시"],
 }

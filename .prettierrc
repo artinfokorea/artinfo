@@ -7,5 +7,6 @@
   "bracketSpacing": true,
   "endOfLine": "auto",
   "useTabs": false,
-  "arrowParens": "avoid"
+  "arrowParens": "avoid",
+  "exclude": ["node_modules", ".next"]
 }

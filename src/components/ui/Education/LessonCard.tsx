@@ -8,7 +8,7 @@ interface Props {
 }
 
 const LessonCard = ({ lesson }: Props) => {
-  console.log("majors", lesson.majors)
+  console.log("majors", lesson.subjects)
 
   return (
     <div className="card rounded-md cursor-pointer">
@@ -38,8 +38,8 @@ const LessonCard = ({ lesson }: Props) => {
             ))}
           </div>
           <div className="my-2  font-semibold">
-            {lesson.majors.map((major: string) => (
-              <LocationTag key={major} tag={major} />
+            {lesson.subjects.map((subject: string) => (
+              <LocationTag key={subject} tag={subject} />
             ))}
           </div>
         </div>
