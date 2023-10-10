@@ -50,8 +50,8 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ko" className="h-full">
-      <body className="touch-manipulation bg-[#f8fafc] flex flex-col h-full">
+    <html lang="ko">
+      <body className="touch-manipulation bg-[#f8fafc] flex flex-col h-screen">
         <ThemeProvider>
           <QueryProvider>
             <AuthProvider>
