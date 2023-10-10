@@ -47,11 +47,11 @@ const EducationContainer = () => {
 
   return (
     <div>
-      <div className="grid grid-cols-2 gap-2 md:grid-cols-5">
+      <div className="grid grid-cols-2 gap-1 md:grid-cols-4 px-2">
         {data?.pages.map(
           page =>
             page?.lessons.map((lesson: any) => (
-              <Link key={lesson.id} href={`/concerts/${lesson.id}`}>
+              <Link key={lesson.id} href={`/educations/${lesson.id}`}>
                 <LessonCard lesson={lesson} />
               </Link>
             )),

@@ -5,26 +5,15 @@ import { Dialog, Transition } from "@headlessui/react"
 import { Fragment, useMemo, useState, useEffect } from "react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import { IconButton } from "@material-tailwind/react"
+import { MajorData, StringedInstruments, WindInstruments } from "@/lib/majors"
 
 interface Props {
   isOpen: boolean
   closeModal: () => void
-  selectedCity: string
-  handleSelectCity: (value: string) => void
-  districtList: string[] | null
-  selectStep: number
-  handleSelectDistrict: (value: string) => void
+  handleSelectMajor: (value: string) => void
 }
 
-const RegionSelect = ({
-  isOpen,
-  closeModal,
-  selectedCity,
-  handleSelectCity,
-  districtList,
-  selectStep,
-  handleSelectDistrict,
-}: Props) => {
+const MajorSelect = ({ isOpen, closeModal, handleSelectMajor }: Props) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={closeModal}>
@@ -55,7 +44,7 @@ const RegionSelect = ({
                 <div className="flex justify-between items-center">
                   <Dialog.Title
                     as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
+                    className="text-lg font-semibold leading-6 text-gray-900"
                   >
                     지역 선택
                   </Dialog.Title>
@@ -69,32 +58,42 @@ const RegionSelect = ({
                     <XMarkIcon className="w-6" />
                   </IconButton>
                 </div>
-                {selectStep === 1 && (
-                  <div className="mt-2 grid grid-cols-4 break-keep overflow-y">
-                    {Object.keys(RegionData).map(region => (
-                      <button
-                        key={region}
-                        className="m-1 bg-orange-200 text-white p-1 rounded-md text-sm"
-                        onClick={() => handleSelectCity(region)}
-                      >
-                        {region}
-                      </button>
-                    ))}
-                  </div>
-                )}
-                {selectStep === 2 && selectedCity && (
-                  <div className="grid grid-cols-3">
-                    {districtList?.map(district => (
-                      <button
-                        key={district}
-                        className="m-1 bg-orange-200 text-white p-1 px-2 rounded-md text-sm"
-                        onClick={() => handleSelectDistrict(district)}
-                      >
-                        {district}
-                      </button>
-                    ))}
-                  </div>
-                )}
+
+                <div className="mt-2 grid grid-cols-4 break-keep overflow-y">
+                  {MajorData.map(major => (
+                    <button
+                      key={major}
+                      className="m-1 bg-orange-200 text-white p-1 rounded-md text-sm"
+                      onClick={() => handleSelectMajor(major)}
+                    >
+                      {major}
+                    </button>
+                  ))}
+                </div>
+                <span className="block mt-2 font-medium">현악기</span>
+                <div className="mt-2 grid grid-cols-4 break-keep overflow-y">
+                  {StringedInstruments.map(major => (
+                    <button
+                      key={major}
+                      className="m-1 bg-orange-200 text-white p-1 rounded-md text-sm"
+                      onClick={() => handleSelectMajor(major)}
+                    >
+                      {major}
+                    </button>
+                  ))}
+                </div>
+                <span className="block mt-2 font-medium">관악기</span>
+                <div className="mt-2 grid grid-cols-4 break-keep overflow-y">
+                  {WindInstruments.map(major => (
+                    <button
+                      key={major}
+                      className="m-1 bg-orange-200 text-white p-1 rounded-md text-sm"
+                      onClick={() => handleSelectMajor(major)}
+                    >
+                      {major}
+                    </button>
+                  ))}
+                </div>
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -104,4 +103,4 @@ const RegionSelect = ({
   )
 }
 
-export default RegionSelect
+export default MajorSelect

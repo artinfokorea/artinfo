@@ -8,11 +8,9 @@ interface Props {
 }
 
 const LessonCard = ({ lesson }: Props) => {
-  console.log("majors", lesson.subjects)
-
   return (
-    <div className="card rounded-md cursor-pointer">
-      <div className="overflow-hidden relative h-[200px]">
+    <div className="card rounded-md cursor-pointer ">
+      <div className="overflow-hidden relative h-[240px] rounded-sm">
         <Image
           src={lesson.image_url ?? "/icon-192x192.png"}
           alt="job"
@@ -22,22 +20,22 @@ const LessonCard = ({ lesson }: Props) => {
         />
       </div>
 
-      <div className="px-2">
+      <div>
         <div className="flex-1 flex justify-center flex-col font-sm">
           <span className="font-semibold text-lg mt-2 mb-1 ">
             {lesson.name}
           </span>
-          <div className="flex">
+          <div className="flex flex-col">
             {lesson.locations.map((location: string, index: number) => (
               <span
-                className="my-2 text-sm text-primary font-semibold opacity-70"
                 key={location}
+                className="text-sm text-primary font-semibold opacity-70 block  break-keep"
               >
-                {index === 0 ? location : <span> {`·${location}`}</span>}
+                {location}
               </span>
             ))}
           </div>
-          <div className="my-2  font-semibold">
+          <div className="my-2 font-semibold whitespace-nowrap">
             {lesson.subjects.map((subject: string) => (
               <LocationTag key={subject} tag={subject} />
             ))}
