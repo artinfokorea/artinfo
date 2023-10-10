@@ -33,8 +33,9 @@ export async function middleware(req: NextRequest) {
     }
   } else if (pathname === "/posts") {
     return NextResponse.redirect(new URL("/", req.url), { status: 301 })
+  } else if (pathname === "/inspection") {
+    return NextResponse.redirect(new URL("/", req.url))
   }
-
   return res
 }
 
