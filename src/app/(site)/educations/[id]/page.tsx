@@ -5,6 +5,7 @@ import Loading from "@/components/ui/Loading/Loading"
 import { Hydrate, dehydrate } from "@tanstack/react-query"
 import GetQueryClient from "@/app/GetQueryClient"
 import EducationDetailContainer from "@/components/ui/Education/EducationDetailContainer"
+import { fetchLesson } from "@/app/Api"
 
 type Props = {
   params: { id: string }
@@ -48,10 +49,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
   }
 }
-const queryClient = GetQueryClient()
-const dehydratedState = dehydrate(queryClient)
 
-const page = ({ params }: { params: { id: string } }) => {
+const page = async ({ params }: { params: { id: string } }) => {
+  const id = Number(params.id)
+
+  const queryClient = GetQueryClient()
+  await queryClient.prefetchQuery(["lesson", id], () => fetchLesson(id))
+  const dehydratedState = dehydrate(queryClient)
+
   return (
     <div className="mx-auto max-w-screen-lg">
       <Suspense fallback={<Loading />}>

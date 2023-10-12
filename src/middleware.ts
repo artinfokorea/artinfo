@@ -50,7 +50,5 @@ export const config = {
     "/concerts/create",
     "/jobs/create",
     "/jobs/:path*",
-    "/",
-    "/:path*",
   ],
 }

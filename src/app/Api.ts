@@ -355,3 +355,18 @@ export async function fetchLessons({ pageParam = 1 }: LessonsPayload) {
   }
   return { lessons: data, count }
 }
+
+export async function fetchLesson(lessonId: number) {
+  const supabase = useSupabase()
+
+  const { data, error } = await supabase
+    .from("lessons")
+    .select("*, profiles(id, name, icon_image_url)")
+    .eq("id", lessonId)
+    .single()
+
+  if (error) {
+    throw error
+  }
+  return data
+}
