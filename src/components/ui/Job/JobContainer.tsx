@@ -4,10 +4,7 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import { useInView } from "react-intersection-observer"
 import { useEffect, useState } from "react"
 import { useDidUpdate } from "@toss/react"
-import {
-  JOB_POSITION_1DEPTH_CATEGORY,
-  Job,
-} from "@/types/types"
+import { JOB_POSITION_1DEPTH_CATEGORY, Job } from "@/types/types"
 import Link from "next/link"
 import { fetchJobs } from "@/app/Api"
 import { isMobileWeb } from "@toss/utils"

@@ -1,6 +1,9 @@
 "use client"
 
-import { JOB_POSITION_1DEPTH_CATEGORY_SELECT_ITEMS, JOB_POSITION_1DEPTH_CATEGORY} from "@/types/types"
+import {
+  JOB_POSITION_1DEPTH_CATEGORY_SELECT_ITEMS,
+  JOB_POSITION_1DEPTH_CATEGORY,
+} from "@/types/types"
 
 interface IProps {
   category: string
@@ -15,7 +18,9 @@ export default function JobCategory({ category, updatedCategory }: IProps) {
     ...JOB_POSITION_1DEPTH_CATEGORY_SELECT_ITEMS,
   ]
 
-  const handleUpdateCategory = (selectedCategory: "ALL" | JOB_POSITION_1DEPTH_CATEGORY) => {
+  const handleUpdateCategory = (
+    selectedCategory: "ALL" | JOB_POSITION_1DEPTH_CATEGORY,
+  ) => {
     if (updatedCategory) {
       updatedCategory(selectedCategory)
     }
@@ -29,7 +34,9 @@ export default function JobCategory({ category, updatedCategory }: IProps) {
           <button
             key={item.value}
             onClick={() =>
-              handleUpdateCategory(item.value as "ALL" | JOB_POSITION_1DEPTH_CATEGORY)
+              handleUpdateCategory(
+                item.value as "ALL" | JOB_POSITION_1DEPTH_CATEGORY,
+              )
             }
           >
             <span
