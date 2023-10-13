@@ -235,10 +235,10 @@ export type JOB_POSITION_1DEPTH_CATEGORY =
   | "ETC"
 
 export const JOB_POSITION_1DEPTH_CATEGORY_ITEMS = {
-  RELIGION: "종교",
-  LECTURER: "교원",
-  ETC: "기타",
   ART_ORGANIZATION: "연주단체",
+  LECTURER: "교원",
+  RELIGION: "종교",
+  ETC: "기타",
   // UNIVERSITY: "대학교",
   // RELIGION: "종교단체",
   // ETC: "기타",
