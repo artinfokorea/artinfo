@@ -1,7 +1,15 @@
 "use client"
 
 import { XMarkIcon } from "@heroicons/react/24/outline"
-import { IconButton, Input, Textarea, Button } from "@/components/material"
+import {
+  IconButton,
+  Input,
+  Textarea,
+  Button,
+  Select,
+  Option,
+} from "@/components/material"
+
 import Link from "next/link"
 import * as yup from "yup"
 import React, { useState, useMemo, useEffect, useRef } from "react"
@@ -16,6 +24,7 @@ import useAuth from "@/hooks/useAuth"
 import useToast from "@/hooks/useToast"
 import { Toaster } from "react-hot-toast"
 import useSupabase from "@/hooks/useSupabase"
+import { Listbox } from "@headlessui/react"
 import { useQueryClient } from "@tanstack/react-query"
 
 interface Props {
@@ -62,6 +71,7 @@ const EducationForm = ({ type }: Props) => {
   const supabase = useSupabase()
   const queryClient = useQueryClient()
   const { successToast, errorToast } = useToast()
+  const [selectedDegree, setSelectedDegree] = useState("")
 
   const openFileUploader = () => {
     fileUploader.current?.click()
@@ -213,6 +223,13 @@ const EducationForm = ({ type }: Props) => {
     }
   }
 
+  const items = [
+    { title: "전문학사", value: "ASSOCIATE" },
+    { title: "학사", value: "BACHELOR" },
+    { title: "석사", value: "MASTER" },
+    { title: "박사", value: "DOCTOR" },
+  ]
+
   return (
     <div
       className="mx-auto max-w-screen-md px-4 lg:px-0"
@@ -300,6 +317,41 @@ const EducationForm = ({ type }: Props) => {
           </div>
         ))}
       </div>
+      <div className="flex items-center mt-5 mb-2">
+        <button
+          disabled={selectedRegionList.length >= 3}
+          onClick={() => setIsRegionSelect(true)}
+          className="rounded-md bg-blue1  p-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75
+          disabled:opacity-50 disabled:cursor-not-allowed
+          "
+        >
+          학력 등록
+        </button>
+        <span className="text-xs ml-2 opacity-70">
+          레슨하실 선생님의 학력을 입력해주세요.
+          <br />
+          최대 3개까지 등록 가능합니다.
+        </span>
+      </div>
+      <div className="flex">
+        <div className="w-20">
+          <Select
+            label="학력 선택"
+            onChange={(value: any) => setSelectedDegree(value)}
+          >
+            {items.map(item => (
+              <Option key={item.title} value={item.value}>
+                {item.title}
+              </Option>
+            ))}
+          </Select>
+        </div>
+        <Input
+          placeholder="대학명 예: 한국예술종합학교"
+          className="!border flex-1 !border-blue-gray-50 bg-white text-blue-gray-500 ring-4 ring-transparent placeholder:text-blue-gray-200 focus:!border-blue-500 focus:!border-t-blue-500 focus:ring-blue-500/20"
+        />
+      </div>
+
       <div className="mt-2">
         <Input
           {...register("name")}
