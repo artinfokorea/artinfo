@@ -24,8 +24,9 @@ import useAuth from "@/hooks/useAuth"
 import useToast from "@/hooks/useToast"
 import { Toaster } from "react-hot-toast"
 import useSupabase from "@/hooks/useSupabase"
-import { Listbox } from "@headlessui/react"
+import { DEGREE_VALUES, DEGREE } from "@/types/types"
 import { useQueryClient } from "@tanstack/react-query"
+import { DialogHeaderStylesType } from "@material-tailwind/react"
 
 interface Props {
   type: "create" | "update"
@@ -72,6 +73,10 @@ const EducationForm = ({ type }: Props) => {
   const queryClient = useQueryClient()
   const { successToast, errorToast } = useToast()
   const [selectedDegree, setSelectedDegree] = useState("")
+  const [selectedSchool, setSelectedSchool] = useState("")
+  const [selectedDegreeList, setSelectedDegreeList] = useState<
+    { [key: string]: string }[]
+  >([])
 
   const openFileUploader = () => {
     fileUploader.current?.click()
@@ -118,6 +123,10 @@ const EducationForm = ({ type }: Props) => {
     setSelectedMajorList(selectedMajorList.filter((_, i) => i !== index))
   }
 
+  const deleteDegree = (index: number) => {
+    setSelectedDegreeList(selectedDegreeList.filter((_, i) => i !== index))
+  }
+
   useEffect(() => {
     if (selectedDistrict) {
       handleRegionList()
@@ -136,6 +145,14 @@ const EducationForm = ({ type }: Props) => {
     const district = `${selectedCity} ${selectedDistrict}`
     setSelectedRegionList([...selectedRegionList, district])
     setSelectedRegionStep(1)
+  }
+
+  const handleDegreeList = () => {
+    const degree = { [selectedDegree]: selectedSchool }
+
+    setSelectedDegreeList([...selectedDegreeList, degree])
+    setSelectedDegree("")
+    setSelectedSchool("")
   }
 
   const handleMajorList = () => {
@@ -169,6 +186,7 @@ const EducationForm = ({ type }: Props) => {
         intro: payload.intro,
         phone: payload.phone,
         fee: payload.fee,
+        degree: selectedDegreeList,
         created_at: new Date().toISOString(),
       }
 
@@ -318,29 +336,21 @@ const EducationForm = ({ type }: Props) => {
         ))}
       </div>
       <div className="flex items-center mt-5 mb-2">
-        <button
-          disabled={selectedRegionList.length >= 3}
-          onClick={() => setIsRegionSelect(true)}
-          className="rounded-md bg-blue1  p-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75
-          disabled:opacity-50 disabled:cursor-not-allowed
-          "
-        >
-          학력 등록
-        </button>
+        <span className="text-lg font-semibold">학력 등록</span>
         <span className="text-xs ml-2 opacity-70">
           레슨하실 선생님의 학력을 입력해주세요.
-          <br />
-          최대 3개까지 등록 가능합니다.
         </span>
       </div>
       <div className="flex">
         <div className="w-20">
           <Select
             label="학력 선택"
+            className="w-20"
+            value={selectedDegree}
             onChange={(value: any) => setSelectedDegree(value)}
           >
             {items.map(item => (
-              <Option key={item.title} value={item.value}>
+              <Option key={item.title} value={item.value} className="w-20">
                 {item.title}
               </Option>
             ))}
@@ -348,8 +358,41 @@ const EducationForm = ({ type }: Props) => {
         </div>
         <Input
           placeholder="대학명 예: 한국예술종합학교"
-          className="!border flex-1 !border-blue-gray-50 bg-white text-blue-gray-500 ring-4 ring-transparent placeholder:text-blue-gray-200 focus:!border-blue-500 focus:!border-t-blue-500 focus:ring-blue-500/20"
+          value={selectedSchool}
+          onChange={e => setSelectedSchool(e.target.value)}
+          className="!border !border-blue-gray-50 bg-white text-blue-gray-500 ring-4 ring-transparent placeholder:text-blue-gray-200 focus:!border-blue-500 focus:!border-t-blue-500 focus:ring-blue-500/20"
         />
+        <button
+          onClick={() => handleDegreeList()}
+          className="rounded-md bg-blue1 p-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75
+          disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+        >
+          추가
+        </button>
+      </div>
+
+      <div className="mt-2 flex flex-col  h-[100px] border bg-white rounded-md px-2 overflow-auto">
+        {selectedDegreeList.map((degree, index) => (
+          <div
+            key={DEGREE_VALUES[degree.selectedDegree as DEGREE]}
+            className="flex items-center"
+          >
+            {Object.entries(degree).map(([key, value]) => (
+              <span className="pt-1" key={value}>
+                {DEGREE_VALUES[key as DEGREE]} - {value}
+              </span>
+            ))}
+            <IconButton
+              ripple={false}
+              variant="text"
+              size="sm"
+              className=" text-black"
+              onClick={() => deleteDegree(index)}
+            >
+              <XMarkIcon className="w-6" />
+            </IconButton>
+          </div>
+        ))}
       </div>
 
       <div className="mt-2">

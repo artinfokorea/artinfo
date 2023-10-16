@@ -460,6 +460,7 @@ export type PROFILE_PAYLOAD = {
 /*
  * --------------------------------------------------- LESSON ---------------------------------------------------------
  */
+export type DEGREE = "ASSOCIATE" | "MASTER" | "BACHELOR" | "DOCTOR"
 
 export type LESSON = {
   id: number
@@ -469,5 +470,13 @@ export type LESSON = {
   locations: string[]
   name: string
   subjects: string[]
+  degree: { [key: string]: string }[]
   profiles: PROFILE
+}
+
+export const DEGREE_VALUES = {
+  ASSOCIATE: "전문학사",
+  MASTER: "석사",
+  BACHELOR: "학사",
+  DOCTOR: "박사",
 }
