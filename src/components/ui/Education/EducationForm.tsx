@@ -9,7 +9,7 @@ import {
   Select,
   Option,
 } from "@/components/material"
-
+import uuid from "react-uuid"
 import Link from "next/link"
 import * as yup from "yup"
 import React, { useState, useMemo, useEffect, useRef } from "react"
@@ -373,10 +373,7 @@ const EducationForm = ({ type }: Props) => {
 
       <div className="mt-2 flex flex-col  h-[100px] border bg-white rounded-md px-2 overflow-auto">
         {selectedDegreeList.map((degree, index) => (
-          <div
-            key={DEGREE_VALUES[degree.selectedDegree as DEGREE]}
-            className="flex items-center"
-          >
+          <div key={uuid()} className="flex items-center">
             {Object.entries(degree).map(([key, value]) => (
               <span className="pt-1" key={value}>
                 {DEGREE_VALUES[key as DEGREE]} - {value}
