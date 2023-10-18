@@ -1,36 +1,25 @@
-"use client"
+import InquiryContainer from "@/components/ui/Inquiry/InquiryContainer"
+import { Metadata } from "next/types"
 
-import { IconButton } from "@/components/material"
-import { XMarkIcon } from "@heroicons/react/24/outline"
-import Link from "next/link"
-import InquiryForm from "../../../components/ui/Inquiry/inquiryForm"
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: `문의 | 아트인포`,
+    description: `문의 | 아트인포`,
+    openGraph: {
+      title: `문의 | 아트인포`,
+      description: `문의 | 아트인포`,
+      images: {
+        url: "https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/concerts/288/1694427064047.jpg",
+        alt: "아트인포-ARTINFO",
+      },
+    },
+  }
+}
 
 export default function CreatePost() {
   return (
-    <div
-      className="mx-auto max-w-screen-lg px-4 lg:px-0"
-      style={{
-        height: "calc(100vh - 58px)",
-      }}
-    >
-      <div className="h-full flex flex-col">
-        <div className="relative mt-6">
-          <Link href="/posts">
-            <IconButton
-              ripple={false}
-              variant="text"
-              size="md"
-              className="absolute -top-1 text-black md:hidden"
-            >
-              <XMarkIcon className="w-6" />
-            </IconButton>
-          </Link>
-          <h2 className="text-2xl font-bold text-center md:text-left">
-            문의 작성하기
-          </h2>
-        </div>
-        <InquiryForm />
-      </div>
+    <div>
+      <InquiryContainer />
     </div>
   )
 }

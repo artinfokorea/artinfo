@@ -26,13 +26,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const pageTitle = data?.title.substring(0, 35)
-  const pageDesc = (data?.contents || "").substring(0, 100)
   const pageImage = data?.poster_url
 
   console.log("pageImage", pageImage)
 
   return {
-    title: `${pageTitle}|아트인포`,
+    title: `공연 | 아트인포`,
+    description: `${pageTitle} | 아트인포`,
     openGraph: {
       title: pageTitle,
       description: "아트인포 공연",
