@@ -27,6 +27,10 @@ export async function middleware(req: NextRequest) {
     if (!data.session) {
       return NextResponse.redirect(new URL("/auth", req.url))
     }
+  } else if (pathname === "/educations/create") {
+    if (!data.session) {
+      return NextResponse.redirect(new URL("/auth", req.url))
+    }
   } else if (pathname.startsWith("/jobs/")) {
     if (!data.session) {
       return NextResponse.redirect(new URL("/auth", req.url))
@@ -50,5 +54,6 @@ export const config = {
     "/concerts/create",
     "/jobs/create",
     "/jobs/:path*",
+    "/educations/create",
   ],
 }

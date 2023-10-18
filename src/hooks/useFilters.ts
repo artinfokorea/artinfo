@@ -100,6 +100,28 @@ export default function useFilters() {
       // console.error('URL을 찾을 수 없습니다.')
       return match ? match[0] : null
     },
+    CASHCOMMA(value: number | string) {
+      let num = value
+      if (!value) {
+        return 0
+      }
+      if (typeof value === "string") {
+        num = parseInt(value, 10)
+      }
+      num = Math.round((value as number) / 1000)
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    },
+    FEECOMMA(value: number | string) {
+      let num = value
+      if (!value) {
+        return 0
+      }
+      if (typeof value === "string") {
+        num = parseInt(value, 10)
+      }
+      num = Math.round((value as number) * 10000)
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    },
     URLFY(text?: string) {
       if (!text) {
         return
