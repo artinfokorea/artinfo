@@ -2,8 +2,6 @@ import { Suspense } from "react"
 import { Metadata } from "next/types"
 import SupabaseServer from "@/lib/supabase-server"
 import Loading from "@/components/ui/Loading/Loading"
-import GetQueryClient from "@/app/GetQueryClient"
-import { Hydrate, dehydrate } from "@tanstack/react-query"
 import JobDetailContainer from "@/components/ui/Job/JobDetailContainer"
 
 type Props = {
@@ -16,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const supabase = SupabaseServer()
   const { data, error } = await supabase
     .from("recruit_jobs")
-    .select("*, profiles(id, name, email, icon_image_url)")
+    .select("*")
     .eq("id", id)
     .single()
 
