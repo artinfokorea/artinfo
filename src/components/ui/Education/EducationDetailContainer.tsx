@@ -12,7 +12,6 @@ import useFilters from "@/hooks/useFilters"
 import LocationTag from "@/components/common/LocationTag"
 import { clipboard, isMobileWeb } from "@toss/utils"
 import useToast from "@/hooks/useToast"
-import { Toaster } from "react-hot-toast"
 import { useRouter } from "next/navigation"
 
 const ListButton = dynamic(() => import("@/components/ui/Button/ListButton"), {
@@ -144,8 +143,6 @@ const EducationDetailContainer = ({ pageId }: Props) => {
           <ListButton list="educations" />
         </div>
       )}
-
-      <Toaster />
     </div>
   )
 }

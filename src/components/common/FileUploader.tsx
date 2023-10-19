@@ -2,7 +2,6 @@
 
 import useToast from "@/hooks/useToast"
 import { ChangeEvent, forwardRef, ForwardedRef } from "react"
-import { Toaster } from "react-hot-toast"
 
 type Props = {
   acceptType?: "IMAGE" | "VIDEO" | "DOC"
@@ -42,7 +41,6 @@ function FileUploader(
         accept="image/jpg,image/png,image/jpeg,image/gif"
         onChange={handleChangeFile}
       />
-      <Toaster />
     </div>
   )
 }

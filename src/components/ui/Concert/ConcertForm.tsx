@@ -10,7 +10,6 @@ import { Button, IconButton, Option, Select } from "@material-tailwind/react"
 import { useQueryClient } from "@tanstack/react-query"
 import Link from "next/link"
 import React, { useRef, useState, Fragment } from "react"
-import { Toaster } from "react-hot-toast"
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
@@ -444,7 +443,6 @@ const ConcertForm = ({ type, concert }: Props) => {
         </div>
         <FileUploader ref={fileUploader} uploadedFiles={handleUploadedFiles} />
       </form>
-      <Toaster />
     </div>
   )
 }

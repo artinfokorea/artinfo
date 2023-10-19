@@ -7,6 +7,7 @@ import HomeScreenContainer from "@/components/ui/HomeScreen/HomeScreenContainer"
 import QueryProvider from "../QueryProvider"
 import AuthProvider from "../../components/ui/Auth/AuthProvider"
 import RecoilProvider from "../RecoilProvider"
+import ToasterProvider from "../ToasterProvider"
 
 // import { Noto_Sans_KR, Roboto } from "next/font/google"
 
@@ -57,12 +58,14 @@ export default async function RootLayout({
           <QueryProvider>
             <AuthProvider>
               <RecoilProvider>
-                <Header />
-                <main className="flex-1 overflow-y-auto relative z-1 mt-16 ">
-                  {children}
-                </main>
-                <BottomNavigation />
-                <HomeScreenContainer />
+                <ToasterProvider>
+                  <Header />
+                  <main className="flex-1 overflow-y-auto relative z-1 mt-16 ">
+                    {children}
+                  </main>
+                  <BottomNavigation />
+                  <HomeScreenContainer />
+                </ToasterProvider>
               </RecoilProvider>
             </AuthProvider>
           </QueryProvider>

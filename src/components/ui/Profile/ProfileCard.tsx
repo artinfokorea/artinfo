@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { fetchProfile, updateProfile } from "@/app/Api"
 import useToast from "@/hooks/useToast"
-import { Toaster } from "react-hot-toast"
 import { useRecoilState } from "recoil"
 import { userProfileState } from "@/atoms/userProfile"
 import { CameraIcon } from "@heroicons/react/24/outline"
@@ -232,7 +231,6 @@ export default function ProfileCard({ user, refetch }: IProps) {
       {/*    })} */}
       {/*  </div> */}
       {/* </section> */}
-      <Toaster />
     </div>
   )
 }

@@ -22,7 +22,6 @@ import FileUploader from "@/components/common/FileUploader"
 import MajorSelect from "@/components/common/MajorSelect"
 import useAuth from "@/hooks/useAuth"
 import useToast from "@/hooks/useToast"
-import { Toaster } from "react-hot-toast"
 import useSupabase from "@/hooks/useSupabase"
 import { DEGREE_VALUES, DEGREE } from "@/types/types"
 import { useQueryClient } from "@tanstack/react-query"
@@ -526,7 +525,6 @@ const EducationForm = ({ type }: Props) => {
         uploadedFiles={handleUploadedFiles}
         multiple
       />
-      <Toaster />
     </div>
   )
 }

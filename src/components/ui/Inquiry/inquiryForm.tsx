@@ -8,6 +8,7 @@ import { useAuth } from "@/components/ui/Auth/AuthProvider"
 import useSupabase from "@/hooks/useSupabase"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
+import useToast from "@/hooks/useToast"
 
 const schema = yup
   .object({
@@ -29,6 +30,7 @@ const InquiryForm = () => {
   const router = useRouter()
   const { user } = useAuth()
   const supabase = useSupabase()
+  const { successToast, errorToast } = useToast()
 
   const {
     register,
@@ -55,7 +57,7 @@ const InquiryForm = () => {
       }
 
       // openSnackbar("문의가 등록되었습니다.", 2000)
-
+      successToast("문의가 등록되었습니다.")
       router.push("/posts")
     } catch (e) {
       console.log("error", e)

@@ -12,7 +12,6 @@ import { useEffect, useState, useRef } from "react"
 import useAuth from "@/hooks/useAuth"
 import { Modal } from "@/components/common/Modal"
 import useToast from "@/hooks/useToast"
-import { Toaster } from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import ConcertForm from "./ConcertForm"
 
@@ -257,7 +256,6 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
               </button>
             </div>
           </Modal>
-          <Toaster />
         </div>
       ) : (
         <ConcertForm type="update" concert={concert} />

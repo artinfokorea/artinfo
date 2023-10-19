@@ -18,7 +18,6 @@ import useFilters from "@/hooks/useFilters"
 import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { clipboard } from "@toss/utils"
-import { Toaster } from "react-hot-toast"
 import { useAuth } from "@/components/ui/Auth/AuthProvider"
 import PositionTag from "@/components/common/PositionTag"
 import useLocalforge from "@/hooks/useLocalforage"
@@ -360,7 +359,6 @@ export function PostCard({
           </button>
         </div>
       </Modal>
-      <Toaster />
     </>
   )
 }

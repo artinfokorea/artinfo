@@ -4,7 +4,6 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import toast, { Toaster } from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import useSupabase from "@/hooks/useSupabase"
 import { Modal } from "@/components/common/Modal"
@@ -250,7 +249,6 @@ export default function SignUp() {
           </button>
         </div>
       </Modal>
-      <Toaster />
     </div>
   )
 }

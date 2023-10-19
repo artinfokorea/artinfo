@@ -12,7 +12,6 @@ import useAuth from "@/hooks/useAuth"
 import { TrashIcon } from "@heroicons/react/24/outline"
 import { Modal } from "@/components/common/Modal"
 import useToast from "@/hooks/useToast"
-import { Toaster } from "react-hot-toast"
 
 const ScrollButtonWrap = dynamic(
   () => import("@/components/ui/Button/ScrollButtonWrap"),
@@ -188,7 +187,6 @@ export default function JobDetailContainer({ jobId }: IProps) {
           </button>
         </div>
       </Modal>
-      <Toaster />
     </div>
   )
 }

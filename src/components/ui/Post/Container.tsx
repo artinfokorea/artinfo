@@ -8,10 +8,8 @@ import {
   CardHeader,
   Typography,
   Tooltip,
-  Button,
 } from "@/components/material"
 import { useAuth } from "@/components/ui/Auth/AuthProvider"
-import Link from "next/link"
 import {
   useInfiniteQuery,
   useMutation,
@@ -21,11 +19,8 @@ import { deleteFeed, fetchFeeds, updatePostLike } from "@/app/Api"
 import { useInView } from "react-intersection-observer"
 import { useDidUpdate } from "@toss/react"
 import { isMobileWeb } from "@toss/utils"
-import ScrollUpButton from "@/components/ui/Button/ScrollUpButton"
 import { Feed } from "@/types/types"
-import { Toaster } from "react-hot-toast"
 import useToast from "@/hooks/useToast"
-// import PullToRefresh from "@/components/PullToRefresh"
 import ListWithLatestJobs from "@/components/ui/LatestJobs/ListWithLatestJobs"
 import { useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
@@ -327,7 +322,6 @@ export default function Container() {
             )} */}
           </div>
           <div ref={ref} className="h-4" />
-          <Toaster />
         </div>
         <div className="ml-5 hidden md:block " style={{ width: 300 }}>
           <ListWithLatestJobs />

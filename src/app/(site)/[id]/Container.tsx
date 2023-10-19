@@ -10,7 +10,6 @@ import { CommentType, Feed } from "@/types/types"
 import { useAuth } from "@/components/ui/Auth/AuthProvider"
 import { notFound, useRouter } from "next/navigation"
 import dynamic from "next/dynamic"
-import { Toaster } from "react-hot-toast"
 import { isMobileWeb } from "@toss/utils"
 import useToast from "@/hooks/useToast"
 import {
@@ -266,7 +265,6 @@ export default function Container({ pageId }: IProps) {
           <ListButton list="posts" />
         </div>
       )}
-      <Toaster />
     </div>
   )
 }
