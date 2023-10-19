@@ -23,12 +23,12 @@ import MajorSelect from "@/components/common/MajorSelect"
 import useAuth from "@/hooks/useAuth"
 import useToast from "@/hooks/useToast"
 import useSupabase from "@/hooks/useSupabase"
-import { DEGREE_VALUES, DEGREE } from "@/types/types"
+import { DEGREE_VALUES, DEGREE, LESSON } from "@/types/types"
 import { useQueryClient } from "@tanstack/react-query"
-import { DialogHeaderStylesType } from "@material-tailwind/react"
 
 interface Props {
   type: "create" | "update"
+  lesson?: LESSON
 }
 
 const schema = yup
@@ -54,14 +54,18 @@ const schema = yup
   .required()
 type FormData = yup.InferType<typeof schema>
 
-const EducationForm = ({ type }: Props) => {
+const EducationForm = ({ type, lesson }: Props) => {
   const [isRegionSelect, setIsRegionSelect] = useState(false)
   const [isMajorSelect, setIsMajorSelect] = useState(false)
   const [selectedMajor, setSelectedMajor] = useState("")
   const [selectedCity, setSelectedCity] = useState("")
   const [selectedDistrict, setSelectedDistrict] = useState("")
-  const [selectedRegionList, setSelectedRegionList] = useState<string[]>([])
-  const [selectedMajorList, setSelectedMajorList] = useState<string[]>([])
+  const [selectedRegionList, setSelectedRegionList] = useState<string[]>(
+    lesson?.locations || [],
+  )
+  const [selectedMajorList, setSelectedMajorList] = useState<string[]>(
+    lesson?.subjects || [],
+  )
   const [selectedRegionStep, setSelectedRegionStep] = useState(1)
   const fileUploader = useRef<HTMLInputElement>(null)
   const [uploadedImage, setUploadedImage] = useState<File>()
@@ -75,7 +79,7 @@ const EducationForm = ({ type }: Props) => {
   const [selectedSchool, setSelectedSchool] = useState("")
   const [selectedDegreeList, setSelectedDegreeList] = useState<
     { [key: string]: string }[]
-  >([])
+  >(lesson?.degree || [])
 
   const openFileUploader = () => {
     fileUploader.current?.click()
@@ -92,7 +96,6 @@ const EducationForm = ({ type }: Props) => {
     handleSubmit,
     setValue,
     formState: { errors, isDirty, isValid },
-    reset,
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -139,6 +142,16 @@ const EducationForm = ({ type }: Props) => {
       setSelectedMajor("")
     }
   }, [selectedMajor])
+
+  useEffect(() => {
+    if (lesson) {
+      setValue("name", lesson.name)
+      setValue("phone", lesson.phone)
+      setValue("fee", lesson.fee)
+      setValue("intro", lesson.intro)
+      setUploadedImageUrl(lesson.image_url)
+    }
+  }, [lesson])
 
   const handleRegionList = () => {
     const district = `${selectedCity} ${selectedDistrict}`
@@ -240,12 +253,87 @@ const EducationForm = ({ type }: Props) => {
     }
   }
 
+  const handleUpdateLesson = async (payload: FormData) => {
+    if (!user || !lesson) {
+      return
+    }
+
+    try {
+      const formData = {
+        image_url: uploadedImageUrl,
+        name: payload.name,
+        fee: payload.fee,
+        intro: payload.intro,
+        phone: payload.phone,
+        locations: selectedRegionList,
+        subjects: selectedMajorList,
+        degree: selectedDegreeList,
+      }
+
+      const { data, error } = await supabase
+        .from("lessons")
+        .update({ ...formData })
+        .eq("id", lesson.id)
+
+      if (error) {
+        throw error
+      }
+
+      // upload file
+      // Todo: 수정시에도 이미지 그대로 업로드됨
+      if (uploadedImage) {
+        // const filename = uploadedImage.name
+        const filename = new Date().getTime().toString()
+        const extension = uploadedImage.name.split(".")[1]
+        const path = `educations/${lesson.id}/${filename}.${extension}`
+        const { error: uploadError, data } = await supabase.storage
+          .from("artinfo")
+          .upload(path, uploadedImage, {
+            cacheControl: "36000",
+            upsert: true,
+          })
+        if (uploadError) {
+          throw uploadError
+        }
+        const fileUrl = `https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/${data.path}`
+        console.log(fileUrl)
+
+        const { error: updateError } = await supabase
+          .from("lessons")
+          .update({
+            image_url: fileUrl,
+          })
+          .eq("id", lesson.id)
+
+        if (updateError) {
+          throw updateError
+        }
+      }
+
+      await queryClient.invalidateQueries({ queryKey: ["lessons"] })
+      successToast("레슨이 수정되었습니다.")
+      console.log("SUCCESS!")
+      router.replace("/educations")
+    } catch (error: any) {
+      errorToast(error.message)
+      console.error(error)
+    }
+  }
+
   const items = [
     { title: "전문학사", value: "ASSOCIATE" },
     { title: "학사", value: "BACHELOR" },
     { title: "석사", value: "MASTER" },
     { title: "박사", value: "DOCTOR" },
   ]
+
+  const handleComplete = (payload: FormData) => {
+    if (type === "update" && lesson) {
+      handleUpdateLesson(payload)
+    } else if (type === "create") {
+      createLesson(payload)
+    }
+  }
 
   return (
     <div
@@ -497,9 +585,9 @@ const EducationForm = ({ type }: Props) => {
           size="lg"
           className=" rounded-md bg-indigo-500 w-full md:w-32 whitespace-nowrap"
           disabled={!isValidForm}
-          onClick={handleSubmit(createLesson)}
+          onClick={handleSubmit(handleComplete)}
         >
-          등록하기
+          {type === "create" ? "등록하기" : "수정하기"}
         </Button>
       </div>
       {isRegionSelect && (

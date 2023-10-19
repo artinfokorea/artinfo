@@ -472,9 +472,9 @@ export type LESSON = {
   subjects: string[]
   degree: { [key: string]: string }[]
   profiles: PROFILE
-  intro?: string
-  fee?: number
-  phone?: string
+  intro: string
+  fee: number
+  phone: string
 }
 
 export const DEGREE_VALUES = {

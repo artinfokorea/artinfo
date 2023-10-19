@@ -370,3 +370,15 @@ export async function fetchLesson(lessonId: number) {
   }
   return data
 }
+
+export async function deleteLesson(id: number) {
+  const supabase = useSupabase()
+
+  // const { data, error } = await supabase.from("feeds").delete().eq("id", id)
+  const { data, error } = await supabase.from("lessons").delete().eq("id", id)
+
+  if (error) {
+    throw error
+  }
+  return data
+}

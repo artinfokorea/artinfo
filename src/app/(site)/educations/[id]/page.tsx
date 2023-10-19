@@ -28,21 +28,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {}
   }
 
-  const pageTitle = (data?.title || data?.content || "").substring(0, 35)
-  const pageDesc = (data?.content || "").substring(0, 100)
-  const pageImages = data?.image_urls?.map((img: string) => ({
-    url: img,
-  }))
-
-  console.log("pageImages", pageImages)
+  console.log("data", data?.image_url)
 
   return {
-    title: `${pageTitle}|아트인포`,
-    description: pageDesc,
+    title: `레슨 | 아트인포`,
+    description: `레슨 | 아트인포`,
     openGraph: {
-      title: pageTitle,
-      description: pageDesc,
-      images: pageImages ?? {
+      title: `레슨 | 아트인포`,
+      description: `레슨 | 아트인포`,
+      images: data?.image_url ?? {
         url: "https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/concerts/288/1694427064047.jpg",
         alt: "아트인포-ARTINFO",
       },
