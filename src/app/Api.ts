@@ -373,9 +373,18 @@ export async function fetchLesson(lessonId: number) {
 
 export async function deleteLesson(id: number) {
   const supabase = useSupabase()
+  const user = useAuth()
 
   // const { data, error } = await supabase.from("feeds").delete().eq("id", id)
   const { data, error } = await supabase.from("lessons").delete().eq("id", id)
+
+  const { data: profileData, error: profileError } = await supabase
+    .from("profiles")
+    .update({ is_teacher: true })
+    .eq("id", user.id)
+
+  console.log("profileData", profileData)
+  console.log("profileError", profileError)
 
   if (error) {
     throw error

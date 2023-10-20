@@ -12,6 +12,7 @@ import useFilters from "@/hooks/useFilters"
 import LocationTag from "@/components/common/LocationTag"
 import { clipboard, isMobileWeb } from "@toss/utils"
 import useToast from "@/hooks/useToast"
+import useAuth from "@/hooks/useAuth"
 import { useRouter } from "next/navigation"
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/20/solid"
 import EducationForm from "./EducationForm"
@@ -32,6 +33,7 @@ const EducationDetailContainer = ({ pageId }: Props) => {
   const isMobile = isMobileWeb()
   const router = useRouter()
   const queryClient = useQueryClient()
+  const { user } = useAuth()
   const [pageType, setPageType] = useState("read")
 
   const { data: lesson } = useQuery<LESSON>({
@@ -161,23 +163,33 @@ const EducationDetailContainer = ({ pageId }: Props) => {
             <p className="my-4">{lesson?.intro}</p>
           </div>
           {!isMobile && (
-            <div className="sm:container text-white flex fixed bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full ">
-              <button
-                className=" px-3 bg-indigo-600 rounded-l-md"
-                onClick={handleDeleteLesson}
-              >
-                <TrashIcon className="w-9 border-r border-white pr-3" />
-              </button>
+            <div className="sm:container  text-white flex fixed bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full ">
+              {lesson?.profile_id === user?.id && (
+                <>
+                  <button
+                    className=" px-3 bg-indigo-600 rounded-l-md"
+                    onClick={handleDeleteLesson}
+                  >
+                    <TrashIcon className="w-9 border-r border-white pr-3" />
+                  </button>
+
+                  <button
+                    className=" bg-indigo-600"
+                    onClick={() => setPageType("update")}
+                  >
+                    <PencilSquareIcon className="w-9 border-r border-white pr-3" />
+                  </button>
+                </>
+              )}
 
               <button
-                className=" bg-indigo-600"
-                onClick={() => setPageType("update")}
-              >
-                <PencilSquareIcon className="w-9 border-r border-white pr-3" />
-              </button>
-
-              <button
-                className="transition ease-in-out duration-150 inline-flex items-center w-full justify-center  bg-indigo-600 py-3 text-md leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600  disabled:opacity-50 mr-2 rounded-r-md"
+                className={`transition ease-in-out duration-150 inline-flex items-center w-full justify-center  bg-indigo-600 py-3 text-md leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600  disabled:opacity-50 mr-2
+                ${
+                  lesson?.profile_id === user?.id
+                    ? "rounded-r-md"
+                    : "rounded-md"
+                }
+                `}
                 onClick={() => router.replace("/educations")}
               >
                 뒤로가기

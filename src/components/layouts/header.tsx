@@ -208,7 +208,10 @@ export default function Header() {
   }, [user])
 
   return (
-    <Navbar className="fixed top-0 left-0 z-999 h-max max-w-full rounded-none py-2 px-4 lg:px-8">
+    <Navbar
+      className="fixed top-0 left-0 z-50 h-max max-w-full rounded-none py-2 px-4  lg:px-8  "
+      style={{ background: "white" }}
+    >
       <div className="flex items-center text-blue-gray-900 mx-auto max-w-screen-lg">
         <Typography className="py-1.5 font-bold text-xl" as="h1">
           <Link href="/">ARTINFO</Link>

@@ -1,18 +1,11 @@
 "use client"
 
 import { XMarkIcon } from "@heroicons/react/24/outline"
-import {
-  IconButton,
-  Input,
-  Textarea,
-  Button,
-  Select,
-  Option,
-} from "@/components/material"
+import { IconButton, Input, Textarea, Button } from "@/components/material"
 import uuid from "react-uuid"
 import Link from "next/link"
 import * as yup from "yup"
-import React, { useState, useMemo, useEffect, useRef } from "react"
+import React, { useState, useMemo, useEffect, useRef, Fragment } from "react"
 import RegionSelect from "@/components/common/RegionSelect"
 import { RegionData } from "@/lib/regions"
 import { useRouter } from "next/navigation"
@@ -25,7 +18,8 @@ import useToast from "@/hooks/useToast"
 import useSupabase from "@/hooks/useSupabase"
 import { DEGREE_VALUES, DEGREE, LESSON } from "@/types/types"
 import { useQueryClient } from "@tanstack/react-query"
-import { select } from "@material-tailwind/react"
+import { Listbox, Transition } from "@headlessui/react"
+import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid"
 
 interface Props {
   type: "create" | "update"
@@ -78,7 +72,7 @@ const EducationForm = ({ type, lesson }: Props) => {
   const supabase = useSupabase()
   const queryClient = useQueryClient()
   const { successToast, errorToast } = useToast()
-  const [selectedDegree, setSelectedDegree] = useState("")
+  const [selectedDegree, setSelectedDegree] = useState("BACHELOR")
   const [selectedSchool, setSelectedSchool] = useState("")
   const [selectedDegreeList, setSelectedDegreeList] = useState<
     { [key: string]: string }[]
@@ -216,6 +210,14 @@ const EducationForm = ({ type, lesson }: Props) => {
         throw error
       }
 
+      const { data: profileData, error: profileError } = await supabase
+        .from("profiles")
+        .update({ is_teacher: true })
+        .eq("id", user.id)
+
+      console.log("profileData", profileData)
+      console.log("profileError", profileError)
+
       // upload file
       const lessonId = data.id
       if (uploadedImage && lessonId) {
@@ -315,6 +317,7 @@ const EducationForm = ({ type, lesson }: Props) => {
       }
 
       await queryClient.invalidateQueries({ queryKey: ["lessons"] })
+      await queryClient.invalidateQueries({ queryKey: ["lesson"] })
       successToast("레슨이 수정되었습니다.")
       console.log("SUCCESS!")
       router.replace("/educations")
@@ -379,8 +382,8 @@ const EducationForm = ({ type, lesson }: Props) => {
       </div>
       <div className="mt-2 flex flex-col  h-[100px] border bg-white rounded-md px-2">
         {selectedRegionList.map((region, index) => (
-          <div key={region} className="flex items-center">
-            <span className="pt-1">{region}</span>
+          <div key={uuid()} className="flex items-center text-sm">
+            <span className="pt-[2px] ">{region}</span>
             <IconButton
               ripple={false}
               variant="text"
@@ -388,7 +391,7 @@ const EducationForm = ({ type, lesson }: Props) => {
               className=" text-black"
               onClick={() => deleteRegion(index)}
             >
-              <XMarkIcon className="w-6" />
+              <XMarkIcon className="w-5" />
             </IconButton>
           </div>
         ))}
@@ -411,8 +414,8 @@ const EducationForm = ({ type, lesson }: Props) => {
       </div>
       <div className="mt-2 flex flex-col  h-[100px] border bg-white rounded-md px-2">
         {selectedMajorList.map((major, index) => (
-          <div key={major} className="flex items-center">
-            <span className="pt-1">{major}</span>
+          <div key={uuid()} className="flex items-center text-sm">
+            <span className="pt-[2px">{major}</span>
             <IconButton
               ripple={false}
               variant="text"
@@ -420,7 +423,7 @@ const EducationForm = ({ type, lesson }: Props) => {
               className=" text-black"
               onClick={() => deleteMajor(index)}
             >
-              <XMarkIcon className="w-6" />
+              <XMarkIcon className="w-5" />
             </IconButton>
           </div>
         ))}
@@ -431,41 +434,91 @@ const EducationForm = ({ type, lesson }: Props) => {
           레슨하실 선생님의 학력을 입력해주세요.
         </span>
       </div>
-      <div className="flex">
-        <div className="w-20 mr-2">
-          <Select
-            label="학력 선택"
-            className="w-20"
-            value={selectedDegree}
-            onChange={(value: any) => setSelectedDegree(value)}
-          >
-            {items.map(item => (
-              <Option key={item.title} value={item.value} className="w-20">
-                {item.title}
-              </Option>
-            ))}
-          </Select>
+      <div className="flex h-12">
+        <div className="w-40 h-10">
+          <Listbox value={selectedDegree} onChange={setSelectedDegree}>
+            <div className="relative z-10">
+              <Listbox.Button className="w-full h-11 relative  cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left  focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                <span className="block truncate">
+                  {DEGREE_VALUES[selectedDegree as DEGREE]}
+                </span>
+                <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                  <ChevronUpDownIcon
+                    className="h-5 w-5 text-gray-400"
+                    aria-hidden="true"
+                  />
+                </span>
+              </Listbox.Button>
+              <Transition
+                as={Fragment}
+                leave="transition ease-in duration-100"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <Listbox.Options className="absolute mt-1 max-h-60 w-full  overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  {items.map(item => (
+                    <Listbox.Option
+                      key={item.title}
+                      className={({ active }) =>
+                        `relative cursor-default select-none py-2 pl-10 pr-4 z-20  ${
+                          active
+                            ? "bg-amber-100 text-amber-900"
+                            : "text-gray-900"
+                        }`
+                      }
+                      value={item.value}
+                    >
+                      {({ selected }) => (
+                        <>
+                          <span
+                            className={`block truncate ${
+                              selected ? "font-medium" : "font-normal"
+                            }`}
+                          >
+                            {item.title}
+                          </span>
+                          {selected ? (
+                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                              <CheckIcon
+                                className="h-5 w-5"
+                                aria-hidden="true"
+                              />
+                            </span>
+                          ) : null}
+                        </>
+                      )}
+                    </Listbox.Option>
+                  ))}
+                </Listbox.Options>
+              </Transition>
+            </div>
+          </Listbox>
         </div>
-        <Input
-          placeholder="대학명 예: 한국예술종합학교"
-          value={selectedSchool}
-          onChange={e => setSelectedSchool(e.target.value)}
-          className="!border !border-blue-gray-50 bg-white text-blue-gray-500 ring-4 ring-transparent placeholder:text-blue-gray-200 focus:!border-blue-500 focus:!border-t-blue-500 focus:ring-blue-500/20"
-        />
-        <button
-          onClick={() => handleDegreeList()}
-          className="rounded-md bg-blue1 p-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75
-          disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
-        >
-          추가
-        </button>
+        <div className="relative flex w-full max-w-[24rem] ml-4">
+          <Input
+            placeholder="대학명 예: 한국예술종합학교"
+            value={selectedSchool}
+            variant="standard"
+            onChange={e => setSelectedSchool(e.target.value)}
+            className="pb-4  rounded-md border-none !border-blue-gray-50 bg-white text-blue-gray-500 ring-4 ring-transparent placeholder:text-blue-gray-200 focus:!border-blue-500 focus:!border-t-blue-500 focus:ring-blue-500/20"
+          />
+          <Button
+            size="sm"
+            color={selectedSchool ? "blue" : "blue-gray"}
+            disabled={!selectedSchool}
+            className="!absolute right-1 top-[6px] rounded"
+            onClick={() => handleDegreeList()}
+          >
+            추가
+          </Button>
+        </div>
       </div>
 
       <div className="mt-2 flex flex-col  h-[100px] border bg-white rounded-md px-2 overflow-auto">
         {selectedDegreeList.map((degree, index) => (
-          <div key={uuid()} className="flex items-center">
+          <div key={uuid()} className="flex items-center text-sm">
             {Object.entries(degree).map(([key, value]) => (
-              <span className="pt-1" key={value}>
+              <span className="pt-[2px]" key={value}>
                 {DEGREE_VALUES[key as DEGREE]} - {value}
               </span>
             ))}
@@ -476,7 +529,7 @@ const EducationForm = ({ type, lesson }: Props) => {
               className=" text-black"
               onClick={() => deleteDegree(index)}
             >
-              <XMarkIcon className="w-6" />
+              <XMarkIcon className="w-5" />
             </IconButton>
           </div>
         ))}

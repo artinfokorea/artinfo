@@ -250,6 +250,7 @@ const ConcertForm = ({ type, concert }: Props) => {
           variant="text"
           size="md"
           className=" text-black md:hidden"
+          onClick={() => router.replace("/concerts")}
         >
           <XMarkIcon className="w-6" />
         </IconButton>

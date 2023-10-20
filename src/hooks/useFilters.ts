@@ -119,7 +119,7 @@ export default function useFilters() {
       if (typeof value === "string") {
         num = parseInt(value, 10)
       }
-      num = Math.round((value as number) * 10000)
+
       return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     },
     URLFY(text?: string) {

@@ -52,9 +52,9 @@ const EducationContainer = () => {
   }, [inView, hasNextPage])
 
   return (
-    <div id="top" className="">
+    <div id="top" className="h-screen">
       {isLoading && (
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4 px-2">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-5 px-2">
           <LessonSkeleton />
           <LessonSkeleton />
           <LessonSkeleton />
@@ -65,7 +65,7 @@ const EducationContainer = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4 px-2">
+      <div className="grid grid-cols-2 gap-6 md:grid-cols-5 px-2">
         {data?.pages.map(
           page =>
             page?.lessons.map((lesson: any) => (

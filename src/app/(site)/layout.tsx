@@ -39,15 +39,15 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ko" className="h-full">
-      <body className="touch-manipulation bg-[#f8fafc] flex flex-col h-full">
+    <html lang="ko">
+      <body className="touch-manipulation bg-[#f8fafc] flex flex-col h-screen">
         <ThemeProvider>
           <QueryProvider>
             <AuthProvider>
               <RecoilProvider>
                 <ToasterProvider>
                   <Header />
-                  <main className="flex-1 overflow-y-auto relative z-1 mt-16 ">
+                  <main className="flex-1 overflow-y-auto relative z-1 mt-16 h-full">
                     {children}
                   </main>
                   <BottomNavigation />
