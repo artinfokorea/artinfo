@@ -25,6 +25,7 @@ import useToast from "@/hooks/useToast"
 import useSupabase from "@/hooks/useSupabase"
 import { DEGREE_VALUES, DEGREE, LESSON } from "@/types/types"
 import { useQueryClient } from "@tanstack/react-query"
+import { select } from "@material-tailwind/react"
 
 interface Props {
   type: "create" | "update"
@@ -35,9 +36,11 @@ const schema = yup
   .object({
     phone: yup
       .string()
-      .nullable()
-      .min(11, "11자리 이상 입력해주세요")
-      .required("전화번호는 필수입니다."),
+      .matches(
+        /^(\d{3}-\d{4}-\d{4})$/,
+        '전화번호는 숫자 3개, "-" 문자, 숫자 4개, "-" 문자, 숫자 4개 형식이어야 합니다.',
+      )
+      .required("전화번호는 필수 입력 사항입니다."),
     name: yup
       .string()
       .nullable()
@@ -180,7 +183,8 @@ const EducationForm = ({ type, lesson }: Props) => {
     isValid &&
     uploadedImageUrl &&
     selectedRegionList.length > 0 &&
-    selectedMajorList.length > 0
+    selectedMajorList.length > 0 &&
+    selectedDegreeList.length > 0
 
   const createLesson = async (payload: FormData) => {
     console.log("payload", payload)
@@ -321,7 +325,6 @@ const EducationForm = ({ type, lesson }: Props) => {
   }
 
   const items = [
-    { title: "전문학사", value: "ASSOCIATE" },
     { title: "학사", value: "BACHELOR" },
     { title: "석사", value: "MASTER" },
     { title: "박사", value: "DOCTOR" },
@@ -429,7 +432,7 @@ const EducationForm = ({ type, lesson }: Props) => {
         </span>
       </div>
       <div className="flex">
-        <div className="w-20">
+        <div className="w-20 mr-2">
           <Select
             label="학력 선택"
             className="w-20"
@@ -504,7 +507,7 @@ const EducationForm = ({ type, lesson }: Props) => {
       <div className="mt-2">
         <Input
           {...register("fee")}
-          placeholder="시간당 수업료(단위: 10000원) 5만원 일시 5 입력"
+          placeholder="시간당 수업료 예) 50000"
           type="number"
           className="!border !border-blue-gray-50 bg-white text-blue-gray-500 ring-4 ring-transparent placeholder:text-blue-gray-200 focus:!border-blue-500 focus:!border-t-blue-500 focus:ring-blue-500/20"
           labelProps={{
@@ -549,9 +552,8 @@ const EducationForm = ({ type, lesson }: Props) => {
           </svg>
         </IconButton>
         {!uploadedImageUrl && (
-          <span className="opacity-80">
-            (필수) 레슨 등록에 사용하실 이미지를 등록해주세요. 예: 프로필사진
-            또는 공연사진
+          <span className="opacity-80 text-sm">
+            (필수) 레슨 등록에 사용하실 이미지를 등록해주세요.
           </span>
         )}
         {uploadedImageUrl && (

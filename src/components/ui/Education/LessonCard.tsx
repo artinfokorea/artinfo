@@ -26,16 +26,16 @@ const LessonCard = ({ lesson }: Props) => {
             {lesson.name}
           </span>
           <div className="flex flex-col">
-            {lesson.locations.map((location: string, index: number) => (
+            {lesson.locations.map((location: string) => (
               <span
                 key={location}
-                className="text-sm text-primary font-semibold opacity-70 block  break-keep"
+                className="text-sm text-primary font-semibold opacity-70 block break-keep"
               >
                 {location}
               </span>
             ))}
           </div>
-          <div className="my-2 font-semibold whitespace-nowrap">
+          <div className="my-2 font-semibold whitespace-pre-line">
             {lesson.subjects.map((subject: string) => (
               <LocationTag key={subject} tag={subject} />
             ))}

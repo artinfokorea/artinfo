@@ -53,6 +53,11 @@ function ProfileMenu() {
       to: `/profile/${user!.id}`,
     },
     {
+      key: "inquiry",
+      label: "문의하기",
+      icon: QuestionMarkCircleIcon,
+    },
+    {
       key: "signout",
       label: "로그아웃",
       icon: PowerIcon,

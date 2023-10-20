@@ -5,7 +5,7 @@ import EducationContainer from "@/components/ui/Education/EducationContainer"
 
 const page = () => {
   return (
-    <div className="mx-auto max-w-screen-lg">
+    <div className="sm:container mx-auto mt-4 px-4 h-screen">
       <div className="flex justify-between mt-4 px-2">
         <h2 className="text-2xl font-bold mb-4">레슨</h2>
         <ChipButton url="/educations/create" title="레슨등록" />

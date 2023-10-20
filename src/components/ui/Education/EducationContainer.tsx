@@ -4,13 +4,19 @@ import React, { useState } from "react"
 import { fetchLessons } from "@/app/Api"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import Link from "next/link"
-import Loading from "@/components/common/Loading"
+import { useDidUpdate } from "@toss/react"
 import { LESSON } from "@/types/types"
+import { useInView } from "react-intersection-observer"
 import LessonCard from "./LessonCard"
-import StudioCard from "./StudioCard"
+import LessonSkeleton from "../Skeleton/LessonSkeleton"
 
 const EducationContainer = () => {
   const [category, setCategory] = useState("ALL")
+
+  const [ref, inView] = useInView({
+    delay: 300,
+    threshold: 1,
+  })
 
   const getLessons = async (
     pageParam: number,
@@ -24,7 +30,7 @@ const EducationContainer = () => {
     }
   }
 
-  const { isLoading, data, fetchNextPage, hasNextPage } = useInfiniteQuery(
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery(
     ["lessons"],
     ({ pageParam = 0 }) => {
       return getLessons(pageParam)
@@ -39,15 +45,27 @@ const EducationContainer = () => {
     },
   )
 
-  console.log("data", data)
-
-  const items = [1, 2, 3, 4, 5, 6, 7, 8]
-
-  if (isLoading) return <Loading />
+  useDidUpdate(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage()
+    }
+  }, [inView, hasNextPage])
 
   return (
-    <div>
-      <div className="grid grid-cols-2 gap-1 md:grid-cols-4 px-2">
+    <div id="top" className="">
+      {isLoading && (
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4 px-2">
+          <LessonSkeleton />
+          <LessonSkeleton />
+          <LessonSkeleton />
+          <LessonSkeleton />
+          <LessonSkeleton />
+          <LessonSkeleton />
+          <LessonSkeleton />
+        </div>
+      )}
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4 px-2">
         {data?.pages.map(
           page =>
             page?.lessons.map((lesson: any) => (
@@ -65,6 +83,7 @@ const EducationContainer = () => {
           <StudioCard key={item} />
         ))}
       </div> */}
+      <div ref={ref} />
     </div>
   )
 }
