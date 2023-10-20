@@ -4,7 +4,8 @@ import * as gtag from "@/lib/gtag"
 
 export const metadata: Metadata = {
   title: "아트인포-ARTINFO",
-  description: "아트인포",
+  description:
+    "음악의 중심 아트인포! 클래식 공연부터 채용, 레슨, 입시 정보까지 모든 음악 정보를 아트인포에서 찾아보세요",
   openGraph: {
     title: "아트인포-ARTINFO",
     description:

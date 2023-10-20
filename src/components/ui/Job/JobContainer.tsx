@@ -1,34 +1,22 @@
 "use client"
 
-import SelectMenu from "@/components/common/SelectMenu"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { useInView } from "react-intersection-observer"
 import { useEffect, useState } from "react"
 import { useDidUpdate } from "@toss/react"
-import {
-  JOB_POSITION_1DEPTH_CATEGORY_SELECT_ITEMS,
-  JOB_POSITION_1DEPTH_CATEGORY,
-  Job,
-} from "@/types/types"
+import { JOB_POSITION_1DEPTH_CATEGORY, Job } from "@/types/types"
 import Link from "next/link"
 import { fetchJobs } from "@/app/Api"
 import { isMobileWeb } from "@toss/utils"
-import ScrollUpButton from "@/components/ui/Button/ScrollUpButton"
+import JobCategory from "@/components/ui/Job/JobCategory"
 import JobCard from "./JobCard"
 import JobSkeleton from "../Skeleton/JobSkeleton"
 
 export default function JobContainer() {
   const [isMounted, setIsMounted] = useState(false)
-  const items = [
-    { title: "전체", value: "ALL" },
-    ...JOB_POSITION_1DEPTH_CATEGORY_SELECT_ITEMS,
-  ]
-
   const [category, setCategory] = useState<
     "ALL" | JOB_POSITION_1DEPTH_CATEGORY
   >("ALL")
-
-  const isMobile = isMobileWeb()
 
   const [ref, inView] = useInView({
     delay: 300,
@@ -87,27 +75,15 @@ export default function JobContainer() {
     setCategory(value)
   }
 
-  const position1depthItem = items.find(item => item.value === category)
-
-  const handleScroll = () => {
-    const element = document.getElementById("top")
-
-    if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-      })
-    }
-  }
-
   return (
     <div id="top">
-      <div className="mb-5 bg-white">
-        <SelectMenu
-          label="단체별"
-          items={items}
-          selectedItem={position1depthItem!}
-          updateItem={updatedPosition1depth}
-        />
+      <div>
+        <div className="mb-4 flex align-center justify-between">
+          <JobCategory
+            category={category}
+            updatedCategory={updatedPosition1depth}
+          />
+        </div>
       </div>
       {isLoading && (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5  gap-4">
