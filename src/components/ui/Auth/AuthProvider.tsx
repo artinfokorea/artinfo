@@ -73,12 +73,12 @@ export default function AuthProvider({ children }: IProps) {
       // })
       // console.log(r)
 
-      await supabase
-        .from("profiles")
-        .update({
-          fcm_web_token: token,
-        })
-        .eq("id", user.id)
+      // await supabase
+      //   .from("profiles")
+      //   .update({
+      //     fcm_web_token: token,
+      //   })
+      //   .eq("id", user.id)
 
       onMessage(messaging, (fcmMessage: any) => {
         console.log(fcmMessage)

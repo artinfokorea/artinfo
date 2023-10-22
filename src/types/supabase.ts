@@ -680,6 +680,7 @@ export interface Database {
           major: Database["public"]["Enums"]["major_category"] | null
           name: string
           school: string | null
+          is_teacher: boolean
         }
         Insert: {
           alarm_recruit?: boolean | null
@@ -710,6 +711,7 @@ export interface Database {
           major?: Database["public"]["Enums"]["major_category"] | null
           name?: string
           school?: string | null
+          is_teacher?: boolean
         }
         Relationships: [
           {

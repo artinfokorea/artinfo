@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Image from "next/image"
 import { DEGREE, DEGREE_VALUES, LESSON } from "@/types/types"
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query"
@@ -13,7 +13,7 @@ import LocationTag from "@/components/common/LocationTag"
 import { clipboard, isMobileWeb } from "@toss/utils"
 import useToast from "@/hooks/useToast"
 import useAuth from "@/hooks/useAuth"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/20/solid"
 import EducationForm from "./EducationForm"
 
@@ -35,6 +35,9 @@ const EducationDetailContainer = ({ pageId }: Props) => {
   const queryClient = useQueryClient()
   const { user } = useAuth()
   const [pageType, setPageType] = useState("read")
+  const params = useSearchParams()
+  const typeParam = params.get("type")
+  console.log("query", typeParam)
 
   const { data: lesson } = useQuery<LESSON>({
     queryKey: ["lesson", pageId],
@@ -60,13 +63,17 @@ const EducationDetailContainer = ({ pageId }: Props) => {
     onSuccess: () => {
       router.replace("/educations")
       queryClient.invalidateQueries(["lessons"])
-      successToast("댓글이 삭제되었습니다.")
+      successToast("레슨이 삭제되었습니다.")
     },
   })
 
   const handleDeleteLesson = () => {
     deleteLessonMutation.mutate(Number(pageId))
   }
+
+  useEffect(() => {
+    if (typeParam === "update") setPageType("update")
+  }, [typeParam])
 
   return (
     <div className="sm:container mx-auto mt-4 h-screen">

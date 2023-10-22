@@ -1,6 +1,6 @@
 "use client"
 
-import { XMarkIcon } from "@heroicons/react/24/outline"
+import { XMarkIcon, TrashIcon } from "@heroicons/react/24/outline"
 import { IconButton, Input, Textarea, Button } from "@/components/material"
 import uuid from "react-uuid"
 import Link from "next/link"
@@ -17,8 +17,10 @@ import useAuth from "@/hooks/useAuth"
 import useToast from "@/hooks/useToast"
 import useSupabase from "@/hooks/useSupabase"
 import { DEGREE_VALUES, DEGREE, LESSON } from "@/types/types"
-import { useQueryClient } from "@tanstack/react-query"
+import { useQueryClient, useMutation } from "@tanstack/react-query"
 import { Listbox, Transition } from "@headlessui/react"
+import { deleteLesson } from "@/app/Api"
+import { Modal } from "@/components/common/Modal"
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid"
 
 interface Props {
@@ -77,6 +79,7 @@ const EducationForm = ({ type, lesson }: Props) => {
   const [selectedDegreeList, setSelectedDegreeList] = useState<
     { [key: string]: string }[]
   >(lesson?.degree || [])
+  const [isOpenModal, setIsOpenModal] = useState(false)
 
   const openFileUploader = () => {
     fileUploader.current?.click()
@@ -341,6 +344,24 @@ const EducationForm = ({ type, lesson }: Props) => {
     }
   }
 
+  const deleteLessonMutation = useMutation({
+    mutationFn: (lessonId: number) => {
+      return deleteLesson(lessonId)
+    },
+    onError: (error: any) => {
+      errorToast(error.message)
+    },
+    onSuccess: () => {
+      router.replace("/educations")
+      queryClient.invalidateQueries(["lessons"])
+      successToast("레슨이 삭제되었습니다.")
+    },
+  })
+
+  const handleDeleteLesson = () => {
+    if (type === "update" && lesson) deleteLessonMutation.mutate(lesson.id)
+  }
+
   return (
     <div
       className="mx-auto max-w-screen-md px-4 lg:px-0"
@@ -352,17 +373,30 @@ const EducationForm = ({ type, lesson }: Props) => {
         <h2 className="text-2xl font-bold text-center md:text-left">
           {type === "create" ? "레슨등록" : "레슨수정"}
         </h2>
-        <Link href="/jobs">
-          <IconButton
-            ripple={false}
-            variant="text"
-            size="md"
-            className=" text-black"
-            onClick={() => router.back()}
-          >
-            <XMarkIcon className="w-6" />
-          </IconButton>
-        </Link>
+        <div>
+          {type === "update" && (
+            <IconButton
+              ripple={false}
+              variant="text"
+              size="sm"
+              className=" text-black mx-0"
+              onClick={() => setIsOpenModal(true)}
+            >
+              <TrashIcon className="w-6" />
+            </IconButton>
+          )}
+          <Link href="/jobs">
+            <IconButton
+              ripple={false}
+              variant="text"
+              size="md"
+              className=" text-black"
+              onClick={() => router.back()}
+            >
+              <XMarkIcon className="w-6" />
+            </IconButton>
+          </Link>
+        </div>
       </div>
       <div className="flex items-center mt-5 mb-2">
         <button
@@ -663,11 +697,36 @@ const EducationForm = ({ type, lesson }: Props) => {
           handleSelectMajor={handleSelectMajor}
         />
       )}
-      <FileUploader
-        ref={fileUploader}
-        uploadedFiles={handleUploadedFiles}
-        multiple
-      />
+      <FileUploader ref={fileUploader} uploadedFiles={handleUploadedFiles} />
+      <Modal
+        title="레슨 삭제"
+        isOpen={isOpenModal}
+        closeModal={() => setIsOpenModal(false)}
+      >
+        <div className="mt-2">
+          <p className="text-sm text-gray-500">레슨을 삭제하시겠습니까?</p>
+        </div>
+
+        <div className="mt-4 flex items-end justify-end">
+          <button
+            type="button"
+            className="inline-flex justify-center rounded-md mr-2 border border-transparent bg-red-300 px-4 py-2 text-sm font-medium text-white hover:bg-red-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+            onClick={() => setIsOpenModal(false)}
+          >
+            취소
+          </button>
+          <button
+            type="button"
+            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+            onClick={() => {
+              handleDeleteLesson()
+              setIsOpenModal(false)
+            }}
+          >
+            확인
+          </button>
+        </div>
+      </Modal>
     </div>
   )
 }

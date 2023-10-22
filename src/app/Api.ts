@@ -374,16 +374,47 @@ export async function fetchLesson(lessonId: number) {
 export async function deleteLesson(id: number) {
   const supabase = useSupabase()
 
-  // const { data, error } = await supabase.from("feeds").delete().eq("id", id)
-  const { data, error } = await supabase.from("lessons").delete().eq("id", id)
+  const { data: lessonData, error: lessonError } = await supabase
+    .from("lessons")
+    .select("*, profiles(id, name, icon_image_url)")
+    .eq("id", id)
+    .single()
 
-  // const { data: profileData, error: profileError } = await supabase
-  //   .from("profiles")
-  //   .update({ is_teacher: true })
-  //   .eq("id", user.id)
+  if (lessonError) {
+    throw lessonError
+  }
+
+  const { data, error: deleteError } = await supabase
+    .from("lessons")
+    .delete()
+    .eq("id", id)
+
+  if (deleteError) {
+    throw deleteError
+  }
+
+  const { data: profileData, error: profileError } = await supabase
+    .from("profiles")
+    .update({ is_teacher: false })
+    .eq("id", lessonData.profile_id)
 
   // console.log("profileData", profileData)
   // console.log("profileError", profileError)
+
+  if (profileError) {
+    throw profileError
+  }
+  return data
+}
+
+export async function fetchUserLesson(userId: string) {
+  const supabase = useSupabase()
+
+  const { data, error } = await supabase
+    .from("lessons")
+    .select("*, profiles(id, name, icon_image_url)")
+    .eq("profile_id", userId)
+    .single()
 
   if (error) {
     throw error
