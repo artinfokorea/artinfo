@@ -91,7 +91,22 @@ const EducationDetailContainer = ({ pageId }: Props) => {
               />
             </div>
             <div className="flex flex-col mt-6 mx-6  md:my-2">
-              <div className="text-xl font-semibold ">{lesson?.name}</div>
+              <div className="flex">
+                <span className="text-lg font-medium opacity-60 mr-4 leading-6">
+                  학력
+                </span>
+                <ul>
+                  {lesson?.degree.map((deg, index) => (
+                    <li key={uuid()}>
+                      {Object.entries(deg).map(([key, value]) => (
+                        <span key={key}>
+                          {value} - {DEGREE_VALUES[key as DEGREE]}
+                        </span>
+                      ))}
+                    </li>
+                  ))}
+                </ul>
+              </div>
               <div className="flex flex-col my-4">
                 <span className="text-lg font-medium opacity-60 my-2">
                   레슨 가능 지역
@@ -128,22 +143,8 @@ const EducationDetailContainer = ({ pageId }: Props) => {
               </div>
             </div>
             <div className="flex flex-col mx-6">
-              <div className="flex my-2">
-                <span className="text-lg font-medium opacity-60 mr-4">
-                  학력
-                </span>
-                <ul>
-                  {lesson?.degree.map((deg, index) => (
-                    <li key={uuid()} className="mt-1">
-                      {Object.entries(deg).map(([key, value]) => (
-                        <span key={key}>
-                          {value} - {DEGREE_VALUES[key as DEGREE]}
-                        </span>
-                      ))}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <div className="text-xl font-semibold mt-2 ">{lesson?.name}</div>
+
               <div className="my-4 flex ">
                 <span className="text-lg font-medium opacity-60">연락처</span>
                 {!isPhoneShow && (

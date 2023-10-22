@@ -37,11 +37,8 @@ const schema = yup
         '전화번호는 숫자 3개, "-" 문자, 숫자 4개, "-" 문자, 숫자 4개 형식이어야 합니다.',
       )
       .required("전화번호는 필수 입력 사항입니다."),
-    name: yup
-      .string()
-      .nullable()
-      .min(2, "2자리 이상 실명을 입력해주세요.")
-      .required("이름은 실명을 입력해주셔야하며 필수입니다."),
+    name: yup.string().min(2, "2자리 이상 실명을 입력해주세요."),
+    // .required("이름은 실명을 입력해주셔야하며 필수입니다."),
     fee: yup.number().nullable().required("수업료는 필수입니다."),
     intro: yup
       .string()
@@ -95,6 +92,7 @@ const EducationForm = ({ type, lesson }: Props) => {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors, isDirty, isValid },
   } = useForm({
     resolver: yupResolver(schema),
@@ -617,31 +615,33 @@ const EducationForm = ({ type, lesson }: Props) => {
       </div>
 
       <div className="flex items-center">
-        <IconButton
-          variant="text"
-          color="blue-gray"
-          size="md"
-          onClick={openFileUploader}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-            className="h-4 w-4"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
-            />
-          </svg>
-        </IconButton>
         {!uploadedImageUrl && (
-          <span className="opacity-80 text-sm">
-            (필수) 레슨 등록에 사용하실 이미지를 등록해주세요.
-          </span>
+          <>
+            <IconButton
+              variant="text"
+              color="blue-gray"
+              size="md"
+              onClick={openFileUploader}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+                className="h-4 w-4"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+                />
+              </svg>
+            </IconButton>
+            <span className="opacity-80 text-sm">
+              (필수) 레슨 등록에 사용하실 이미지를 등록해주세요.
+            </span>
+          </>
         )}
         {uploadedImageUrl && (
           <div className="relative bg-gray-300">
