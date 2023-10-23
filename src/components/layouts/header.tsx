@@ -137,7 +137,7 @@ const items = [
     icon: MusicalNoteIcon,
   },
   {
-    title: "교육",
+    title: "레슨",
     to: "/educations",
     icon: AcademicCapIcon,
   },

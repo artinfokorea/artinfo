@@ -212,7 +212,7 @@ export function BottomNavigation() {
       prefetch: true,
     },
     {
-      title: "Education",
+      title: "Lesson",
       href: `/educations`,
       icon: EducationIcon,
       prefetch: true,
