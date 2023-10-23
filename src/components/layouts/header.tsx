@@ -56,6 +56,7 @@ function ProfileMenu() {
       key: "inquiry",
       label: "문의하기",
       icon: QuestionMarkCircleIcon,
+      to: `/inquiry`,
     },
     {
       key: "signout",
