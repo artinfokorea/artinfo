@@ -92,8 +92,7 @@ const EducationForm = ({ type, lesson }: Props) => {
     register,
     handleSubmit,
     setValue,
-    watch,
-    formState: { errors, isDirty, isValid },
+    formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -175,7 +174,7 @@ const EducationForm = ({ type, lesson }: Props) => {
   }
 
   const isValidForm =
-    isValid &&
+    // isValid &&
     uploadedImageUrl &&
     selectedRegionList.length > 0 &&
     selectedMajorList.length > 0 &&
@@ -360,6 +359,7 @@ const EducationForm = ({ type, lesson }: Props) => {
     if (type === "update" && lesson) deleteLessonMutation.mutate(lesson.id)
   }
 
+  console.log("error", errors)
   return (
     <div
       className="mx-auto max-w-screen-md px-4 lg:px-0"

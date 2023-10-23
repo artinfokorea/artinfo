@@ -37,14 +37,12 @@ const EducationDetailContainer = ({ pageId }: Props) => {
   const [pageType, setPageType] = useState("read")
   const params = useSearchParams()
   const typeParam = params.get("type")
-  console.log("query", typeParam)
 
   const { data: lesson } = useQuery<LESSON>({
     queryKey: ["lesson", pageId],
     suspense: true,
     queryFn: () => fetchLesson(Number(pageId)),
   })
-  console.log("lesson", lesson)
 
   const copyToPhone = async () => {
     const isSuccess = await clipboard.writeText(lesson?.phone as string)
@@ -80,14 +78,14 @@ const EducationDetailContainer = ({ pageId }: Props) => {
       {pageType === "read" && (
         <>
           <div className="flex flex-col md:flex-row mt-20">
-            <div className="relative w-full  h-[300px] md:w-[300px] md:h-[300px] ">
+            <div className="relative w-full h-[300px] md:w-[300px] md:h-[300px] ">
               <Image
                 src={lesson?.image_url || "/public/img/placeholder_user.png"}
                 fill
                 alt="profile_img"
                 sizes="(max-width: 1200px) 220px, 100px"
                 priority
-                className="px-10 md:px-0"
+                className="px-20 md:px-0"
               />
             </div>
             <div className="flex flex-col mt-6 mx-6  md:my-2">
@@ -100,7 +98,7 @@ const EducationDetailContainer = ({ pageId }: Props) => {
                     <li key={uuid()}>
                       {Object.entries(deg).map(([key, value]) => (
                         <span key={key}>
-                          {value} - {DEGREE_VALUES[key as DEGREE]}
+                          {DEGREE_VALUES[key as DEGREE]} - {value}
                         </span>
                       ))}
                     </li>
@@ -143,7 +141,7 @@ const EducationDetailContainer = ({ pageId }: Props) => {
               </div>
             </div>
             <div className="flex flex-col mx-6">
-              <div className="text-xl font-semibold mt-2 ">{lesson?.name}</div>
+              <div className="text-xl font-semibold mt-2  ">{lesson?.name}</div>
 
               <div className="my-4 flex ">
                 <span className="text-lg font-medium opacity-60">연락처</span>

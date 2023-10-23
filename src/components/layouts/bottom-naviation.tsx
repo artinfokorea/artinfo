@@ -211,28 +211,28 @@ export function BottomNavigation() {
       icon: ConcertIcon,
       prefetch: true,
     },
-    // {
-    //   title: "Education",
-    //   href: `/educations`,
-    //   icon: EducationIcon,
-    //   prefetch: true,
-    // },
+    {
+      title: "Education",
+      href: `/educations`,
+      icon: EducationIcon,
+      prefetch: true,
+    },
   ]
-  if (user) {
-    items[4] = {
-      title: "Inquiry",
-      href: `/inquiry`,
-      icon: InquiryIcon,
-      prefetch: false,
-    }
-  } else {
-    items[4] = {
-      title: "Login",
-      href: `/auth`,
-      icon: ProfileIcon,
-      prefetch: false,
-    }
-  }
+  // if (user) {
+  //   items[4] = {
+  //     title: "Inquiry",
+  //     href: `/inquiry`,
+  //     icon: InquiryIcon,
+  //     prefetch: false,
+  //   }
+  // } else {
+  //   items[4] = {
+  //     title: "Login",
+  //     href: `/auth`,
+  //     icon: ProfileIcon,
+  //     prefetch: false,
+  //   }
+  // }
 
   useEffect(() => {
     const userAgent = navigator.userAgent.toLowerCase()

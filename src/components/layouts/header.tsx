@@ -136,11 +136,11 @@ const items = [
     to: "/concerts",
     icon: MusicalNoteIcon,
   },
-  // {
-  //   title: "교육",
-  //   to: "/educations",
-  //   icon: AcademicCapIcon,
-  // },
+  {
+    title: "교육",
+    to: "/educations",
+    icon: AcademicCapIcon,
+  },
   // {
   //   title: "이슈",
   //   to: "/issues",
