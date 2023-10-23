@@ -85,26 +85,11 @@ const EducationDetailContainer = ({ pageId }: Props) => {
                 alt="profile_img"
                 sizes="(max-width: 1200px) 220px, 100px"
                 priority
-                className="px-20 md:px-0"
+                className="px-20 md:px-10"
               />
             </div>
             <div className="flex flex-col mt-6 mx-6  md:my-2">
-              <div className="flex">
-                <span className="text-lg font-medium opacity-60 mr-4 leading-6">
-                  학력
-                </span>
-                <ul>
-                  {lesson?.degree.map((deg, index) => (
-                    <li key={uuid()}>
-                      {Object.entries(deg).map(([key, value]) => (
-                        <span key={key}>
-                          {DEGREE_VALUES[key as DEGREE]} - {value}
-                        </span>
-                      ))}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <div className="text-xl font-semibold mt-2  ">{lesson?.name}</div>
               <div className="flex flex-col my-4">
                 <span className="text-lg font-medium opacity-60 my-2">
                   레슨 가능 지역
@@ -140,9 +125,23 @@ const EducationDetailContainer = ({ pageId }: Props) => {
                 <span>{filters.FEECOMMA(lesson?.fee as number)}원</span>
               </div>
             </div>
-            <div className="flex flex-col mx-6">
-              <div className="text-xl font-semibold mt-2  ">{lesson?.name}</div>
-
+            <div className="flex flex-col mx-7">
+              <div className="flex mt-5">
+                <span className="text-lg font-medium opacity-60 mr-4 leading-6 ">
+                  학력
+                </span>
+                <ul>
+                  {lesson?.degree.map((deg, index) => (
+                    <li key={uuid()}>
+                      {Object.entries(deg).map(([key, value]) => (
+                        <span key={key}>
+                          {DEGREE_VALUES[key as DEGREE]} - {value}
+                        </span>
+                      ))}
+                    </li>
+                  ))}
+                </ul>
+              </div>
               <div className="my-4 flex ">
                 <span className="text-lg font-medium opacity-60">연락처</span>
                 {!isPhoneShow && (
