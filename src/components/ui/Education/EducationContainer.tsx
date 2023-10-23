@@ -65,6 +65,12 @@ const EducationContainer = () => {
         </div>
       )}
 
+      {data?.pages[0]?.lessons.length === 0 && (
+        <div className="h-full flex items-center justify-center">
+          <p className="opacity-70">데이터가 없습니다.</p>
+        </div>
+      )}
+
       <div className="grid grid-cols-2 gap-6 md:grid-cols-5 px-2">
         {data?.pages.map(
           page =>
