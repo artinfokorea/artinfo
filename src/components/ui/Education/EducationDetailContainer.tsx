@@ -85,6 +85,7 @@ const EducationDetailContainer = ({ pageId }: Props) => {
                 alt="profile_img"
                 sizes="(max-width: 1200px) 220px, 100px"
                 priority
+                quality={100}
                 className="px-20 md:px-10"
               />
             </div>

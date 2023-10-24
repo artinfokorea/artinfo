@@ -11,6 +11,7 @@ const StudioCard = () => {
           sizes="(max-width: 1200px) 276px, 150px"
           fill
           priority
+          quality={100}
         />
       </div>
 

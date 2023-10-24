@@ -33,6 +33,7 @@ export default function ListWithLatestJobs() {
                     src={job.company_image_url}
                     alt="아트인포"
                     fill
+                    quality={100}
                     sizes="40px"
                     style={{ objectFit: "cover" }}
                   />

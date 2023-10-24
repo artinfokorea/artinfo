@@ -45,6 +45,7 @@ export default function AdUi({ posters }: IProps) {
               alt="concert-image"
               fill
               priority
+              quality={100}
               sizes="(max-width: 680px) 100px 40px, (max-width: 1200px) 200px, 100px"
               className="max-w-full rounded-md shadow hover:shadow-lg"
             />

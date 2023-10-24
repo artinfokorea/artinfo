@@ -33,6 +33,7 @@ export default function JobCard({ job }: IProps) {
             alt="job"
             sizes="(max-width: 1200px) 276px, 150px"
             fill
+            quality={100}
             priority
             className="rounded-md"
             onLoad={handleImageLoad}

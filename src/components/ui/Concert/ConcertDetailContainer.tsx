@@ -108,6 +108,7 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
                   src={concert?.profiles?.icon_image_url}
                   alt="user_image"
                   fill
+                  quality={100}
                   sizes="100px"
                 />
               </div>

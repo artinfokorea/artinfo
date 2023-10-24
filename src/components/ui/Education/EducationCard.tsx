@@ -11,6 +11,7 @@ const EducationCard = () => {
           sizes="(max-width: 1200px) 220px, 100px"
           fill
           priority
+          quality={100}
           className="rounded-md"
         />
       </div>

@@ -249,6 +249,7 @@ export function PostCard({
                           alt="feed-image"
                           fill
                           priority
+                          quality={100}
                           sizes="(max-width: 1200px) 276px, 150px"
                         />
                       </div>

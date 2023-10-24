@@ -92,6 +92,7 @@ export default function JobDetailContainer({ jobId }: IProps) {
                 src={job?.company_image_url}
                 alt="company_image"
                 fill
+                quality={100}
                 sizes="(max-width: 480px) 800px, (max-width: 1200px) 1200px, 400px"
               />
             )}

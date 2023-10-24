@@ -47,6 +47,7 @@ export default function ConcertCard({ item }: IProps) {
             sizes="250px, 250px"
             fill
             priority
+            quality={100}
             onLoad={handleImageLoad}
             className="rounded-md"
           />
