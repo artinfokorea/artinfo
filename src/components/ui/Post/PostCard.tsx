@@ -250,6 +250,7 @@ export function PostCard({
                           fill
                           priority
                           quality={100}
+                          className="px-5 md:px-20"
                           sizes="(max-width: 1200px) 276px, 150px"
                         />
                       </div>
