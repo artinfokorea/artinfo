@@ -27,6 +27,7 @@ import { fetchProfile } from "@/app/Api"
 import { userProfileState } from "@/atoms/userProfile"
 import { useRecoilState } from "recoil"
 import { isMobileWeb } from "@toss/utils"
+import { scrollDirState } from "@/atoms/scrollDir"
 
 function ProfileMenu() {
   const { user, signOut } = useAuth()
@@ -190,6 +191,7 @@ export default function Header() {
   const { user } = useAuth()
   const [userProfile, setUserProfile] = useRecoilState(userProfileState)
   const isMobile = isMobileWeb()
+  const [scrollDir] = useRecoilState(scrollDirState)
 
   useEffect(() => {
     if (user) {
@@ -210,7 +212,9 @@ export default function Header() {
 
   return (
     <Navbar
-      className="fixed top-0 left-0 z-50 h-max max-w-full rounded-none py-2 px-4  lg:px-8  "
+      className={`fixed top-0 left-0 z-50 h-max max-w-full rounded-none py-2 px-4  lg:px-8 ${
+        isMobile && scrollDir === "scrollDown" && "hidden"
+      }`}
       style={{ background: "white" }}
     >
       <div className="flex items-center text-blue-gray-900 mx-auto max-w-screen-lg">

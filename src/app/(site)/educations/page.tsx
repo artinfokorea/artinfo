@@ -28,7 +28,7 @@ const page = () => {
       fetchUserLesson(user.id)
         .then(res => setUserLessonId(res.id))
         .catch(err => {
-          console.log(err)
+          console.log("err", err)
         })
     }
   }, [isTeacher])

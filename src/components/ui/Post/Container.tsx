@@ -21,6 +21,7 @@ import { useDidUpdate } from "@toss/react"
 import { isMobileWeb } from "@toss/utils"
 import { Feed } from "@/types/types"
 import useToast from "@/hooks/useToast"
+import useScrollDirection from "@/hooks/useScrollDirection"
 import ListWithLatestJobs from "@/components/ui/LatestJobs/ListWithLatestJobs"
 import { useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
@@ -143,6 +144,8 @@ export default function Container() {
   const containerEl = useRef<HTMLDivElement>(null)
   const router = useRouter()
 
+  useScrollDirection()
+
   const [ref, inView] = useInView({
     delay: 300,
     threshold: 0.3,
@@ -162,9 +165,7 @@ export default function Container() {
     data: feedsData,
     hasNextPage,
     fetchNextPage,
-    isFetching,
     isLoading,
-    refetch,
   } = useInfiniteQuery({
     queryKey: ["feeds"],
     suspense: false,
@@ -259,7 +260,6 @@ export default function Container() {
 
   return (
     <div ref={containerEl} className="mx-auto max-w-screen-lg  lg:px-0">
-      {/* <PullToRefresh ref={containerEl} refetch={refetch} /> */}
       <div className="flex ">
         <div className="flex-1 overflow-hidden">
           <div className="mb-2 " id="top">
@@ -295,31 +295,6 @@ export default function Container() {
                 ))}
               </div>
             ))}
-
-            {/* {isMounted && isMobile && (
-              <div className="fixed bottom-32 right-3 flex flex-col">
-                <ScrollUpButton handleScroll={handleScroll} />
-                <button
-                  className="text-darkgrey my-2 bg-whitesmoke rounded-full drop-shadow-md "
-                  onClick={() => router.push("/create")}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-10 h-10"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 4.5v15m7.5-7.5h-15"
-                    />
-                  </svg>
-                </button>
-              </div>
-            )} */}
           </div>
           <div ref={ref} className="h-4" />
         </div>

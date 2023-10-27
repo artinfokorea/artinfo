@@ -6,9 +6,9 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query"
-import { CommentType, Feed } from "@/types/types"
+import { CommentType } from "@/types/types"
 import { useAuth } from "@/components/ui/Auth/AuthProvider"
-import { notFound, useRouter } from "next/navigation"
+import { notFound } from "next/navigation"
 import dynamic from "next/dynamic"
 import { isMobileWeb } from "@toss/utils"
 import useToast from "@/hooks/useToast"
@@ -38,7 +38,6 @@ export default function Container({ pageId }: IProps) {
   const { user } = useAuth()
   const isMobile = isMobileWeb()
   const { successToast, errorToast } = useToast()
-  const router = useRouter()
 
   const { data: feed } = useQuery({
     queryKey: ["feed", pageId],

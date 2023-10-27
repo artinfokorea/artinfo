@@ -6,17 +6,18 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import Link from "next/link"
 import { useDidUpdate } from "@toss/react"
 import { LESSON } from "@/types/types"
+import useScrollDirection from "@/hooks/useScrollDirection"
 import { useInView } from "react-intersection-observer"
 import LessonCard from "./LessonCard"
 import LessonSkeleton from "../Skeleton/LessonSkeleton"
 
 const EducationContainer = () => {
   const [category, setCategory] = useState("ALL")
-
   const [ref, inView] = useInView({
     delay: 300,
     threshold: 1,
   })
+  useScrollDirection()
 
   const getLessons = async (
     pageParam: number,

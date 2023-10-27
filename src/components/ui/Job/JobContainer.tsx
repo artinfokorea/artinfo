@@ -7,7 +7,7 @@ import { useDidUpdate } from "@toss/react"
 import { JOB_POSITION_1DEPTH_CATEGORY, Job } from "@/types/types"
 import Link from "next/link"
 import { fetchJobs } from "@/app/Api"
-import { isMobileWeb } from "@toss/utils"
+import useScrollDirection from "@/hooks/useScrollDirection"
 import JobCategory from "@/components/ui/Job/JobCategory"
 import JobCard from "./JobCard"
 import JobSkeleton from "../Skeleton/JobSkeleton"
@@ -17,11 +17,12 @@ export default function JobContainer() {
   const [category, setCategory] = useState<
     "ALL" | JOB_POSITION_1DEPTH_CATEGORY
   >("ALL")
-
   const [ref, inView] = useInView({
     delay: 300,
     threshold: 0.5,
   })
+
+  useScrollDirection()
 
   useEffect(() => {
     setIsMounted(true)
