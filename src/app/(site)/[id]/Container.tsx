@@ -21,7 +21,11 @@ import {
   updatePostLike,
 } from "@/app/Api"
 import { PostCard } from "../../../components/ui/Post/PostCard"
-import { CommentContainer, CommentForm, CommentRow } from "./Comments"
+import {
+  CommentContainer,
+  CommentForm,
+  CommentRow,
+} from "../../../components/ui/Comment/Comments"
 import CommentCardSkeleton from "../../../components/ui/Skeleton/CommentCardSkeleton"
 
 const ListButton = dynamic(() => import("@/components/ui/Button/ListButton"), {
