@@ -362,10 +362,10 @@ const EducationForm = ({ type, lesson }: Props) => {
   console.log("error", errors)
   return (
     <div
-      className="mx-auto max-w-screen-md px-4 lg:px-0"
-      style={{
-        height: "calc(100vh - 58px)",
-      }}
+      className="mx-auto max-w-screen-md px-4 lg:px-0 overflow-auto"
+      // style={{
+      //   height: "calc(100vh - 58px)",
+      // }}
     >
       <div className="relative mt-6 flex justify-between items-center">
         <h2 className="text-2xl font-bold text-center md:text-left">
