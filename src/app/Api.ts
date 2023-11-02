@@ -345,7 +345,7 @@ export async function fetchLessons({ pageParam = 1 }: LessonsPayload) {
       count: "exact",
     })
     .order("created_at", {
-      ascending: true,
+      ascending: false,
     })
     .limit(itemCount)
     .range(pageParam * itemCount, (pageParam + 1) * itemCount - 1)

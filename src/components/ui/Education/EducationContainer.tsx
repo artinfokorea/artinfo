@@ -53,7 +53,7 @@ const EducationContainer = () => {
   }, [inView, hasNextPage])
 
   return (
-    <div id="top" className="h-screen">
+    <div id="top" className="h-screen overflow-auto">
       {isLoading && (
         <div className="grid grid-cols-2 gap-6 md:grid-cols-5 px-2">
           <LessonSkeleton />

@@ -151,7 +151,7 @@ const JobCreateForm = () => {
 
   return (
     <div
-      className="mx-auto max-w-screen-lg px-4 lg:px-0"
+      className="mx-auto max-w-screen-lg px-4 lg:px-0 overflow-auto"
       style={{
         height: "calc(100vh - 58px)",
       }}

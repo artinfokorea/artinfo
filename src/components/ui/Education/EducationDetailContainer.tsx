@@ -74,7 +74,7 @@ const EducationDetailContainer = ({ pageId }: Props) => {
   }, [typeParam])
 
   return (
-    <div className="sm:container mx-auto mt-4 h-screen">
+    <div className="sm:container mx-auto mt-4 h-screen overflow-auto">
       {pageType === "read" && (
         <>
           <div className="flex flex-col md:flex-row mt-20">
