@@ -268,7 +268,7 @@ export default function Container() {
 
           <div className="feed-groups pb-5">
             <AdSection />
-            {/* {isLoading && (
+            {isLoading && (
               <>
                 <FeedSkeleton />
                 <FeedSkeleton />
@@ -278,7 +278,7 @@ export default function Container() {
                 <FeedSkeleton />
                 <FeedSkeleton />
               </>
-            )} */}
+            )}
 
             {feedsData?.pages.map(group => (
               <div key={group.nextPage}>

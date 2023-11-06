@@ -17,6 +17,7 @@ export default function QueryProvider({ children }: Props) {
           refetchOnWindowFocus: false,
           retry: false,
           staleTime: 60 * 1000 * 60, // 1 hour
+          suspense: true,
         },
       },
     }),
