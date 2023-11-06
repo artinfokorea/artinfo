@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import React, { useRef, useState } from "react"
+import React, { useRef, useState, Fragment } from "react"
 import { Button, IconButton, Input } from "@/components/material"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import { useForm } from "react-hook-form"
@@ -14,8 +14,9 @@ import useAuth from "@/hooks/useAuth"
 import { RECRUIT_JOBS_CATEGORY } from "@/types/types"
 import dynamic from "next/dynamic"
 import { useQueryClient } from "@tanstack/react-query"
-import { Listbox } from "@headlessui/react"
+import { Listbox, Transition } from "@headlessui/react"
 import Loading from "@/components/ui/Loading/Loading"
+import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid"
 
 const QuillEditor = dynamic(
   () => import("@/components/ui/Editor/QuillEditor"),
@@ -173,7 +174,7 @@ const JobCreateForm = () => {
           </h2>
         </div>
         <div className="flex-1 flex flex-col overflow-y-auto mt-4">
-          <div className=" mb-5 text-[#a3a3a3] text-sm cursor-pointer w-32">
+          <div className="mb-2 text-[#a3a3a3] text-sm cursor-pointer w-32 relative z-10">
             <Listbox
               value={selectedType}
               onChange={value => setSelectedType(value)}
@@ -195,17 +196,48 @@ const JobCreateForm = () => {
                   />
                 </svg>
               </Listbox.Button>
-              <Listbox.Options>
-                {items.map(item => (
-                  <Listbox.Option
-                    key={item.value}
-                    value={item.value}
-                    className=" border bg-white py-1 px-2 w-32 rounded-lg"
-                  >
-                    {item.title}
-                  </Listbox.Option>
-                ))}
-              </Listbox.Options>
+              <Transition
+                as={Fragment}
+                leave="transition ease-in duration-100"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <Listbox.Options className="absolute mt-1 max-h-60 w-full  overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  {items.map(item => (
+                    <Listbox.Option
+                      key={item.title}
+                      className={({ active }) =>
+                        `relative cursor-default select-none py-2 pl-10 pr-4 z-20  ${
+                          active
+                            ? "bg-amber-100 text-amber-900"
+                            : "text-gray-900"
+                        }`
+                      }
+                      value={item.value}
+                    >
+                      {({ selected }) => (
+                        <>
+                          <span
+                            className={`block truncate ${
+                              selected ? "font-medium" : "font-normal"
+                            }`}
+                          >
+                            {item.title}
+                          </span>
+                          {selected ? (
+                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                              <CheckIcon
+                                className="h-5 w-5"
+                                aria-hidden="true"
+                              />
+                            </span>
+                          ) : null}
+                        </>
+                      )}
+                    </Listbox.Option>
+                  ))}
+                </Listbox.Options>
+              </Transition>
             </Listbox>
           </div>
           <div>
@@ -223,7 +255,7 @@ const JobCreateForm = () => {
                 {errors.title?.message}
               </p>
             </div>
-            <div className="mt-5">
+            <div className="mt-2">
               <Input
                 {...register("company_name")}
                 placeholder="채용 기관명 예): 국립합창단"
@@ -236,7 +268,7 @@ const JobCreateForm = () => {
                 {errors.company_name?.message}
               </p>
             </div>
-            <div className="">
+            <div className="mt-2">
               <Input
                 {...register("linkUrl")}
                 type="text"

@@ -19,9 +19,10 @@ import dynamic from "next/dynamic"
 import useToast from "@/hooks/useToast"
 import { IConcert } from "@/types/types"
 import dayjs from "dayjs"
-import { Listbox } from "@headlessui/react"
+import { Listbox, Transition } from "@headlessui/react"
 import Loading from "@/components/ui/Loading/Loading"
 import useFilters from "@/hooks/useFilters"
+import { CheckIcon } from "@heroicons/react/20/solid"
 
 const QuillEditor = dynamic(
   () => import("@/components/ui/Editor/QuillEditor"),
@@ -266,34 +267,67 @@ const ConcertForm = ({ type, concert }: Props) => {
             value={selectedType}
             onChange={value => setSelectedType(value)}
           >
-            <Listbox.Button className="border-b border-grey pb-2 flex">
-              {items.filter(item => item.value === selectedType)[0].title}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 ml-2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                />
-              </svg>
-            </Listbox.Button>
-            <Listbox.Options>
-              {items.map(item => (
-                <Listbox.Option
-                  key={item.value}
-                  value={item.value}
-                  className="my-2  border-b-1 border-grey"
+            <div className="relative z-10">
+              <Listbox.Button className="border-b border-grey relative pb-2 flex">
+                {items.filter(item => item.value === selectedType)[0].title}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6 ml-2"
                 >
-                  {item.title}
-                </Listbox.Option>
-              ))}
-            </Listbox.Options>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                  />
+                </svg>
+              </Listbox.Button>
+              <Transition
+                as={Fragment}
+                leave="transition ease-in duration-100"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <Listbox.Options className="absolute mt-1 max-h-60 w-full bg-whitesmoke overflow-auto rounded-md  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  {items.map(item => (
+                    <Listbox.Option
+                      key={item.value}
+                      value={item.value}
+                      className={({ active }) =>
+                        `relative cursor-default select-none py-2 pl-10 pr-4 z-20  ${
+                          active
+                            ? "bg-amber-100 text-amber-900"
+                            : "text-gray-900"
+                        }`
+                      }
+                    >
+                      {({ selected }) => (
+                        <>
+                          <span
+                            className={`block truncate ${
+                              selected ? "font-medium" : "font-normal"
+                            }`}
+                          >
+                            {item.title}
+                          </span>
+                          {selected ? (
+                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                              <CheckIcon
+                                className="h-5 w-5"
+                                aria-hidden="true"
+                              />
+                            </span>
+                          ) : null}
+                        </>
+                      )}
+                    </Listbox.Option>
+                  ))}
+                </Listbox.Options>
+              </Transition>
+            </div>
           </Listbox>
         </div>
 
