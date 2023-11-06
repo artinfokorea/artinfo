@@ -98,6 +98,8 @@ export default function JobContainer() {
           <JobSkeleton />
           <JobSkeleton />
           <JobSkeleton />
+          <JobSkeleton />
+          <JobSkeleton />
         </div>
       )}
 

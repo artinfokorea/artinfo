@@ -63,6 +63,8 @@ const EducationContainer = () => {
           <LessonSkeleton />
           <LessonSkeleton />
           <LessonSkeleton />
+          <LessonSkeleton />
+          <LessonSkeleton />
         </div>
       )}
 

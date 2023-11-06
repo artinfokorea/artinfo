@@ -1,7 +1,7 @@
 "use client"
 
 import React, { Suspense, useEffect, useState } from "react"
-import Loading from "@/components/ui/Loading/Loading"
+import LessonSkeleton from "@/components/ui/Skeleton/LessonSkeleton"
 import { ChipButton } from "@/components/ui/Button/LinkChipButton"
 import useAuth from "@/hooks/useAuth"
 import { fetchProfile, fetchUserLesson } from "@/app/Api"
@@ -46,7 +46,21 @@ const page = () => {
           <ChipButton url="/educations/create" title="레슨등록" />
         )}
       </div>
-      <Suspense fallback={<div>hihi</div>}>
+      <Suspense
+        fallback={
+          <div className="grid grid-cols-2 gap-6 md:grid-cols-5 px-2">
+            <LessonSkeleton />
+            <LessonSkeleton />
+            <LessonSkeleton />
+            <LessonSkeleton />
+            <LessonSkeleton />
+            <LessonSkeleton />
+            <LessonSkeleton />
+            <LessonSkeleton />
+            <LessonSkeleton />
+          </div>
+        }
+      >
         <EducationContainer />
       </Suspense>
     </div>
