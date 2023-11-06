@@ -46,23 +46,7 @@ const page = () => {
           <ChipButton url="/educations/create" title="레슨등록" />
         )}
       </div>
-      <Suspense
-        fallback={
-          <div className="grid grid-cols-2 gap-6 md:grid-cols-5 px-2">
-            <LessonSkeleton />
-            <LessonSkeleton />
-            <LessonSkeleton />
-            <LessonSkeleton />
-            <LessonSkeleton />
-            <LessonSkeleton />
-            <LessonSkeleton />
-            <LessonSkeleton />
-            <LessonSkeleton />
-          </div>
-        }
-      >
-        <EducationContainer />
-      </Suspense>
+      <EducationContainer />
     </div>
   )
 }

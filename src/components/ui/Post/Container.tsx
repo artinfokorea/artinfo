@@ -18,7 +18,6 @@ import {
 import { deleteFeed, fetchFeeds, updatePostLike } from "@/app/Api"
 import { useInView } from "react-intersection-observer"
 import { useDidUpdate } from "@toss/react"
-import { isMobileWeb } from "@toss/utils"
 import { Feed } from "@/types/types"
 import useToast from "@/hooks/useToast"
 import useScrollDirection from "@/hooks/useScrollDirection"
@@ -150,8 +149,6 @@ export default function Container() {
     delay: 300,
     threshold: 0.3,
   })
-
-  const isMobile = isMobileWeb()
 
   const getFeeds = async (pageParam: number): Promise<any> => {
     const response = await fetchFeeds({ pageParam })
