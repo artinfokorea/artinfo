@@ -259,7 +259,7 @@ export default function Container() {
   }
 
   return (
-    <div ref={containerEl} className="mx-auto max-w-screen-lg  lg:px-0">
+    <div ref={containerEl} className="mx-auto max-w-screen-lg lg:px-0 h-screen">
       <div className="flex ">
         <div className="flex-1 overflow-hidden">
           <div className="mb-2 " id="top">
@@ -268,7 +268,7 @@ export default function Container() {
 
           <div className="feed-groups pb-5">
             <AdSection />
-            {isLoading && (
+            {/* {isLoading && (
               <>
                 <FeedSkeleton />
                 <FeedSkeleton />
@@ -278,7 +278,7 @@ export default function Container() {
                 <FeedSkeleton />
                 <FeedSkeleton />
               </>
-            )}
+            )} */}
 
             {feedsData?.pages.map(group => (
               <div key={group.nextPage}>
