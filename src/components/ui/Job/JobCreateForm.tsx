@@ -337,7 +337,7 @@ const JobCreateForm = () => {
                   color="red"
                   variant="text"
                   className="rounded-md whitespace-nowrap"
-                  onClick={() => router.push("/admin/jobs")}
+                  onClick={() => router.push("/jobs")}
                 >
                   뒤로가기
                 </Button>
