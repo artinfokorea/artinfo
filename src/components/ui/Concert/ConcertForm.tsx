@@ -19,6 +19,7 @@ import dynamic from "next/dynamic"
 import useToast from "@/hooks/useToast"
 import { IConcert } from "@/types/types"
 import dayjs from "dayjs"
+import { Spinner } from "@/components/material"
 import { Listbox, Transition } from "@headlessui/react"
 import Loading from "@/components/ui/Loading/Loading"
 import useFilters from "@/hooks/useFilters"
@@ -453,7 +454,11 @@ const ConcertForm = ({ type, concert }: Props) => {
                     취소
                   </Button>
                 </Link>
-                {type === "create" ? (
+                {isLoading ? (
+                  <div className="flex justify-center">
+                    <Spinner />
+                  </div>
+                ) : type === "create" ? (
                   <Button
                     disabled={!isValidForm || !isValidUrl()}
                     size="lg"

@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import React, { useRef, useState, Fragment } from "react"
-import { Button, IconButton, Input } from "@/components/material"
+import { Button, IconButton, Input, Spinner } from "@/components/material"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import { useForm } from "react-hook-form"
 import * as yup from "yup"
@@ -346,14 +346,20 @@ const JobCreateForm = () => {
                 >
                   뒤로가기
                 </Button>
-                <Button
-                  size="lg"
-                  className="rounded-md bg-indigo-500 w-full md:w-32"
-                  disabled={!isDirty || !isValid}
-                  onClick={handleSubmit(createJob)}
-                >
-                  등록하기
-                </Button>
+                {isLoading ? (
+                  <div className="flex justify-center">
+                    <Spinner />
+                  </div>
+                ) : (
+                  <Button
+                    size="lg"
+                    className="rounded-md bg-indigo-500 w-full md:w-32"
+                    disabled={!isDirty || !isValid}
+                    onClick={handleSubmit(createJob)}
+                  >
+                    등록하기
+                  </Button>
+                )}
               </div>
             </div>
           </div>

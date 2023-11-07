@@ -1,7 +1,13 @@
 "use client"
 
 import { XMarkIcon, TrashIcon } from "@heroicons/react/24/outline"
-import { IconButton, Input, Textarea, Button } from "@/components/material"
+import {
+  IconButton,
+  Input,
+  Textarea,
+  Button,
+  Spinner,
+} from "@/components/material"
 import uuid from "react-uuid"
 import Link from "next/link"
 import * as yup from "yup"
@@ -77,6 +83,7 @@ const EducationForm = ({ type, lesson }: Props) => {
     { [key: string]: string }[]
   >(lesson?.degree || [])
   const [isOpenModal, setIsOpenModal] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const openFileUploader = () => {
     fileUploader.current?.click()
@@ -181,11 +188,10 @@ const EducationForm = ({ type, lesson }: Props) => {
     selectedDegreeList.length > 0
 
   const createLesson = async (payload: FormData) => {
-    console.log("payload", payload)
     if (!user) {
       return
     }
-
+    setIsLoading(true)
     try {
       const formData = {
         profile_id: user.id,
@@ -256,6 +262,8 @@ const EducationForm = ({ type, lesson }: Props) => {
     } catch (error: any) {
       errorToast(error.message)
       console.error(error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -264,6 +272,7 @@ const EducationForm = ({ type, lesson }: Props) => {
       return
     }
 
+    setIsLoading(true)
     try {
       const formData = {
         image_url: uploadedImageUrl,
@@ -320,10 +329,13 @@ const EducationForm = ({ type, lesson }: Props) => {
       await queryClient.invalidateQueries({ queryKey: ["lesson"] })
       successToast("레슨이 수정되었습니다.")
       console.log("SUCCESS!")
+
       router.replace("/educations")
     } catch (error: any) {
       errorToast(error.message)
       console.error(error)
+    } finally {
+      setIsLoading(true)
     }
   }
 
@@ -359,7 +371,6 @@ const EducationForm = ({ type, lesson }: Props) => {
     if (type === "update" && lesson) deleteLessonMutation.mutate(lesson.id)
   }
 
-  console.log("error", errors)
   return (
     <div
       className="mx-auto max-w-screen-md px-4 lg:px-0 overflow-auto"
@@ -670,14 +681,20 @@ const EducationForm = ({ type, lesson }: Props) => {
             취소
           </Button>
         </Link>
-        <Button
-          size="lg"
-          className=" rounded-md bg-indigo-500 w-full md:w-32 whitespace-nowrap"
-          disabled={!isValidForm}
-          onClick={handleSubmit(handleComplete)}
-        >
-          {type === "create" ? "등록하기" : "수정하기"}
-        </Button>
+        {isLoading ? (
+          <div className="flex justify-center">
+            <Spinner />
+          </div>
+        ) : (
+          <Button
+            size="lg"
+            className=" rounded-md bg-indigo-500 w-full md:w-32 whitespace-nowrap"
+            disabled={!isValidForm}
+            onClick={handleSubmit(handleComplete)}
+          >
+            {type === "create" ? "등록하기" : "수정하기"}
+          </Button>
+        )}
       </div>
       {isRegionSelect && (
         <RegionSelect

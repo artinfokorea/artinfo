@@ -20,6 +20,7 @@
     "react/react-in-jsx-scope": "off",
     "no-console": "off",
     "no-plusplus": "off",
+    "no-nested-ternary": "off",
     // ts파일에서 tsx구문 허용 (Next.js)
     "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
     "no-useless-catch": "off", // 불필요한 catch 못쓰게 하는 기능 끔
