@@ -151,13 +151,8 @@ const JobCreateForm = () => {
   const handleSelect = (value: any) => setSelectedType(value)
 
   return (
-    <div
-      className="mx-auto max-w-screen-lg px-4 lg:px-0 overflow-auto"
-      style={{
-        height: "calc(100vh - 58px)",
-      }}
-    >
-      <div className="h-full flex flex-col overflow-y-auto">
+    <div className="mx-auto max-w-screen-lg px-4 lg:px-0 overflow-auto ">
+      <div className=" flex flex-col ">
         <div className="relative mt-6">
           <Link href="/jobs">
             <IconButton
@@ -335,19 +330,19 @@ const JobCreateForm = () => {
           </div>
 
           <div>
-            <div className="flex w-full items-center justify-between border-t py-4 gap-x-2">
+            <div className="flex items-center justify-between border-t py-4 gap-x-2">
               <div className="flex gap-2 flex-1 md:flex-none">
                 <Button
                   size="lg"
                   color="red"
                   variant="text"
-                  className="rounded-md hidden md:inline-block"
+                  className="rounded-md whitespace-nowrap"
                   onClick={() => router.push("/admin/jobs")}
                 >
                   뒤로가기
                 </Button>
                 {isLoading ? (
-                  <div className="flex justify-center">
+                  <div className="w-full flex items-center justify-center">
                     <Spinner />
                   </div>
                 ) : (

@@ -455,7 +455,7 @@ const ConcertForm = ({ type, concert }: Props) => {
                   </Button>
                 </Link>
                 {isLoading ? (
-                  <div className="flex justify-center">
+                  <div className="flex justify-center items-center w-full">
                     <Spinner />
                   </div>
                 ) : type === "create" ? (
