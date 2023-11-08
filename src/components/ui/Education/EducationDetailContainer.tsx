@@ -164,9 +164,11 @@ const EducationDetailContainer = ({ pageId }: Props) => {
               </div>
             </div>
           </div>
-          <div className="m-2 flex flex-col mx-6">
+          <div className="my-2 flex flex-col mx-2 md:mx-10">
             <span className="text-lg font-medium opacity-60">전문가 소개</span>
-            <p className="my-4">{lesson?.intro}</p>
+            <p className="my-4 leading-6 whitespace-pre-line">
+              {lesson?.intro}
+            </p>
           </div>
           {!isMobile && (
             <div className="sm:container  text-white flex fixed bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full ">

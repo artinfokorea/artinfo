@@ -111,8 +111,8 @@ export type CONCERT_CATEGORY =
 export const CONCERT_CATEGORY_ITEMS = {
   ORCHESTRA: "오케스트라",
   CHORUS: "합창",
-  ENSEMBLE: "앙상블",
   SOLO: "솔로",
+  ENSEMBLE: "앙상블",
   ETC: "기타",
 }
 

@@ -35,7 +35,7 @@ const page = () => {
 
   return (
     <div className="sm:container mx-auto mt-4 px-4">
-      <div className="flex justify-between mt-4 px-2">
+      <div className="flex justify-between mt-4">
         <h2 className="text-2xl font-bold mb-4">레슨</h2>
         {isTeacher ? (
           <ChipButton

@@ -13,23 +13,23 @@ const LessonCard = ({ lesson }: Props) => {
 
   return (
     <div className="card rounded-md cursor-pointer ">
-      {isLoading && (
-        <div className="flex items-center justify-center absolute inset-0">
-          <Spinner />
-        </div>
-      )}
-      <div className="overflow-hidden relative h-[240px] rounded-sm">
+      <div className="relative h-[220px] lg:h-[300px]">
+        {isLoading && (
+          <div className="flex items-center justify-center absolute inset-0">
+            <Spinner />
+          </div>
+        )}
         <Image
           src={lesson.image_url ?? "/icon-192x192.png"}
-          alt="job"
-          sizes="(max-width: 1200px) 276px, 150px"
+          alt="lesson_profile"
+          sizes="250px, 250px"
           fill
           quality={100}
           priority
+          className="rounded-md"
           onLoad={() => setisLoading(false)}
         />
       </div>
-
       <div>
         <div className="flex-1 flex justify-center flex-col font-sm">
           <span className="font-semibold text-lg mt-2 mb-1 ">

@@ -173,10 +173,10 @@ function NavList() {
           color="blue-gray"
           className="font-normal"
         >
-          <Link href={item.to}>
+          <Link href={item.to} prefetch={false}>
             <MenuItem className="flex items-center gap-2">
               {React.createElement(item.icon, {
-                className: "h-[18px] w-[18px]",
+                className: "h-[18px] w-[18px] mb-1",
               })}
               {item.title}
             </MenuItem>
