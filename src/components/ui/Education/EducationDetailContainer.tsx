@@ -78,7 +78,7 @@ const EducationDetailContainer = ({ pageId }: Props) => {
       {pageType === "read" && (
         <>
           <div className="flex flex-col md:flex-row mt-20">
-            <div className="relative w-full h-[300px] md:w-[300px] md:h-[300px] ">
+            <div className="relative w-full h-[350px] md:w-[250px]">
               <Image
                 src={lesson?.image_url || "/public/img/placeholder_user.png"}
                 fill
@@ -86,10 +86,10 @@ const EducationDetailContainer = ({ pageId }: Props) => {
                 sizes="(max-width: 1200px) 220px, 100px"
                 priority
                 quality={100}
-                className="px-20 md:px-10"
+                className="px-20 mx-0 md:mx-10 md:px-0 rounded-md"
               />
             </div>
-            <div className="flex flex-col mt-6 mx-6  md:my-2">
+            <div className="flex flex-col mt-6 mx-20  md:my-2">
               <div className="text-xl font-semibold mt-2  ">{lesson?.name}</div>
               <div className="flex flex-col my-4">
                 <span className="text-lg font-medium opacity-60 my-2">
