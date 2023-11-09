@@ -78,7 +78,7 @@ const EducationDetailContainer = ({ pageId }: Props) => {
       {pageType === "read" && (
         <>
           <div className="flex flex-col md:flex-row mt-20">
-            <div className="relative w-[280px] mx-auto h-[400px] md:w-[320px]">
+            <div className="relative w-[280px] h-[400px] md:w-[320px]">
               <Image
                 src={lesson?.image_url || "/public/img/placeholder_user.png"}
                 fill
@@ -89,7 +89,7 @@ const EducationDetailContainer = ({ pageId }: Props) => {
                 className="rounded-md"
               />
             </div>
-            <div className="flex flex-col mt-6 mx-6 md:mx-20  md:my-2">
+            <div className="flex flex-col mt-6 mx-3 md:mx-10  md:my-2">
               <div className="text-xl font-semibold mt-2  ">{lesson?.name}</div>
               <div className="flex flex-col my-4">
                 <span className="text-lg font-medium opacity-60 my-2">
@@ -164,7 +164,7 @@ const EducationDetailContainer = ({ pageId }: Props) => {
               </div>
             </div>
           </div>
-          <div className="my-2 flex flex-col mx-6 md:mx-10 md:my-10">
+          <div className="my-2 flex flex-col mx-3 md:mx-0 md:my-10">
             <span className="text-lg font-medium opacity-60 ">전문가 소개</span>
             <p className="my-4 leading-6 whitespace-pre-line">
               {lesson?.intro}
