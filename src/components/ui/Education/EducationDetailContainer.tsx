@@ -78,7 +78,7 @@ const EducationDetailContainer = ({ pageId }: Props) => {
       {pageType === "read" && (
         <>
           <div className="flex flex-col md:flex-row mt-20">
-            <div className="relative w-[280px] h-[400px] md:w-[320px]">
+            <div className="relative mx-auto md:mx-0 w-[280px] h-[400px] md:w-[320px]">
               <Image
                 src={lesson?.image_url || "/public/img/placeholder_user.png"}
                 fill
