@@ -203,7 +203,7 @@ export default function Header() {
   useEffect(() => {
     if (params.id) setScrollDir("scrollUp")
     if (pathname) setScrollDir("scrollUp")
-  }, [params.id, pathname])
+  }, [params, pathname, setScrollDir])
 
   useEffect(() => {
     if (user) {
