@@ -126,7 +126,7 @@ const EducationDetailContainer = ({ pageId }: Props) => {
                 <span>{filters.FEECOMMA(lesson?.fee as number)}원</span>
               </div>
             </div>
-            <div className="flex flex-col mx-7">
+            <div className="flex flex-col mx-3 md:mx-7">
               <div className="flex mt-5">
                 <span className="text-lg font-medium opacity-60 mr-4 leading-6 ">
                   학력
