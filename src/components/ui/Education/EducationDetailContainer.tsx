@@ -77,7 +77,7 @@ const EducationDetailContainer = ({ pageId }: Props) => {
     <div className="sm:container mx-auto mt-4">
       {pageType === "read" && (
         <>
-          <div className="flex flex-col md:flex-row mt-20">
+          <div className="flex flex-col md:flex-row mt-20 mx-5 md:mx-0">
             <div className="relative mx-auto md:mx-0 w-[280px] h-[400px] md:w-[320px]">
               <Image
                 src={lesson?.image_url || "/public/img/placeholder_user.png"}
@@ -164,7 +164,7 @@ const EducationDetailContainer = ({ pageId }: Props) => {
               </div>
             </div>
           </div>
-          <div className="my-2 flex flex-col mx-3 md:mx-0 md:my-10">
+          <div className="my-2 flex flex-col mx-[32px] md:mx-0 md:my-10">
             <span className="text-lg font-medium opacity-60 ">전문가 소개</span>
             <p className="my-4 leading-6 whitespace-pre-line">
               {lesson?.intro}
