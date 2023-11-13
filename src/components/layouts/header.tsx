@@ -200,10 +200,10 @@ export default function Header() {
   const pathname = usePathname()
   const params = useParams()
 
-  useEffect(() => {
-    if (params.id) setScrollDir("scrollUp")
-    if (pathname) setScrollDir("scrollUp")
-  }, [params, pathname, setScrollDir])
+  // useEffect(() => {
+  //   if (params.id) setScrollDir("scrollUp")
+  //   if (pathname) setScrollDir("scrollUp")
+  // }, [params])
 
   useEffect(() => {
     if (user) {

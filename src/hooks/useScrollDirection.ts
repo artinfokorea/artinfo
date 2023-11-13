@@ -17,6 +17,7 @@ const useScrollDirection = () => {
         ticking = false
         return
       }
+
       setScrollDir(scrollY > lastScrollY ? "scrollDown" : "scrollUp")
       lastScrollY = scrollY > 0 ? scrollY : 0
       ticking = false
@@ -32,7 +33,13 @@ const useScrollDirection = () => {
     window.addEventListener("scroll", onScroll)
 
     return () => window.removeEventListener("scroll", onScroll)
-  }, [scrollDir])
+  }, [scrollDir, setScrollDir])
+
+  useEffect(() => {
+    return () => {
+      setScrollDir("scrollUp")
+    }
+  }, [])
 }
 
 export default useScrollDirection
