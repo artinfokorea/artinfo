@@ -82,7 +82,7 @@ export default function JobDetailContainer({ jobId }: IProps) {
   }
 
   return (
-    <div className="sm:container mx-auto mt-4 relative pb-10 px-4 h-screen">
+    <div className="sm:container mx-auto mt-4 relative pb-10 px-4">
       {/* <Element id="top" /> */}
       <div className="flex" id="top">
         <div className="flex-1">
@@ -108,7 +108,7 @@ export default function JobDetailContainer({ jobId }: IProps) {
           </section>
           {job?.contents && (
             <div
-              className="w-10/12 mx-auto"
+              className="w-10/12 mx-auto "
               dangerouslySetInnerHTML={{ __html: job.contents }}
             />
           )}

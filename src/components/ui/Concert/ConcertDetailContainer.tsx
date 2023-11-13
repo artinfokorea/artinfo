@@ -94,7 +94,7 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
   }
 
   return (
-    <div className="h-screen">
+    <div className="">
       {pageType === "read" ? (
         <div className="sm:container mx-auto mt-4 ">
           <h2 className="text-2xl font-semi-bold px-2" id="top">

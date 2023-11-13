@@ -119,23 +119,25 @@ const EducationDetailContainer = ({ pageId }: Props) => {
                 </ul>
               </div>
               <div className="font-semibold text-lg flex my-4">
-                <span className="text-lg font-medium opacity-60 mr-2">
+                <span className="text-lg font-medium opacity-60 mr-2 whitespace-nowrap">
                   가격
                 </span>
-                <span className="mr-2">시간당</span>
-                <span>{filters.FEECOMMA(lesson?.fee as number)}원</span>
+                <span className="mr-2 whitespace-nowrap">시간당</span>
+                <span className="whitespace-nowrap">
+                  {filters.FEECOMMA(lesson?.fee as number)}원
+                </span>
               </div>
             </div>
-            <div className="flex flex-col mx-3 md:mx-7">
+            <div className="flex flex-col mx-3 md:mx-7 ">
               <div className="flex mt-5">
-                <span className="text-lg font-medium opacity-60 mr-4 leading-6 ">
+                <span className="text-lg font-medium opacity-60 mr-4 leading-6 whitespace-nowrap">
                   학력
                 </span>
                 <ul>
                   {lesson?.degree.map((deg, index) => (
                     <li key={uuid()}>
                       {Object.entries(deg).map(([key, value]) => (
-                        <span key={key}>
+                        <span key={key} className="whitespace-pre-line">
                           {DEGREE_VALUES[key as DEGREE]} - {value}
                         </span>
                       ))}
