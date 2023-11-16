@@ -45,5 +45,5 @@ export default function ConcertLayout({
 }: {
   children: React.ReactNode
 }) {
-  return <div className="touch-none">{children}</div>
+  return <div className="touch-auto">{children}</div>
 }
