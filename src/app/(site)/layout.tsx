@@ -40,7 +40,8 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className="touch-manipulation bg-[#f8fafc] flex flex-col h-screen">
+      {/* touch-manipulation */}
+      <body className="bg-[#f8fafc] flex flex-col h-screen">
         <ThemeProvider>
           <QueryProvider>
             <AuthProvider>
