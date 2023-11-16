@@ -40,10 +40,7 @@ const schema = yup
       .max(50, "제목 글자수는 50글자까지 허용합니다.")
       .required("채용 제목은 필수입니다."),
     company_name: yup.string().required("채용 기관명은 필수입니다."),
-    linkUrl: yup
-      .string()
-      .url("유효한 url 주소를 입력해주세요.")
-      .required("채용 기관 주소는 필수입니다."),
+    linkUrl: yup.string().url("유효한 url 주소를 입력해주세요."),
   })
   .required()
 type FormData = yup.InferType<typeof schema>
