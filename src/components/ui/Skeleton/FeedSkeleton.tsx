@@ -10,7 +10,7 @@ import { BookmarkIcon, ShareIcon } from "@heroicons/react/24/outline"
 
 const FeedSkeleton = () => {
   return (
-    <Card className="my-4">
+    <Card className="my-4 skeleton-list-item">
       <CardHeader
         shadow={false}
         floated={false}

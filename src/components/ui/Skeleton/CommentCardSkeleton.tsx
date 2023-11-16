@@ -1,6 +1,6 @@
 export default function CommentCardSkeleton() {
   return (
-    <div className="bg-white border shadow rounded-md p-4 w-full mx-auto">
+    <div className="bg-white border shadow rounded-md p-4 w-full mx-auto skeleton-list-item">
       <div className="animate-pulse flex space-x-4">
         <div className="rounded-full bg-gray-300 h-10 w-10" />
         <div className="flex-1 space-y-6 py-1">

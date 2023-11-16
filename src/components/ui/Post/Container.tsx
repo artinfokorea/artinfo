@@ -167,7 +167,7 @@ export default function Container() {
     isLoading,
   } = useInfiniteQuery({
     queryKey: ["feeds"],
-    suspense: false,
+    suspense: true,
     queryFn: ({ pageParam = 1 }) => {
       return getFeeds(pageParam)
     },

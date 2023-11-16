@@ -2,9 +2,9 @@ import React from "react"
 
 const JobSkeleton = () => {
   return (
-    <div className="card bg-white border border-stone-800 rounded">
+    <div className="card bg-white border border-stone-800 rounded skeleton-list-item">
       <div className="overflow-hidden relative" style={{ height: "150px" }}>
-        <div className="w-full h-[150px] bg-whitesmoke" />
+        <div className="w-full h-[150px] bg-whitesmoke skeleton-list-item" />
       </div>
       <div className="p-4">
         <div className="flex items-center mb-1">
