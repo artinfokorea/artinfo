@@ -25,8 +25,9 @@ import ListWithLatestJobs from "@/components/ui/LatestJobs/ListWithLatestJobs"
 import { useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import { PostCard } from "./PostCard"
-import AdContainer from "../../../app/(site)/home/components/ad/AdContainer"
+import AdContainer from "../Home/ad/AdContainer"
 import FeedSkeleton from "../Skeleton/FeedSkeleton"
+import LessonSlide from "../Home/Lesson/LessonSlide"
 
 function ProfileCard() {
   return (
@@ -127,7 +128,7 @@ function WriteFeedCard() {
 function AdSection() {
   return (
     <div className="overflow-hidden bg-white py-4 px-4 drop-shadow-md shawdow-md md:rounded-md">
-      <h5 className="font-semibold mb-2">콘서트</h5>
+      <h5 className="font-semibold mb-2 text-lg">콘서트</h5>
       <div className="overflow-x-auto">
         <AdContainer />
       </div>
@@ -258,13 +259,15 @@ export default function Container() {
   return (
     <div ref={containerEl} className="mx-auto max-w-screen-lg lg:px-0 h-screen">
       <div className="flex ">
-        <div className="flex-1 overflow-hidden">
-          <div className="mb-2 " id="top">
+        <div className="flex-1 overflow-hidden" id="top">
+          {/* <div className="mb-2 " >
             <WriteFeedCard />
-          </div>
+          </div> */}
 
           <div className="feed-groups pb-5">
+            {/* <LessonSlide /> */}
             <AdSection />
+
             {isLoading && (
               <>
                 <FeedSkeleton />

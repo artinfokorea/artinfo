@@ -3,7 +3,7 @@ import { Suspense } from "react"
 import JobContainer from "./components/job/container"
 import Loading from "./loading"
 import IssueContainer from "./components/issue/IssueContainer"
-import AdContainer from "./components/ad/AdContainer"
+import AdContainer from "../../../components/ui/Home/ad/AdContainer"
 
 export default function Home() {
   return (

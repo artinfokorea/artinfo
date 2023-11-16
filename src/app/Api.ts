@@ -421,3 +421,24 @@ export async function fetchUserLesson(userId: string) {
   }
   return data
 }
+
+export async function fetchAdLessons() {
+  const itemCount = 10 // 최신 10개의 아이템을 가져오기 위해 itemCount를 10으로 설정
+  const supabase = useSupabase()
+  const { data, count, error } = await supabase
+    .from("lessons")
+    .select("*, profiles(id, name, icon_image_url)", {
+      count: "exact",
+    })
+    .order("created_at", {
+      ascending: false,
+    })
+    .filter("isAd", "eq", true)
+  // .limit(itemCount)
+
+  if (error) {
+    throw error
+  }
+
+  return { lessons: data, count }
+}
