@@ -17,7 +17,7 @@ const BannerContainer = () => {
 
   return (
     <div className="py-2 px-4 md:p-0 mb-2">
-      <Swiper spaceBetween={10} slidesPerView="auto" modules={[Pagination]}>
+      <Swiper autoplay pagination={{ clickable: true }} modules={[Pagination]}>
         {banners?.map(banner => (
           <SwiperSlide key={banner.id} style={{ width: "100%" }}>
             <div
