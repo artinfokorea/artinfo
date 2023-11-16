@@ -442,3 +442,21 @@ export async function fetchAdLessons() {
 
   return { lessons: data, count }
 }
+
+/* ****************************************************** BANNER ****************************************************** */
+
+export async function fetchBanners() {
+  const supabase = useSupabase()
+  const { data, error } = await supabase
+    .from("advertisements")
+    .select("*")
+    .order("created_at", {
+      ascending: false,
+    })
+    .filter("type", "eq", "BANNER")
+
+  if (error) {
+    throw error
+  }
+  return data
+}

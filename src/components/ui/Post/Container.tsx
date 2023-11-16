@@ -28,6 +28,7 @@ import { PostCard } from "./PostCard"
 import AdContainer from "../Home/ad/AdContainer"
 import FeedSkeleton from "../Skeleton/FeedSkeleton"
 import LessonSlide from "../Home/Lesson/LessonSlide"
+import BannerContainer from "../Banner/BannerContainer"
 
 function ProfileCard() {
   return (
@@ -258,9 +259,10 @@ export default function Container() {
 
   return (
     <div ref={containerEl} className="mx-auto max-w-screen-lg lg:px-0 h-screen">
-      <div className="flex ">
+      <BannerContainer />
+      <div className="flex my-2">
         <div className="flex-1 overflow-hidden" id="top">
-          {/* <div className="mb-2 " >
+          {/* <div className="mb-2 ">
             <WriteFeedCard />
           </div> */}
 
