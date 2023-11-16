@@ -18,7 +18,6 @@ const config = {
     ],
     formats: ["image/webp"],
     minimumCacheTTL: 60 * 60 * 24 * 30,
-    unoptimized: true,
   },
 
   // async rewrites() {

@@ -29,6 +29,7 @@ const BannerContainer = () => {
                 alt="banner_image"
                 fill
                 priority
+                unoptimized
                 quality={100}
                 sizes="(max-width: 680px) 500px 140px, (max-width: 1200px) 1200px, 250px"
                 className="rounded-xl shadow"
