@@ -31,6 +31,8 @@ module.exports = withMT({
         green: "#449F3C",
         cornflowerblue: "#7493ff",
         error: "#EA2A2A",
+        salomon: "#ff6c6a",
+        seashell: "#fff2ee",
       },
       padding: {
         // 'safe-bottom' 클래스를 정의하고 safe-area-inset-bottom 값을 사용합니다.
