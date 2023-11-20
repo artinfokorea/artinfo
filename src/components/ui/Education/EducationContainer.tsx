@@ -9,9 +9,18 @@ import { LESSON } from "@/types/types"
 import { getLessonList } from "@/apis/lesson"
 import useScrollDirection from "@/hooks/useScrollDirection"
 import { useInView } from "react-intersection-observer"
+import { useSearchParams } from "next/navigation"
 import LessonCard from "./LessonCard"
 
-const EducationContainer = () => {
+interface Props {
+  selectedMajorList: string[]
+  selectedRegionList: string[]
+}
+
+const EducationContainer = ({
+  selectedMajorList,
+  selectedRegionList,
+}: Props) => {
   const [category, setCategory] = useState("ALL")
   const [ref, inView] = useInView({
     delay: 300,
@@ -19,40 +28,49 @@ const EducationContainer = () => {
   })
   useScrollDirection()
 
-  const getLessons = async (
-    pageParam: number,
-  ): Promise<{ lessons: LESSON[]; nextPage: number; isLast: boolean }> => {
-    const response = await fetchLessons({ pageParam })
-
-    return {
-      lessons: response.lessons,
-      nextPage: pageParam + 1,
-      isLast: (response.count as number) < 12,
-    }
-  }
-
-  // const fetchLessons = async (
+  // const getLessons = async (
   //   pageParam: number,
   // ): Promise<{ lessons: LESSON[]; nextPage: number; isLast: boolean }> => {
-  //   const response = await getLessons()
+  //   const response = await fetchLessons({ pageParam })
 
   //   return {
   //     lessons: response.lessons,
-  //     nextPage: 5,
-  //     isLast: 5,
+  //     nextPage: pageParam + 1,
+  //     isLast: (response.count as number) < 12,
   //   }
   // }
 
+  const fetchLessons = async (
+    pageParam: number,
+  ): Promise<{ lessons: LESSON[]; nextPage: number; isLast: boolean }> => {
+    const response = await getLessonList({
+      page: pageParam,
+      location: selectedRegionList,
+      subjects: selectedMajorList,
+    })
+    console.log("response", response)
+
+    return {
+      lessons: response,
+      nextPage: pageParam + 1,
+      isLast: response.length < 12,
+    }
+  }
+
   // useEffect(() => {
-  //   getLessonList()
+  //   getLessonList({
+  //     page: 1,
+  //     location: selectedRegionList,
+  //     subjects: selectedMajorList,
+  //   })
   //     .then(res => res)
   //     .then(res => console.log("res", res))
-  // }, [])
+  // }, [selectedRegionList, selectedMajorList])
 
   const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery(
-    ["lessons"],
+    ["lessons", selectedRegionList, selectedMajorList],
     ({ pageParam = 0 }) => {
-      return getLessons(pageParam)
+      return fetchLessons(pageParam)
     },
     {
       getNextPageParam: lastPage => {
@@ -81,7 +99,7 @@ const EducationContainer = () => {
       <div className="grid grid-cols-2 gap-6 md:grid-cols-5">
         {data?.pages.map(
           page =>
-            page?.lessons.map((lesson: any) => (
+            page?.lessons.map((lesson: LESSON) => (
               <Link key={lesson.id} href={`/educations/${lesson.id}`}>
                 <LessonCard lesson={lesson} />
               </Link>

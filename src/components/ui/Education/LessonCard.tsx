@@ -20,7 +20,7 @@ const LessonCard = ({ lesson }: Props) => {
           </div>
         )}
         <Image
-          src={lesson.image_url ?? "/icon-192x192.png"}
+          src={lesson.imageUrl ?? "/icon-192x192.png"}
           alt="lesson_profile"
           sizes="250px, 250px"
           fill
@@ -35,8 +35,9 @@ const LessonCard = ({ lesson }: Props) => {
           <span className="font-semibold text-lg mt-2 mb-1 ">
             {lesson.name}
           </span>
-          <div className="flex flex-col">
-            {lesson.locations.map((location: string) => (
+
+          {/* <div className="flex flex-col">
+            {lesson.locations?.map((location: string) => (
               <span
                 key={location}
                 className="text-sm text-primary font-semibold opacity-70 block break-keep"
@@ -44,12 +45,12 @@ const LessonCard = ({ lesson }: Props) => {
                 {location}
               </span>
             ))}
-          </div>
-          <div className="my-2 font-semibold whitespace-pre-line">
-            {lesson.subjects.map((subject: string) => (
+          </div> */}
+          {/* <div className="my-2 font-semibold whitespace-pre-line">
+            {lesson.subjects?.map((subject: string) => (
               <LocationTag key={subject} tag={subject} />
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

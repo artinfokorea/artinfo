@@ -8,11 +8,10 @@ import { fetchProfile, fetchUserLesson } from "@/app/Api"
 import EducationContainer from "@/components/ui/Education/EducationContainer"
 import RegionSelect from "@/components/common/RegionSelect"
 import EducationSearchForm from "@/components/ui/Education/EducationSearchForm"
-import { is } from "cheerio/lib/api/traversing"
 import MajorSelect from "@/components/common/MajorSelect"
 import LocationTag from "@/components/common/LocationTag"
 import FilterTag from "@/components/common/FilterTag"
-import { set } from "react-hook-form"
+import { useRouter } from "next/navigation"
 
 const page = () => {
   const [isTeacher, setIsTeacher] = useState<boolean>(false)
@@ -25,6 +24,7 @@ const page = () => {
   const [selectedRegionList, setSelectedRegionList] = useState<string[]>([])
   const [selectedMajorList, setSelectedMajorList] = useState<string[]>([])
   const [selectedRegionStep, setSelectedRegionStep] = useState(1)
+  const router = useRouter()
 
   useEffect(() => {
     console.log("selectedRegionList", selectedRegionList)
@@ -180,7 +180,10 @@ const page = () => {
           handleSelectMajor={handleSelectMajor}
         />
       )}
-      <EducationContainer />
+      <EducationContainer
+        selectedMajorList={selectedMajorList}
+        selectedRegionList={selectedRegionList}
+      />
     </div>
   )
 }
