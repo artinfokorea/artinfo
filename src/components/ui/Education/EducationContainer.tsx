@@ -79,6 +79,7 @@ const EducationContainer = ({
       },
       refetchOnMount: true,
       refetchOnWindowFocus: true,
+      suspense: false,
     },
   )
 
@@ -96,11 +97,29 @@ const EducationContainer = ({
         </div>
       )}
 
+      {isLoading && (
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-5 px-2">
+          <LessonSkeleton />
+          <LessonSkeleton />
+          <LessonSkeleton />
+          <LessonSkeleton />
+          <LessonSkeleton />
+          <LessonSkeleton />
+          <LessonSkeleton />
+          <LessonSkeleton />
+          <LessonSkeleton />
+        </div>
+      )}
+
       <div className="grid grid-cols-2 gap-6 md:grid-cols-5">
         {data?.pages.map(
           page =>
-            page?.lessons.map((lesson: LESSON) => (
-              <Link key={lesson.id} href={`/educations/${lesson.id}`}>
+            page?.lessons.map((lesson: any) => (
+              <Link
+                key={lesson.id}
+                href={`/educations/${lesson.id}`}
+                prefetch={false}
+              >
                 <LessonCard lesson={lesson} />
               </Link>
             )),

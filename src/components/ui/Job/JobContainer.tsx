@@ -60,6 +60,7 @@ export default function JobContainer() {
       },
       refetchOnMount: true,
       refetchOnWindowFocus: true,
+      suspense: false,
     },
   )
 
@@ -86,12 +87,26 @@ export default function JobContainer() {
           />
         </div>
       </div>
+      {isLoading && (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5  gap-4">
+          <JobSkeleton />
+          <JobSkeleton />
+          <JobSkeleton />
+          <JobSkeleton />
+          <JobSkeleton />
+          <JobSkeleton />
+          <JobSkeleton />
+          <JobSkeleton />
+          <JobSkeleton />
+          <JobSkeleton />
+        </div>
+      )}
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5  gap-4 ">
         {data?.pages?.map(
           group =>
             group?.jobs?.map((item: Job) => (
-              <Link key={item.id} href={`/jobs/${item.id}`}>
+              <Link key={item.id} href={`/jobs/${item.id}`} prefetch={false}>
                 <JobCard job={item as any} />
               </Link>
             )),

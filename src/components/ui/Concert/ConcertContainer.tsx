@@ -51,6 +51,7 @@ export default function ConcertContainer() {
       },
       refetchOnMount: true,
       refetchOnWindowFocus: true,
+      suspense: false,
     },
   )
 
@@ -83,11 +84,30 @@ export default function ConcertContainer() {
         />
       </div>
 
+      {isLoading && (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          <ConcertSkeleton />
+          <ConcertSkeleton />
+          <ConcertSkeleton />
+          <ConcertSkeleton />
+          <ConcertSkeleton />
+          <ConcertSkeleton />
+          <ConcertSkeleton />
+          <ConcertSkeleton />
+          <ConcertSkeleton />
+          <ConcertSkeleton />
+        </div>
+      )}
+
       <div className="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-5 gap-4">
         {data?.pages.map(
           page =>
             page?.concerts?.map((concert: any) => (
-              <Link key={concert.id} href={`/concerts/${concert.id}`}>
+              <Link
+                key={concert.id}
+                href={`/concerts/${concert.id}`}
+                prefetch={false}
+              >
                 <ConcertCard item={concert} />
               </Link>
             )),
