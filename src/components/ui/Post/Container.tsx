@@ -270,7 +270,7 @@ export default function Container() {
             {/* <LessonSlide /> */}
             <AdSection />
 
-            {isLoading && (
+            {/* {isLoading && (
               <>
                 <FeedSkeleton />
                 <FeedSkeleton />
@@ -280,7 +280,7 @@ export default function Container() {
                 <FeedSkeleton />
                 <FeedSkeleton />
               </>
-            )}
+            )} */}
 
             {feedsData?.pages.map(group => (
               <div key={group.nextPage}>

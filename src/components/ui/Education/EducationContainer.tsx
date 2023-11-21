@@ -64,7 +64,11 @@ const EducationContainer = () => {
         {data?.pages.map(
           page =>
             page?.lessons.map((lesson: any) => (
-              <Link key={lesson.id} href={`/educations/${lesson.id}`}>
+              <Link
+                key={lesson.id}
+                href={`/educations/${lesson.id}`}
+                prefetch={false}
+              >
                 <LessonCard lesson={lesson} />
               </Link>
             )),

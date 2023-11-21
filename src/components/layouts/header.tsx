@@ -133,19 +133,19 @@ const items = [
     title: "채용",
     to: "/jobs",
     icon: BriefcaseIcon,
-    prefetch: true,
+    prefetch: false,
   },
   {
     title: "공연",
     to: "/concerts",
     icon: MusicalNoteIcon,
-    prefetch: true,
+    prefetch: false,
   },
   {
     title: "레슨",
     to: "/educations",
     icon: AcademicCapIcon,
-    prefetch: true,
+    prefetch: false,
   },
   // {
   //   title: "이슈",
