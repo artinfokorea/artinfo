@@ -91,7 +91,7 @@ export default function JobContainer() {
         {data?.pages?.map(
           group =>
             group?.jobs?.map((item: Job) => (
-              <Link key={item.id} href={`/jobs/${item.id}`}>
+              <Link key={item.id} href={`/jobs/${item.id}`} prefetch={false}>
                 <JobCard job={item as any} />
               </Link>
             )),

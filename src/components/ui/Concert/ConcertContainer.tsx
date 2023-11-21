@@ -87,7 +87,11 @@ export default function ConcertContainer() {
         {data?.pages.map(
           page =>
             page?.concerts?.map((concert: any) => (
-              <Link key={concert.id} href={`/concerts/${concert.id}`}>
+              <Link
+                key={concert.id}
+                href={`/concerts/${concert.id}`}
+                prefetch={false}
+              >
                 <ConcertCard item={concert} />
               </Link>
             )),
