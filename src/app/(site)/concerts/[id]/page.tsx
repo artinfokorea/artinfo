@@ -55,9 +55,9 @@ export default async function page({ params }: { params: { id: string } }) {
 
   return (
     <Suspense fallback={<Loading />}>
-      <Hydrate state={dehydratedState}>
-        <ConcertDetailContainer pageId={id} />
-      </Hydrate>
+      {/* <Hydrate state={dehydratedState}> */}
+      <ConcertDetailContainer pageId={id} />
+      {/* </Hydrate> */}
     </Suspense>
   )
 }
