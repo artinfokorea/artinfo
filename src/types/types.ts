@@ -466,7 +466,8 @@ export type LESSON = {
   id: number
   created_at: string
   profile_id: string
-  imageUrl: string
+  imageUrl?: string
+  image_url?: string
   locations: string[]
   majors: string[]
   name: string

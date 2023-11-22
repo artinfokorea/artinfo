@@ -153,7 +153,9 @@ const EducationForm = ({ type, lesson }: Props) => {
       setValue("phone", lesson.phone)
       setValue("fee", lesson.fee)
       setValue("intro", lesson.intro)
-      setUploadedImageUrl(lesson.image_url)
+      if (lesson.image_url) {
+        setUploadedImageUrl(lesson.image_url)
+      }
     }
   }, [lesson])
 
