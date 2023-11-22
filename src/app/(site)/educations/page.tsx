@@ -26,11 +26,6 @@ const page = () => {
   const [selectedRegionStep, setSelectedRegionStep] = useState(1)
   const router = useRouter()
 
-  useEffect(() => {
-    console.log("selectedRegionList", selectedRegionList)
-    console.log("selectedMajorList", selectedMajorList)
-  }, [selectedRegionList, selectedMajorList])
-
   const handleRegionModal = () => {
     setIsRegionSelect(!isRegionSelect)
   }
@@ -115,7 +110,7 @@ const page = () => {
   }, [isTeacher])
 
   return (
-    <div className="sm:container mx-auto mt-4 px-4">
+    <div className="sm:container mx-auto mt-4 px-4 h-screen">
       <div className="flex justify-between mt-4">
         <div className="flex">
           <h2 className="text-2xl font-bold mb-4">레슨</h2>
