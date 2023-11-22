@@ -36,7 +36,7 @@ const LessonCard = ({ lesson }: Props) => {
             {lesson.name}
           </span>
 
-          {/* <div className="flex flex-col">
+          <div className="flex flex-col">
             {lesson.locations?.map((location: string) => (
               <span
                 key={location}
@@ -45,12 +45,12 @@ const LessonCard = ({ lesson }: Props) => {
                 {location}
               </span>
             ))}
-          </div> */}
-          {/* <div className="my-2 font-semibold whitespace-pre-line">
-            {lesson.subjects?.map((subject: string) => (
-              <LocationTag key={subject} tag={subject} />
+          </div>
+          <div className="my-2 font-semibold whitespace-pre-line">
+            {lesson.majors?.map((major: string) => (
+              <LocationTag key={major} tag={major} />
             ))}
-          </div> */}
+          </div>
         </div>
       </div>
     </div>

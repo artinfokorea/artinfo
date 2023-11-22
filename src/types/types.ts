@@ -468,6 +468,7 @@ export type LESSON = {
   profile_id: string
   imageUrl: string
   locations: string[]
+  majors: string[]
   name: string
   subjects: string[]
   degree: { [key: string]: string }[]

@@ -10,6 +10,7 @@ import { getLessonList } from "@/apis/lesson"
 import useScrollDirection from "@/hooks/useScrollDirection"
 import { useInView } from "react-intersection-observer"
 import { useSearchParams } from "next/navigation"
+import LessonSkeleton from "@/components/ui/Skeleton/LessonSkeleton"
 import LessonCard from "./LessonCard"
 
 interface Props {
@@ -28,25 +29,13 @@ const EducationContainer = ({
   })
   useScrollDirection()
 
-  // const getLessons = async (
-  //   pageParam: number,
-  // ): Promise<{ lessons: LESSON[]; nextPage: number; isLast: boolean }> => {
-  //   const response = await fetchLessons({ pageParam })
-
-  //   return {
-  //     lessons: response.lessons,
-  //     nextPage: pageParam + 1,
-  //     isLast: (response.count as number) < 12,
-  //   }
-  // }
-
   const fetchLessons = async (
     pageParam: number,
   ): Promise<{ lessons: LESSON[]; nextPage: number; isLast: boolean }> => {
     const response = await getLessonList({
       page: pageParam,
       location: selectedRegionList,
-      subjects: selectedMajorList,
+      majors: selectedMajorList,
     })
     console.log("response", response)
 
@@ -67,21 +56,22 @@ const EducationContainer = ({
   //     .then(res => console.log("res", res))
   // }, [selectedRegionList, selectedMajorList])
 
-  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery(
-    ["lessons", selectedRegionList, selectedMajorList],
-    ({ pageParam = 0 }) => {
-      return fetchLessons(pageParam)
-    },
-    {
-      getNextPageParam: lastPage => {
-        if (!lastPage.isLast) return lastPage.nextPage
-        return null
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
+    useInfiniteQuery(
+      ["lessons", selectedRegionList, selectedMajorList],
+      ({ pageParam = 0 }) => {
+        return fetchLessons(pageParam)
       },
-      refetchOnMount: true,
-      refetchOnWindowFocus: true,
-      suspense: false,
-    },
-  )
+      {
+        getNextPageParam: lastPage => {
+          if (!lastPage.isLast) return lastPage.nextPage
+          return null
+        },
+        refetchOnMount: true,
+        refetchOnWindowFocus: true,
+        suspense: false,
+      },
+    )
 
   useDidUpdate(() => {
     if (inView && hasNextPage) {

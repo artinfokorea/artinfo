@@ -5,21 +5,21 @@ import { exceptionHandler } from "./exception-handler"
 interface LessonsRequest {
   page: number
   location: string[]
-  subjects: string[]
+  majors: string[]
 }
 
 export const getLessonList = async ({
   page,
   location,
-  subjects,
+  majors,
 }: LessonsRequest): Promise<LESSON[]> => {
   try {
     const payload: any = { page, size: 12 }
-    // const filteredLocation = location?.map(loc => loc.replace(" 전체", ""))
-    // if (location.length > 0) {
-    //   payload.location = filteredLocation.join(",")
-    // }
-    // if (subjects.length > 0) payload.subjects = subjects.join(",")
+    const filteredLocation = location?.map(loc => loc.replace(" 전체", ""))
+    if (location.length > 0) {
+      payload.location = filteredLocation.join(",")
+    }
+    if (majors.length > 0) payload.major = majors.join(",")
     const response: LESSON[] = await apiRequest.get("/lessons", {
       params: payload,
     })

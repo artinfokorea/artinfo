@@ -41,7 +41,8 @@ const page = () => {
 
   const handleSelectCity = (region: string) => {
     setSelectedCity(region)
-    setSelectedRegionStep(2)
+    setIsRegionSelect(!isRegionSelect)
+    // setSelectedRegionStep(2)
   }
 
   const handleSelectDistrict = (district: string) => {
@@ -58,8 +59,7 @@ const page = () => {
   }
 
   const handleRegionList = () => {
-    const district = `${selectedCity} ${selectedDistrict}`
-    setSelectedRegionList([...selectedRegionList, district])
+    setSelectedRegionList([...selectedRegionList, selectedCity])
     setSelectedRegionStep(1)
   }
 
@@ -82,11 +82,10 @@ const page = () => {
   const { user } = useAuth()
 
   useEffect(() => {
-    if (selectedDistrict) {
+    if (selectedCity) {
       handleRegionList()
-      setSelectedDistrict("")
     }
-  }, [selectedDistrict])
+  }, [selectedCity])
 
   useEffect(() => {
     if (selectedMajor) {
