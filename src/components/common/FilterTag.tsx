@@ -17,7 +17,7 @@ const FilterTag = ({ tag, color, size, deleteItem, index }: Props) => {
         color === "blue"
           ? "text-cornflowerblue bg-aliceblue"
           : "text-salomon bg-seashell"
-      } text-sm md:text-base   pl-1 pr-[2px] mr-1 font-semibold whitespace-nowrap rounded-xl`}
+      } text-sm md:text-base   pl-2 pr-[2px] mt-[2px] mr-1 font-semibold whitespace-nowrap rounded-xl`}
     >
       <span>{tag}</span>
       <IconButton
