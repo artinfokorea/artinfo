@@ -79,6 +79,7 @@ const page = () => {
   useEffect(() => {
     if (selectedCity) {
       handleRegionList()
+      setSelectedCity("")
     }
   }, [selectedCity])
 
