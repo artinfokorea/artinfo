@@ -80,7 +80,7 @@ const EducationContainer = ({
   }, [inView, hasNextPage])
 
   return (
-    <div id="top" className="h-full overflow-y-auto">
+    <div id="top" className="h-full ">
       {data?.pages[0]?.lessons.length === 0 && (
         <div className="h-[500px] flex items-center justify-center">
           <p className="opacity-70">데이터가 없습니다.</p>
