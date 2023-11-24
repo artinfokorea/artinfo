@@ -80,9 +80,9 @@ const EducationContainer = ({
   }, [inView, hasNextPage])
 
   return (
-    <div id="top" className="h-full ">
+    <div id="top" className="h-full  ">
       {data?.pages[0]?.lessons.length === 0 && (
-        <div className="h-[500px] flex items-center justify-center">
+        <div className="h-[1000px] flex items-center justify-center">
           <p className="opacity-70">데이터가 없습니다.</p>
         </div>
       )}
@@ -101,7 +101,7 @@ const EducationContainer = ({
         </div>
       )}
 
-      <div className="grid grid-cols-2 gap-6 md:grid-cols-5">
+      <div className="grid grid-cols-2 gap-6 md:grid-cols-5 ">
         {data?.pages.map(
           page =>
             page?.lessons.map((lesson: any) => (
