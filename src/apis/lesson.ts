@@ -20,7 +20,7 @@ export const getLessonList = async ({
       payload.location = filteredLocation.join(",")
     }
     if (majors.length > 0) payload.major = majors.join(",")
-    const response: LESSON[] = await apiRequest.get("/lessons", {
+    const response: LESSON[] = await apiRequest.get<LESSON[]>("/lessons", {
       params: payload,
     })
     return response
@@ -29,11 +29,11 @@ export const getLessonList = async ({
   }
 }
 
-// export const getFeed = async (feedId: string) => {
-//   try {
-//     const response = await apiRequest.get<Feed>(`/feed/${feedId}`)
-//     return response
-//   } catch (error) {
-//     throw new Error(exceptionHandler(error, "API getFeed error"))
-//   }
-// }
+export const getLesson = async (id: number) => {
+  try {
+    const response = await apiRequest.get<LESSON>(`/lessons/${id}`)
+    return response
+  } catch (error) {
+    throw new Error(exceptionHandler(error, "API getLesson error"))
+  }
+}

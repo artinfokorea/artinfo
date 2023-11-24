@@ -15,6 +15,7 @@ import useToast from "@/hooks/useToast"
 import useAuth from "@/hooks/useAuth"
 import { useRouter, useSearchParams } from "next/navigation"
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/20/solid"
+import { getLesson } from "@/apis/lesson"
 import EducationForm from "./EducationForm"
 
 const ListButton = dynamic(() => import("@/components/ui/Button/ListButton"), {
@@ -38,10 +39,10 @@ const EducationDetailContainer = ({ pageId }: Props) => {
   const params = useSearchParams()
   const typeParam = params.get("type")
 
-  const { data: lesson } = useQuery<LESSON>({
+  const { data: lesson } = useQuery({
     queryKey: ["lesson", pageId],
     suspense: true,
-    queryFn: () => fetchLesson(Number(pageId)),
+    queryFn: () => getLesson(Number(pageId)),
   })
 
   const copyToPhone = async () => {
@@ -80,7 +81,7 @@ const EducationDetailContainer = ({ pageId }: Props) => {
           <div className="flex flex-col md:flex-row mt-20 mx-5 md:mx-0">
             <div className="relative mx-auto md:mx-0 w-[280px] h-[400px] md:w-[320px]">
               <Image
-                src={lesson?.image_url || "/public/img/placeholder_user.png"}
+                src={lesson?.imageUrl || "/public/img/placeholder_user.png"}
                 fill
                 alt="profile_img"
                 sizes="(max-width: 1200px) 220px, 100px"
@@ -111,9 +112,9 @@ const EducationDetailContainer = ({ pageId }: Props) => {
                   전공
                 </span>
                 <ul className="flex flex-row ">
-                  {lesson?.subjects.map(subject => (
-                    <li key={subject} className="font-semibold text-sm">
-                      <LocationTag key={subject} tag={subject} />
+                  {lesson?.majors.map(major => (
+                    <li key={major} className="font-semibold text-sm">
+                      <LocationTag key={major} tag={major} />
                     </li>
                   ))}
                 </ul>
@@ -134,7 +135,7 @@ const EducationDetailContainer = ({ pageId }: Props) => {
                   학력
                 </span>
                 <ul>
-                  {lesson?.degree.map((deg, index) => (
+                  {lesson?.degrees.map((deg: DEGREE) => (
                     <li key={uuid()}>
                       {Object.entries(deg).map(([key, value]) => (
                         <span key={key} className="whitespace-pre-line">

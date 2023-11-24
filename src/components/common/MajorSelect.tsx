@@ -46,7 +46,7 @@ const MajorSelect = ({ isOpen, closeModal, handleSelectMajor }: Props) => {
                     as="h3"
                     className="text-lg font-semibold leading-6 text-gray-900"
                   >
-                    지역 선택
+                    전공 선택
                   </Dialog.Title>
                   <IconButton
                     ripple={false}

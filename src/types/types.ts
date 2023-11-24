@@ -473,6 +473,7 @@ export type LESSON = {
   name: string
   subjects: string[]
   degree: { [key: string]: string }[]
+  degrees: any
   profiles: PROFILE
   intro: string
   fee: number

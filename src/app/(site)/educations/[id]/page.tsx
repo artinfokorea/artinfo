@@ -6,6 +6,7 @@ import { Hydrate, dehydrate } from "@tanstack/react-query"
 import GetQueryClient from "@/app/GetQueryClient"
 import EducationDetailContainer from "@/components/ui/Education/EducationDetailContainer"
 import { fetchLesson } from "@/app/Api"
+import { getLesson } from "@/apis/lesson"
 
 type Props = {
   params: { id: string }
@@ -52,7 +53,7 @@ const page = async ({ params }: { params: { id: string } }) => {
   const id = Number(params.id)
 
   const queryClient = GetQueryClient()
-  await queryClient.prefetchQuery(["lesson", id], () => fetchLesson(id))
+  await queryClient.prefetchQuery(["lesson", id], () => getLesson(id))
   const dehydratedState = dehydrate(queryClient)
 
   return (

@@ -28,10 +28,19 @@ import { Listbox, Transition } from "@headlessui/react"
 import { deleteLesson } from "@/app/Api"
 import { Modal } from "@/components/common/Modal"
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid"
+import { apiRequest } from "@/apis"
 
 interface Props {
   type: "create" | "update"
   lesson?: LESSON
+}
+
+interface Degrees {
+  [key: string]: string[]
+}
+
+interface DegreeItem {
+  [key: string]: string
 }
 
 const schema = yup
@@ -66,12 +75,14 @@ const EducationForm = ({ type, lesson }: Props) => {
     lesson?.locations || [],
   )
   const [selectedMajorList, setSelectedMajorList] = useState<string[]>(
-    lesson?.subjects || [],
+    lesson?.majors || [],
   )
   const [selectedRegionStep, setSelectedRegionStep] = useState(1)
   const fileUploader = useRef<HTMLInputElement>(null)
   const [uploadedImage, setUploadedImage] = useState<File>()
-  const [uploadedImageUrl, setUploadedImageUrl] = useState("")
+  const [uploadedImageUrl, setUploadedImageUrl] = useState(
+    lesson?.imageUrl || "",
+  )
   const router = useRouter()
   const { user } = useAuth()
   const supabase = useSupabase()
@@ -79,9 +90,9 @@ const EducationForm = ({ type, lesson }: Props) => {
   const { successToast, errorToast } = useToast()
   const [selectedDegree, setSelectedDegree] = useState("BACHELOR")
   const [selectedSchool, setSelectedSchool] = useState("")
-  const [selectedDegreeList, setSelectedDegreeList] = useState<
-    { [key: string]: string }[]
-  >(lesson?.degree || [])
+  const [selectedDegreeList, setSelectedDegreeList] = useState<DegreeItem[]>(
+    lesson?.degrees || [],
+  )
   const [isOpenModal, setIsOpenModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -169,7 +180,7 @@ const EducationForm = ({ type, lesson }: Props) => {
     const degree = { [selectedDegree]: selectedSchool }
 
     setSelectedDegreeList([...selectedDegreeList, degree])
-    setSelectedDegree("")
+    setSelectedDegree("BACHELOR")
     setSelectedSchool("")
   }
 
@@ -181,6 +192,21 @@ const EducationForm = ({ type, lesson }: Props) => {
     setSelectedMajor(major)
     setIsMajorSelect(false)
   }
+
+  const degrees = useMemo(() => {
+    return selectedDegreeList.reduce((acc, obj) => {
+      const key = Object.keys(obj)[0]
+      const value = obj[key]
+
+      if (!acc[key]) {
+        acc[key] = [value]
+      } else {
+        acc[key].push(value)
+      }
+
+      return acc
+    }, {} as Degrees)
+  }, [selectedDegreeList])
 
   const isValidForm =
     // isValid &&
@@ -195,44 +221,12 @@ const EducationForm = ({ type, lesson }: Props) => {
     }
     setIsLoading(true)
     try {
-      const formData = {
-        profile_id: user.id,
-        image_url: null,
-        locations: selectedRegionList,
-        subjects: selectedMajorList,
-        name: payload.name,
-        intro: payload.intro,
-        phone: payload.phone,
-        fee: payload.fee,
-        degree: selectedDegreeList,
-        created_at: new Date().toISOString(),
-      }
-
-      const { data, error } = await supabase
-        .from("lessons")
-        .insert({ ...formData })
-        .select("id")
-        .single()
-
-      if (error) {
-        throw error
-      }
-
-      const { data: profileData, error: profileError } = await supabase
-        .from("profiles")
-        .update({ is_teacher: true })
-        .eq("id", user.id)
-
-      console.log("profileData", profileData)
-      console.log("profileError", profileError)
-
       // upload file
-      const lessonId = data.id
-      if (uploadedImage && lessonId) {
+      if (uploadedImage) {
         // const filename = uploadedImage.name
         const filename = new Date().getTime().toString()
         const extension = uploadedImage.name.split(".")[1]
-        const path = `lessons/${lessonId}/${filename}.${extension}`
+        const path = `lessons/${user.id}/${filename}.${extension}`
         const { error: uploadError, data } = await supabase.storage
           .from("artinfo")
           .upload(path, uploadedImage, {
@@ -245,17 +239,42 @@ const EducationForm = ({ type, lesson }: Props) => {
         const fileUrl = `https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/${data.path}`
         console.log(fileUrl)
 
-        const { error: updateError } = await supabase
-          .from("lessons")
-          .update({
-            image_url: fileUrl,
-          })
-          .eq("id", lessonId)
+        // const { error: updateError } = await supabase
+        //   .from("lessons")
+        //   .update({
+        //     image_url: fileUrl,
+        //   })
+        //   .eq("id", lessonId)
 
-        if (updateError) {
-          throw updateError
+        const formData = {
+          userId: user.id,
+          imageUrl: fileUrl,
+          locations: selectedRegionList,
+          majors: selectedMajorList,
+          name: payload.name,
+          intro: payload.intro,
+          phone: payload.phone,
+          fee: payload.fee,
+          degrees,
+        }
+
+        try {
+          await apiRequest.post("/lessons", formData)
+        } catch (error) {
+          if (error) {
+            console.log(error)
+            errorToast("레슨 등록에 실패했습니다.")
+          }
         }
       }
+
+      const { data: profileData, error: profileError } = await supabase
+        .from("profiles")
+        .update({ is_teacher: true })
+        .eq("id", user.id)
+
+      console.log("profileData", profileData)
+      console.log("profileError", profileError)
 
       await queryClient.invalidateQueries({ queryKey: ["lessons"] })
       successToast("레슨이 등록되었습니다.")
@@ -276,33 +295,13 @@ const EducationForm = ({ type, lesson }: Props) => {
 
     setIsLoading(true)
     try {
-      const formData = {
-        image_url: uploadedImageUrl,
-        name: payload.name,
-        fee: payload.fee,
-        intro: payload.intro,
-        phone: payload.phone,
-        locations: selectedRegionList,
-        subjects: selectedMajorList,
-        degree: selectedDegreeList,
-      }
-
-      const { data, error } = await supabase
-        .from("lessons")
-        .update({ ...formData })
-        .eq("id", lesson.id)
-
-      if (error) {
-        throw error
-      }
-
       // upload file
       // Todo: 수정시에도 이미지 그대로 업로드됨
       if (uploadedImage) {
         // const filename = uploadedImage.name
         const filename = new Date().getTime().toString()
         const extension = uploadedImage.name.split(".")[1]
-        const path = `educations/${lesson.id}/${filename}.${extension}`
+        const path = `educations/${user.id}/${filename}.${extension}`
         const { error: uploadError, data } = await supabase.storage
           .from("artinfo")
           .upload(path, uploadedImage, {
@@ -315,15 +314,25 @@ const EducationForm = ({ type, lesson }: Props) => {
         const fileUrl = `https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/${data.path}`
         console.log(fileUrl)
 
-        const { error: updateError } = await supabase
-          .from("lessons")
-          .update({
-            image_url: fileUrl,
-          })
-          .eq("id", lesson.id)
+        const formData = {
+          userId: user.id,
+          imageUrl: fileUrl,
+          name: payload.name,
+          fee: payload.fee,
+          intro: payload.intro,
+          phone: payload.phone,
+          locations: selectedRegionList,
+          majors: selectedMajorList,
+          degrees,
+        }
 
-        if (updateError) {
-          throw updateError
+        try {
+          await apiRequest.put("/lessons", formData)
+        } catch (error) {
+          if (error) {
+            console.log(error)
+            errorToast("레슨 수정에 실패했습니다.")
+          }
         }
       }
 
@@ -356,8 +365,8 @@ const EducationForm = ({ type, lesson }: Props) => {
   }
 
   const deleteLessonMutation = useMutation({
-    mutationFn: (lessonId: number) => {
-      return deleteLesson(lessonId)
+    mutationFn: async (lessonId: number) => {
+      return apiRequest.delete("/lessons", lessonId)
     },
     onError: (error: any) => {
       errorToast(error.message)
@@ -436,7 +445,7 @@ const EducationForm = ({ type, lesson }: Props) => {
               className=" text-black"
               onClick={() => deleteRegion(index)}
             >
-              <XMarkIcon className="w-5" />
+              <XMarkIcon className="w-5 mb-[2px]" />
             </IconButton>
           </div>
         ))}
@@ -468,7 +477,7 @@ const EducationForm = ({ type, lesson }: Props) => {
               className=" text-black"
               onClick={() => deleteMajor(index)}
             >
-              <XMarkIcon className="w-5" />
+              <XMarkIcon className="w-5 mb-[2px]" />
             </IconButton>
           </div>
         ))}
