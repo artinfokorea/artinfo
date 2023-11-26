@@ -193,20 +193,20 @@ const EducationForm = ({ type, lesson }: Props) => {
     setIsMajorSelect(false)
   }
 
-  const degrees = useMemo(() => {
-    return selectedDegreeList.reduce((acc, obj) => {
-      const key = Object.keys(obj)[0]
-      const value = obj[key]
+  // const degrees = useMemo(() => {
+  //   return selectedDegreeList.reduce((acc, obj) => {
+  //     const key = Object.keys(obj)[0]
+  //     const value = obj[key]
 
-      if (!acc[key]) {
-        acc[key] = [value]
-      } else {
-        acc[key].push(value)
-      }
+  //     if (!acc[key]) {
+  //       acc[key] = [value]
+  //     } else {
+  //       acc[key].push(value)
+  //     }
 
-      return acc
-    }, {} as Degrees)
-  }, [selectedDegreeList])
+  //     return acc
+  //   }, {} as Degrees)
+  // }, [selectedDegreeList])
 
   const isValidForm =
     // isValid &&
@@ -255,11 +255,15 @@ const EducationForm = ({ type, lesson }: Props) => {
           intro: payload.intro,
           phone: payload.phone,
           fee: payload.fee,
-          degrees,
+          degrees: selectedDegreeList,
         }
 
         try {
           await apiRequest.post("/lessons", formData)
+          await supabase
+            .from("profiles")
+            .update({ is_teacher: true })
+            .eq("id", user.id)
         } catch (error) {
           if (error) {
             console.log(error)
@@ -267,14 +271,6 @@ const EducationForm = ({ type, lesson }: Props) => {
           }
         }
       }
-
-      const { data: profileData, error: profileError } = await supabase
-        .from("profiles")
-        .update({ is_teacher: true })
-        .eq("id", user.id)
-
-      console.log("profileData", profileData)
-      console.log("profileError", profileError)
 
       await queryClient.invalidateQueries({ queryKey: ["lessons"] })
       successToast("레슨이 등록되었습니다.")
@@ -323,7 +319,7 @@ const EducationForm = ({ type, lesson }: Props) => {
           phone: payload.phone,
           locations: selectedRegionList,
           majors: selectedMajorList,
-          degrees,
+          degrees: selectedDegreeList,
         }
 
         try {
