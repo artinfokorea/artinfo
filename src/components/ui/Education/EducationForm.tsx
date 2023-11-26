@@ -258,18 +258,11 @@ const EducationForm = ({ type, lesson }: Props) => {
           degrees: selectedDegreeList,
         }
 
-        try {
-          await apiRequest.post("/lessons", formData)
-          await supabase
-            .from("profiles")
-            .update({ is_teacher: true })
-            .eq("id", user.id)
-        } catch (error) {
-          if (error) {
-            console.log(error)
-            errorToast("레슨 등록에 실패했습니다.")
-          }
-        }
+        await apiRequest.post("/lessons", formData)
+        await supabase
+          .from("profiles")
+          .update({ is_teacher: true })
+          .eq("id", user.id)
       }
 
       await queryClient.invalidateQueries({ queryKey: ["lessons"] })
@@ -277,8 +270,8 @@ const EducationForm = ({ type, lesson }: Props) => {
       console.log("SUCCESS!")
       router.replace("/educations")
     } catch (error: any) {
-      errorToast(error.message)
-      console.error(error)
+      errorToast("레슨 등록에 실패했습니다.")
+      console.error(error.message)
     } finally {
       setIsLoading(false)
     }
@@ -322,14 +315,7 @@ const EducationForm = ({ type, lesson }: Props) => {
           degrees: selectedDegreeList,
         }
 
-        try {
-          await apiRequest.put("/lessons", formData)
-        } catch (error) {
-          if (error) {
-            console.log(error)
-            errorToast("레슨 수정에 실패했습니다.")
-          }
-        }
+        await apiRequest.post("/lessons", formData)
       }
 
       await queryClient.invalidateQueries({ queryKey: ["lessons"] })
@@ -339,8 +325,8 @@ const EducationForm = ({ type, lesson }: Props) => {
 
       router.replace("/educations")
     } catch (error: any) {
-      errorToast(error.message)
-      console.error(error)
+      errorToast("레슨 수정에 실패했습니다.")
+      console.error(error.message)
     } finally {
       setIsLoading(true)
     }
