@@ -43,8 +43,8 @@ export const apiRequest: ApiRequestMethods = {
     console.log("🧸 put", { url, body })
     return baseInstance.put(url, body)
   },
-  delete: (url, config) => {
-    console.log("🧸 delete", { url, config })
-    return baseInstance.delete(url, config)
+  delete: (url, id) => {
+    console.log("🧸 delete", { url, id })
+    return baseInstance.delete(`${url}/${id}`)
   },
 }

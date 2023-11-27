@@ -9,9 +9,9 @@ import EducationContainer from "@/components/ui/Education/EducationContainer"
 import RegionSelect from "@/components/common/RegionSelect"
 import EducationSearchForm from "@/components/ui/Education/EducationSearchForm"
 import MajorSelect from "@/components/common/MajorSelect"
-import LocationTag from "@/components/common/LocationTag"
 import FilterTag from "@/components/common/FilterTag"
 import { useRouter } from "next/navigation"
+import { getUser } from "@/apis/user"
 
 const page = () => {
   const [isTeacher, setIsTeacher] = useState<boolean>(false)
@@ -102,11 +102,9 @@ const page = () => {
 
   useEffect(() => {
     if (user) {
-      fetchUserLesson(user.id)
-        .then(res => setUserLessonId(res.id))
-        .catch(err => {
-          console.log("err", err)
-        })
+      getUser(user.id)
+        .then((res: any) => setUserLessonId(res.lessonId))
+        .catch(err => console.log("err", err))
     }
   }, [isTeacher])
 

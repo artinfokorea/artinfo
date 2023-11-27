@@ -14,7 +14,7 @@ import * as yup from "yup"
 import React, { useState, useMemo, useEffect, useRef, Fragment } from "react"
 import RegionSelect from "@/components/common/RegionSelect"
 import { RegionData } from "@/lib/regions"
-import { useRouter } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import FileUploader from "@/components/common/FileUploader"
@@ -95,6 +95,7 @@ const EducationForm = ({ type, lesson }: Props) => {
   )
   const [isOpenModal, setIsOpenModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const params = useParams()
 
   const openFileUploader = () => {
     fileUploader.current?.click()
@@ -315,7 +316,7 @@ const EducationForm = ({ type, lesson }: Props) => {
           degrees: selectedDegreeList,
         }
 
-        await apiRequest.post("/lessons", formData)
+        await apiRequest.put(`/lessons/${params.id}`, formData)
       }
 
       await queryClient.invalidateQueries({ queryKey: ["lessons"] })
@@ -347,8 +348,8 @@ const EducationForm = ({ type, lesson }: Props) => {
   }
 
   const deleteLessonMutation = useMutation({
-    mutationFn: async (lessonId: number) => {
-      return apiRequest.delete("/lessons", lessonId)
+    mutationFn: async () => {
+      return apiRequest.delete(`/lessons`, params.id)
     },
     onError: (error: any) => {
       errorToast(error.message)
@@ -361,7 +362,7 @@ const EducationForm = ({ type, lesson }: Props) => {
   })
 
   const handleDeleteLesson = () => {
-    if (type === "update" && lesson) deleteLessonMutation.mutate(lesson.id)
+    if (type === "update" && lesson) deleteLessonMutation.mutate()
   }
 
   return (
