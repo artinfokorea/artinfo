@@ -9,9 +9,9 @@ export default function ToasterProvider({
   children: React.ReactNode
 }) {
   return (
-    <div>
+    <>
       {children}
       <Toaster />
-    </div>
+    </>
   )
 }
