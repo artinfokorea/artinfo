@@ -40,6 +40,8 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
     queryFn: () => fetchConcert(pageId),
   })
 
+  console.log("concert", concert)
+
   const isMobile = isMobileWeb()
   const { user } = useAuth()
   const filters = useFilters()
@@ -96,7 +98,7 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
   return (
     <div className="">
       {pageType === "read" ? (
-        <div className="sm:container mx-auto mt-4 ">
+        <div className="sm:container mx-auto mt-4 h-screen">
           <h2 className="text-2xl font-semi-bold px-2" id="top">
             {concert?.title}
           </h2>
@@ -165,7 +167,7 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
           </div>
 
           {pageType === "read" && (
-            <section className="mt-10">
+            <section className="mt-10 pb-20">
               {concert?.contents && (
                 <div
                   className="w-10/12 mx-auto"
