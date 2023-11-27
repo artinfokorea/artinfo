@@ -258,7 +258,7 @@ export default function Container() {
   }
 
   return (
-    <div ref={containerEl} className="mx-auto max-w-screen-lg lg:px-0 h-screen">
+    <div ref={containerEl} className="mx-auto max-w-screen-lg lg:px-0 ">
       <BannerContainer />
       <div className="flex my-2">
         <div className="flex-1 overflow-hidden" id="top">

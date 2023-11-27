@@ -20,5 +20,5 @@ export default function EducationsLayout({
 }: {
   children: React.ReactNode
 }) {
-  return <div>{children}</div>
+  return <div className="h-full">{children}</div>
 }
