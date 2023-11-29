@@ -4,6 +4,7 @@ import { getArtistList } from "@/apis/artist"
 import { ARTIST } from "@/types/types"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import React from "react"
+import Link from "next/link"
 import ArtistsCard from "./ArtistCard"
 
 const ArtistsContainer = () => {
@@ -39,7 +40,9 @@ const ArtistsContainer = () => {
         {data?.pages.map(
           page =>
             page?.artists.map((artist: ARTIST) => (
-              <ArtistsCard key={artist.id} artist={artist} />
+              <Link href={`/artists/${artist.id}`} key={artist.id}>
+                <ArtistsCard key={artist.id} artist={artist} />
+              </Link>
             )),
         )}
       </div>
