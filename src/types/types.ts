@@ -486,3 +486,14 @@ export const DEGREE_VALUES = {
   BACHELOR: "학사",
   DOCTOR: "박사",
 }
+
+/*
+ * --------------------------------------------------- ARTIST ---------------------------------------------------------
+ */
+
+export type ARTIST = {
+  id: number
+  koreanName: string
+  englishName: string
+  mainImageUrl: string
+}
