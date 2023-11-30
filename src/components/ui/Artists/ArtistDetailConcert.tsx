@@ -1,10 +1,10 @@
 import React from "react"
 import { useParams } from "next/navigation"
-import { useDidUpdate } from "@toss/react"
-import { useInView } from "react-intersection-observer"
 import { getConcertsByArtist } from "@/apis/concert"
 import { useQuery } from "@tanstack/react-query"
 import Link from "next/link"
+import ArtistConcerCard from "./ArtistConcerCard"
+import { CONCERT } from "@/types/types"
 
 const ArtistDetailConcert = () => {
   const params = useParams()
@@ -15,16 +15,7 @@ const ArtistDetailConcert = () => {
     queryFn: () => getConcertsByArtist(Number(params.id)),
   })
 
-  const [ref, inView] = useInView({
-    delay: 300,
-    threshold: 1,
-  })
-
-  //   useDidUpdate(() => {
-  //     if (inView && hasNextPage) {
-  //       fetchNextPage()
-  //     }
-  //   }, [inView, hasNextPage])
+  console.log("concerts", concerts)
 
   return (
     <div id="top">
@@ -38,20 +29,17 @@ const ArtistDetailConcert = () => {
           <ConcertSkeleton />
         </div>
       )} */}
-      {/* <div className="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-5 gap-4 mb-2">
-        {data?.pages.map(
-          page =>
-            page?.concerts?.map((concert: any) => (
-              <Link
-                key={concert.id}
-                href={`/concerts/${concert.id}`}
-                prefetch={false}
-              >
-                <ConcertCard item={concert} />
-              </Link>
-            )),
-        )}
-      </div> */}
+      <div className="flex flex-col mb-2">
+        {concerts?.map((concert: CONCERT) => (
+          <Link
+            key={concert.id}
+            href={`/concerts/${concert.id}`}
+            prefetch={false}
+          >
+            <ArtistConcerCard concert={concert} />
+          </Link>
+        ))}
+      </div>
     </div>
   )
 }

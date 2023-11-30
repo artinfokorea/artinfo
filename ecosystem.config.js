@@ -4,7 +4,7 @@ module.exports = {
       name: "artinfo-frontend@main",
       exec_mode: "cluster",
       instances: "2",
-      script: "yarn",
+      script: "npm",
       args: "start",
     },
   ],
