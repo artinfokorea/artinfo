@@ -2,9 +2,9 @@ import React from "react"
 import { useParams } from "next/navigation"
 import { getConcertsByArtist } from "@/apis/concert"
 import { useQuery } from "@tanstack/react-query"
+import { CONCERT } from "@/types/types"
 import Link from "next/link"
 import ArtistConcerCard from "./ArtistConcerCard"
-import { CONCERT } from "@/types/types"
 
 const ArtistDetailConcert = () => {
   const params = useParams()
@@ -30,15 +30,20 @@ const ArtistDetailConcert = () => {
         </div>
       )} */}
       <div className="flex flex-col mb-2">
-        {concerts?.map((concert: CONCERT) => (
-          <Link
-            key={concert.id}
-            href={`/concerts/${concert.id}`}
-            prefetch={false}
-          >
-            <ArtistConcerCard concert={concert} />
-          </Link>
-        ))}
+        {concerts?.map((concert: CONCERT) => {
+          if (concert.isActive) {
+            return (
+              <Link
+                key={concert.id}
+                href={`/concerts/${concert.id}`}
+                prefetch={false}
+              >
+                <ArtistConcerCard concert={concert} />
+              </Link>
+            )
+          }
+          return <ArtistConcerCard key={concert.id} concert={concert} />
+        })}
       </div>
     </div>
   )
