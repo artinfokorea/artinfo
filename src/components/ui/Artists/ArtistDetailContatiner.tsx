@@ -3,6 +3,7 @@
 import React, { Fragment } from "react"
 import { Tab } from "@headlessui/react"
 import ArtistDetailFeed from "./ArtistDetailFeed"
+import ArtistDetailConcert from "./ArtistDetailConcert"
 
 const tabList = ["피드", "공연", "영상"]
 
@@ -33,7 +34,9 @@ const ArtistDetailContatiner = () => {
           <Tab.Panel>
             <ArtistDetailFeed />
           </Tab.Panel>
-          <Tab.Panel>Tab 2 content</Tab.Panel>
+          <Tab.Panel>
+            <ArtistDetailConcert />
+          </Tab.Panel>
           <Tab.Panel>Tab 3 content</Tab.Panel>
         </Tab.Panels>
       </Tab.Group>

@@ -3,8 +3,11 @@ import { Feed } from "@/types/types"
 import { useParams } from "next/navigation"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import WriteFeedCard from "@/components/common/WriteFeedCard"
-import React from "react"
+import React, { useRef, useEffect } from "react"
+import { useInView } from "react-intersection-observer"
+import { useDidUpdate } from "@toss/react"
 import { PostCard } from "../Post/PostCard"
+import FeedSkeleton from "../Skeleton/FeedSkeleton"
 
 const ArtistDetailFeed = () => {
   const params = useParams()
@@ -17,6 +20,7 @@ const ArtistDetailFeed = () => {
       isLast: response.length < 10,
     }
   }
+
   const {
     data: feedsData,
     hasNextPage,
@@ -36,6 +40,17 @@ const ArtistDetailFeed = () => {
     refetchOnWindowFocus: true,
   })
 
+  const [ref, inView] = useInView({
+    delay: 300,
+    threshold: 0.3,
+  })
+
+  useDidUpdate(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage()
+    }
+  }, [inView, hasNextPage])
+
   const handleUpdatePostLike = () => {}
   const handleDeleteFeed = () => {}
 
@@ -44,6 +59,15 @@ const ArtistDetailFeed = () => {
       <div className="mt-2">
         <WriteFeedCard artistId={Number(params.id)} />
       </div>
+      {isLoading && (
+        <>
+          <FeedSkeleton />
+          <FeedSkeleton />
+          <FeedSkeleton />
+          <FeedSkeleton />
+          <FeedSkeleton />
+        </>
+      )}
 
       {feedsData?.pages.map(group => (
         <div key={group.nextPage}>
@@ -60,6 +84,7 @@ const ArtistDetailFeed = () => {
           ))}
         </div>
       ))}
+      <div ref={ref} className="h-4" />
     </div>
   )
 }

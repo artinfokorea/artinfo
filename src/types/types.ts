@@ -497,3 +497,15 @@ export type ARTIST = {
   englishName: string
   mainImageUrl: string
 }
+
+/*
+ * --------------------------------------------------- CONCERT ---------------------------------------------------------
+ */
+
+export type CONCERT = {
+  id: number
+  title: string
+  location: string
+  performanceTime: string
+  isActive: boolean
+}

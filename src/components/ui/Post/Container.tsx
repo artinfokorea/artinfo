@@ -26,8 +26,6 @@ import { useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import { PostCard } from "./PostCard"
 import AdContainer from "../Home/ad/AdContainer"
-import FeedSkeleton from "../Skeleton/FeedSkeleton"
-import LessonSlide from "../Home/Lesson/LessonSlide"
 import BannerContainer from "../Banner/BannerContainer"
 
 function ProfileCard() {
@@ -100,7 +98,7 @@ function AdSection() {
 export default function Container() {
   const queryClient = useQueryClient()
   const { user } = useAuth()
-  const [isMounted, setIsMounted] = useState(false)
+
   const { successToast, errorToast } = useToast()
   const containerEl = useRef<HTMLDivElement>(null)
   const router = useRouter()
@@ -144,10 +142,6 @@ export default function Container() {
       fetchNextPage()
     }
   }, [inView, hasNextPage])
-
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
 
   const handleScroll = () => {
     const element = document.getElementById("top")
