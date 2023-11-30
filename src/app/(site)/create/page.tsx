@@ -188,9 +188,6 @@ export default function CreatePost() {
         <div className="flex-1 flex flex-col overflow-hidden mt-4">
           {artist ? (
             <div className="py-4 mb-2 border-t border-gray-300">
-              <span className="text-xl font-semibold text-darkgrey">
-                태그선택
-              </span>
               <div className="flex flex-wrap gap-2 mt-2">
                 <Button className="rounded-full" size="md" variant="filled">
                   {artist.koreanName}
