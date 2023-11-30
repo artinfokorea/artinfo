@@ -42,7 +42,7 @@ export default function ConcertCard({ item }: IProps) {
         )}
         {item.poster_url && (
           <Image
-            src={`${item.poster_url}`}
+            src={item.poster_url}
             alt="concert_image"
             sizes="250px, 250px"
             fill

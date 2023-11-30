@@ -509,3 +509,15 @@ export type CONCERT = {
   performanceTime: string
   isActive: boolean
 }
+
+/*
+ * --------------------------------------------------- YOUTUBE ---------------------------------------------------------
+ */
+
+export type YOUTUBE = {
+  id: number
+  artistName: string
+  title: string
+  linkUrl: string
+  publishedAt: string
+}

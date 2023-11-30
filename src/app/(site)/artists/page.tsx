@@ -3,7 +3,7 @@ import React from "react"
 
 const page = () => {
   return (
-    <div className="sm:container mx-auto mt-4 px-4">
+    <div className="max-w-screen-lg mx-auto mt-4 px-4">
       <ArtistsContainer />
     </div>
   )

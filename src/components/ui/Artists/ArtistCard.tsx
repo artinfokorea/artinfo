@@ -29,6 +29,7 @@ const ArtistCard = ({ artist }: IProps) => {
             sizes="250px, 250px"
             fill
             priority
+            unoptimized
             quality={100}
             onLoad={handleImageLoad}
             className="rounded-t-2xl"

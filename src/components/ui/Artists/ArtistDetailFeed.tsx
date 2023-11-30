@@ -56,7 +56,7 @@ const ArtistDetailFeed = () => {
 
   return (
     <div>
-      <div className="mt-2">
+      <div>
         <WriteFeedCard artistId={Number(params.id)} />
       </div>
       {isLoading && (

@@ -15,13 +15,13 @@ interface Props {
 const ArtistConcerCard = ({ concert }: Props) => {
   const filters = useFilters()
   return (
-    <section className="card flex m-4">
+    <section className="card flex p-4 my-1 bg-white">
+      <div className="flex flex-col flex-1 ml-4 text-primary justify-center">
+        <span className="font-semibold break-keep">{concert.title}</span>
+        <span className="text-xs">{concert.location}</span>
+      </div>
       <div className="flex items-center opacity-70">
         {filters.YYYYMMDD(concert.performanceTime)}
-      </div>
-      <div className="flex flex-col flex-1 ml-4 text-primary">
-        <span className="font-semibold">{concert.title}</span>
-        <span className="text-xs">{concert.location}</span>
       </div>
     </section>
   )

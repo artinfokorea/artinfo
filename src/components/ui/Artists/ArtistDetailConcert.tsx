@@ -4,18 +4,18 @@ import { getConcertsByArtist } from "@/apis/concert"
 import { useQuery } from "@tanstack/react-query"
 import { CONCERT } from "@/types/types"
 import Link from "next/link"
+import useFilters from "@/hooks/useFilters"
 import ArtistConcerCard from "./ArtistConcerCard"
 
 const ArtistDetailConcert = () => {
   const params = useParams()
+  const filters = useFilters()
 
   const { data: concerts } = useQuery({
     queryKey: ["artist_concerts", params.id],
     suspense: false,
     queryFn: () => getConcertsByArtist(Number(params.id)),
   })
-
-  console.log("concerts", concerts)
 
   return (
     <div id="top">

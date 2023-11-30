@@ -23,10 +23,11 @@ export const getArtistList = async ({
   }
 }
 
-// export const getLesson = async (id: number) => {
-//   try {
-//     const response = await apiRequest.get<LESSON>(`/lessons/${id}`)
-//     return response
-//   } catch (error) {
-//     throw new Error(exceptionHandler(error, "API getLesson error"))
-//   }
+export const getArtist = async (id: number) => {
+  try {
+    const response = await apiRequest.get<ARTIST>(`/artists/${id}`)
+    return response
+  } catch (error) {
+    throw new Error(exceptionHandler(error, "API getArtist error"))
+  }
+}

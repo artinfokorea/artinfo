@@ -26,27 +26,27 @@ export async function fetchConcerts(
   return data
 }
 
-export async function fetchConcertsByArtist(
-  page_number: number,
-  artistId: number,
-) {
-  const item_count = 12
-  const supabase = useSupabase()
-  const { data, error } = await supabase
-    .from("concerts")
-    .select("*, artists(id,korean_name,english_name,main_image_url)")
-    .eq("artist_id", artistId)
-    .order("created_at", {
-      ascending: false,
-    })
-    .limit(item_count)
-    .range((page_number - 1) * item_count, page_number * item_count - 1)
+// export async function fetchConcertsByArtist(
+//   page_number: number,
+//   artistId: number,
+// ) {
+//   const item_count = 12
+//   const supabase = useSupabase()
+//   const { data, error } = await supabase
+//     .from("concerts")
+//     .select("*, artists(id,korean_name,english_name,main_image_url)")
+//     .eq("artist_id", artistId)
+//     .order("created_at", {
+//       ascending: false,
+//     })
+//     .limit(item_count)
+//     .range((page_number - 1) * item_count, page_number * item_count - 1)
 
-  if (error) {
-    throw error
-  }
-  return data
-}
+//   if (error) {
+//     throw error
+//   }
+//   return data
+// }
 
 export async function fetchConcert(id: number): Promise<IConcert> {
   const supabase = useSupabase()
