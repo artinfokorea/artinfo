@@ -10,10 +10,12 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import "swiper/css"
 import { Pagination } from "swiper/modules"
 import { XMarkIcon } from "@heroicons/react/24/outline"
-import { useQueryClient } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useMemo, useRef, useState } from "react"
+import { getArtist } from "@/apis/artist"
+import Image from "next/image"
 
 export default function CreatePost() {
   const queryClient = useQueryClient()
@@ -28,6 +30,15 @@ export default function CreatePost() {
   const [content, setContent] = useState<string>("")
   const [uploadedImages, setUploadedImages] = useState<File[]>([])
   const fileUploader = useRef<HTMLInputElement>(null)
+  const searchParams = useSearchParams()
+  const artistId = searchParams.get("artistId")
+
+  const { data: artist } = useQuery({
+    queryKey: ["artist", artistId],
+    suspense: false,
+    enabled: !!artistId,
+    queryFn: () => getArtist(Number(artistId)),
+  })
 
   const handleUploadedFiles = (files: File[]) => {
     setUploadedImages(files)
@@ -44,11 +55,15 @@ export default function CreatePost() {
     setIsLoading(true)
 
     try {
-      const formData = {
+      const formData: any = {
         profile_id: user.id,
-        category,
         title,
         content,
+      }
+      if (artistId) {
+        formData.artist_id = artistId
+      } else {
+        formData.category = category
       }
       const { data, error } = await supabase
         .from("feeds")
@@ -171,22 +186,37 @@ export default function CreatePost() {
         </div>
 
         <div className="flex-1 flex flex-col overflow-hidden mt-4">
-          <div className="py-4 border-t border-gray-300">
-            태그선택
-            <div className="flex flex-wrap gap-2 mt-2">
-              {tags.map(ctag => (
-                <Button
-                  key={ctag.title}
-                  className="rounded-full"
-                  size="sm"
-                  variant={category === ctag.value ? "filled" : "outlined"}
-                  onClick={() => setCategory(ctag.value as any)}
-                >
-                  {ctag.title}
+          {artist ? (
+            <div className="py-4 mb-2 border-t border-gray-300">
+              <span className="text-xl font-semibold text-darkgrey">
+                태그선택
+              </span>
+              <div className="flex flex-wrap gap-2 mt-2">
+                <Button className="rounded-full" size="md" variant="filled">
+                  {artist.koreanName}
                 </Button>
-              ))}
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="py-4 border-t border-gray-300">
+              <span className="text-xl font-medium text-darkgrey">
+                태그선택
+              </span>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {tags.map(ctag => (
+                  <Button
+                    key={ctag.title}
+                    className="rounded-full"
+                    size="sm"
+                    variant={category === ctag.value ? "filled" : "outlined"}
+                    onClick={() => setCategory(ctag.value as any)}
+                  >
+                    {ctag.title}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          )}
           <div className="pb-2 border-b border-gray-300">
             <InputCounter
               currentLength={title?.length || 0}

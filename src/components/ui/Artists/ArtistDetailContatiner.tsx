@@ -27,8 +27,6 @@ const ArtistDetailContatiner = () => {
     setIsLoading(false)
   }
 
-  console.log("artist", artist)
-
   return (
     <div className="max-w-screen-lg mx-auto">
       <div className="h-[400px] md:h-[600px] relative">

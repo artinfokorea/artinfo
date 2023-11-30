@@ -14,7 +14,7 @@ const ArtistDetailYoutube = () => {
     queryFn: () => getYoutubeListByArtist(Number(params.id)),
   })
 
-  console.log("youtubes", youtubes)
+  // console.log("youtubes", youtubes)
 
   return (
     <div>
