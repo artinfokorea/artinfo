@@ -13,7 +13,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/material"
-import { FEED_CATEGORIES, Feed } from "@/types/types"
+import { FEED, FEED_CATEGORIES, Feed } from "@/types/types"
 import useFilters from "@/hooks/useFilters"
 import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
@@ -60,14 +60,14 @@ type SitePreviewMetaType = {
 }
 
 interface IProps {
-  feed: Feed
+  feed: FEED
   showCommentBtn?: boolean
   shortContent?: boolean
   handleUpdatePostLike: (payload: { like: boolean; post_id: number }) => void
   handleDeleteFeed: (id: number) => void
 }
 
-export function PostCard({
+export function ArtistFeedCard({
   feed,
   showCommentBtn = false,
   shortContent = false,
@@ -85,7 +85,8 @@ export function PostCard({
   })
   const { successToast, errorToast } = useToast()
   const filters = useFilters()
-  const images = feed.image_urls?.length ? feed.image_urls : null
+  const images =
+    feed.imageUrls && feed.imageUrls.length > 0 ? feed.imageUrls : null
   const { getLocalData, setLocalData } = useLocalforge()
 
   const fetchSiteData = async (url: string) => {
@@ -107,15 +108,15 @@ export function PostCard({
   }
 
   useEffect(() => {
-    const siteUrl = filters.EXTRACT_URL(feed.content)
+    const siteUrl = filters.EXTRACT_URL(feed.contents)
 
     if (siteUrl) {
       fetchSiteData(siteUrl)
     }
-  }, [feed.content])
+  }, [feed.contents])
 
   const handleCopyClipboard = async () => {
-    const shareUrl = `https://${window.location.host}/posts/${feed.id}`
+    const shareUrl = `https://${window.location.host}/artists/${feed.feedId}`
     const isSuccess = await clipboard.writeText(shareUrl)
     if (isSuccess) {
       successToast("공유할 포스트 URL을 클립보드에 복사했어요!")
@@ -130,29 +131,21 @@ export function PostCard({
     }
 
     handleUpdatePostLike({
-      like: !feed.like,
-      post_id: feed.id,
+      like: !feed.isLiking,
+      post_id: feed.feedId,
     })
-  }
-
-  const handleMoveToUserProfile = () => {
-    router.push(`/profile/${feed.profile_id}`)
-  }
-
-  const handleBookmark = () => {
-    // openSnackbar("아직 지원하지 않는 기능입니다.", 2000)
   }
 
   const handleDeleteFeedItem = () => {
     setIsOpenModal(false)
-    handleDeleteFeed(feed.id)
+    handleDeleteFeed(feed.feedId)
   }
 
   return (
     <>
       <Card
         className={`transition-transform transform cursor-pointer my-2 rounded-none md:rounded-md `}
-        onClick={() => router.push(`/${feed.id}`)}
+        onClick={() => router.push(`/${feed.feedId}`)}
       >
         <CardHeader
           shadow={false}
@@ -162,23 +155,14 @@ export function PostCard({
           <Avatar
             size="md"
             variant="circular"
-            src={feed.profiles?.icon_image_url || "/img/placeholder_user.png"}
+            src={feed.authorIconImageUrl || "/img/placeholder_user.png"}
             alt="user profile"
-            onClick={handleMoveToUserProfile}
           />
-          <div
-            className="flex-1 flex flex-col"
-            onClick={handleMoveToUserProfile}
-          >
-            <div className="text-md font-semibold">{feed.profiles?.name}</div>
+          <div className="flex-1 flex flex-col">
+            <div className="text-md font-semibold">{feed.authorName}</div>
             <div className="flex items-center">
-              <div className="text-sm flex items-center">
-                {feed.category && (
-                  <PositionTag tag={FEED_CATEGORIES[feed.category!]} />
-                )}
-              </div>
-              <span className={`text-sm ${feed.category ? "ml-1" : ""}`}>
-                {filters.FROM_NOW(feed?.created_at)}
+              <span className="text-sm">
+                {filters.FROM_NOW(feed.createdAt)}
               </span>
             </div>
           </div>
@@ -204,7 +188,7 @@ export function PostCard({
                 >
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: filters.URLFY(feed.content) || "",
+                      __html: filters.URLFY(feed.contents) || "",
                     }}
                   />
                 </div>
@@ -229,11 +213,12 @@ export function PostCard({
               >
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: filters.URLFY(feed.content) || "",
+                    __html: filters.URLFY(feed.contents) || "",
                   }}
                 />
               </div>
             )}
+
             {images && (
               <div className="bg-white py-4 px-4 mt-4 drop-shadow-md shawdow-md rounded-lg overflow-x-auto">
                 <Swiper
@@ -267,7 +252,7 @@ export function PostCard({
           <div className="flex items-center">
             <button
               className={`flex items-center gap-1.5 ${
-                feed.like ? "text-red-400" : "text-white"
+                feed.isLiking ? "text-red-400" : "text-white"
               }`}
               onClick={(event: React.MouseEvent) => {
                 event.stopPropagation()
@@ -278,8 +263,8 @@ export function PostCard({
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className={`w-5 h-5 ${!feed.like && "animate-bounce"}`}
-                stroke={feed.like ? `currentColor` : "black"}
+                className={`w-5 h-5 ${!feed.isLiking && "animate-bounce"}`}
+                stroke={feed.isLiking ? `currentColor` : "black"}
               >
                 <g id="SVGRepo_bgCarrier" strokeWidth={0} />
                 <g strokeLinecap="round" strokeLinejoin="round" />
@@ -292,18 +277,18 @@ export function PostCard({
               </svg>
               <span className="mt-1 text-sm font-semibold text-black">
                 {/* 좋아요 */}
-                {feed.count_of_likes}
+                {feed.countOfLikes}
               </span>
             </button>
             {showCommentBtn && (
               <button
                 className="ml-2 flex items-center gap-1.5"
-                onClick={() => router.push(`/posts/${feed.id}`)}
+                onClick={() => router.push(`/posts/${feed.feedId}`)}
               >
                 <ChatBubbleLeftEllipsisIcon className="w-6" />
                 <span className="mt-1 text-sm font-semibold text-black">
                   {/* 댓글수 */}
-                  {feed.count_of_comments}
+                  {feed.countOfComments}
                 </span>
               </button>
             )}
@@ -319,10 +304,7 @@ export function PostCard({
             >
               <ShareIcon className="w-5" />
             </button>
-            {/* <button onClick={handleBookmark}>
-              <BookmarkIcon className="w-5" />
-            </button> */}
-            {user?.id === feed.profile_id && (
+            {user?.id === feed.authorId && (
               <button
                 onClick={(event: React.MouseEvent) => {
                   event.stopPropagation()

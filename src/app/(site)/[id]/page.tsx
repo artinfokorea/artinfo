@@ -1,9 +1,7 @@
 import { Suspense } from "react"
 import { Metadata } from "next/types"
-import SupabaseServer from "@/lib/supabase-server"
+import { getFeed } from "@/apis/feed"
 import Loading from "@/components/ui/Loading/Loading"
-import { Hydrate, dehydrate } from "@tanstack/react-query"
-import GetQueryClient from "@/app/GetQueryClient"
 import Container from "./Container"
 
 type Props = {
@@ -16,20 +14,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = params
 
   // fetch data
-  const supabase = SupabaseServer()
-  const { data, error } = await supabase
-    .rpc("get_feed", {
-      feed_id: Number(id),
-    })
-    .single()
+  // const supabase = SupabaseServer()
+  // const { data, error } = await supabase
+  //   .rpc("get_feed", {
+  //     feed_id: Number(id),
+  //   })
+  //   .single()
+  const response = await getFeed(Number(id))
 
-  if (error) {
+  if (!response) {
     return {}
   }
 
-  const pageTitle = (data?.title || data?.content || "").substring(0, 35)
-  const pageDesc = (data?.content || "").substring(0, 100)
-  const pageImages = data?.image_urls?.map(img => ({
+  // if (error) {
+  //   return {}
+  // }
+
+  const pageTitle = (response?.title || response?.contents || "").substring(
+    0,
+    35,
+  )
+  const pageDesc = (response?.contents || "").substring(0, 100)
+  const pageImages = response?.imageUrls?.map(img => ({
     url: img,
   }))
 
@@ -54,30 +60,30 @@ export default async function PostDetail({
 }: {
   params: { id: string }
 }) {
-  const supabase = SupabaseServer()
+  // const supabase = SupabaseServer()
 
-  const queryClient = GetQueryClient()
-  await queryClient.prefetchQuery(["feed", params.id], async () => {
-    const { data, error } = await supabase
-      .rpc("get_feed", {
-        feed_id: Number(params.id),
-      })
-      .single()
-    if (error) throw error
+  // const queryClient = GetQueryClient()
+  // await queryClient.prefetchQuery(["feed", params.id], async () => {
+  //   const { data, error } = await supabase
+  //     .rpc("get_feed", {
+  //       feed_id: Number(params.id),
+  //     })
+  //     .single()
+  //   if (error) throw error
 
-    await supabase.rpc("increment_feed_view", {
-      feed_id: Number(params.id),
-    })
-    return data
-  })
-  const dehydratedState = dehydrate(queryClient)
+  //   await supabase.rpc("increment_feed_view", {
+  //     feed_id: Number(params.id),
+  //   })
+  //   return data
+  // })
+  // const dehydratedState = dehydrate(queryClient)
 
   return (
     <div className="mx-auto max-w-screen-lg">
       <Suspense fallback={<Loading />}>
-        <Hydrate state={dehydratedState}>
-          <Container pageId={params.id} />
-        </Hydrate>
+        {/* <Hydrate state={dehydratedState}> */}
+        <Container pageId={params.id} />
+        {/* </Hydrate> */}
       </Suspense>
     </div>
   )

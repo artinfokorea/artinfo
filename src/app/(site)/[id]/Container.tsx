@@ -12,15 +12,15 @@ import { notFound, useRouter } from "next/navigation"
 import dynamic from "next/dynamic"
 import { isMobileWeb } from "@toss/utils"
 import useToast from "@/hooks/useToast"
+import { getFeed } from "@/apis/feed"
+import { ArtistFeedCard } from "@/components/ui/Artists/ArtistFeedCard"
 import {
   createComment,
   deleteComment,
   deleteFeed,
   fetchComments,
-  fetchFeed,
   updatePostLike,
 } from "@/app/Api"
-import { PostCard } from "../../../components/ui/Post/PostCard"
 import {
   CommentContainer,
   CommentForm,
@@ -45,9 +45,9 @@ export default function Container({ pageId }: IProps) {
   const router = useRouter()
 
   const { data: feed } = useQuery({
-    queryKey: ["feed", pageId],
+    queryKey: ["artist_feed", pageId],
     suspense: true,
-    queryFn: () => fetchFeed(Number(pageId)),
+    queryFn: () => getFeed(Number(pageId), user?.id),
   })
 
   if (!feed) {
@@ -160,19 +160,20 @@ export default function Container({ pageId }: IProps) {
       return updatePostLike(payload)
     },
     onMutate: updateLike => {
-      queryClient.setQueryData(["feed", pageId], (old: any) => {
+      queryClient.setQueryData(["artist_feed", pageId], (old: any) => {
         const feed = old
-
+        feed.isLiking = updateLike.like
         if (updateLike.like) {
-          feed.count_of_likes += 1
+          feed.countOfLikes += 1
         } else {
-          feed.count_of_likes -= 1
+          feed.countOfLikes -= 1
         }
         return {
           ...feed,
           like: updateLike.like,
         }
       })
+      queryClient.invalidateQueries(["artist_feeds"])
     },
   })
 
@@ -191,7 +192,7 @@ export default function Container({ pageId }: IProps) {
       errorToast(error.message)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["feeds"])
+      queryClient.invalidateQueries(["artist_feeds"])
       successToast("댓글이 삭제되었습니다.")
     },
   })
@@ -203,7 +204,7 @@ export default function Container({ pageId }: IProps) {
 
   return (
     <div className="pb-8 relative">
-      <PostCard
+      <ArtistFeedCard
         feed={feed as any}
         handleUpdatePostLike={handleUpdatePostLike}
         handleDeleteFeed={handleDeleteFeed}
@@ -266,7 +267,7 @@ export default function Container({ pageId }: IProps) {
       </div>
       {isMobile && (
         <div className="fixed bottom-32 right-3">
-          <ListButton list="posts" />
+          <ListButton list="artists" />
         </div>
       )}
     </div>

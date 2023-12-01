@@ -23,7 +23,7 @@ const ArtistYoutbeCard = ({ youtube }: Props) => {
 
   return (
     <Link href={youtube.linkUrl} target="_blank">
-      <div className="flex mb-4 h-32 md:h-60">
+      <div className="flex mb-4 h-24 md:h-60">
         {isMounted && (
           <div className="w-36 md:w-80">
             <ReactPlayer
@@ -34,13 +34,13 @@ const ArtistYoutbeCard = ({ youtube }: Props) => {
             />
           </div>
         )}
-        <div className="flex flex-col justify-center ml-4 md:ml-8 text-primary">
-          <span className=" text-ellipsis line-clamp-1 font-bold ">
-            {isMobile ? youtube.title.substring(0, 20) : youtube.title}
+        <div className="flex flex-col justify-center ml-4 md:ml-8 text-primary w-1/2">
+          <span className=" text-ellipsis line-clamp-1 font-bold text-base md:text-xl">
+            {youtube.title}
           </span>
-          <div className="flex opacity-75 font-bold mt-1">
-            <span className="text-sm">{youtube.artistName}</span>
-            <span className="text-sm ml-4 ">
+          <div className="flex opacity-75 font-bold mt-1 text-sm md:text-base">
+            <span>{youtube.artistName}</span>
+            <span className="ml-4 ">
               {filters.YYYYMMDD(youtube.publishedAt)}
             </span>
           </div>

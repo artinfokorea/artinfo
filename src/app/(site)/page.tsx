@@ -1,5 +1,3 @@
-import { Suspense } from "react"
-import Loading from "@/components/common/Loading"
 import Container from "../../components/ui/Post/Container"
 
 export const revalidate = 10 // revalidate this page every 60 seconds

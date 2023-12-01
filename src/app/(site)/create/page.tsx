@@ -16,6 +16,9 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { getArtist } from "@/apis/artist"
 import Image from "next/image"
+import { createFeed } from "@/apis/feed"
+import { FEED } from "@/types/types"
+import useToast from "@/hooks/useToast"
 
 export default function CreatePost() {
   const queryClient = useQueryClient()
@@ -32,6 +35,7 @@ export default function CreatePost() {
   const fileUploader = useRef<HTMLInputElement>(null)
   const searchParams = useSearchParams()
   const artistId = searchParams.get("artistId")
+  const { errorToast } = useToast()
 
   const { data: artist } = useQuery({
     queryKey: ["artist", artistId],
@@ -55,36 +59,23 @@ export default function CreatePost() {
     setIsLoading(true)
 
     try {
-      const formData: any = {
-        profile_id: user.id,
-        title,
-        content,
-      }
-      if (artistId) {
-        formData.artist_id = artistId
-      } else {
-        formData.category = category
-      }
-      const { data, error } = await supabase
-        .from("feeds")
-        .insert({ ...formData })
-        .select("id")
-        .single()
+      // const { data, error } = await supabase
+      //   .from("feeds")
+      //   .insert({ ...formData })
+      //   .select("id")
+      //   .single()
 
-      if (error) {
-        throw error
-      }
+      // if (error) {
+      //   throw error
+      // }
 
       // upload file
-      const postId = data.id
-
-      if (uploadedImages.length > 0 && postId) {
-        const fileUrls: string[] = []
-
+      const fileUrls: string[] = []
+      if (uploadedImages.length > 0) {
         for await (const uploadedImage of uploadedImages) {
           const filename = new Date().getTime().toString()
           const extension = uploadedImage.name.split(".")[1]
-          const path = `posts/${postId}/${filename}.${extension}`
+          const path = `posts/${user.id}/${filename}.${extension}`
           const { error: uploadError, data } = await supabase.storage
             .from("artinfo")
             .upload(path, uploadedImage, {
@@ -98,24 +89,28 @@ export default function CreatePost() {
           const fileUrl = `https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/${data.path}`
           fileUrls.push(fileUrl)
         }
-
-        const { error: updateError, data: updateData } = await supabase
-          .from("feeds")
-          .update({
-            image_urls: fileUrls,
-          })
-          .eq("id", postId)
-
-        if (updateError) {
-          throw updateError
-        }
       }
+
+      const formData: any = {
+        userId: user.id,
+        title,
+        contents: content,
+        imageUrls: fileUrls,
+      }
+      if (artistId) {
+        formData.artistId = Number(artistId)
+      } else {
+        formData.category = category
+      }
+
+      await createFeed(formData)
 
       await queryClient.invalidateQueries({ queryKey: ["feeds"] })
 
       console.log("SUCCESS!")
       router.replace("/")
     } catch (error) {
+      errorToast("글 작성에 실패했습니다.")
       console.error(error)
     } finally {
       setIsLoading(false)

@@ -393,6 +393,20 @@ export type Feed = {
   // }
 } & FeedRow
 
+export type FEED = {
+  feedId: number
+  authorName: string
+  authorIconImageUrl?: string
+  authorId: string
+  title: string
+  contents: string
+  imageUrls: string[]
+  countOfLikes: number
+  countOfComments: number
+  createdAt: string
+  isLiking: boolean
+}
+
 export const FEED_CATEGORIES = {
   INFORMATION: "정보",
   RECRUIT: "채용",
