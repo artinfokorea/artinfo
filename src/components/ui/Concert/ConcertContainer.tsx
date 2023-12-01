@@ -16,7 +16,7 @@ export default function ConcertContainer() {
   const [category, selectCategory] = useState<"ALL" | CONCERT_CATEGORY>("ALL")
   const [isMounted, setIsMounted] = useState(false)
 
-  useScrollDirection()
+  // useScrollDirection()
 
   const getConcerts = async (
     category: "ALL" | CONCERT_CATEGORY,

@@ -103,7 +103,7 @@ export default function Container() {
   const containerEl = useRef<HTMLDivElement>(null)
   const router = useRouter()
 
-  useScrollDirection()
+  // useScrollDirection()
 
   const [ref, inView] = useInView({
     delay: 300,

@@ -22,7 +22,7 @@ export default function JobContainer() {
     threshold: 0.5,
   })
 
-  useScrollDirection()
+  // useScrollDirection()
 
   useEffect(() => {
     setIsMounted(true)

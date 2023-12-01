@@ -27,7 +27,7 @@ const EducationContainer = ({
     delay: 300,
     threshold: 1,
   })
-  useScrollDirection()
+  // useScrollDirection()
 
   const fetchLessons = async (
     pageParam: number,

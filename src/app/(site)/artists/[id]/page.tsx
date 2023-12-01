@@ -1,4 +1,4 @@
-import ArtistDetailContatiner from "@/components/ui/Artists/ArtistDetailContatiner"
+import ArtistDetailContatiner from "@/components/ui/Artists/ArtistDetailContainer"
 import React, { Suspense } from "react"
 
 const page = () => {
