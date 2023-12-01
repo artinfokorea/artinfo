@@ -17,7 +17,7 @@ const ArtistDetailYoutube = () => {
   // console.log("youtubes", youtubes)
 
   return (
-    <div>
+    <div className="mb-8">
       {youtubes?.map((youtube: YOUTUBE) => (
         <ArtistYoutbeCard key={youtube.id} youtube={youtube} />
       ))}

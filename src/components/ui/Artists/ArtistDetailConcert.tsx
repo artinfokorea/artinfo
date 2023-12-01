@@ -29,7 +29,7 @@ const ArtistDetailConcert = () => {
           <ConcertSkeleton />
         </div>
       )} */}
-      <div className="flex flex-col mb-2">
+      <div className="flex flex-col mb-8">
         {concerts?.map((concert: CONCERT) => {
           if (concert.isActive) {
             return (

@@ -34,7 +34,7 @@ const ArtistYoutbeCard = ({ youtube }: Props) => {
             />
           </div>
         )}
-        <div className="flex flex-col justify-center ml-4 md:ml-8 text-primary w-1/2">
+        <div className="flex flex-col justify-center ml-4 md:ml-8 text-primary w-2/3">
           <span className=" text-ellipsis line-clamp-1 font-bold text-base md:text-xl">
             {youtube.title}
           </span>
