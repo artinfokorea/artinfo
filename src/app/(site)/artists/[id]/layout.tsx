@@ -31,5 +31,5 @@ export default function ArtistLayout({
 }: {
   children: React.ReactNode
 }) {
-  return <div className="touch-auto h-full">{children}</div>
+  return <div className="touch-auto">{children}</div>
 }
