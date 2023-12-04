@@ -126,11 +126,6 @@ function ProfileMenu() {
 }
 
 const items = [
-  // {
-  //   title: "포스트",
-  //   to: "/posts",
-  //   icon: HomeIcon,
-  // },
   {
     title: "채용",
     to: "/jobs",
@@ -155,18 +150,6 @@ const items = [
     icon: MusicalNoteIcon,
     prefetch: false,
   },
-  // {
-  //   title: "이슈",
-  //   to: "/issues",
-  // },
-  // {
-  //   title: "교육",
-  //   to: "/educations",
-  // },
-  // {
-  //   title: "토론",
-  //   to: "/debates",
-  // },
   {
     title: "문의",
     to: "/inquiry",

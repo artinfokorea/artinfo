@@ -12,7 +12,7 @@ const ArtistDetailConcert = () => {
   const filters = useFilters()
 
   const { data: concerts } = useQuery({
-    queryKey: ["artist_concerts", params.id],
+    queryKey: [`artist_concerts_${params.id}`, params.id],
     suspense: false,
     queryFn: () => getConcertsByArtist(Number(params.id)),
   })

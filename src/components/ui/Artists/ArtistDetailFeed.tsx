@@ -1,4 +1,4 @@
-import { FEED, Feed } from "@/types/types"
+import { FEED } from "@/types/types"
 import { useParams } from "next/navigation"
 import {
   useQueryClient,
@@ -40,7 +40,7 @@ const ArtistDetailFeed = () => {
     fetchNextPage,
     isLoading,
   } = useInfiniteQuery({
-    queryKey: ["artist_feeds"],
+    queryKey: [`artist_feeds_${params.id}`],
     suspense: false,
     queryFn: ({ pageParam = 1 }) => {
       return getFeeds(pageParam)

@@ -9,7 +9,7 @@ const ArtistDetailYoutube = () => {
   const params = useParams()
 
   const { data: youtubes } = useQuery({
-    queryKey: ["artist_youtubes", params.id],
+    queryKey: [`artist_youtubes_${params.id}`, params.id],
     suspense: false,
     queryFn: () => getYoutubeListByArtist(Number(params.id)),
   })
