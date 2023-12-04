@@ -1,6 +1,11 @@
-import { CONCERT } from "@/types/types"
+import { CONCERT, CONCERT_CATEGORY } from "@/types/types"
 import { apiRequest } from "./index"
 import { exceptionHandler } from "./exception-handler"
+
+interface ConcertsRequest {
+  page: number
+  category?: "ALL" | CONCERT_CATEGORY
+}
 
 export const getConcertsByArtist = async (
   artistId: number,
@@ -12,5 +17,27 @@ export const getConcertsByArtist = async (
     return response
   } catch (error) {
     throw new Error(exceptionHandler(error, "API getConcertsByArtist error"))
+  }
+}
+
+export const getConcertLists = async ({
+  page,
+  category,
+}: ConcertsRequest): Promise<CONCERT[]> => {
+  try {
+    const payload: ConcertsRequest = {
+      page,
+    }
+    if (category && category !== "ALL") {
+      payload.category = category
+    }
+    const size = 12
+
+    const response = await apiRequest.get<CONCERT[]>("/concerts", {
+      params: { ...payload, size },
+    })
+    return response
+  } catch (error) {
+    throw new Error(exceptionHandler(error, "API getConcertLists error"))
   }
 }

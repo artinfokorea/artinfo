@@ -6,6 +6,7 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import React from "react"
 import Link from "next/link"
 import ArtistsCard from "./ArtistCard"
+import ArtistSkeleton from "../Skeleton/ArtistSkeleton"
 
 const ArtistsContainer = () => {
   const getConcerts = async (pageParam: number): Promise<any> => {
@@ -32,10 +33,19 @@ const ArtistsContainer = () => {
       suspense: false,
     },
   )
-  // console.log("data", data)
 
   return (
     <div id="top">
+      {isLoading && (
+        <div className="grid grid-cols-3  md:grid-cols-4 lg:grid-cols-5 gap-2">
+          <ArtistSkeleton />
+          <ArtistSkeleton />
+          <ArtistSkeleton />
+          <ArtistSkeleton />
+          <ArtistSkeleton />
+          <ArtistSkeleton />
+        </div>
+      )}
       <div className="grid grid-cols-3  md:grid-cols-4 lg:grid-cols-5 gap-2">
         {data?.pages.map(
           page =>

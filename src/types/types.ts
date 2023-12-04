@@ -516,12 +516,20 @@ export type ARTIST = {
  * --------------------------------------------------- CONCERT ---------------------------------------------------------
  */
 
-export type CONCERT = {
+export type ARTIST_CONCERT = {
   id: number
   title: string
   location: string
   performanceTime: string
   isActive: boolean
+}
+
+export type CONCERT = {
+  id: number
+  posterUrl: string
+  title: string
+  location: string
+  performanceTime: string
 }
 
 /*

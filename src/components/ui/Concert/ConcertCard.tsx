@@ -1,30 +1,20 @@
 "use client"
 
 import useFilters from "@/hooks/useFilters"
+import { CONCERT } from "@/types/types"
 import { Spinner } from "@material-tailwind/react"
 import Image from "next/image"
 import { useState } from "react"
 
 interface IProps {
-  item: {
-    id: number
-    title: string
-    poster_url: string | null
-    location: string
-    performance_time: string
-    created_at: string
-    profiles: {
-      id: string
-      name: string
-    } | null
-  }
+  item: CONCERT
 }
 
 export default function ConcertCard({ item }: IProps) {
   const filters = useFilters()
   const [isLoading, setIsLoading] = useState(true)
   const date = filters.DIFF_FROM_NOW_ADD_TIME(
-    item.performance_time,
+    item.performanceTime,
     "YYYY-MM-DD(ddd) a h:mm",
   )
 
@@ -40,9 +30,9 @@ export default function ConcertCard({ item }: IProps) {
             <Spinner />
           </div>
         )}
-        {item.poster_url && (
+        {item.posterUrl && (
           <Image
-            src={item.poster_url}
+            src={item.posterUrl}
             alt="concert_image"
             sizes="250px, 250px"
             fill

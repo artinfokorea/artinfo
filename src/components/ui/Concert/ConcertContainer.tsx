@@ -2,12 +2,11 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import { fetchConcerts } from "@/app/Api"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { useDidUpdate } from "@toss/react"
 import { useInView } from "react-intersection-observer"
-import { CONCERT_CATEGORY } from "@/types/types"
-import useScrollDirection from "@/hooks/useScrollDirection"
+import { CONCERT, CONCERT_CATEGORY } from "@/types/types"
+import { getConcertLists } from "@/apis/concert"
 import ConcertCard from "./ConcertCard"
 import ConcertCategory from "./ConcertCategory"
 import ConcertSkeleton from "../Skeleton/ConcertSkeleton"
@@ -22,7 +21,7 @@ export default function ConcertContainer() {
     category: "ALL" | CONCERT_CATEGORY,
     pageParam: number,
   ): Promise<any> => {
-    const response = await fetchConcerts(pageParam, category)
+    const response = await getConcertLists({ page: pageParam, category })
     return {
       concerts: response,
       nextPage: pageParam + 1,
@@ -102,7 +101,7 @@ export default function ConcertContainer() {
       <div className="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-5 gap-4">
         {data?.pages.map(
           page =>
-            page?.concerts?.map((concert: any) => (
+            page?.concerts?.map((concert: CONCERT) => (
               <Link
                 key={concert.id}
                 href={`/concerts/${concert.id}`}

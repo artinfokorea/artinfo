@@ -1,7 +1,5 @@
 "use client"
 
-import { Suspense } from "react"
-import ConcertSkeleton from "@/components/ui/Skeleton/ConcertSkeleton"
 import { ChipButton } from "@/components/ui/Button/LinkChipButton"
 import ConcertContainer from "../../../components/ui/Concert/ConcertContainer"
 
