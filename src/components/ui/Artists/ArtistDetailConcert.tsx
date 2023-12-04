@@ -2,7 +2,7 @@ import React from "react"
 import { useParams } from "next/navigation"
 import { getConcertsByArtist } from "@/apis/concert"
 import { useQuery } from "@tanstack/react-query"
-import { CONCERT } from "@/types/types"
+import { ARTIST_CONCERT } from "@/types/types"
 import Link from "next/link"
 import useFilters from "@/hooks/useFilters"
 import ArtistConcerCard from "./ArtistConcerCard"
@@ -30,7 +30,7 @@ const ArtistDetailConcert = () => {
         </div>
       )} */}
       <div className="flex flex-col mb-8">
-        {concerts?.map((concert: CONCERT) => {
+        {concerts?.map((concert: ARTIST_CONCERT) => {
           if (concert.isActive) {
             return (
               <Link

@@ -1,4 +1,4 @@
-import { CONCERT, CONCERT_CATEGORY } from "@/types/types"
+import { ARTIST_CONCERT, CONCERT, CONCERT_CATEGORY } from "@/types/types"
 import { apiRequest } from "./index"
 import { exceptionHandler } from "./exception-handler"
 
@@ -9,9 +9,9 @@ interface ConcertsRequest {
 
 export const getConcertsByArtist = async (
   artistId: number,
-): Promise<CONCERT[]> => {
+): Promise<ARTIST_CONCERT[]> => {
   try {
-    const response = await apiRequest.get<CONCERT[]>(
+    const response = await apiRequest.get<ARTIST_CONCERT[]>(
       `/concerts/artist/${artistId}`,
     )
     return response
