@@ -11,6 +11,8 @@ import {
   QuestionMarkCircleIcon,
   UserCircleIcon,
   AcademicCapIcon,
+  StarIcon,
+  TicketIcon,
 } from "@heroicons/react/24/outline"
 import { useParams, usePathname, useRouter } from "next/navigation"
 import {
@@ -138,13 +140,19 @@ const items = [
   {
     title: "공연",
     to: "/concerts",
-    icon: MusicalNoteIcon,
+    icon: TicketIcon,
     prefetch: false,
   },
   {
     title: "레슨",
     to: "/educations",
     icon: AcademicCapIcon,
+    prefetch: false,
+  },
+  {
+    title: "아티스트",
+    to: "/artists",
+    icon: MusicalNoteIcon,
     prefetch: false,
   },
   // {
