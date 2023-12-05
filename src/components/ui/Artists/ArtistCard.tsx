@@ -16,7 +16,7 @@ const ArtistCard = ({ artist }: IProps) => {
 
   return (
     <div className="card flex flex-col bg-white rounded-2xl cursor-pointer shadow-md">
-      <div className="relative h-[90px] md:h-[180px] ">
+      <div className="relative h-[90px] md:h-[140px] ">
         {isLoading && (
           <div className="flex items-center justify-center absolute inset-0">
             <Spinner />
