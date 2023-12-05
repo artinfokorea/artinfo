@@ -37,7 +37,7 @@ const ArtistCard = ({ artist }: IProps) => {
         )}
       </div>
       <div className="py-2 flex flex-col items-center break-keep">
-        <span className="mt-1 text-sm font-semibold lg:text-base">
+        <span className="mt-1 text-xs font-semibold lg:text-base">
           {artist.koreanName}
         </span>
         <span className="text-xs mt-1 mb-1 opacity-75">
