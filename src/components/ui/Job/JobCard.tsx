@@ -29,7 +29,7 @@ export default function JobCard({ job }: IProps) {
         )}
         {job.company_image_url && (
           <Image
-            src={job.company_image_url ?? "/icon-192x192.png"}
+            src={job.company_image_url ?? "/job-default.png"}
             alt="job"
             sizes="(max-width: 1200px) 276px, 150px"
             fill
