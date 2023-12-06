@@ -32,7 +32,11 @@ const schema = yup
 
 type FormData = yup.InferType<typeof schema>
 
-export default function Login() {
+interface Props {
+  handleSelectedIndex: (idx: number) => void
+}
+
+export default function Login({ handleSelectedIndex }: Props) {
   const [isLoading, setIsLoading] = useState(false)
   const [isOpenModal, setIsOpenModal] = useState(false)
 
@@ -212,12 +216,12 @@ export default function Login() {
         </button>
         <p className="mt-5 text-center text-sm text-gray-500">
           아직 회원이 아니신가요?{" "}
-          <a
-            href="#"
-            className="leading-6 text-indigo-600 hover:text-indigo-500"
+          <button
+            className="leading-6 text-indigo-600 hover:text-indigo-500 "
+            onClick={() => handleSelectedIndex(1)}
           >
             회원이 되시면 더 많은 기능을 이용할 수 있어요
-          </a>
+          </button>
         </p>
       </div>
 
