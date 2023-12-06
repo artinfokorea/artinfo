@@ -25,7 +25,6 @@ import useSupabase from "@/hooks/useSupabase"
 import { DEGREE_VALUES, DEGREE, LESSON } from "@/types/types"
 import { useQueryClient, useMutation } from "@tanstack/react-query"
 import { Listbox, Transition } from "@headlessui/react"
-import { deleteLesson } from "@/app/Api"
 import { Modal } from "@/components/common/Modal"
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid"
 import { apiRequest } from "@/apis"
@@ -283,10 +282,23 @@ const EducationForm = ({ type, lesson }: Props) => {
       return
     }
 
+    const formData = {
+      userId: user.id,
+      imageUrl: "",
+      name: payload.name,
+      fee: payload.fee,
+      intro: payload.intro,
+      phone: payload.phone,
+      locations: selectedRegionList,
+      majors: selectedMajorList,
+      degrees: selectedDegreeList,
+    }
+
     setIsLoading(true)
     try {
       // upload file
-      // Todo: 수정시에도 이미지 그대로 업로드됨
+
+      console.log("uploadedImage", uploadedImage)
       if (uploadedImage) {
         // const filename = uploadedImage.name
         const filename = new Date().getTime().toString()
@@ -303,18 +315,11 @@ const EducationForm = ({ type, lesson }: Props) => {
         }
         const fileUrl = `https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/${data.path}`
         console.log(fileUrl)
+        formData.imageUrl = fileUrl
 
-        const formData = {
-          userId: user.id,
-          imageUrl: fileUrl,
-          name: payload.name,
-          fee: payload.fee,
-          intro: payload.intro,
-          phone: payload.phone,
-          locations: selectedRegionList,
-          majors: selectedMajorList,
-          degrees: selectedDegreeList,
-        }
+        await apiRequest.put(`/lessons/${params.id}`, formData)
+      } else {
+        formData.imageUrl = uploadedImageUrl
 
         await apiRequest.put(`/lessons/${params.id}`, formData)
       }
@@ -341,6 +346,7 @@ const EducationForm = ({ type, lesson }: Props) => {
 
   const handleComplete = (payload: FormData) => {
     if (type === "update" && lesson) {
+      console.log("update")
       handleUpdateLesson(payload)
     } else if (type === "create") {
       createLesson(payload)
