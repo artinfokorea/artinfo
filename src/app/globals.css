@@ -42,3 +42,8 @@ body {
 [data-headlessui-state] {
   outline: none;
 }
+
+.wrap {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch; /* 추가 */
+}

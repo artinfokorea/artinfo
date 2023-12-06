@@ -118,7 +118,7 @@ export default function ConcertContainer() {
           <ScrollUpButton handleScroll={handleScroll} />
         </div>
       )} */}
-      <div ref={ref} />
+      <div ref={ref} className="h-12" />
     </div>
   )
 }

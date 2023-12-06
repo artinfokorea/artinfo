@@ -47,7 +47,7 @@ export default async function RootLayout({
               <RecoilProvider>
                 <ToasterProvider>
                   <Header />
-                  <main className="flex-1 overflow-y-auto relative z-1 mt-16 h-full">
+                  <main className="flex-1 relative z-1 mt-16 h-full wrap">
                     {children}
                   </main>
                   <BottomNavigation />

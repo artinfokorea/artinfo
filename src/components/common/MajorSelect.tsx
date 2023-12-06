@@ -5,7 +5,13 @@ import { Dialog, Transition } from "@headlessui/react"
 import { Fragment, useMemo, useState, useEffect } from "react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import { IconButton } from "@material-tailwind/react"
-import { MajorData, StringedInstruments, WindInstruments } from "@/lib/majors"
+import {
+  ContemporaryMusic,
+  KoreanMusic,
+  MajorData,
+  StringedInstruments,
+  WindInstruments,
+} from "@/lib/majors"
 
 interface Props {
   isOpen: boolean
@@ -85,6 +91,30 @@ const MajorSelect = ({ isOpen, closeModal, handleSelectMajor }: Props) => {
                 <span className="block mt-2 font-medium">관악기</span>
                 <div className="mt-2 grid grid-cols-4 break-keep overflow-y">
                   {WindInstruments.map(major => (
+                    <button
+                      key={major}
+                      className="m-1 bg-orange-200 text-white p-1 rounded-md text-sm"
+                      onClick={() => handleSelectMajor(major)}
+                    >
+                      {major}
+                    </button>
+                  ))}
+                </div>
+                <span className="block mt-2 font-medium">실용음악</span>
+                <div className="mt-2 grid grid-cols-4 break-keep overflow-y">
+                  {ContemporaryMusic.map(major => (
+                    <button
+                      key={major}
+                      className="m-1 bg-orange-200 text-white p-1 rounded-md text-sm"
+                      onClick={() => handleSelectMajor(major)}
+                    >
+                      {major}
+                    </button>
+                  ))}
+                </div>
+                <span className="block mt-2 font-medium">국악</span>
+                <div className="mt-2 grid grid-cols-4 break-keep overflow-y">
+                  {KoreanMusic.map(major => (
                     <button
                       key={major}
                       className="m-1 bg-orange-200 text-white p-1 rounded-md text-sm"

@@ -28,3 +28,28 @@ export const WindInstruments: MajorType = [
   "트럼펫",
   "튜바",
 ]
+
+export const ContemporaryMusic: MajorType = [
+  "보컬",
+  "일렉기타",
+  "드럼",
+  "베이스기타",
+  "통기타",
+  "미디",
+]
+
+export const KoreanMusic: MajorType = [
+  "가야금",
+  "거문고",
+  "아쟁",
+  "해금",
+  "대금",
+  "소금",
+  "단소",
+  "피리",
+  "태평소",
+  "사물놀이",
+  "장구",
+  "판소리",
+  "민요",
+]

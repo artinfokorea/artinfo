@@ -116,7 +116,7 @@ const EducationContainer = ({
         )}
       </div>
 
-      <div ref={ref} />
+      <div ref={ref} className="h-12" />
     </div>
   )
 }

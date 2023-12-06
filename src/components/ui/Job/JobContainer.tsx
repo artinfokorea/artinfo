@@ -66,7 +66,6 @@ export default function JobContainer() {
 
   useDidUpdate(() => {
     if (inView && hasNextPage) {
-      console.log("next")
       fetchNextPage()
     }
   }, [inView, hasNextPage])
@@ -111,14 +110,14 @@ export default function JobContainer() {
               </Link>
             )),
         )}
-        {data?.pages[0].jobs?.length === 0 && <div>데이터가 없습니다.</div>}
       </div>
+      {data?.pages[0].jobs?.length === 0 && <div>데이터가 없습니다.</div>}
       {/* {isMounted && isMobile && (
         <div className="fixed bottom-32 right-3">
           <ScrollUpButton handleScroll={handleScroll} />
         </div>
       )} */}
-      <div ref={ref} />
+      <div ref={ref} className="h-12" />
     </div>
   )
 }
