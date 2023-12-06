@@ -81,7 +81,7 @@ export async function fetchJobs(
   page: number,
 ) {
   const supabase = useSupabase()
-  const itemCount = 10
+  const itemCount = 20
   const type = category !== "ALL" ? category : null
 
   const { data, error } = await supabase.rpc("get_recruit_jobs", {

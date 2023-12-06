@@ -12,7 +12,7 @@ export const getArtistList = async ({
   try {
     const payload = {
       page,
-      size: 12,
+      size: 20,
     }
     const response: ARTIST[] = await apiRequest.get<ARTIST[]>("/artists", {
       params: payload,

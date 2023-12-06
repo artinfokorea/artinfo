@@ -14,7 +14,7 @@ export const getLessonList = async ({
   majors,
 }: LessonsRequest): Promise<LESSON[]> => {
   try {
-    const payload: any = { page, size: 12 }
+    const payload: any = { page, size: 20 }
     const filteredLocation = location?.map(loc => loc.replace(" 전체", ""))
     if (location.length > 0) {
       payload.location = filteredLocation.join(",")

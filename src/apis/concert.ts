@@ -31,7 +31,7 @@ export const getConcertLists = async ({
     if (category && category !== "ALL") {
       payload.category = category
     }
-    const size = 12
+    const size = 20
 
     const response = await apiRequest.get<CONCERT[]>("/concerts", {
       params: { ...payload, size },
