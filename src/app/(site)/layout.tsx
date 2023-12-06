@@ -40,14 +40,14 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className="touch-manipulation bg-[#f8fafc] flex flex-col h-screen">
+      <body className="touch-manipulation bg-[#f8fafc] flex flex-col">
         <ThemeProvider>
           <QueryProvider>
             <AuthProvider>
               <RecoilProvider>
                 <ToasterProvider>
                   <Header />
-                  <main className="flex-1 relative z-1 mt-16 h-full wrap">
+                  <main className="flex-1 relative z-1 mt-16 h-screen wrap">
                     {children}
                   </main>
                   <BottomNavigation />

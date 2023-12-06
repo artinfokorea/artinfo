@@ -20,5 +20,5 @@ export default function ArtistsLayout({
 }: {
   children: React.ReactNode
 }) {
-  return <div className="bg-whitesmoke">{children}</div>
+  return <div className="bg-whitesmoke h-screen">{children}</div>
 }
