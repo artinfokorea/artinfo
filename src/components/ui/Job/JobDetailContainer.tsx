@@ -12,6 +12,7 @@ import useAuth from "@/hooks/useAuth"
 import { TrashIcon } from "@heroicons/react/24/outline"
 import { Modal } from "@/components/common/Modal"
 import useToast from "@/hooks/useToast"
+import { getJob } from "@/apis/job"
 
 const ScrollButtonWrap = dynamic(
   () => import("@/components/ui/Button/ScrollButtonWrap"),
@@ -37,7 +38,7 @@ export default function JobDetailContainer({ jobId }: IProps) {
   const { data: job } = useQuery({
     queryKey: ["job", jobId],
     suspense: true,
-    queryFn: () => fetchJob(jobId),
+    queryFn: () => getJob(jobId),
   })
 
   const handleScroll = () => {
@@ -87,9 +88,9 @@ export default function JobDetailContainer({ jobId }: IProps) {
       <div className="flex" id="top">
         <div className="flex-1">
           <div className="w-full h-[200px] md:w-2/5 md:mx-auto md:h-[300px]  overflow-hidden relative">
-            {job?.company_image_url?.length && (
+            {job?.companyImageUrl?.length && (
               <Image
-                src={job?.company_image_url}
+                src={job?.companyImageUrl}
                 alt="company_image"
                 fill
                 quality={100}
@@ -103,7 +104,7 @@ export default function JobDetailContainer({ jobId }: IProps) {
               {job?.title}
             </h2>
             <div className="flex items-center">
-              <div className="text-xl mr-2">{job?.company_name}</div>
+              <div className="text-xl mr-2">{job?.companyName}</div>
             </div>
           </section>
           {job?.contents && (
@@ -122,10 +123,10 @@ export default function JobDetailContainer({ jobId }: IProps) {
           >
             뒤로가기
           </button>
-          {job?.link_url && (
+          {job?.linkUrl && (
             <Link
               className="mt-4  transition ease-in-out duration-150 inline-flex items-center w-full justify-center rounded-md bg-indigo-600 py-3 text-md leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50"
-              href={job?.link_url}
+              href={job?.linkUrl}
               target="_blank"
             >
               공고 바로가기
@@ -133,7 +134,7 @@ export default function JobDetailContainer({ jobId }: IProps) {
           )}
         </div>
       )}
-      {isMobile && job?.link_url && (
+      {isMobile && job?.linkUrl && (
         <div
           className={`w-full flex fixed ${
             isIPhone ? "bottom-20" : "bottom-16"
@@ -141,7 +142,7 @@ export default function JobDetailContainer({ jobId }: IProps) {
           bg-indigo-600
           `}
         >
-          {user?.id === job?.profile_id && (
+          {user?.id === job?.userId && (
             <button
               className="text-white px-3 "
               onClick={() => setIsOpenModal(true)}
@@ -153,7 +154,7 @@ export default function JobDetailContainer({ jobId }: IProps) {
           <Link
             className="flex-1 transition ease-in-out duration-150 
            inline-flex items-center w-full justify-center text-md pt-1 leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 text-white"
-            href={job?.link_url}
+            href={job?.linkUrl}
             target="_blank"
           >
             공고 바로가기

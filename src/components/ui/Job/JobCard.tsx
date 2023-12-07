@@ -2,7 +2,7 @@
 
 import PositionTag from "@/components/common/PositionTag"
 import useFilters from "@/hooks/useFilters"
-import { Job, RECRUIT_JOBS_CATEGORY_ITEMS } from "@/types/types"
+import { Job } from "@/types/types"
 import { Spinner } from "@material-tailwind/react"
 import Image from "next/image"
 import { useState } from "react"
@@ -27,9 +27,9 @@ export default function JobCard({ job }: IProps) {
             <Spinner />
           </div>
         )}
-        {job.company_image_url && (
+        {job.companyImageUrl && (
           <Image
-            src={job.company_image_url ?? "/job-default.png"}
+            src={job.companyImageUrl ?? "/job-default.png"}
             alt="job"
             sizes="(max-width: 1200px) 276px, 150px"
             fill
@@ -43,16 +43,21 @@ export default function JobCard({ job }: IProps) {
       <div className="py-2">
         <div className="flex flex-col mb-1">
           <div className="text-sm  text-darkgrey truncate flex-1 flex items-center my-1 lg:my-2 ">
-            <span className="mr-2">
+            {/* <span className="mr-2">
               <PositionTag tag={RECRUIT_JOBS_CATEGORY_ITEMS[job.category]} />
+            </span> */}
+            <span className="mr-2">
+              {job.majors.map(major => (
+                <PositionTag key={major} tag={major} />
+              ))}
             </span>
-            <span>{job.company_name} </span>
+            <span>{job.companyName} </span>
           </div>
           <div className="text-sm font-semibold my-0 line-clamp-3 break-keep lg:text-base sm:my-0 md:my-1 lg:my-2">
             {job.title}
           </div>
           <span className="text-darkgrey opacity-75">
-            {filters.DIFF_FROM_NOW_ADD_TIME(job.created_at)}
+            {filters.DIFF_FROM_NOW_ADD_TIME(job.createdAt)}
           </span>
         </div>
       </div>

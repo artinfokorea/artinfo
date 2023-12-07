@@ -207,26 +207,47 @@ export const MAJOR_CATEGORY_ITEMS = {
  */
 
 type JobRow = Database["public"]["Tables"]["jobs"]["Row"]
+// export type Job = {
+//   // organizations?: {
+//   //   id: number
+//   //   name: string
+//   //   logo_image?: string
+//   //   desc?: string
+//   // } | null
+//   // job_positions: {
+//   //   position_1depth_category: string
+//   //   position_2depth_category?: string
+//   //   amount?: number
+//   // }[]
+//   title: string
+//   created_at: string
+//   category: JOB_POSITION_1DEPTH_CATEGORY
+//   contents: string
+//   company_name: string
+//   company_image_url: string
+//   profile_id: string
+// } & JobRow
+
 export type Job = {
-  // organizations?: {
-  //   id: number
-  //   name: string
-  //   logo_image?: string
-  //   desc?: string
-  // } | null
-  // job_positions: {
-  //   position_1depth_category: string
-  //   position_2depth_category?: string
-  //   amount?: number
-  // }[]
+  id: number
   title: string
-  created_at: string
-  category: JOB_POSITION_1DEPTH_CATEGORY
+  companyName: string
+  companyImageUrl: string
+  majors: string[]
+  createdAt: string
+}
+
+export type JobDetail = {
+  id: number
+  title: string
+  companyName: string
+  companyImageUrl: string
+  majors: string[]
+  createdAt: string
   contents: string
-  company_name: string
-  company_image_url: string
-  profile_id: string
-} & JobRow
+  linkUrl: string
+  userId: string
+}
 
 export type JOB_POSITION_1DEPTH_CATEGORY =
   | "RELIGION"

@@ -4,23 +4,51 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import { useInView } from "react-intersection-observer"
 import { useEffect, useState } from "react"
 import { useDidUpdate } from "@toss/react"
-import { JOB_POSITION_1DEPTH_CATEGORY, Job } from "@/types/types"
+import { Job } from "@/types/types"
 import Link from "next/link"
-import { fetchJobs } from "@/app/Api"
-import useScrollDirection from "@/hooks/useScrollDirection"
-import JobCategory from "@/components/ui/Job/JobCategory"
+import { getJobList } from "@/apis/job"
+import JobMajorSelect from "@/components/common/JobMajorSelect"
+import FilterTag from "@/components/common/FilterTag"
 import JobCard from "./JobCard"
 import JobSkeleton from "../Skeleton/JobSkeleton"
 
-export default function JobContainer() {
+interface Props {
+  isMajorSelect: boolean
+  handleMajorModal: () => void
+}
+
+export default function JobContainer({
+  handleMajorModal,
+  isMajorSelect,
+}: Props) {
   const [isMounted, setIsMounted] = useState(false)
-  const [category, setCategory] = useState<
-    "ALL" | JOB_POSITION_1DEPTH_CATEGORY
-  >("ALL")
+  const [selectedMajor, setSelectedMajor] = useState("")
+  const [selectedMajorList, setSelectedMajorList] = useState<string[]>([])
+
   const [ref, inView] = useInView({
     delay: 300,
     threshold: 0.5,
   })
+
+  const deleteMajor = (index: number) => {
+    setSelectedMajorList(selectedMajorList.filter((_, i) => i !== index))
+  }
+
+  const handleMajorList = () => {
+    setSelectedMajorList([...selectedMajorList, selectedMajor])
+  }
+
+  const handleSelectMajor = (major: string) => {
+    setSelectedMajor(major)
+    handleMajorModal()
+  }
+
+  useEffect(() => {
+    if (selectedMajor) {
+      handleMajorList()
+      setSelectedMajor("")
+    }
+  }, [selectedMajor])
 
   // useScrollDirection()
 
@@ -29,10 +57,13 @@ export default function JobContainer() {
   }, [])
 
   const getJobs = async (
-    category: "ALL" | JOB_POSITION_1DEPTH_CATEGORY,
     pageParam: number,
+    selectedMajorList: string[],
   ): Promise<any> => {
-    const response = await fetchJobs(category, pageParam)
+    const response = await getJobList({
+      page: pageParam,
+      major: selectedMajorList,
+    })
     return {
       jobs: response,
       nextPage: pageParam + 1,
@@ -49,9 +80,9 @@ export default function JobContainer() {
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery(
-    ["recruit_jobs", category],
+    ["recruit_jobs", selectedMajorList],
     ({ pageParam = 1 }) => {
-      return getJobs(category, pageParam)
+      return getJobs(pageParam, selectedMajorList)
     },
     {
       getNextPageParam: lastPage => {
@@ -70,22 +101,22 @@ export default function JobContainer() {
     }
   }, [inView, hasNextPage])
 
-  const updatedPosition1depth = (
-    value: "ALL" | JOB_POSITION_1DEPTH_CATEGORY,
-  ) => {
-    setCategory(value)
-  }
-
   return (
     <div id="top">
-      <div>
-        <div className="mb-4 flex align-center justify-between">
-          <JobCategory
-            category={category}
-            updatedCategory={updatedPosition1depth}
-          />
+      <div className="flex items-center mb-2">
+        <div className="flex ml-2">
+          {selectedMajorList.map((major, index) => (
+            <FilterTag
+              key={major}
+              tag={major}
+              color="blue"
+              index={index}
+              deleteItem={deleteMajor}
+            />
+          ))}
         </div>
       </div>
+
       {isLoading && (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5  gap-4">
           <JobSkeleton />
@@ -106,18 +137,30 @@ export default function JobContainer() {
           group =>
             group?.jobs?.map((item: Job) => (
               <Link key={item.id} href={`/jobs/${item.id}`} prefetch={false}>
-                <JobCard job={item as any} />
+                <JobCard job={item} />
               </Link>
             )),
         )}
       </div>
-      {data?.pages[0].jobs?.length === 0 && <div>데이터가 없습니다.</div>}
+      {data?.pages[0].jobs?.length === 0 && (
+        <div className="w-full flex justify-center h-[500px] items-center">
+          <span>데이터가 없습니다.</span>
+        </div>
+      )}
       {/* {isMounted && isMobile && (
         <div className="fixed bottom-32 right-3">
           <ScrollUpButton handleScroll={handleScroll} />
         </div>
       )} */}
       <div ref={ref} className="h-12" />
+
+      {isMajorSelect && (
+        <JobMajorSelect
+          isOpen={isMajorSelect}
+          closeModal={handleMajorModal}
+          handleSelectMajor={handleSelectMajor}
+        />
+      )}
     </div>
   )
 }

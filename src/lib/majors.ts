@@ -7,8 +7,6 @@ export const MajorData: MajorType = [
   "성악",
   "작곡",
   "타악",
-  "피아노",
-  "트럼본",
 ]
 
 export const StringedInstruments: MajorType = [
@@ -26,6 +24,7 @@ export const WindInstruments: MajorType = [
   "바순",
   "호른",
   "트럼펫",
+  "트럼본",
   "튜바",
 ]
 
@@ -53,3 +52,7 @@ export const KoreanMusic: MajorType = [
   "판소리",
   "민요",
 ]
+
+export const JobMajorData: MajorType = ["소프라노", "알토", "테너", "베이스"]
+
+export const OfficeJobsData: MajorType = ["기획", "홍보", "경영", "기타"]
