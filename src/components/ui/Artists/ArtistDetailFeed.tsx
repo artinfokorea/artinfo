@@ -73,7 +73,7 @@ const ArtistDetailFeed = () => {
       return updatePostLike(payload)
     },
     onMutate: updateLike => {
-      queryClient.setQueryData(["artist_feeds"], (old: any) => {
+      queryClient.setQueryData([`artist_feeds_${params.id}`], (old: any) => {
         const pages = [...old.pages]
         pages.forEach(page => {
           page.feeds.forEach((feed: FEED) => {
@@ -102,8 +102,10 @@ const ArtistDetailFeed = () => {
     like: boolean
     post_id: number
   }) => {
+    console.log("11")
     updateFeedLikeMutation.mutate({ ...payload, user_id: user!.id })
   }
+
   const deleteFeedMutation = useMutation({
     mutationFn: (feedId: number) => {
       return deleteFeed(feedId)
