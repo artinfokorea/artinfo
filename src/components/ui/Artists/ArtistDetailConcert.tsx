@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 import { ARTIST_CONCERT } from "@/types/types"
 import Link from "next/link"
 import useFilters from "@/hooks/useFilters"
-import ArtistConcerCard from "./ArtistConcerCard"
+import ArtistConcertCard from "./ArtistConcertCard"
 
 const ArtistDetailConcert = () => {
   const params = useParams()
@@ -38,11 +38,11 @@ const ArtistDetailConcert = () => {
                 href={`/concerts/${concert.id}`}
                 prefetch={false}
               >
-                <ArtistConcerCard concert={concert} />
+                <ArtistConcertCard concert={concert} />
               </Link>
             )
           }
-          return <ArtistConcerCard key={concert.id} concert={concert} />
+          return <ArtistConcertCard key={concert.id} concert={concert} />
         })}
       </div>
     </div>
