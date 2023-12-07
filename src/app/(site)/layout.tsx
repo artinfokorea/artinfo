@@ -40,18 +40,18 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className="touch-manipulation bg-[#f8fafc]">
+      <body className="touch-manipulation bg-[#f8fafc] h-screen">
         <ThemeProvider>
           <QueryProvider>
             <AuthProvider>
               <RecoilProvider>
                 <ToasterProvider>
-                  <Header />
-                  <main className="flex-1 relative z-1 mt-16 h-screen wrap">
+                  <main className="flex-1 relative z-1 mt-20 h-full ">
+                    <Header />
                     {children}
+                    <HomeScreenContainer />
+                    <BottomNavigation />
                   </main>
-                  <BottomNavigation />
-                  <HomeScreenContainer />
                 </ToasterProvider>
               </RecoilProvider>
             </AuthProvider>
