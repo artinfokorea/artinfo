@@ -46,7 +46,7 @@ export default async function RootLayout({
             <AuthProvider>
               <RecoilProvider>
                 <ToasterProvider>
-                  <main className="flex-1 relative z-1 mt-20 h-full ">
+                  <main className="flex-1 relative z-1 mt-[58px] h-full ">
                     <Header />
                     {children}
                     <HomeScreenContainer />
