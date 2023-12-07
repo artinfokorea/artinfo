@@ -34,7 +34,7 @@ const ArtistDetailContainer = () => {
   }
 
   return (
-    <div className="max-w-screen-lg mx-auto">
+    <div className="max-w-screen-lg mx-auto pb-20 md:pb-10">
       {/* <Draggable bounds="body" onDrag={handleDrag}> */}
       <div className="h-[300px] md:h-[500px] relative">
         {/* <ResizableBox

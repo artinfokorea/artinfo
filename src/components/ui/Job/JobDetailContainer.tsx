@@ -82,7 +82,7 @@ export default function JobDetailContainer({ jobId }: IProps) {
   }
 
   return (
-    <div className="sm:container mx-auto mt-4 relative pb-10 px-4">
+    <div className="sm:container mx-auto mt-4 relative pb-40 md:pb-10 px-4">
       {/* <Element id="top" /> */}
       <div className="flex" id="top">
         <div className="flex-1">
