@@ -115,7 +115,7 @@ export default function Container() {
     return {
       feeds: response,
       nextPage: pageParam + 1,
-      isLast: response.length < 10,
+      isLast: response.length < 20,
     }
   }
   const {

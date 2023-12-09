@@ -139,7 +139,7 @@ type FeedsPayload = {
 }
 export async function fetchFeeds({
   pageParam = 1,
-  itemCount = 12,
+  itemCount = 20,
 }: FeedsPayload) {
   const supabase = useSupabase()
 

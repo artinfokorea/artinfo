@@ -14,7 +14,7 @@ const ArtistsContainer = () => {
     return {
       artists: response,
       nextPage: pageParam + 1,
-      isLast: response.length < 12,
+      isLast: response.length < 20,
     }
   }
 
