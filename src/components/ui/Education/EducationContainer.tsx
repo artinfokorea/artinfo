@@ -37,12 +37,10 @@ const EducationContainer = ({
       location: selectedRegionList,
       majors: selectedMajorList,
     })
-    console.log("response", response)
-
     return {
       lessons: response,
       nextPage: pageParam + 1,
-      isLast: response.length < 12,
+      isLast: response.length < 20,
     }
   }
 
@@ -80,7 +78,7 @@ const EducationContainer = ({
   }, [inView, hasNextPage])
 
   return (
-    <div id="top" className="h-full  ">
+    <div id="top" className="h-full pb-8 md:pb-0 ">
       {data?.pages[0]?.lessons.length === 0 && (
         <div className="h-[500px] flex items-center justify-center">
           <p className="opacity-70">데이터가 없습니다.</p>
@@ -101,7 +99,7 @@ const EducationContainer = ({
         </div>
       )}
 
-      <div className="grid grid-cols-2 gap-6 md:grid-cols-5 ">
+      <div className="grid grid-cols-2 gap-6 md:grid-cols-5">
         {data?.pages.map(
           page =>
             page?.lessons.map((lesson: any) => (

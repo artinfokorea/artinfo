@@ -67,7 +67,7 @@ export default function JobContainer({
     return {
       jobs: response,
       nextPage: pageParam + 1,
-      isLast: response.length < 10,
+      isLast: response.length < 20,
     }
   }
 
