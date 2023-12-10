@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import React, { useRef, useState, Fragment } from "react"
+import React, { useRef, useState, useEffect } from "react"
 import { Button, IconButton, Input, Spinner } from "@/components/material"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import { useForm } from "react-hook-form"
@@ -17,6 +17,9 @@ import { useQueryClient } from "@tanstack/react-query"
 import { Listbox, Transition } from "@headlessui/react"
 import Loading from "@/components/ui/Loading/Loading"
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid"
+import JobMajorSelect from "@/components/common/JobMajorSelect"
+import { createJob } from "@/apis/job"
+import FilterTag from "@/components/common/FilterTag"
 
 const QuillEditor = dynamic(
   () => import("@/components/ui/Editor/QuillEditor"),
@@ -52,7 +55,9 @@ const JobCreateForm = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [uploadedImageUrl, setUploadedImageUrl] = useState("")
   const [htmlStr, setHtmlStr] = useState<string>("")
-  const [selectedType, setSelectedType] = useState("RELIGION")
+  const [selectedMajor, setSelectedMajor] = useState("")
+  const [selectedMajorList, setSelectedMajorList] = useState<string[]>([])
+  const [isMajorModal, setIsMajorModal] = useState(false)
   const supabase = useSupabase()
   const router = useRouter()
   const quillRef = useRef()
@@ -68,17 +73,33 @@ const JobCreateForm = () => {
     resolver: yupResolver(schema),
   })
 
+  const handleSelectMajor = (major: string) => {
+    setSelectedMajor(major)
+    setIsMajorModal(false)
+  }
+
   const handleUploadedFiles = (files: File[]) => {
     const file = files[0]
     setUploadedImage(file)
     setUploadedImageUrl(URL.createObjectURL(file))
   }
 
+  const deleteMajor = (index: number) => {
+    setSelectedMajorList(selectedMajorList.filter((_, i) => i !== index))
+  }
+
   const openFileUploader = () => {
     fileUploader.current?.click()
   }
 
-  const createJob = async (payload: FormData) => {
+  useEffect(() => {
+    if (selectedMajor) {
+      setSelectedMajorList([...selectedMajorList, selectedMajor])
+      setSelectedMajor("")
+    }
+  }, [selectedMajor])
+
+  const handleCreateJob = async (payload: FormData) => {
     console.log("payload", payload)
     const { company_name, title } = payload
     if (!user) {
@@ -87,32 +108,13 @@ const JobCreateForm = () => {
 
     setIsLoading(true)
     try {
-      const formData = {
-        profile_id: user.id,
-        company_image_url: uploadedImageUrl,
-        company_name,
-        contents: htmlStr,
-        title,
-        link_url: payload.linkUrl,
-        category: selectedType as RECRUIT_JOBS_CATEGORY,
-        created_at: new Date().toISOString(),
-      }
-      const { data, error } = await supabase
-        .from("recruit_jobs")
-        .insert({ ...formData })
-        .select("id")
-        .single()
-
-      if (error) {
-        throw error
-      }
       // upload file
-      const jobId = data.id
-      if (uploadedImage && jobId) {
+
+      if (uploadedImage) {
         // const filename = uploadedImage.name
         const filename = new Date().getTime().toString()
         const extension = uploadedImage.name.split(".")[1]
-        const path = `recruits_jobs/${jobId}/${filename}.${extension}`
+        const path = `recruits_jobs/${user.id}/${filename}.${extension}`
         const { error: uploadError, data } = await supabase.storage
           .from("artinfo")
           .upload(path, uploadedImage, {
@@ -124,16 +126,28 @@ const JobCreateForm = () => {
         }
         const fileUrl = `https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/${data.path}`
 
-        const { error: updateError } = await supabase
-          .from("recruit_jobs")
-          .update({
-            company_image_url: fileUrl,
-          })
-          .eq("id", jobId)
-
-        if (updateError) {
-          throw updateError
+        const formData = {
+          userId: user.id,
+          companyImageUrl: fileUrl,
+          companyName: company_name,
+          contents: htmlStr,
+          title,
+          majors: selectedMajorList,
+          linkUrl: payload.linkUrl,
         }
+
+        await createJob(formData)
+
+        // const { error: updateError } = await supabase
+        //   .from("recruit_jobs")
+        //   .update({
+        //     company_image_url: fileUrl,
+        //   })
+        //   .eq("id", jobId)
+
+        // if (updateError) {
+        //   throw updateError
+        // }
       }
       await queryClient.invalidateQueries({ queryKey: ["recruit_jobs"] })
       console.log("SUCCESS!")
@@ -144,8 +158,6 @@ const JobCreateForm = () => {
       setIsLoading(false)
     }
   }
-
-  const handleSelect = (value: any) => setSelectedType(value)
 
   return (
     <div className="mx-auto max-w-screen-lg px-4 lg:px-0 overflow-auto ">
@@ -166,71 +178,25 @@ const JobCreateForm = () => {
           </h2>
         </div>
         <div className="flex-1 flex flex-col overflow-y-auto mt-4">
-          <div className="mb-2 text-[#a3a3a3] text-sm cursor-pointer w-32 relative z-10">
-            <Listbox
-              value={selectedType}
-              onChange={value => setSelectedType(value)}
+          <div className="flex items-center">
+            <button
+              onClick={() => setIsMajorModal(!isMajorModal)}
+              className="flex my-2 items-center rounded-2xl h-8 py-2 px-3 text-sm bg-indigo-500 text-white  hover:bg-indigo-400 whitespace-nowrap
+          "
             >
-              <Listbox.Button className="w-full border bg-white px-2 items-center py-1 rounded-lg flex justify-between">
-                {items.filter(item => item.value === selectedType)[0].title}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6 ml-2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                  />
-                </svg>
-              </Listbox.Button>
-              <Transition
-                as={Fragment}
-                leave="transition ease-in duration-100"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
-              >
-                <Listbox.Options className="absolute mt-1 max-h-60 w-full  overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                  {items.map(item => (
-                    <Listbox.Option
-                      key={item.title}
-                      className={({ active }) =>
-                        `relative cursor-default select-none py-2 pl-10 pr-4 z-20  ${
-                          active
-                            ? "bg-amber-100 text-amber-900"
-                            : "text-gray-900"
-                        }`
-                      }
-                      value={item.value}
-                    >
-                      {({ selected }) => (
-                        <>
-                          <span
-                            className={`block truncate ${
-                              selected ? "font-medium" : "font-normal"
-                            }`}
-                          >
-                            {item.title}
-                          </span>
-                          {selected ? (
-                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                              <CheckIcon
-                                className="h-5 w-5"
-                                aria-hidden="true"
-                              />
-                            </span>
-                          ) : null}
-                        </>
-                      )}
-                    </Listbox.Option>
-                  ))}
-                </Listbox.Options>
-              </Transition>
-            </Listbox>
+              <span>전공 검색</span>
+            </button>
+            <div className="flex ml-2 overflow-x-auto w-full">
+              {selectedMajorList.map((major, index) => (
+                <FilterTag
+                  key={major}
+                  tag={major}
+                  color="blue"
+                  index={index}
+                  deleteItem={deleteMajor}
+                />
+              ))}
+            </div>
           </div>
           <div>
             <div className="">
@@ -347,7 +313,7 @@ const JobCreateForm = () => {
                     size="lg"
                     className="rounded-md bg-indigo-500 w-full md:w-32"
                     disabled={!isDirty || !isValid}
-                    onClick={handleSubmit(createJob)}
+                    onClick={handleSubmit(handleCreateJob)}
                   >
                     등록하기
                   </Button>
@@ -357,6 +323,13 @@ const JobCreateForm = () => {
           </div>
         </div>
       </div>
+      {isMajorModal && (
+        <JobMajorSelect
+          isOpen={isMajorModal}
+          closeModal={() => setIsMajorModal(!isMajorModal)}
+          handleSelectMajor={handleSelectMajor}
+        />
+      )}
     </div>
   )
 }

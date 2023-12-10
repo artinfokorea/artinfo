@@ -8,11 +8,13 @@ interface JobsRequest {
 }
 
 interface JobPayload {
-  userId: number
-  artistId: number
+  userId: string
   title: string
+  companyName: string
+  companyImageUrl: string
   contents: string
-  imageUrls?: string[]
+  linkUrl?: string
+  majors?: string[]
 }
 
 export const getJobList = async ({
@@ -43,11 +45,11 @@ export const getJob = async (id: number): Promise<JobDetail> => {
   }
 }
 
-// export const createFeed = async (payload: FeedPayload) => {
-//   try {
-//     const response = await apiRequest.post<FEED>("/feeds", payload)
-//     return response
-//   } catch (error) {
-//     throw new Error(exceptionHandler(error, "API createFeed error"))
-//   }
-// }
+export const createJob = async (payload: JobPayload) => {
+  try {
+    const response = await apiRequest.post<Job>("/jobs", payload)
+    return response
+  } catch (error) {
+    throw new Error(exceptionHandler(error, "API createJob error"))
+  }
+}
