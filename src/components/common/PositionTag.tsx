@@ -2,13 +2,18 @@ import React from "react"
 
 interface IProps {
   tag: string
+  margin?: number
 }
 
-const PositionTag = ({ tag }: IProps) => {
+const PositionTag = ({ tag, margin }: IProps) => {
   return (
-    <div className="bg-aliceblue py-1 px-2 rounded-md">
+    <li
+      className={`bg-aliceblue py-1 px-2 rounded-md ${
+        margin ? `mr-${margin}` : ""
+      }`}
+    >
       <span className="text-cornflowerblue font-semibold">{tag}</span>
-    </div>
+    </li>
   )
 }
 

@@ -25,7 +25,7 @@ export const getJobList = async ({
     const payload = {
       page,
       major: major?.join(","),
-      size: 12,
+      size: 20,
     }
     const response: Job[] = await apiRequest.get<Job[]>("/jobs", {
       params: payload,
@@ -51,5 +51,14 @@ export const createJob = async (payload: JobPayload) => {
     return response
   } catch (error) {
     throw new Error(exceptionHandler(error, "API createJob error"))
+  }
+}
+
+export const deleteJob = async (jobId: number) => {
+  try {
+    const response = await apiRequest.delete<Job>("/jobs", jobId)
+    return response
+  } catch (error) {
+    throw new Error(exceptionHandler(error, "API deleteJob error"))
   }
 }

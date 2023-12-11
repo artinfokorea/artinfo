@@ -2,7 +2,6 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import Image from "next/image"
-import { deleteJob, fetchJob } from "@/app/Api"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { isMobileWeb } from "@toss/utils"
@@ -12,7 +11,7 @@ import useAuth from "@/hooks/useAuth"
 import { TrashIcon } from "@heroicons/react/24/outline"
 import { Modal } from "@/components/common/Modal"
 import useToast from "@/hooks/useToast"
-import { getJob } from "@/apis/job"
+import { deleteJob, getJob } from "@/apis/job"
 
 const ScrollButtonWrap = dynamic(
   () => import("@/components/ui/Button/ScrollButtonWrap"),
@@ -73,11 +72,18 @@ export default function JobDetailContainer({ jobId }: IProps) {
     },
   })
 
-  const handleDeleteJob = () => {
+  const handleDeleteJob = async () => {
     setIsOpenModal(false)
-    if (job?.id) {
-      deleteFeedMutation.mutate(job.id)
-    } else {
+
+    if (!job?.id) return
+
+    try {
+      await deleteJob(job.id)
+      router.replace("/jobs")
+      queryClient.invalidateQueries(["recruit_jobs"])
+      successToast("채용 게시글이 삭제되었습니다.")
+    } catch (error) {
+      console.log("error", error)
       errorToast("삭제할 수 없습니다.")
     }
   }

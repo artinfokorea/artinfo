@@ -101,7 +101,7 @@ const JobCreateForm = () => {
 
   const handleCreateJob = async (payload: FormData) => {
     console.log("payload", payload)
-    const { company_name, title } = payload
+    const { company_name, title, linkUrl } = payload
     if (!user) {
       return
     }
@@ -133,7 +133,7 @@ const JobCreateForm = () => {
           contents: htmlStr,
           title,
           majors: selectedMajorList,
-          linkUrl: payload.linkUrl,
+          linkUrl,
         }
 
         await createJob(formData)
