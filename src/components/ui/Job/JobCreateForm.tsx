@@ -28,13 +28,6 @@ const QuillEditor = dynamic(
   },
 )
 
-const items = [
-  { title: "종교", value: "RELIGION" },
-  { title: "교원", value: "LECTURER" },
-  { title: "기타", value: "ETC" },
-  { title: "연주단체", value: "ART_ORGANIZATION" },
-]
-
 const schema = yup
   .object({
     title: yup
@@ -389,7 +382,7 @@ const JobCreateForm = ({ type, job }: Props) => {
                   <Button
                     size="lg"
                     className="rounded-md bg-indigo-500 w-full md:w-32"
-                    disabled={!isDirty || !isValid}
+                    disabled={!isValid}
                     onClick={handleSubmit(handleUpdateJob)}
                   >
                     수정하기

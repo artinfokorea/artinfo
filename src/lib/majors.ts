@@ -9,6 +9,14 @@ export const MajorData: MajorType = [
   "타악",
 ]
 
+export const JobMajorData: MajorType = [
+  "지휘",
+  "피아노",
+  "오르간",
+  "작곡",
+  "타악",
+]
+
 export const StringedInstruments: MajorType = [
   "바이올린",
   "비올라",
@@ -53,6 +61,6 @@ export const KoreanMusic: MajorType = [
   "민요",
 ]
 
-export const JobMajorData: MajorType = ["소프라노", "알토", "테너", "베이스"]
+export const VocalData: MajorType = ["소프라노", "알토", "테너", "베이스"]
 
 export const OfficeJobsData: MajorType = ["기획", "홍보", "경영", "기타"]

@@ -3,7 +3,15 @@ import { Dialog, Transition } from "@headlessui/react"
 import { Fragment, useMemo, useState, useEffect } from "react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import { IconButton } from "@material-tailwind/react"
-import { JobMajorData, OfficeJobsData } from "@/lib/majors"
+import {
+  ContemporaryMusic,
+  JobMajorData,
+  KoreanMusic,
+  OfficeJobsData,
+  StringedInstruments,
+  VocalData,
+  WindInstruments,
+} from "@/lib/majors"
 
 interface Props {
   isOpen: boolean
@@ -39,7 +47,7 @@ const JobMajorSelect = ({ isOpen, closeModal, handleSelectMajor }: Props) => {
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-full max-w-md transform overflow-auto rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all h-[550px]">
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center ">
                   <Dialog.Title
                     as="h3"
                     className="text-xl font-semibold leading-6 text-gray-900"
@@ -56,6 +64,18 @@ const JobMajorSelect = ({ isOpen, closeModal, handleSelectMajor }: Props) => {
                     <XMarkIcon className="w-6" />
                   </IconButton>
                 </div>
+                <div className="mt-2 grid grid-cols-4 break-keep overflow-y">
+                  {JobMajorData.map(major => (
+                    <button
+                      key={major}
+                      className="m-1 bg-orange-200 text-white p-1 rounded-md text-sm"
+                      onClick={() => handleSelectMajor(major)}
+                    >
+                      {major}
+                    </button>
+                  ))}
+                </div>
+
                 <span className="block mt-2 font-medium text-lg">행정</span>
                 <div className="mt-2 grid grid-cols-4 break-keep overflow-y">
                   {OfficeJobsData.map(major => (
@@ -71,7 +91,56 @@ const JobMajorSelect = ({ isOpen, closeModal, handleSelectMajor }: Props) => {
 
                 <span className="block mt-2 font-medium text-lg">성악</span>
                 <div className="mt-2 grid grid-cols-4 break-keep overflow-y">
-                  {JobMajorData.map(major => (
+                  {VocalData.map(major => (
+                    <button
+                      key={major}
+                      className="m-1 bg-orange-200 text-white p-1 rounded-md text-sm"
+                      onClick={() => handleSelectMajor(major)}
+                    >
+                      {major}
+                    </button>
+                  ))}
+                </div>
+
+                <span className="block mt-2 font-medium">현악기</span>
+                <div className="mt-2 grid grid-cols-4 break-keep overflow-y">
+                  {StringedInstruments.map(major => (
+                    <button
+                      key={major}
+                      className="m-1 bg-orange-200 text-white p-1 rounded-md text-sm"
+                      onClick={() => handleSelectMajor(major)}
+                    >
+                      {major}
+                    </button>
+                  ))}
+                </div>
+                <span className="block mt-2 font-medium">관악기</span>
+                <div className="mt-2 grid grid-cols-4 break-keep overflow-y">
+                  {WindInstruments.map(major => (
+                    <button
+                      key={major}
+                      className="m-1 bg-orange-200 text-white p-1 rounded-md text-sm"
+                      onClick={() => handleSelectMajor(major)}
+                    >
+                      {major}
+                    </button>
+                  ))}
+                </div>
+                <span className="block mt-2 font-medium">실용음악</span>
+                <div className="mt-2 grid grid-cols-4 break-keep overflow-y">
+                  {ContemporaryMusic.map(major => (
+                    <button
+                      key={major}
+                      className="m-1 bg-orange-200 text-white p-1 rounded-md text-sm"
+                      onClick={() => handleSelectMajor(major)}
+                    >
+                      {major}
+                    </button>
+                  ))}
+                </div>
+                <span className="block mt-2 font-medium">국악</span>
+                <div className="mt-2 grid grid-cols-4 break-keep overflow-y">
+                  {KoreanMusic.map(major => (
                     <button
                       key={major}
                       className="m-1 bg-orange-200 text-white p-1 rounded-md text-sm"
