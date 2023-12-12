@@ -70,8 +70,6 @@ export default function Container({ inquiryId }: IProps) {
       router.push("/admin/inquiries")
     } catch (e: any) {
       console.log("error", e)
-    } finally {
-      console.log("finally")
     }
   }
 

@@ -16,11 +16,7 @@ const ArtistConcertCard = ({ concert }: Props) => {
   const filters = useFilters()
 
   return (
-    <section
-      className={`card flex p-4 my-1 bg-white  ${
-        concert.isActive ? "border-4 border-blue-gray-300" : ""
-      } `}
-    >
+    <section className="card flex p-4 my-1 bg-white">
       <div className="flex flex-col flex-1 mx-4 text-primary justify-center">
         <span className="font-semibold break-keep">{concert.title}</span>
         <span className="text-xs">{concert.location}</span>

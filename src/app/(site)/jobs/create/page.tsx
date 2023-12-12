@@ -4,7 +4,7 @@ import JobCreateForm from "../../../../components/ui/Job/JobCreateForm"
 const page = () => {
   return (
     <div>
-      <JobCreateForm />
+      <JobCreateForm type="create" />
     </div>
   )
 }

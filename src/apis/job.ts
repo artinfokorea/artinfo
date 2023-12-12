@@ -54,6 +54,15 @@ export const createJob = async (payload: JobPayload) => {
   }
 }
 
+export const updateJob = async (jobId: number, payload: JobPayload) => {
+  try {
+    const response = await apiRequest.put<Job>(`/jobs/${jobId}`, payload)
+    return response
+  } catch (error) {
+    throw new Error(exceptionHandler(error, "API updateJob error"))
+  }
+}
+
 export const deleteJob = async (jobId: number) => {
   try {
     const response = await apiRequest.delete<Job>("/jobs", jobId)

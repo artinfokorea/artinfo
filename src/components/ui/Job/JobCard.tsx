@@ -40,17 +40,15 @@ export default function JobCard({ job }: IProps) {
           />
         )}
       </div>
-      <div className="py-2">
+      <div className="">
         <div className="flex flex-col mb-1">
-          <div className="text-sm  text-darkgrey truncate flex-1 flex flex-col my-1 lg:my-2  ">
-            {/* <span className="mr-2">
-              <PositionTag tag={RECRUIT_JOBS_CATEGORY_ITEMS[job.category]} />
-            </span> */}
-            <ul className="flex">
+          <div className="text-sm  text-darkgrey truncate flex-1 flex flex-col mt-1 lg:my-2  ">
+            <ul className="flex mb-1">
               {job.majors.map(major => (
                 <PositionTag key={major} tag={major} margin={1} />
               ))}
             </ul>
+
             <span>{job.companyName} </span>
           </div>
           <div className="text-sm font-semibold my-0 line-clamp-3 break-keep lg:text-base sm:my-0 md:my-1 lg:my-2">

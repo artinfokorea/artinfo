@@ -12,6 +12,7 @@ import { TrashIcon } from "@heroicons/react/24/outline"
 import { Modal } from "@/components/common/Modal"
 import useToast from "@/hooks/useToast"
 import { deleteJob, getJob } from "@/apis/job"
+import JobCreateForm from "./JobCreateForm"
 
 const ScrollButtonWrap = dynamic(
   () => import("@/components/ui/Button/ScrollButtonWrap"),
@@ -27,6 +28,7 @@ interface IProps {
 
 export default function JobDetailContainer({ jobId }: IProps) {
   const router = useRouter()
+  const [pageType, setPageType] = useState<"read" | "update">("read")
   const isMobile = isMobileWeb()
   const [isIPhone, setIsIPhone] = useState(false)
   const [isOpenModal, setIsOpenModal] = useState(false)
@@ -89,112 +91,147 @@ export default function JobDetailContainer({ jobId }: IProps) {
   }
 
   return (
-    <div className="sm:container mx-auto mt-4 relative pb-40 md:pb-10 px-4">
-      {/* <Element id="top" /> */}
-      <div className="flex" id="top">
-        <div className="flex-1">
-          <div className="w-full h-[200px] md:w-2/5 md:mx-auto md:h-[300px]  overflow-hidden relative">
-            {job?.companyImageUrl?.length && (
-              <Image
-                src={job?.companyImageUrl}
-                alt="company_image"
-                fill
-                quality={100}
-                sizes="(max-width: 480px) 800px, (max-width: 1200px) 1200px, 400px"
-              />
-            )}
-          </div>
+    <div>
+      {pageType === "read" ? (
+        <div className="sm:container mx-auto mt-4 relative pb-40 md:pb-10 px-4">
+          <div className="flex md:min-h-[1000px]" id="top">
+            <div className="flex-1">
+              <div className="w-full h-[200px] md:w-2/5 md:mx-auto md:h-[300px]  overflow-hidden relative">
+                {job?.companyImageUrl?.length && (
+                  <Image
+                    src={job?.companyImageUrl}
+                    alt="company_image"
+                    fill
+                    quality={100}
+                    sizes="(max-width: 480px) 800px, (max-width: 1200px) 1200px, 400px"
+                  />
+                )}
+              </div>
 
-          <section className="my-6">
-            <h2 className="text-3xl font-semi-bold mb-2 break-keep">
-              {job?.title}
-            </h2>
-            <div className="flex items-center">
-              <div className="text-xl mr-2">{job?.companyName}</div>
+              <section className="my-6">
+                <div className="flex justify-between">
+                  <h2 className="text-3xl font-semi-bold mb-2 break-keep">
+                    {job?.title}
+                  </h2>
+                  {/* {job?.userId === user?.id && ( */}
+                  <div>
+                    <button
+                      className="mr-2"
+                      onClick={() => setPageType("update")}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+                        />
+                      </svg>
+                    </button>
+                    <button onClick={() => setIsOpenModal(true)}>
+                      <TrashIcon className="w-9 border-r border-white pr-3" />
+                    </button>
+                  </div>
+                  {/* )} */}
+                </div>
+                <div className="flex items-center">
+                  <div className="text-xl mr-2">{job?.companyName}</div>
+                </div>
+              </section>
+              {job?.contents && (
+                <div
+                  className="w-10/12 mx-auto "
+                  dangerouslySetInnerHTML={{ __html: job.contents }}
+                />
+              )}
             </div>
-          </section>
-          {job?.contents && (
+          </div>
+          {!isMobile && (
+            <div className="flex flex-col text-white">
+              <button
+                className="mt-4 transition ease-in-out duration-150 inline-flex items-center w-full justify-center rounded-md bg-indigo-600 py-3 text-md leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 mr-2"
+                onClick={() => router.back()}
+              >
+                뒤로가기
+              </button>
+              {job?.linkUrl && (
+                <Link
+                  className="mt-4  transition ease-in-out duration-150 inline-flex items-center w-full justify-center rounded-md bg-indigo-600 py-3 text-md leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50"
+                  href={job?.linkUrl}
+                  target="_blank"
+                >
+                  공고 바로가기
+                </Link>
+              )}
+            </div>
+          )}
+          {isMobile && job?.linkUrl && (
             <div
-              className="w-10/12 mx-auto "
-              dangerouslySetInnerHTML={{ __html: job.contents }}
-            />
-          )}
-        </div>
-      </div>
-      {!isMobile && (
-        <div className="flex flex-col text-white">
-          <button
-            className="mt-4 transition ease-in-out duration-150 inline-flex items-center w-full justify-center rounded-md bg-indigo-600 py-3 text-md leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 mr-2"
-            onClick={() => router.back()}
-          >
-            뒤로가기
-          </button>
-          {job?.linkUrl && (
-            <Link
-              className="mt-4  transition ease-in-out duration-150 inline-flex items-center w-full justify-center rounded-md bg-indigo-600 py-3 text-md leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50"
-              href={job?.linkUrl}
-              target="_blank"
+              className={`w-full flex fixed ${
+                isIPhone ? "bottom-20" : "bottom-16"
+              } left-0 h-14
+         bg-indigo-600
+         `}
             >
-              공고 바로가기
-            </Link>
+              {user?.id === job?.userId && (
+                <button
+                  className="text-white px-3 "
+                  onClick={() => setIsOpenModal(true)}
+                >
+                  <TrashIcon className="w-9 border-r border-white pr-3" />
+                </button>
+              )}
+
+              <Link
+                className="flex-1 transition ease-in-out duration-150 
+          inline-flex items-center w-full justify-center text-md pt-1 leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 text-white"
+                href={job?.linkUrl}
+                target="_blank"
+              >
+                공고 바로가기
+              </Link>
+            </div>
           )}
-        </div>
-      )}
-      {isMobile && job?.linkUrl && (
-        <div
-          className={`w-full flex fixed ${
-            isIPhone ? "bottom-20" : "bottom-16"
-          } left-0 h-14
-          bg-indigo-600
-          `}
-        >
-          {user?.id === job?.userId && (
-            <button
-              className="text-white px-3 "
-              onClick={() => setIsOpenModal(true)}
-            >
-              <TrashIcon className="w-9 border-r border-white pr-3" />
-            </button>
+          {isMobile && (
+            <ScrollButtonWrap handleScroll={handleScroll} list="jobs" />
           )}
 
-          <Link
-            className="flex-1 transition ease-in-out duration-150 
-           inline-flex items-center w-full justify-center text-md pt-1 leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 text-white"
-            href={job?.linkUrl}
-            target="_blank"
+          <Modal
+            title="채용 글 삭제"
+            isOpen={isOpenModal}
+            closeModal={() => setIsOpenModal(false)}
           >
-            공고 바로가기
-          </Link>
+            <div className="mt-2">
+              <p className="text-sm text-gray-500">정말 삭제하시겠습니까?</p>
+            </div>
+
+            <div className="mt-4 flex items-end justify-end">
+              <button
+                type="button"
+                className="inline-flex justify-center rounded-md border border-transparent bg-red-300 text-white px-4 py-2 text-sm font-medium  hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 mr-2"
+                onClick={() => setIsOpenModal(false)}
+              >
+                취소
+              </button>
+              <button
+                type="button"
+                className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                onClick={handleDeleteJob}
+              >
+                확인
+              </button>
+            </div>
+          </Modal>
         </div>
+      ) : (
+        <JobCreateForm type={pageType} job={job} />
       )}
-      {isMobile && <ScrollButtonWrap handleScroll={handleScroll} list="jobs" />}
-
-      <Modal
-        title="채용 글 삭제"
-        isOpen={isOpenModal}
-        closeModal={() => setIsOpenModal(false)}
-      >
-        <div className="mt-2">
-          <p className="text-sm text-gray-500">정말 삭제하시겠습니까?</p>
-        </div>
-
-        <div className="mt-4 flex items-end justify-end">
-          <button
-            type="button"
-            className="inline-flex justify-center rounded-md border border-transparent bg-red-300 text-white px-4 py-2 text-sm font-medium  hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 mr-2"
-            onClick={() => setIsOpenModal(false)}
-          >
-            취소
-          </button>
-          <button
-            type="button"
-            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-            onClick={handleDeleteJob}
-          >
-            확인
-          </button>
-        </div>
-      </Modal>
     </div>
   )
 }

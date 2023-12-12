@@ -11,15 +11,14 @@ import FileUploader from "@/components/common/FileUploader"
 import useSupabase from "@/hooks/useSupabase"
 import { useRouter } from "next/navigation"
 import useAuth from "@/hooks/useAuth"
-import { RECRUIT_JOBS_CATEGORY } from "@/types/types"
+import { JobDetail } from "@/types/types"
 import dynamic from "next/dynamic"
 import { useQueryClient } from "@tanstack/react-query"
-import { Listbox, Transition } from "@headlessui/react"
 import Loading from "@/components/ui/Loading/Loading"
-import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid"
 import JobMajorSelect from "@/components/common/JobMajorSelect"
-import { createJob } from "@/apis/job"
+import { createJob, updateJob } from "@/apis/job"
 import FilterTag from "@/components/common/FilterTag"
+import useToast from "@/hooks/useToast"
 
 const QuillEditor = dynamic(
   () => import("@/components/ui/Editor/QuillEditor"),
@@ -48,20 +47,31 @@ const schema = yup
   .required()
 type FormData = yup.InferType<typeof schema>
 
-const JobCreateForm = () => {
+interface Props {
+  type?: "create" | "update"
+  job?: JobDetail
+}
+
+const JobCreateForm = ({ type, job }: Props) => {
   const { user } = useAuth()
   const [uploadedImage, setUploadedImage] = useState<File>()
   const fileUploader = useRef<HTMLInputElement>(null)
   const [isLoading, setIsLoading] = useState(false)
-  const [uploadedImageUrl, setUploadedImageUrl] = useState("")
+  const [uploadedImageUrl, setUploadedImageUrl] = useState(
+    job?.companyImageUrl || "",
+  )
+
   const [htmlStr, setHtmlStr] = useState<string>("")
   const [selectedMajor, setSelectedMajor] = useState("")
-  const [selectedMajorList, setSelectedMajorList] = useState<string[]>([])
+  const [selectedMajorList, setSelectedMajorList] = useState<string[]>(
+    job?.majors || [],
+  )
   const [isMajorModal, setIsMajorModal] = useState(false)
   const supabase = useSupabase()
   const router = useRouter()
   const quillRef = useRef()
   const queryClient = useQueryClient()
+  const { successToast } = useToast()
 
   const {
     register,
@@ -99,6 +109,15 @@ const JobCreateForm = () => {
     }
   }, [selectedMajor])
 
+  useEffect(() => {
+    if (job) {
+      setValue("title", job.title)
+      setValue("company_name", job.companyName)
+      setValue("linkUrl", job.linkUrl)
+      setHtmlStr(job.contents)
+    }
+  }, [job])
+
   const handleCreateJob = async (payload: FormData) => {
     console.log("payload", payload)
     const { company_name, title, linkUrl } = payload
@@ -108,8 +127,6 @@ const JobCreateForm = () => {
 
     setIsLoading(true)
     try {
-      // upload file
-
       if (uploadedImage) {
         // const filename = uploadedImage.name
         const filename = new Date().getTime().toString()
@@ -150,7 +167,58 @@ const JobCreateForm = () => {
         // }
       }
       await queryClient.invalidateQueries({ queryKey: ["recruit_jobs"] })
-      console.log("SUCCESS!")
+      successToast("채용 글이 등록되었습니다.")
+      router.push("/jobs")
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleUpdateJob = async (payload: FormData) => {
+    const { company_name, title, linkUrl } = payload
+    if (!user || !job) {
+      return
+    }
+
+    const formData = {
+      userId: user.id,
+      companyImageUrl: "",
+      companyName: company_name,
+      contents: htmlStr,
+      title,
+      majors: selectedMajorList,
+      linkUrl,
+    }
+
+    setIsLoading(true)
+    try {
+      if (uploadedImage) {
+        // const filename = uploadedImage.name
+        const filename = new Date().getTime().toString()
+        const extension = uploadedImage.name.split(".")[1]
+        const path = `recruits_jobs/${user.id}/${filename}.${extension}`
+        const { error: uploadError, data } = await supabase.storage
+          .from("artinfo")
+          .upload(path, uploadedImage, {
+            cacheControl: "36000",
+            upsert: true,
+          })
+        if (uploadError) {
+          throw uploadError
+        }
+        const fileUrl = `https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/${data.path}`
+
+        formData.companyImageUrl = fileUrl
+
+        await updateJob(job.id, formData)
+      } else {
+        formData.companyImageUrl = job.companyImageUrl
+        await updateJob(job.id, formData)
+      }
+      await queryClient.invalidateQueries({ queryKey: ["recruit_jobs"] })
+      successToast("채용 글이 수정되었습니다.")
       router.push("/jobs")
     } catch (error) {
       console.error(error)
@@ -308,7 +376,7 @@ const JobCreateForm = () => {
                   <div className="w-full flex items-center justify-center">
                     <Spinner />
                   </div>
-                ) : (
+                ) : type === "create" ? (
                   <Button
                     size="lg"
                     className="rounded-md bg-indigo-500 w-full md:w-32"
@@ -316,6 +384,15 @@ const JobCreateForm = () => {
                     onClick={handleSubmit(handleCreateJob)}
                   >
                     등록하기
+                  </Button>
+                ) : (
+                  <Button
+                    size="lg"
+                    className="rounded-md bg-indigo-500 w-full md:w-32"
+                    disabled={!isDirty || !isValid}
+                    onClick={handleSubmit(handleUpdateJob)}
+                  >
+                    수정하기
                   </Button>
                 )}
               </div>

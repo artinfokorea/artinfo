@@ -40,8 +40,6 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
     queryFn: () => fetchConcert(pageId),
   })
 
-  console.log("concert", concert)
-
   const isMobile = isMobileWeb()
   const { user } = useAuth()
   const filters = useFilters()

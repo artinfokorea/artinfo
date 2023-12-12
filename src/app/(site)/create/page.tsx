@@ -35,7 +35,7 @@ export default function CreatePost() {
   const fileUploader = useRef<HTMLInputElement>(null)
   const searchParams = useSearchParams()
   const artistId = searchParams.get("artistId")
-  const { errorToast } = useToast()
+  const { errorToast, successToast } = useToast()
 
   const { data: artist } = useQuery({
     queryKey: ["artist", artistId],
@@ -106,7 +106,7 @@ export default function CreatePost() {
       await createFeed(formData)
 
       await queryClient.invalidateQueries({ queryKey: ["feeds"] })
-
+      successToast("피드가 작성되었습니다.")
       console.log("SUCCESS!")
       router.replace("/")
     } catch (error) {
