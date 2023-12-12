@@ -214,7 +214,7 @@ export default function Container() {
   return (
     <div
       ref={containerEl}
-      className="mx-auto max-w-screen-lg lg:px-0 pt-0 md:pt-4"
+      className="mx-auto max-w-screen-lg lg:px-0 pt-0 md:pt-2"
     >
       <BannerContainer />
       <div className="flex my-2">
