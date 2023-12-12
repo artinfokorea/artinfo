@@ -35,7 +35,10 @@ const schema = yup
       .max(50, "제목 글자수는 50글자까지 허용합니다.")
       .required("채용 제목은 필수입니다."),
     company_name: yup.string().required("채용 기관명은 필수입니다."),
-    linkUrl: yup.string().url("유효한 url 주소를 입력해주세요."),
+    linkUrl: yup
+      .string()
+      .url("유효한 url 주소를 입력해주세요.")
+      .required("url 주소는 필수입력 사항입니다."),
   })
   .required()
 type FormData = yup.InferType<typeof schema>
@@ -59,6 +62,7 @@ const JobCreateForm = ({ type, job }: Props) => {
   const [selectedMajorList, setSelectedMajorList] = useState<string[]>(
     job?.majors || [],
   )
+
   const [isMajorModal, setIsMajorModal] = useState(false)
   const supabase = useSupabase()
   const router = useRouter()
@@ -119,6 +123,16 @@ const JobCreateForm = ({ type, job }: Props) => {
     }
 
     setIsLoading(true)
+
+    const formData = {
+      userId: user.id,
+      companyImageUrl: "",
+      companyName: company_name,
+      contents: htmlStr,
+      title,
+      majors: selectedMajorList,
+      linkUrl,
+    }
     try {
       if (uploadedImage) {
         // const filename = uploadedImage.name
@@ -136,15 +150,7 @@ const JobCreateForm = ({ type, job }: Props) => {
         }
         const fileUrl = `https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/${data.path}`
 
-        const formData = {
-          userId: user.id,
-          companyImageUrl: fileUrl,
-          companyName: company_name,
-          contents: htmlStr,
-          title,
-          majors: selectedMajorList,
-          linkUrl,
-        }
+        formData.companyImageUrl = fileUrl
 
         await createJob(formData)
 
@@ -158,6 +164,8 @@ const JobCreateForm = ({ type, job }: Props) => {
         // if (updateError) {
         //   throw updateError
         // }
+      } else {
+        await createJob(formData)
       }
       await queryClient.invalidateQueries({ queryKey: ["recruit_jobs"] })
       successToast("채용 글이 등록되었습니다.")
@@ -373,7 +381,7 @@ const JobCreateForm = ({ type, job }: Props) => {
                   <Button
                     size="lg"
                     className="rounded-md bg-indigo-500 w-full md:w-32"
-                    disabled={!isDirty || !isValid}
+                    disabled={!isValid}
                     onClick={handleSubmit(handleCreateJob)}
                   >
                     등록하기
