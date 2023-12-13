@@ -46,6 +46,7 @@
     "no-restricted-syntax": "off", // 제한된 구문 경고를 비활성화
     "react/no-danger": "off",
     "jsx-a11y/img-redundant-alt": "off",
+    "react-hooks/exhaustive-deps": "off",
     "react/function-component-definition": [
       2,
       { "namedComponents": ["arrow-function", "function-declaration"] }

@@ -45,8 +45,6 @@ const EducationDetailContainer = ({ pageId }: Props) => {
     queryFn: () => getLesson(Number(pageId)),
   })
 
-  console.log("lessonDetail", lesson)
-
   const copyToPhone = async () => {
     const isSuccess = await clipboard.writeText(lesson?.phone as string)
 

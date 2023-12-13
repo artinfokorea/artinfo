@@ -93,6 +93,18 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
     }
   }
 
+  const goToBack = () => {
+    const storage = globalThis?.sessionStorage
+    if (storage) {
+      const link = storage.getItem("currentPath") || "/"
+      if (link.includes("/artists")) {
+        router.back()
+      } else {
+        router.replace("/concerts")
+      }
+    }
+  }
+
   return (
     <div className="">
       {pageType === "read" ? (
@@ -179,7 +191,7 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
             <div className="flex flex-col text-white mb-4">
               <button
                 className="mt-4 transition ease-in-out duration-150 inline-flex items-center w-full justify-center  bg-indigo-600 py-3 text-md leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 rounded-md disabled:opacity-50 mr-2"
-                onClick={() => router.replace("/")}
+                onClick={goToBack}
               >
                 뒤로가기
               </button>
@@ -228,7 +240,11 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
             </div>
           )}
           {isMobile && (
-            <ScrollButtonWrap handleScroll={handleScroll} list="concerts" />
+            <ScrollButtonWrap
+              handleScroll={handleScroll}
+              list="concerts"
+              goToBack={goToBack}
+            />
           )}
 
           <Modal

@@ -189,12 +189,15 @@ export default function Header() {
   const isMobile = isMobileWeb()
   const [scrollDir, setScrollDir] = useRecoilState(scrollDirState)
   const pathname = usePathname()
-  const params = useParams()
 
-  // useEffect(() => {
-  //   if (params.id) setScrollDir("scrollUp")
-  //   if (pathname) setScrollDir("scrollUp")
-  // }, [params])
+  useEffect(() => storePathValues, [pathname])
+
+  function storePathValues() {
+    const storage = globalThis?.sessionStorage
+    if (!storage) return
+
+    storage.setItem("currentPath", pathname)
+  }
 
   useEffect(() => {
     if (user) {
