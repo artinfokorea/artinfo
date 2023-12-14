@@ -21,7 +21,7 @@ export default function JobCard({ job }: IProps) {
 
   return (
     <div className="card">
-      <div className="overflow-hidden relative h-[150px]">
+      <div className="overflow-hidden relative h-[120px] md:h-[150px]">
         {isLoading && (
           <div className="flex items-center justify-center absolute inset-0">
             <Spinner />
@@ -43,13 +43,13 @@ export default function JobCard({ job }: IProps) {
       <div className="">
         <div className="flex flex-col mb-1">
           <div className="text-sm  text-darkgrey truncate flex-1 flex flex-col mt-1 lg:my-2  ">
-            <ul className="flex mb-1">
+            <ul className="flex mb-1 ">
               {job.majors.map(major => (
                 <PositionTag key={major} tag={major} margin={1} />
               ))}
             </ul>
 
-            <span>{job.companyName} </span>
+            <span className="my-1">{job.companyName} </span>
           </div>
           <div className="text-sm font-semibold my-0 line-clamp-3 break-keep lg:text-base sm:my-0 md:my-1 lg:my-2">
             {job.title}
