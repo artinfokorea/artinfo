@@ -110,13 +110,13 @@ export default function JobDetailContainer({ jobId }: IProps) {
 
               <section className="my-6">
                 <div className="flex justify-between">
-                  <h2 className="text-3xl font-semi-bold mb-2 break-keep">
+                  <h2 className="text-3xl font-semi-bold mb-2 break-words">
                     {job?.title}
                   </h2>
 
                   {(job?.userId === user?.id ||
                     user?.id === "ef03de92-798d-4aa8-a750-831e97f8e889") && (
-                    <div>
+                    <div className="flex ml-2 mb-auto">
                       <button
                         className="mr-2"
                         onClick={() => setPageType("update")}
@@ -127,7 +127,7 @@ export default function JobDetailContainer({ jobId }: IProps) {
                           viewBox="0 0 24 24"
                           strokeWidth={1.5}
                           stroke="currentColor"
-                          className="w-6 h-6"
+                          className="w-6 h-6 md:w-9 md:h-9"
                         >
                           <path
                             strokeLinecap="round"
@@ -137,7 +137,7 @@ export default function JobDetailContainer({ jobId }: IProps) {
                         </svg>
                       </button>
                       <button onClick={() => setIsOpenModal(true)}>
-                        <TrashIcon className="w-9 border-r border-white pr-3" />
+                        <TrashIcon className="w-9 md:w-12 h-9 border-r border-white pr-3" />
                       </button>
                     </div>
                   )}
@@ -181,14 +181,14 @@ export default function JobDetailContainer({ jobId }: IProps) {
          bg-indigo-600
          `}
             >
-              {user?.id === job?.userId && (
+              {/* {user?.id === job?.userId && (
                 <button
                   className="text-white px-3 "
                   onClick={() => setIsOpenModal(true)}
                 >
                   <TrashIcon className="w-9 border-r border-white pr-3" />
                 </button>
-              )}
+              )} */}
 
               <Link
                 className="flex-1 transition ease-in-out duration-150 
