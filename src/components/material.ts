@@ -32,6 +32,7 @@ import {
   Select,
   Option,
   Spinner,
+  Carousel,
 } from "@material-tailwind/react"
 
 export {
@@ -66,4 +67,5 @@ export {
   ButtonGroup,
   Option,
   Spinner,
+  Carousel,
 }
