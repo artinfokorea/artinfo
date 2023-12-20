@@ -17,7 +17,25 @@ const BannerContainer = () => {
 
   return (
     <div className="py-2 px-4 md:p-0 mb-2">
-      <Swiper autoplay pagination={{ clickable: true }} modules={[Pagination]}>
+      {banners && (
+        <div
+          className="cursor-pointer relative h-[140px] md:h-[250px]"
+          onClick={() => router.push("/inquiry")}
+        >
+          <Image
+            src={banners[0].image_url}
+            alt="banner_image"
+            fill
+            priority
+            unoptimized
+            quality={100}
+            sizes="(max-width: 680px) 500px 140px, (max-width: 1200px) 1200px, 250px"
+            className="rounded-xl shadow"
+          />
+        </div>
+      )}
+
+      {/* <Swiper autoplay pagination={{ clickable: true }} modules={[Pagination]}>
         {banners?.map(banner => (
           <SwiperSlide key={banner.id} style={{ width: "100%" }}>
             <div
@@ -37,7 +55,7 @@ const BannerContainer = () => {
             </div>
           </SwiperSlide>
         ))}
-      </Swiper>
+      </Swiper> */}
     </div>
   )
 }
