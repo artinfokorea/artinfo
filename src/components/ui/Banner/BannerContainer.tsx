@@ -18,21 +18,23 @@ const BannerContainer = () => {
     <div className="py-2 px-4 md:p-0 mb-2">
       <Carousel>
         {banners?.map(banner => (
-          <div
+          <Link
             key={banner.id}
-            className="cursor-pointer relative h-[140px] md:h-[250px]"
-            onClick={() => router.push("/inquiry")}
+            href={banner.redirect_url as string}
+            target="_blank"
           >
-            <Image
-              src={banner.image_url}
-              alt="banner_image"
-              fill
-              quality={100}
-              unoptimized
-              sizes="(max-width: 680px) 500px 140px, (max-width: 1200px) 1200px, 250px"
-              className="rounded-xl shadow"
-            />
-          </div>
+            <div className="cursor-pointer relative h-[140px] md:h-[250px]">
+              <Image
+                src={banner.image_url}
+                alt="banner_image"
+                fill
+                quality={100}
+                unoptimized
+                sizes="(max-width: 680px) 500px 140px, (max-width: 1200px) 1200px, 250px"
+                className="rounded-xl shadow"
+              />
+            </div>
+          </Link>
         ))}
       </Carousel>
     </div>
