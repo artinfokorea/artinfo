@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import { useInfiniteQuery } from "@tanstack/react-query"
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query"
 import { useDidUpdate } from "@toss/react"
 import { useInView } from "react-intersection-observer"
 import { CONCERT, CONCERT_CATEGORY } from "@/types/types"
-import { getConcertLists } from "@/apis/concert"
+import { Chip } from "@/components/material"
+import { getConcertKeywords, getConcertLists } from "@/apis/concert"
 import ConcertCard from "./ConcertCard"
 import ConcertCategory from "./ConcertCategory"
 import ConcertSkeleton from "../Skeleton/ConcertSkeleton"
@@ -33,6 +34,13 @@ export default function ConcertContainer() {
     delay: 300,
     threshold: 1,
   })
+
+  const { data: keywords } = useQuery({
+    queryKey: ["keywords"],
+    queryFn: () => getConcertKeywords(20),
+  })
+
+  console.log("keywords", keywords)
 
   useEffect(() => {
     setIsMounted(true)
@@ -76,11 +84,14 @@ export default function ConcertContainer() {
 
   return (
     <div id="top">
-      <div className="mb-4 flex align-center justify-between">
-        <ConcertCategory
+      <div className="mb-4 flex">
+        {/* <ConcertCategory
           category={category}
           updatedCategory={updatedCategory}
-        />
+        /> */}
+        {keywords?.map(keyword => (
+          <Chip key={keyword} value={keyword} className="cursor-pointer" />
+        ))}
       </div>
 
       {isLoading && (

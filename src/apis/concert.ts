@@ -41,3 +41,14 @@ export const getConcertLists = async ({
     throw new Error(exceptionHandler(error, "API getConcertLists error"))
   }
 }
+
+export const getConcertKeywords = async (size: number): Promise<string[]> => {
+  try {
+    const response = await apiRequest.get<string[]>("/concerts/keywords", {
+      params: { size },
+    })
+    return response
+  } catch (error) {
+    throw new Error(exceptionHandler(error, "API getConcertKeywords error"))
+  }
+}
