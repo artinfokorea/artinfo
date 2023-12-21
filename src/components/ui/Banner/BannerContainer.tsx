@@ -4,6 +4,7 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 import React from "react"
 import { Carousel } from "@/components/material"
+import Link from "next/link"
 
 const BannerContainer = () => {
   const router = useRouter()
@@ -26,6 +27,8 @@ const BannerContainer = () => {
               src={banner.image_url}
               alt="banner_image"
               fill
+              quality={100}
+              unoptimized
               sizes="(max-width: 680px) 500px 140px, (max-width: 1200px) 1200px, 250px"
               className="rounded-xl shadow"
             />
