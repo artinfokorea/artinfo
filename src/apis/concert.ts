@@ -4,7 +4,7 @@ import { exceptionHandler } from "./exception-handler"
 
 interface ConcertsRequest {
   page: number
-  category?: "ALL" | CONCERT_CATEGORY
+  keyword?: string
 }
 
 export const getConcertsByArtist = async (
@@ -22,20 +22,25 @@ export const getConcertsByArtist = async (
 
 export const getConcertLists = async ({
   page,
-  category,
+  keyword,
 }: ConcertsRequest): Promise<CONCERT[]> => {
   try {
     const payload: ConcertsRequest = {
       page,
     }
-    if (category && category !== "ALL") {
-      payload.category = category
+    // if (category && category !== "ALL") {
+    //   payload.category = category
+    // }
+    if (keyword) {
+      payload.keyword = keyword
     }
     const size = 20
 
     const response = await apiRequest.get<CONCERT[]>("/concerts", {
       params: { ...payload, size },
     })
+    console.log("payload", payload)
+    console.log("response", response)
     return response
   } catch (error) {
     throw new Error(exceptionHandler(error, "API getConcertLists error"))

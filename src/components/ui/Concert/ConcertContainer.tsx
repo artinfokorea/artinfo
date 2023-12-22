@@ -6,23 +6,28 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query"
 import { useDidUpdate } from "@toss/react"
 import { useInView } from "react-intersection-observer"
 import { CONCERT, CONCERT_CATEGORY } from "@/types/types"
-import { Chip } from "@/components/material"
 import { getConcertKeywords, getConcertLists } from "@/apis/concert"
 import ConcertCard from "./ConcertCard"
-import ConcertCategory from "./ConcertCategory"
 import ConcertSkeleton from "../Skeleton/ConcertSkeleton"
+import { Badge } from "../badge"
 
 export default function ConcertContainer() {
   const [category, selectCategory] = useState<"ALL" | CONCERT_CATEGORY>("ALL")
   const [isMounted, setIsMounted] = useState(false)
+  const [selectedBadge, setSelectedBadge] = useState("")
+  const [searchInput, setSearchInput] = useState("")
+  const [searchKeyword, setSearchKeyword] = useState("")
 
   // useScrollDirection()
 
   const getConcerts = async (
-    category: "ALL" | CONCERT_CATEGORY,
     pageParam: number,
+    keyword?: string,
   ): Promise<any> => {
-    const response = await getConcertLists({ page: pageParam, category })
+    const response = await getConcertLists({
+      page: pageParam,
+      keyword,
+    })
     return {
       concerts: response,
       nextPage: pageParam + 1,
@@ -37,19 +42,17 @@ export default function ConcertContainer() {
 
   const { data: keywords } = useQuery({
     queryKey: ["keywords"],
-    queryFn: () => getConcertKeywords(20),
+    queryFn: () => getConcertKeywords(5),
   })
-
-  console.log("keywords", keywords)
 
   useEffect(() => {
     setIsMounted(true)
   }, [])
 
   const { isLoading, data, fetchNextPage, hasNextPage } = useInfiniteQuery(
-    ["concerts", category],
+    ["concerts", searchKeyword],
     ({ pageParam = 1 }) => {
-      return getConcerts(category, pageParam)
+      return getConcerts(pageParam, searchKeyword)
     },
     {
       getNextPageParam: lastPage => {
@@ -82,16 +85,68 @@ export default function ConcertContainer() {
     }
   }
 
+  const handleBagge = (keyword: string) => {
+    if (selectedBadge === keyword) {
+      setSelectedBadge("")
+    } else {
+      setSelectedBadge(keyword)
+      setSearchInput((prev: string) => prev + keyword)
+      setSearchKeyword(keyword)
+    }
+  }
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value)
+    setSelectedBadge("")
+  }
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault()
+    setSearchKeyword(searchInput)
+  }
+
   return (
     <div id="top">
-      <div className="mb-4 flex">
-        {/* <ConcertCategory
-          category={category}
-          updatedCategory={updatedCategory}
-        /> */}
-        {keywords?.map(keyword => (
-          <Chip key={keyword} value={keyword} className="cursor-pointer" />
-        ))}
+      <div className="mb-4 flex flex-col">
+        <form className="relative" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            value={searchInput}
+            className="w-full rounded-3xl h-12 border-none pl-10 outline-none"
+            placeholder="공연 키워드를 검색해보세요."
+            onChange={handleInput}
+          />
+          <button onClick={handleSubmit}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              data-slot="icon"
+              className="w-6 h-6 absolute left-3 top-3 text-gray-400"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
+        </form>
+        <div className="mt-4">
+          {keywords?.map(keyword => (
+            <Badge
+              key={keyword}
+              className={`cursor-pointer bg-whitesmoke text-primary text-sm md:text-lg  ml-2 py-[6px] px-3 ${
+                selectedBadge === keyword
+                  ? "border border-royalblue bg-white text-royalblue"
+                  : ""
+              } `}
+              onClick={() => handleBagge(keyword)}
+            >
+              # {keyword}
+            </Badge>
+          ))}
+        </div>
       </div>
 
       {isLoading && (
