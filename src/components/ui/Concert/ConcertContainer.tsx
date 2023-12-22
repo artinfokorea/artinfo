@@ -10,7 +10,6 @@ import { getConcertKeywords, getConcertLists } from "@/apis/concert"
 import ConcertCard from "./ConcertCard"
 import ConcertSkeleton from "../Skeleton/ConcertSkeleton"
 import { Badge } from "../badge"
-import { set } from "react-hook-form"
 
 export default function ConcertContainer() {
   const [isMounted, setIsMounted] = useState(false)
@@ -87,7 +86,7 @@ export default function ConcertContainer() {
       setSelectedBadge("")
     } else {
       setSelectedBadge(keyword)
-      setSearchInput((prev: string) => prev + keyword)
+      setSearchInput(keyword)
       setSearchKeyword(keyword)
     }
   }
