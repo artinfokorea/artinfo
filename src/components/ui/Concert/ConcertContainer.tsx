@@ -10,6 +10,7 @@ import { getConcertKeywords, getConcertLists } from "@/apis/concert"
 import ConcertCard from "./ConcertCard"
 import ConcertSkeleton from "../Skeleton/ConcertSkeleton"
 import { Badge } from "../badge"
+import { set } from "react-hook-form"
 
 export default function ConcertContainer() {
   const [isMounted, setIsMounted] = useState(false)
@@ -42,6 +43,7 @@ export default function ConcertContainer() {
   const { data: keywords } = useQuery({
     queryKey: ["keywords"],
     queryFn: () => getConcertKeywords(5),
+    staleTime: 1000 * 60 * 60 * 24,
   })
 
   useEffect(() => {
@@ -100,6 +102,11 @@ export default function ConcertContainer() {
     setSearchKeyword(searchInput)
   }
 
+  const resetInput = () => {
+    setSearchInput("")
+    setSelectedBadge("")
+  }
+
   return (
     <div id="top">
       <div className="mb-4 flex flex-col">
@@ -126,6 +133,24 @@ export default function ConcertContainer() {
               />
             </svg>
           </button>
+          {searchInput && (
+            <button className="absolute right-3 top-3" onClick={resetInput}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-6 h-6 text-gray-400"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18 18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          )}
         </form>
         <div className="mt-4">
           {keywords?.map(keyword => (

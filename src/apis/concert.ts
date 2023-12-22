@@ -28,19 +28,14 @@ export const getConcertLists = async ({
     const payload: ConcertsRequest = {
       page,
     }
-    // if (category && category !== "ALL") {
-    //   payload.category = category
-    // }
     if (keyword) {
       payload.keyword = keyword
     }
     const size = 20
-
     const response = await apiRequest.get<CONCERT[]>("/concerts", {
       params: { ...payload, size },
     })
-    console.log("payload", payload)
-    console.log("response", response)
+
     return response
   } catch (error) {
     throw new Error(exceptionHandler(error, "API getConcertLists error"))
