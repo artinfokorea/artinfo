@@ -5,14 +5,13 @@ import Link from "next/link"
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query"
 import { useDidUpdate } from "@toss/react"
 import { useInView } from "react-intersection-observer"
-import { CONCERT, CONCERT_CATEGORY } from "@/types/types"
+import { CONCERT } from "@/types/types"
 import { getConcertKeywords, getConcertLists } from "@/apis/concert"
 import ConcertCard from "./ConcertCard"
 import ConcertSkeleton from "../Skeleton/ConcertSkeleton"
 import { Badge } from "../badge"
 
 export default function ConcertContainer() {
-  const [category, selectCategory] = useState<"ALL" | CONCERT_CATEGORY>("ALL")
   const [isMounted, setIsMounted] = useState(false)
   const [selectedBadge, setSelectedBadge] = useState("")
   const [searchInput, setSearchInput] = useState("")
@@ -70,10 +69,6 @@ export default function ConcertContainer() {
       fetchNextPage()
     }
   }, [inView, hasNextPage])
-
-  const updatedCategory = (_category: "ALL" | CONCERT_CATEGORY) => {
-    selectCategory(_category)
-  }
 
   const handleScroll = () => {
     const element = document.getElementById("top")
