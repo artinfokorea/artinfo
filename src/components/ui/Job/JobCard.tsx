@@ -2,6 +2,7 @@
 
 import PositionTag from "@/components/common/PositionTag"
 import useFilters from "@/hooks/useFilters"
+import { v4 as uuidv4 } from "uuid"
 import { Job } from "@/types/types"
 import { Spinner } from "@material-tailwind/react"
 import Image from "next/image"
@@ -45,7 +46,7 @@ export default function JobCard({ job }: IProps) {
           <div className="text-sm  text-darkgrey truncate flex-1 flex flex-col mt-1 lg:my-2  ">
             <ul className="flex mb-1 ">
               {job.majors.map(major => (
-                <PositionTag key={major} tag={major} margin={1} />
+                <PositionTag key={uuidv4()} tag={major} margin={1} />
               ))}
             </ul>
 
