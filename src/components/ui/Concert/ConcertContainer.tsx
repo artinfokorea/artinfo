@@ -104,6 +104,7 @@ export default function ConcertContainer() {
   const resetInput = () => {
     setSearchInput("")
     setSelectedBadge("")
+    setSearchKeyword("")
   }
 
   return (
