@@ -87,7 +87,8 @@ const ConcertForm = ({ type, concert }: Props) => {
   const isValidForm = location?.length >= 5 && title.length && uploadedImageUrl
 
   const isValidUrl = () => {
-    const urlPattern = /^https:\/\//i
+    // const urlPattern = /^https:\/\//i
+    const urlPattern = /^https?:\/\//i
     if (!linkUrl) return false
     return urlPattern.test(linkUrl)
   }
