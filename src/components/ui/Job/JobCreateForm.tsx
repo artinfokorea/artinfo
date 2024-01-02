@@ -19,6 +19,7 @@ import JobMajorSelect from "@/components/common/JobMajorSelect"
 import { createJob, updateJob } from "@/apis/job"
 import FilterTag from "@/components/common/FilterTag"
 import useToast from "@/hooks/useToast"
+import { v4 as uuidv4 } from "uuid"
 
 const QuillEditor = dynamic(
   () => import("@/components/ui/Editor/QuillEditor"),
@@ -255,7 +256,7 @@ const JobCreateForm = ({ type, job }: Props) => {
             <div className="flex ml-2 overflow-x-auto w-full">
               {selectedMajorList.map((major, index) => (
                 <FilterTag
-                  key={major}
+                  key={uuidv4()}
                   tag={major}
                   color="blue"
                   index={index}
