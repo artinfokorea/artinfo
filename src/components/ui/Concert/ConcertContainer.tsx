@@ -156,7 +156,7 @@ export default function ConcertContainer() {
           {keywords?.map(keyword => (
             <Badge
               key={keyword}
-              className={`cursor-pointer bg-whitesmoke text-primary text-sm md:text-lg  ml-2 py-[6px] px-3 ${
+              className={`cursor-pointer bg-badge text-primary text-sm md:text-lg  ml-2 py-[6px] px-3 my-1 md:my-0 ${
                 selectedBadge === keyword
                   ? "border border-royalblue bg-white text-royalblue"
                   : ""
