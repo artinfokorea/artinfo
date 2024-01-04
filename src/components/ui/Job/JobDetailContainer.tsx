@@ -11,6 +11,7 @@ import useAuth from "@/hooks/useAuth"
 import { TrashIcon } from "@heroicons/react/24/outline"
 import { Modal } from "@/components/common/Modal"
 import useToast from "@/hooks/useToast"
+import { Dialog } from "@headlessui/react"
 import { deleteJob, getJob } from "@/apis/job"
 import JobCreateForm from "./JobCreateForm"
 
@@ -35,6 +36,7 @@ export default function JobDetailContainer({ jobId }: IProps) {
   const { user } = useAuth()
   const { errorToast, successToast } = useToast()
   const queryClient = useQueryClient()
+  const [isOpen, setIsOpen] = useState(false)
 
   const { data: job } = useQuery({
     queryKey: ["job", jobId],
@@ -51,6 +53,10 @@ export default function JobDetailContainer({ jobId }: IProps) {
       })
     }
   }
+
+  useEffect(() => {
+    if (!user) setIsOpen(true)
+  }, [user])
 
   useEffect(() => {
     const userAgent = navigator.userAgent.toLowerCase()
@@ -90,10 +96,14 @@ export default function JobDetailContainer({ jobId }: IProps) {
     }
   }
 
+  const goToLogin = () => {
+    router.push("/auth")
+  }
+
   return (
     <div>
       {pageType === "read" ? (
-        <div className="sm:container mx-auto mt-4 relative pb-40 md:pb-10 px-4">
+        <div className="sm:container mx-auto mt-4 relative pb-40 md:pb-10 px-4 z-10">
           <div className="flex md:min-h-[1000px]" id="top">
             <div className="flex-1">
               <div className="w-full h-[200px] md:w-2/5 md:mx-auto md:h-[300px]  overflow-hidden relative">
@@ -230,6 +240,50 @@ export default function JobDetailContainer({ jobId }: IProps) {
               </button>
             </div>
           </Modal>
+          <Modal
+            title="로그인이 필요합니다."
+            isOpen={isOpen}
+            closeModal={goToLogin}
+          >
+            <div className="mt-2">
+              <p className="text-sm text-gray-500 font-medium">
+                해당 페이지는 로그인 후 확인하실수 있습니다.
+                <br />
+                로그인 후 이용해주세요.
+              </p>
+            </div>
+
+            <div className="mt-4 flex items-end justify-end">
+              <button
+                type="button"
+                className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                onClick={goToLogin}
+              >
+                확인
+              </button>
+            </div>
+          </Modal>
+
+          {/* <Dialog
+            open={isOpen}
+            onClose={() => setIsOpen(false)}
+            className="bg-white"
+          >
+            <Dialog.Panel className="p-4">
+              <Dialog.Title>Deactivate account</Dialog.Title>
+              <Dialog.Description>
+                This will permanently deactivate your account
+              </Dialog.Description>
+
+              <p>
+                Are you sure you want to deactivate your account? All of your
+                data will be permanently removed. This action cannot be undone.
+              </p>
+
+              <button onClick={() => setIsOpen(false)}>Deactivate</button>
+              <button onClick={() => setIsOpen(false)}>Cancel</button>
+            </Dialog.Panel>
+          </Dialog> */}
         </div>
       ) : (
         <JobCreateForm type={pageType} job={job} />

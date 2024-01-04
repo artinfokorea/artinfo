@@ -31,10 +31,6 @@ export async function middleware(req: NextRequest) {
     if (!data.session) {
       return NextResponse.redirect(new URL("/auth", req.url))
     }
-  } else if (pathname.startsWith("/jobs/")) {
-    if (!data.session) {
-      return NextResponse.redirect(new URL("/auth", req.url))
-    }
   } else if (pathname === "/posts") {
     return NextResponse.redirect(new URL("/", req.url), { status: 301 })
   } else if (pathname === "/inspection") {
@@ -42,6 +38,12 @@ export async function middleware(req: NextRequest) {
   } else if (pathname === "/issues") {
     return NextResponse.redirect(new URL("/", req.url))
   }
+
+  // else if (pathname.startsWith("/jobs/")) {
+  //   if (!data.session) {
+  //     return NextResponse.redirect(new URL("/auth", req.url))
+  //   }
+  // }
 
   return res
 }
