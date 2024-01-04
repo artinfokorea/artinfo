@@ -27,6 +27,7 @@ import { useEffect, useRef, useState } from "react"
 import { PostCard } from "./PostCard"
 import AdContainer from "../Home/ad/AdContainer"
 import BannerContainer from "../Banner/BannerContainer"
+import Visitor from "../Visitor/Visitor"
 
 function ProfileCard() {
   return (
@@ -222,9 +223,9 @@ export default function Container() {
           {/* <div className="mb-2 ">
             <WriteFeedCard />
           </div> */}
-
           <div className="feed-groups pb-5">
             {/* <LessonSlide /> */}
+            <Visitor />
             <AdSection />
 
             {/* {isLoading && (

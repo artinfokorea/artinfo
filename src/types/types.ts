@@ -564,3 +564,12 @@ export type YOUTUBE = {
   linkUrl: string
   publishedAt: string
 }
+
+/*
+ * --------------------------------------------------- YOUTUBE ---------------------------------------------------------
+ */
+
+export type STATISTICS = {
+  visitors: number
+  users: number
+}
