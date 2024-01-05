@@ -40,7 +40,12 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className="relative z-1 mt-[58px] h-full overflow-y-auto">
+      <body
+        className="relative z-1 h-full overflow-y-auto"
+        style={{
+          marginTop: "58px",
+        }}
+      >
         <ThemeProvider>
           <QueryProvider>
             <AuthProvider>
