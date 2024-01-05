@@ -12,7 +12,7 @@ export default function Recruits() {
 
   return (
     <div className="sm:container mx-auto pt-4 px-4 ">
-      <div className="flex justify-between">
+      <div className="flex justify-between mt-4">
         <div className="flex">
           <h2 className="text-2xl font-bold mb-4">채용</h2>
           <button
