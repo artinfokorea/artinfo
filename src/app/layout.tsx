@@ -66,7 +66,12 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body suppressHydrationWarning>{children}</body>
+      <body
+        className="touch-manipulation bg-[#f8fafc] h-screen"
+        suppressHydrationWarning
+      >
+        {children}
+      </body>
     </html>
   )
 }
