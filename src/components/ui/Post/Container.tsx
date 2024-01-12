@@ -225,7 +225,7 @@ export default function Container() {
           </div> */}
           <div className="feed-groups pb-5">
             {/* <LessonSlide /> */}
-            <Visitor />
+            {/* <Visitor /> */}
             <AdSection />
 
             {/* {isLoading && (
