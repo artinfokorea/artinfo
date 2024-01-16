@@ -103,7 +103,7 @@ export default function JobContainer({
 
   return (
     <div id="top">
-      <div className="flex items-center mb-2">
+      <div className="mb-2">
         <div className="flex ml-2">
           {selectedMajorList.map((major, index) => (
             <FilterTag

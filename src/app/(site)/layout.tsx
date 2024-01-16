@@ -39,28 +39,26 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ko">
-      <body
-        className="relative z-1 h-full overflow-y-auto"
-        style={{
-          marginTop: "58px",
-        }}
-      >
-        <ThemeProvider>
-          <QueryProvider>
-            <AuthProvider>
-              <RecoilProvider>
-                <ToasterProvider>
-                  <Header />
-                  {children}
-                  <HomeScreenContainer />
-                  <BottomNavigation />
-                </ToasterProvider>
-              </RecoilProvider>
-            </AuthProvider>
-          </QueryProvider>
-        </ThemeProvider>
-      </body>
-    </html>
+    <div
+      className="relative z-1 h-full overflow-y-auto"
+      style={{
+        marginTop: "58px",
+      }}
+    >
+      <ThemeProvider>
+        <QueryProvider>
+          <AuthProvider>
+            <RecoilProvider>
+              <ToasterProvider>
+                <Header />
+                {children}
+                <HomeScreenContainer />
+                <BottomNavigation />
+              </ToasterProvider>
+            </RecoilProvider>
+          </AuthProvider>
+        </QueryProvider>
+      </ThemeProvider>
+    </div>
   )
 }
