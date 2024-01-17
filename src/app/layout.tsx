@@ -67,7 +67,7 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className="touch-manipulation bg-[#f8fafc] h-screen"
+        className="touch-manipulation bg-[#f8fafc] h-screen overflow-hidden"
         suppressHydrationWarning
       >
         {children}

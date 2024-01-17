@@ -75,7 +75,7 @@ const EducationDetailContainer = ({ pageId }: Props) => {
   }, [typeParam])
 
   return (
-    <div className="sm:container mx-auto mt-4 pb-20 md:pb-10">
+    <div className="sm:container mx-auto mt-4">
       {pageType === "read" && (
         <>
           <div className="flex flex-col md:flex-row mt-20 mx-5 md:mx-0">
