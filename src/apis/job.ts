@@ -22,10 +22,16 @@ export const getJobList = async ({
   page,
 }: JobsRequest): Promise<Job[]> => {
   try {
-    const payload = {
+    const payload: {
+      page: number
+      size: number
+      major?: string
+    } = {
       page,
-      major: major?.join(","),
       size: 20,
+    }
+    if (major && major.length > 0) {
+      payload.major = major?.join(",")
     }
     const response: Job[] = await apiRequest.get<Job[]>("/jobs", {
       params: payload,
