@@ -39,7 +39,10 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="relative z-1 h-full overflow-y-auto mb-20 md:mb-10 mt-[58px]">
+    <div
+      className="relative z-1 h-full overflow-y-auto pb-40 md:pb-10"
+      style={{ paddingTop: "58px" }}
+    >
       <ThemeProvider>
         <QueryProvider>
           <AuthProvider>

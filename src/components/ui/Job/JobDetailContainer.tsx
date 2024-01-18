@@ -103,7 +103,7 @@ export default function JobDetailContainer({ jobId }: IProps) {
   return (
     <div>
       {pageType === "read" ? (
-        <div className="sm:container mx-auto mt-4 relative mb-40 md:mb-0 px-4 z-10">
+        <div className="sm:container mx-auto mt-4 relative  px-4 z-10">
           <div className="flex md:min-h-[1000px]" id="top">
             <div className="flex-1">
               <div className="w-full h-[200px] md:w-2/5 md:mx-auto md:h-[300px]  overflow-hidden relative">
