@@ -373,7 +373,7 @@ const EducationForm = ({ type, lesson }: Props) => {
 
   return (
     <div
-      className="mx-auto max-w-screen-md px-4 lg:px-0 overflow-auto pb-24 md:pb-0"
+      className="mx-auto max-w-screen-md px-4 lg:px-0 overflow-auto "
       // style={{
       //   height: "calc(100vh - 58px)",
       // }}
