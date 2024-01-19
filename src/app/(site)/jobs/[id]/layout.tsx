@@ -43,5 +43,5 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default function JobLayout({ children }: { children: React.ReactNode }) {
-  return <div className="touch-auto">{children}</div>
+  return <div className="touch-auto pb-20 md:pb-0">{children}</div>
 }
