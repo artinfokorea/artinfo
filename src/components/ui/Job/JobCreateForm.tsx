@@ -227,7 +227,7 @@ const JobCreateForm = ({ type, job }: Props) => {
   }
 
   return (
-    <div className="mx-auto max-w-screen-lg px-4 lg:px-0 overflow-auto">
+    <div className="mx-auto max-w-screen-lg px-4 lg:px-0 overflow-auto pb-20 md:pb-0">
       <div className=" flex flex-col ">
         <div className="relative mt-6">
           <Link href="/jobs">
