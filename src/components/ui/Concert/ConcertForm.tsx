@@ -246,7 +246,7 @@ const ConcertForm = ({ type, concert }: Props) => {
   }
 
   return (
-    <div className="flex flex-col items-center px-4 overflow-auto ">
+    <div className="flex flex-col items-center px-4 overflow-auto pb-20 md:pb-10">
       <div className=" flex items-center ">
         <IconButton
           ripple={false}

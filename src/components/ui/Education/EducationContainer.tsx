@@ -99,7 +99,7 @@ const EducationContainer = ({
         </div>
       )}
 
-      <div className="grid grid-cols-2 gap-6 md:grid-cols-5">
+      <div className="grid grid-cols-2 gap-6 md:grid-cols-5 mb-10 md:mb-0">
         {data?.pages.map(
           page =>
             page?.lessons.map((lesson: any) => (

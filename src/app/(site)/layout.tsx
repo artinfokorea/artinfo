@@ -40,8 +40,8 @@ export default async function RootLayout({
 }) {
   return (
     <div
-      className="relative z-1 h-full overflow-y-auto pb-40 md:pb-10"
-      style={{ paddingTop: "58px" }}
+      className="relative z-1 h-full mb-40 md:mb-10"
+      style={{ marginTop: "58px" }}
     >
       <ThemeProvider>
         <QueryProvider>

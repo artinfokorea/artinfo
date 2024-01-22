@@ -184,7 +184,7 @@ export default function ConcertContainer() {
         </div>
       )}
 
-      <div className="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-5 gap-4 mb-20 md:mb-10">
         {data?.pages.map(
           page =>
             page?.concerts?.map((concert: CONCERT) => (
