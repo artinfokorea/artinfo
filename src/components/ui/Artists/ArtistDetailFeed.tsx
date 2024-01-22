@@ -114,7 +114,7 @@ const ArtistDetailFeed = () => {
       errorToast(error.message)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["artist_feeds"])
+      queryClient.invalidateQueries([`artist_feeds_${params.id}`])
       successToast("게시글이 삭제되었습니다.")
     },
   })

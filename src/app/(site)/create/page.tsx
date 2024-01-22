@@ -105,10 +105,12 @@ export default function CreatePost() {
 
       await createFeed(formData)
 
-      await queryClient.invalidateQueries({ queryKey: ["feeds"] })
+      await queryClient.invalidateQueries({
+        queryKey: [`artist_feeds_${artistId}`],
+      })
       successToast("피드가 작성되었습니다.")
       console.log("SUCCESS!")
-      router.replace("/")
+      router.replace(`/artists/${artistId}`)
     } catch (error) {
       errorToast("글 작성에 실패했습니다.")
       console.error(error)
@@ -158,7 +160,7 @@ export default function CreatePost() {
 
   return (
     <div
-      className="mx-auto max-w-screen-lg px-4 lg:px-0"
+      className="mx-auto max-w-screen-lg px-4 lg:px-0 pb-20 md:pb-0"
       style={{
         height: "calc(100vh - 58px)",
       }}

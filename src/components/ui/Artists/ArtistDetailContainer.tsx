@@ -28,13 +28,9 @@ const ArtistDetailContainer = () => {
   const handleImageLoad = () => {
     setIsLoading(false)
   }
-  const handleDrag = (e: any, ui: any) => {
-    console.log("e", e)
-    console.log("ui", ui)
-  }
 
   return (
-    <div className="max-w-screen-lg mx-auto">
+    <div className="max-w-screen-lg mx-auto pb-20 md:pb-0">
       {/* <Draggable bounds="body" onDrag={handleDrag}> */}
       <div className="h-[300px] md:h-[500px] relative">
         {/* <ResizableBox
