@@ -158,7 +158,7 @@ export default function JobDetailContainer({ jobId }: IProps) {
               </section>
               {job?.contents && (
                 <div
-                  className="w-10/12 mx-auto "
+                  className="w-10/12 mx-auto editor_view"
                   dangerouslySetInnerHTML={{ __html: job.contents }}
                 />
               )}

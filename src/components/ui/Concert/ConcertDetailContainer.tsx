@@ -180,7 +180,7 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
             <section className="mt-10 pb-20">
               {concert?.contents && (
                 <div
-                  className="w-10/12 mx-auto"
+                  className="w-10/12 mx-auto editor_view"
                   dangerouslySetInnerHTML={{ __html: concert.contents }}
                 />
               )}

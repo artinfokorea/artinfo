@@ -21,3 +21,205 @@
   overflow: auto;
   -webkit-overflow-scrolling: touch; /* 추가 */
 }
+
+.editor_view {
+  ul {
+    display: block !important;
+    list-style-type: disc !important;
+    margin-block-start: 1em !important;
+    margin-block-end: 1em !important;
+    margin-inline-start: 0px !important;
+    margin-inline-end: 0px !important;
+    padding-inline-start: 40px !important;
+  }
+
+  ol {
+    display: block !important;
+    list-style-type: decimal !important;
+    margin-block-start: 1em !important;
+    margin-block-end: 1em !important;
+    margin-inline-start: 0px !important;
+    margin-inline-end: 0px !important;
+    padding-inline-start: 40px !important;
+    counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8
+      list-9;
+    counter-increment: list-0;
+  }
+
+  li {
+    display: list-item !important;
+    text-align: -webkit-match-parent !important;
+    counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8
+      list-9;
+    counter-increment: list-0;
+  }
+
+  h1 {
+    display: block;
+    font-size: 2em;
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+  }
+
+  h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-top: 0.83em;
+    margin-bottom: 0.83em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+  }
+
+  h3 {
+    display: block;
+    font-size: 1.17em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+  }
+
+  h4 {
+    display: block;
+    font-size: 1em;
+    margin-top: 1.33em;
+    margin-bottom: 1.33em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+  }
+
+  h5 {
+    display: block;
+    font-size: 0.83em;
+    margin-top: 1.67em;
+    margin-bottom: 1.67em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+  }
+
+  h6 {
+    display: block;
+    font-size: 0.67em;
+    margin-top: 2.33em;
+    margin-bottom: 2.33em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+  }
+
+  .ql-align-center * {
+    display: block !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+    list-style-position: inside !important;
+  }
+
+  .ql-align-right * {
+    display: block !important;
+    margin-left: auto !important;
+    text-align: right !important;
+  }
+
+  .ql-align-left * {
+    display: block !important;
+    margin-right: auto !important;
+    text-align: right !important;
+  }
+
+  .ql-align-right::marker {
+    text-align: right !important;
+  }
+
+  .ql-align-right::before {
+    text-align: right !important;
+  }
+
+  .ql-size-small {
+    font-size: 0.75em !important;
+  }
+
+  .ql-size-large {
+    font-size: 1.2em !important;
+  }
+
+  .ql-size-huge {
+    font-size: 1.5em !important;
+  }
+
+  .ql-align-center {
+    text-align: center !important;
+  }
+
+  .ql-align-left {
+    text-align: left !important;
+  }
+
+  .ql-align-right {
+    text-align: right !important;
+  }
+
+  .ql-font-serif {
+    font-family: sans-serif !important;
+  }
+
+  .ql-font-monospace {
+    font-family: monospace !important;
+  }
+
+  a:-webkit-any-link {
+    color: -webkit-link;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .ql-indent-1 {
+    padding-left: 3em !important;
+  }
+
+  .ql-indent-2 {
+    padding-left: 6em !important;
+  }
+
+  .ql-indent-3 {
+    padding-left: 9em !important;
+  }
+
+  .ql-indent-4 {
+    padding-left: 12em !important;
+  }
+
+  .ql-indent-5 {
+    padding-left: 15em !important;
+  }
+
+  .ql-indent-6 {
+    padding-left: 18em !important;
+  }
+
+  .ql-indent-7 {
+    padding-left: 21em !important;
+  }
+
+  .ql-indent-8 {
+    padding-left: 24em !important;
+  }
+
+  .ql-indent-9 {
+    padding-left: 27em !important;
+  }
+
+  blockquote {
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-left: 4px solid #e5e5e5;
+  }
+}
