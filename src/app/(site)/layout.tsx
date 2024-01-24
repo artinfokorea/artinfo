@@ -1,6 +1,6 @@
 import "../globals.css"
 import Header from "@/components/layouts/header"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { ThemeProvider } from "@/components/material"
 import { BottomNavigation } from "@/components/layouts/bottom-naviation"
 import HomeScreenContainer from "@/components/ui/HomeScreen/HomeScreenContainer"
@@ -31,6 +31,12 @@ export const metadata: Metadata = {
     ],
   },
 }
+
+export const viewport: Viewport = {
+  initialScale: 1,
+  width: "device-width",
+}
+
 export const revalidate = 0
 
 export default async function RootLayout({
