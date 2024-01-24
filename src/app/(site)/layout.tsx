@@ -1,9 +1,10 @@
 import "../globals.css"
 import Header from "@/components/layouts/header"
-import type { Metadata, Viewport } from "next"
+import type { Metadata } from "next"
 import { ThemeProvider } from "@/components/material"
 import { BottomNavigation } from "@/components/layouts/bottom-naviation"
 import HomeScreenContainer from "@/components/ui/HomeScreen/HomeScreenContainer"
+import { Viewport } from "next/dist/lib/metadata/types/extra-types"
 import QueryProvider from "../QueryProvider"
 import AuthProvider from "../../components/ui/Auth/AuthProvider"
 import RecoilProvider from "../RecoilProvider"
@@ -34,6 +35,9 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   initialScale: 1,
+  minimumScale: 1,
+  maximumScale: 1,
+  userScalable: false,
   width: "device-width",
 }
 
