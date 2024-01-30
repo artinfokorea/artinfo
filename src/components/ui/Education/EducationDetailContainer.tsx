@@ -173,7 +173,7 @@ const EducationDetailContainer = ({ pageId }: Props) => {
               {lesson?.intro}
             </p>
           </div>
-          {!isMobile && (
+          {/* {!isMobile && (
             <div className="sm:container  text-white flex fixed bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full ">
               {lesson?.profile_id === user?.id && (
                 <>
@@ -206,7 +206,7 @@ const EducationDetailContainer = ({ pageId }: Props) => {
                 뒤로가기
               </button>
             </div>
-          )}
+          )} */}
           {isMobile && (
             <div className="fixed bottom-32 right-3">
               <ListButton list="educations" />
