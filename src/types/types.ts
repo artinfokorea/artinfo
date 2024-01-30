@@ -513,6 +513,7 @@ export type LESSON = {
   intro: string
   fee: number
   phone: string
+  userId?: string
 }
 
 export const DEGREE_VALUES = {

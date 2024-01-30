@@ -282,6 +282,12 @@ const EducationForm = ({ type, lesson }: Props) => {
       return
     }
 
+    if (user.id !== lesson.userId) {
+      errorToast("본인의 레슨만 수정할 수 있습니다.")
+      router.replace("/educations")
+      return
+    }
+
     const formData = {
       userId: user.id,
       imageUrl: "",
