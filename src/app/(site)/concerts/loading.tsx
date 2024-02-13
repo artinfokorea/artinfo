@@ -24,11 +24,11 @@ const loading = () => {
       </div>
       <div className="mb-4 skeleton-list-item h-12 rounded-2xl " />
       <div className="my-4">
-        <Badge className="cursor-pointer bg-badge text-primary text-sm md:text-lg  ml-2 w-28 h-10" />
-        <Badge className="cursor-pointer bg-badge text-primary text-sm md:text-lg  ml-2 w-28 h-10" />
-        <Badge className="cursor-pointer bg-badge text-primary text-sm md:text-lg  ml-2 w-28 h-10" />
-        <Badge className="cursor-pointer bg-badge text-primary text-sm md:text-lg  ml-2 w-28 h-10" />
-        <Badge className="cursor-pointer bg-badge text-primary text-sm md:text-lg  ml-2 w-28 h-10" />
+        <Badge className="cursor-pointer bg-badge text-primary text-sm md:text-lg  ml-2 w-24 h-10" />
+        <Badge className="cursor-pointer bg-badge text-primary text-sm md:text-lg  ml-2 w-24 h-10" />
+        <Badge className="cursor-pointer bg-badge text-primary text-sm md:text-lg  ml-2 w-24 h-10" />
+        <Badge className="cursor-pointer bg-badge text-primary text-sm md:text-lg  ml-2 w-24 h-10" />
+        <Badge className="cursor-pointer bg-badge text-primary text-sm md:text-lg  ml-2 w-24 h-10" />
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         <ConcertSkeleton />

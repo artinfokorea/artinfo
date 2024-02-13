@@ -21,7 +21,7 @@ const ArtistsContainer = () => {
       },
       refetchOnMount: true,
       refetchOnWindowFocus: true,
-      suspense: false,
+      suspense: true,
     },
   )
 

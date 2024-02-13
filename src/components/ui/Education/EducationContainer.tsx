@@ -144,9 +144,6 @@ const EducationContainer = () => {
           if (!lastPage.isLast) return lastPage.nextPage
           return null
         },
-        refetchOnMount: true,
-        refetchOnWindowFocus: true,
-        suspense: false,
       },
     )
 
