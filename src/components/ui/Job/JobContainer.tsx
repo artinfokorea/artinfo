@@ -71,8 +71,6 @@ export default function JobContainer() {
         if (!lastPage.isLast) return lastPage.nextPage
         return null
       },
-      refetchOnMount: true,
-      refetchOnWindowFocus: true,
       suspense: true,
     },
   )
@@ -112,21 +110,6 @@ export default function JobContainer() {
             ))}
           </div>
         </div>
-
-        {isLoading && (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5  gap-4">
-            <JobSkeleton />
-            <JobSkeleton />
-            <JobSkeleton />
-            <JobSkeleton />
-            <JobSkeleton />
-            <JobSkeleton />
-            <JobSkeleton />
-            <JobSkeleton />
-            <JobSkeleton />
-            <JobSkeleton />
-          </div>
-        )}
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5  gap-4 mb-20 md:mb-10">
           {data?.pages?.map(

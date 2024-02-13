@@ -29,6 +29,7 @@ export default function ConcertContainer() {
     queryKey: ["keywordList"],
     queryFn: () => getConcertKeywords(5),
     staleTime: 1000 * 60 * 60 * 24,
+    suspense: false,
   })
 
   useEffect(() => {
@@ -45,9 +46,7 @@ export default function ConcertContainer() {
         if (!lastPage.isLast) return lastPage.nextPage
         return null
       },
-      refetchOnMount: true,
-      refetchOnWindowFocus: true,
-      suspense: false,
+      suspense: true,
     },
   )
 

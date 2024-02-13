@@ -44,7 +44,6 @@
     "eslint-config-next": "13.4.10",
     "firebase": "^10.1.0",
     "firebase-admin": "^11.10.1",
-    "html-to-draftjs": "1.4",
     "immutable": "4.1",
     "localforage": "^1.10.0",
     "lucide-react": "^0.299.0",
