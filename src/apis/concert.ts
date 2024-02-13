@@ -42,6 +42,21 @@ export const getConcertLists = async ({
   }
 }
 
+export const getConcerts = async (
+  pageParam: number,
+  keyword?: string,
+): Promise<any> => {
+  const response = await getConcertLists({
+    page: pageParam,
+    keyword,
+  })
+  return {
+    concerts: response,
+    nextPage: pageParam + 1,
+    isLast: response.length < 20,
+  }
+}
+
 export const getConcertKeywords = async (size: number): Promise<string[]> => {
   try {
     const response = await apiRequest.get<string[]>("/concerts/keywords", {

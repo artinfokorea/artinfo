@@ -19,12 +19,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (error) {
     return {}
   }
-  console.log("data", data)
 
   const pageTitle = data?.title.substring(0, 35)
   const pageImage = data?.company_image_url
-
-  console.log("pageImage", pageImage)
 
   return {
     title: `채용 | 아트인포`,

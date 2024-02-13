@@ -51,6 +51,21 @@ export const getJob = async (id: number): Promise<JobDetail> => {
   }
 }
 
+export const getJobs = async (
+  pageParam: number,
+  selectedMajorList: string[],
+): Promise<any> => {
+  const response = await getJobList({
+    page: pageParam,
+    major: selectedMajorList,
+  })
+  return {
+    jobs: response,
+    nextPage: pageParam + 1,
+    isLast: response.length < 20,
+  }
+}
+
 export const createJob = async (payload: JobPayload) => {
   try {
     const response = await apiRequest.post<Job>("/jobs", payload)

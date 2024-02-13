@@ -1,6 +1,6 @@
 "use client"
 
-import { getArtistList } from "@/apis/artist"
+import { getArtistList, getArtists } from "@/apis/artist"
 import { ARTIST } from "@/types/types"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import React from "react"
@@ -9,19 +9,10 @@ import ArtistsCard from "./ArtistCard"
 import ArtistSkeleton from "../Skeleton/ArtistSkeleton"
 
 const ArtistsContainer = () => {
-  const getConcerts = async (pageParam: number): Promise<any> => {
-    const response = await getArtistList({ page: pageParam })
-    return {
-      artists: response,
-      nextPage: pageParam + 1,
-      isLast: response.length < 20,
-    }
-  }
-
   const { isLoading, data, fetchNextPage, hasNextPage } = useInfiniteQuery(
     ["artists"],
     ({ pageParam = 1 }) => {
-      return getConcerts(pageParam)
+      return getArtists(pageParam)
     },
     {
       getNextPageParam: lastPage => {
@@ -35,7 +26,7 @@ const ArtistsContainer = () => {
   )
 
   return (
-    <div id="top">
+    <div id="top" className="max-w-screen-lg mx-auto pt-8 px-4">
       {isLoading && (
         <div className="grid grid-cols-3  md:grid-cols-4 lg:grid-cols-5 gap-2">
           <ArtistSkeleton />

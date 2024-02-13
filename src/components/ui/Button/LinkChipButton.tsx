@@ -11,10 +11,7 @@ interface IProps {
 export const ChipButton = ({ url, title }: IProps) => {
   const router = useRouter()
 
-  const goToTarget = (url: string) => {
-    console.log("url", url)
-    router.push(url)
-  }
+  const goToTarget = (url: string) => router.push(url)
 
   return (
     <button

@@ -23,6 +23,15 @@ export const getArtistList = async ({
   }
 }
 
+export const getArtists = async (pageParam: number): Promise<any> => {
+  const response = await getArtistList({ page: pageParam })
+  return {
+    artists: response,
+    nextPage: pageParam + 1,
+    isLast: response.length < 20,
+  }
+}
+
 export const getArtist = async (id: number) => {
   try {
     const response = await apiRequest.get<ARTIST>(`/artists/${id}`)

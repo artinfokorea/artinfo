@@ -1,11 +1,25 @@
+import { getArtistList, getArtists } from "@/apis/artist"
+import GetQueryClient from "@/app/GetQueryClient"
 import ArtistsContainer from "@/components/ui/Artists/ArtistsContainer"
+import { Hydrate, dehydrate } from "@tanstack/react-query"
 import React from "react"
 
-const page = () => {
+const page = async () => {
+  const queryClient = GetQueryClient()
+
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: ["artists"],
+    queryFn: () => {
+      return getArtists(1)
+    },
+  })
+
+  const dehydratedState = dehydrate(queryClient)
+
   return (
-    <div className="max-w-screen-lg mx-auto pt-8 px-4">
+    <Hydrate state={dehydratedState}>
       <ArtistsContainer />
-    </div>
+    </Hydrate>
   )
 }
 

@@ -14,7 +14,6 @@ import { clipboard, isMobileWeb } from "@toss/utils"
 import useToast from "@/hooks/useToast"
 import useAuth from "@/hooks/useAuth"
 import { useRouter, useSearchParams } from "next/navigation"
-import { PencilSquareIcon, TrashIcon } from "@heroicons/react/20/solid"
 import { getLesson } from "@/apis/lesson"
 import EducationForm from "./EducationForm"
 

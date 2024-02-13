@@ -29,6 +29,23 @@ export const getLessonList = async ({
   }
 }
 
+export const getLessons = async (
+  pageParam: number,
+  selectedRegionList: string[],
+  selectedMajorList: string[],
+): Promise<{ lessons: LESSON[]; nextPage: number; isLast: boolean }> => {
+  const response = await getLessonList({
+    page: pageParam,
+    location: selectedRegionList,
+    majors: selectedMajorList,
+  })
+  return {
+    lessons: response,
+    nextPage: pageParam + 1,
+    isLast: response.length < 20,
+  }
+}
+
 export const getLesson = async (id: number) => {
   try {
     const response = await apiRequest.get<LESSON>(`/lessons/${id}`)

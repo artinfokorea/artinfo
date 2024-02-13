@@ -6,41 +6,27 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query"
 import { useDidUpdate } from "@toss/react"
 import { useInView } from "react-intersection-observer"
 import { CONCERT } from "@/types/types"
-import { getConcertKeywords, getConcertLists } from "@/apis/concert"
+import { useRouter, useSearchParams } from "next/navigation"
+import { getConcertKeywords, getConcerts } from "@/apis/concert"
 import ConcertCard from "./ConcertCard"
 import ConcertSkeleton from "../Skeleton/ConcertSkeleton"
 import { Badge } from "../badge"
 
 export default function ConcertContainer() {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const keyword = searchParams.get("keyword") || ""
   const [isMounted, setIsMounted] = useState(false)
-  const [selectedBadge, setSelectedBadge] = useState("")
-  const [searchInput, setSearchInput] = useState("")
-  const [searchKeyword, setSearchKeyword] = useState("")
-
-  // useScrollDirection()
-
-  const getConcerts = async (
-    pageParam: number,
-    keyword?: string,
-  ): Promise<any> => {
-    const response = await getConcertLists({
-      page: pageParam,
-      keyword,
-    })
-    return {
-      concerts: response,
-      nextPage: pageParam + 1,
-      isLast: response.length < 20,
-    }
-  }
+  const [selectedBadge, setSelectedBadge] = useState(keyword || "")
+  const [searchInput, setSearchInput] = useState(keyword || "")
 
   const [ref, inView] = useInView({
-    delay: 300,
+    delay: 100,
     threshold: 1,
   })
 
-  const { data: keywords } = useQuery({
-    queryKey: ["keywords"],
+  const { data: keywordList } = useQuery({
+    queryKey: ["keywordList"],
     queryFn: () => getConcertKeywords(5),
     staleTime: 1000 * 60 * 60 * 24,
   })
@@ -50,9 +36,9 @@ export default function ConcertContainer() {
   }, [])
 
   const { isLoading, data, fetchNextPage, hasNextPage } = useInfiniteQuery(
-    ["concerts", searchKeyword],
+    ["concerts", keyword],
     ({ pageParam = 1 }) => {
-      return getConcerts(pageParam, searchKeyword)
+      return getConcerts(pageParam, keyword)
     },
     {
       getNextPageParam: lastPage => {
@@ -84,10 +70,11 @@ export default function ConcertContainer() {
   const handleBagge = (keyword: string) => {
     if (selectedBadge === keyword) {
       setSelectedBadge("")
+      router.push(`/concerts`)
     } else {
       setSelectedBadge(keyword)
       setSearchInput(keyword)
-      setSearchKeyword(keyword)
+      router.push(`/concerts?keyword=${keyword}`)
     }
   }
 
@@ -98,13 +85,13 @@ export default function ConcertContainer() {
 
   const handleSubmit = (e: any) => {
     e.preventDefault()
-    setSearchKeyword(searchInput)
+    router.push(`/concerts?keyword=${searchInput}`)
   }
 
   const resetInput = () => {
     setSearchInput("")
     setSelectedBadge("")
-    setSearchKeyword("")
+    router.push("/concerts")
   }
 
   return (
@@ -153,7 +140,7 @@ export default function ConcertContainer() {
           )}
         </form>
         <div className="mt-4">
-          {keywords?.map(keyword => (
+          {keywordList?.map(keyword => (
             <Badge
               key={keyword}
               className={`cursor-pointer bg-badge text-primary text-sm md:text-lg  ml-2 py-[6px] px-3 my-1 md:my-0 ${
