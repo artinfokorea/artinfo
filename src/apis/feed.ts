@@ -1,4 +1,5 @@
 import { FEED } from "@/types/types"
+import { fetchFeeds } from "@/app/Api"
 import { apiRequest } from "./index"
 import { exceptionHandler } from "./exception-handler"
 
@@ -47,6 +48,15 @@ export const getFeed = async (id: number, userId?: string): Promise<FEED> => {
     return response
   } catch (error) {
     throw new Error(exceptionHandler(error, "API getFeed error"))
+  }
+}
+
+export const getFeeds = async (pageParam: number): Promise<any> => {
+  const response = await fetchFeeds({ pageParam })
+  return {
+    feeds: response,
+    nextPage: pageParam + 1,
+    isLast: response.length < 20,
   }
 }
 

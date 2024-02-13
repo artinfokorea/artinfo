@@ -20,14 +20,13 @@ import { useInView } from "react-intersection-observer"
 import { useDidUpdate } from "@toss/react"
 import { Feed } from "@/types/types"
 import useToast from "@/hooks/useToast"
-import useScrollDirection from "@/hooks/useScrollDirection"
+import { getFeeds } from "@/apis/feed"
 import ListWithLatestJobs from "@/components/ui/LatestJobs/ListWithLatestJobs"
 import { useRouter } from "next/navigation"
-import { useEffect, useRef, useState } from "react"
+import { useRef } from "react"
 import { PostCard } from "./PostCard"
 import AdContainer from "../Home/ad/AdContainer"
 import BannerContainer from "../Banner/BannerContainer"
-import Visitor from "../Visitor/Visitor"
 
 function ProfileCard() {
   return (
@@ -111,14 +110,6 @@ export default function Container() {
     threshold: 0.3,
   })
 
-  const getFeeds = async (pageParam: number): Promise<any> => {
-    const response = await fetchFeeds({ pageParam })
-    return {
-      feeds: response,
-      nextPage: pageParam + 1,
-      isLast: response.length < 20,
-    }
-  }
   const {
     data: feedsData,
     hasNextPage,
