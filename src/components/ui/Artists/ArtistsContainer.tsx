@@ -1,6 +1,6 @@
 "use client"
 
-import { getArtistList, getArtists } from "@/apis/artist"
+import { getArtists } from "@/apis/artist"
 import { ARTIST } from "@/types/types"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import React from "react"
@@ -9,7 +9,7 @@ import ArtistsCard from "./ArtistCard"
 import ArtistSkeleton from "../Skeleton/ArtistSkeleton"
 
 const ArtistsContainer = () => {
-  const { isLoading, data, fetchNextPage, hasNextPage } = useInfiniteQuery(
+  const { isLoading, data } = useInfiniteQuery(
     ["artists"],
     ({ pageParam = 1 }) => {
       return getArtists(pageParam)
@@ -19,9 +19,6 @@ const ArtistsContainer = () => {
         if (!lastPage.isLast) return lastPage.nextPage
         return null
       },
-      refetchOnMount: true,
-      refetchOnWindowFocus: true,
-      suspense: true,
     },
   )
 
