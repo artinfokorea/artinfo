@@ -2,6 +2,9 @@ import { Suspense } from "react"
 import { Metadata } from "next/types"
 import { getFeed } from "@/apis/feed"
 import Loading from "@/components/ui/Loading/Loading"
+import SupabaseServer from "@/lib/supabase-server"
+import GetQueryClient from "@/app/GetQueryClient"
+import { Hydrate, dehydrate } from "@tanstack/react-query"
 import Container from "./Container"
 
 type Props = {
@@ -10,17 +13,11 @@ type Props = {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  // read route params
   const { id } = params
+  const supabase = SupabaseServer()
+  const { data } = await supabase.auth.getSession()
 
-  // fetch data
-  // const supabase = SupabaseServer()
-  // const { data, error } = await supabase
-  //   .rpc("get_feed", {
-  //     feed_id: Number(id),
-  //   })
-  //   .single()
-  const response = await getFeed(Number(id))
+  const response = await getFeed(Number(id), data.session?.user.id)
 
   if (!response) {
     return {}
@@ -60,30 +57,21 @@ export default async function PostDetail({
 }: {
   params: { id: string }
 }) {
-  // const supabase = SupabaseServer()
-
-  // const queryClient = GetQueryClient()
-  // await queryClient.prefetchQuery(["feed", params.id], async () => {
-  //   const { data, error } = await supabase
-  //     .rpc("get_feed", {
-  //       feed_id: Number(params.id),
-  //     })
-  //     .single()
-  //   if (error) throw error
-
-  //   await supabase.rpc("increment_feed_view", {
-  //     feed_id: Number(params.id),
-  //   })
-  //   return data
-  // })
-  // const dehydratedState = dehydrate(queryClient)
+  const supabase = SupabaseServer()
+  const { data } = await supabase.auth.getSession()
+  const queryClient = GetQueryClient()
+  await queryClient.prefetchQuery({
+    queryKey: ["artist_feed", params.id],
+    queryFn: () => getFeed(Number(params.id), data.session?.user.id),
+  })
+  const dehydratedState = dehydrate(queryClient)
 
   return (
     <div className="mx-auto max-w-screen-lg">
       <Suspense fallback={<Loading />}>
-        {/* <Hydrate state={dehydratedState}> */}
-        <Container pageId={params.id} />
-        {/* </Hydrate> */}
+        <Hydrate state={dehydratedState}>
+          <Container pageId={params.id} />
+        </Hydrate>
       </Suspense>
     </div>
   )

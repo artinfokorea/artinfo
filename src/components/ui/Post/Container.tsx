@@ -15,7 +15,7 @@ import {
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query"
-import { deleteFeed, fetchFeeds, updatePostLike } from "@/app/Api"
+import { deleteFeed, updatePostLike } from "@/app/Api"
 import { useInView } from "react-intersection-observer"
 import { useDidUpdate } from "@toss/react"
 import { Feed } from "@/types/types"
@@ -27,62 +27,6 @@ import { useRef } from "react"
 import { PostCard } from "./PostCard"
 import AdContainer from "../Home/ad/AdContainer"
 import BannerContainer from "../Banner/BannerContainer"
-
-function ProfileCard() {
-  return (
-    <Card className="w-96">
-      <CardHeader floated={false} className="h-80">
-        <img
-          src="https://www.material-tailwind.com/img/team-3.jpg"
-          alt="profile-picture"
-        />
-      </CardHeader>
-      <CardBody className="text-center">
-        <Typography variant="h4" color="blue-gray" className="mb-2">
-          Natalie Paisley
-        </Typography>
-        <Typography color="blue" className="font-medium" textGradient>
-          CEO / Co-Founder
-        </Typography>
-      </CardBody>
-      <CardFooter className="flex justify-center gap-7 pt-2">
-        <Tooltip content="Like">
-          <Typography
-            as="a"
-            href="#facebook"
-            variant="lead"
-            color="blue"
-            textGradient
-          >
-            <i className="fab fa-facebook" />
-          </Typography>
-        </Tooltip>
-        <Tooltip content="Follow">
-          <Typography
-            as="a"
-            href="#twitter"
-            variant="lead"
-            color="light-blue"
-            textGradient
-          >
-            <i className="fab fa-twitter" />
-          </Typography>
-        </Tooltip>
-        <Tooltip content="Follow">
-          <Typography
-            as="a"
-            href="#instagram"
-            variant="lead"
-            color="purple"
-            textGradient
-          >
-            <i className="fab fa-instagram" />
-          </Typography>
-        </Tooltip>
-      </CardFooter>
-    </Card>
-  )
-}
 
 function AdSection() {
   return (
@@ -102,8 +46,6 @@ export default function Container() {
   const { successToast, errorToast } = useToast()
   const containerEl = useRef<HTMLDivElement>(null)
   const router = useRouter()
-
-  // useScrollDirection()
 
   const [ref, inView] = useInView({
     delay: 300,
