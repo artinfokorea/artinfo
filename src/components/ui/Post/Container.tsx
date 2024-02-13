@@ -175,7 +175,7 @@ export default function Container() {
 
             {feedsData?.pages.map(group => (
               <div key={group.nextPage}>
-                {group.feeds.map((feed: Feed) => (
+                {group.feeds.map((feed: Feed, index: number) => (
                   <div key={feed.id} className="my-2">
                     <PostCard
                       feed={feed as any}
@@ -184,12 +184,14 @@ export default function Container() {
                       showCommentBtn
                       shortContent
                     />
+                    {hasNextPage && index === group.feeds.length - 5 && (
+                      <div ref={ref} />
+                    )}
                   </div>
                 ))}
               </div>
             ))}
           </div>
-          <div ref={ref} className="h-4" />
         </div>
         <div className="ml-5 hidden md:block " style={{ width: 300 }}>
           <ListWithLatestJobs />

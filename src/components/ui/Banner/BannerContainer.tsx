@@ -1,13 +1,11 @@
 import { fetchBanners } from "@/app/Api"
 import { useQuery } from "@tanstack/react-query"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
 import React from "react"
 import { Carousel } from "@/components/material"
 import Link from "next/link"
 
 const BannerContainer = () => {
-  const router = useRouter()
   const { data: banners } = useQuery({
     queryKey: ["banners"],
     suspense: true,
@@ -16,7 +14,7 @@ const BannerContainer = () => {
 
   return (
     <div className="py-2 px-4 md:p-0 mb-2">
-      <Carousel>
+      <Carousel autoplay loop>
         {banners?.map(banner => (
           <Link
             key={banner.id}

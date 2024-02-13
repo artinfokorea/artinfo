@@ -131,10 +131,19 @@ export default function JobContainer() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5  gap-4 mb-20 md:mb-10">
           {data?.pages?.map(
             group =>
-              group?.jobs?.map((item: Job) => (
-                <Link key={item.id} href={`/jobs/${item.id}`} prefetch={false}>
-                  <JobCard job={item} />
-                </Link>
+              group?.jobs?.map((item: Job, index: number) => (
+                <>
+                  <Link
+                    key={item.id}
+                    href={`/jobs/${item.id}`}
+                    prefetch={false}
+                  >
+                    <JobCard job={item} />
+                  </Link>
+                  {hasNextPage && index === group.jobs.length - 8 && (
+                    <div ref={ref} />
+                  )}
+                </>
               )),
           )}
         </div>
@@ -143,7 +152,6 @@ export default function JobContainer() {
             <span>데이터가 없습니다.</span>
           </div>
         )}
-        <div ref={ref} className="h-12" />
 
         {isMajorSelect && (
           <JobMajorSelect

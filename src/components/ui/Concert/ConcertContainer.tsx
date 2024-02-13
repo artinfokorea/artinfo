@@ -174,24 +174,22 @@ export default function ConcertContainer() {
       <div className="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-5 gap-4 mb-20 md:mb-10">
         {data?.pages.map(
           page =>
-            page?.concerts?.map((concert: CONCERT) => (
-              <Link
-                key={concert.id}
-                href={`/concerts/${concert.id}`}
-                prefetch={false}
-              >
-                <ConcertCard item={concert} />
-              </Link>
+            page?.concerts?.map((concert: CONCERT, index: number) => (
+              <>
+                <Link
+                  key={concert.id}
+                  href={`/concerts/${concert.id}`}
+                  prefetch={false}
+                >
+                  <ConcertCard item={concert} />
+                </Link>
+                {hasNextPage && index === page.concerts.length - 8 && (
+                  <div ref={ref} />
+                )}
+              </>
             )),
         )}
       </div>
-
-      {/* {isMounted && isMobile && (
-        <div className="fixed bottom-32 right-3">
-          <ScrollUpButton handleScroll={handleScroll} />
-        </div>
-      )} */}
-      <div ref={ref} className="h-12" />
     </div>
   )
 }

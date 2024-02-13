@@ -245,19 +245,22 @@ const EducationContainer = () => {
         <div className="grid grid-cols-2 gap-6 md:grid-cols-5 mb-10 md:mb-0">
           {data?.pages.map(
             page =>
-              page?.lessons.map((lesson: any) => (
-                <Link
-                  key={lesson.id}
-                  href={`/educations/${lesson.id}`}
-                  prefetch={false}
-                >
-                  <LessonCard lesson={lesson} />
-                </Link>
+              page?.lessons.map((lesson: LESSON, index: number) => (
+                <>
+                  <Link
+                    key={lesson.id}
+                    href={`/educations/${lesson.id}`}
+                    prefetch={false}
+                  >
+                    <LessonCard lesson={lesson} />
+                  </Link>
+                  {hasNextPage && index === page.lessons.length - 8 && (
+                    <div ref={ref} />
+                  )}
+                </>
               )),
           )}
         </div>
-
-        <div ref={ref} className="h-12" />
       </div>
     </div>
   )
