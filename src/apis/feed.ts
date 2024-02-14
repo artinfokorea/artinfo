@@ -4,7 +4,7 @@ import { apiRequest } from "./index"
 import { exceptionHandler } from "./exception-handler"
 
 interface FeedsRequest {
-  artistId: number
+  artistId?: number
   page: number
   requestUserId?: string
 }
@@ -26,7 +26,7 @@ export const getFeedList = async ({
     const payload = {
       page,
       artistId,
-      size: 12,
+      size: 20,
       requestUserId,
     }
     const response: FEED[] = await apiRequest.get<FEED[]>("/feeds", {
@@ -51,8 +51,11 @@ export const getFeed = async (id: number, userId?: string): Promise<FEED> => {
   }
 }
 
-export const getFeeds = async (pageParam: number): Promise<any> => {
-  const response = await fetchFeeds({ pageParam })
+export const getFeeds = async (
+  pageParam: number,
+  userId?: string,
+): Promise<any> => {
+  const response = await getFeedList({ page: pageParam, requestUserId: userId })
   return {
     feeds: response,
     nextPage: pageParam + 1,

@@ -1,5 +1,6 @@
 import { Hydrate, dehydrate } from "@tanstack/react-query"
 import { getFeeds } from "@/apis/feed"
+import SupabaseServer from "@/lib/supabase-server"
 import Container from "../../components/ui/Post/Container"
 import GetQueryClient from "../GetQueryClient"
 import { fetchAds, fetchBanners, fetchJobs } from "../Api"
@@ -8,11 +9,13 @@ export const revalidate = 10 // revalidate this page every 60 seconds
 
 export default async function page() {
   const queryClient = GetQueryClient()
+  const supabase = SupabaseServer()
+  const { data } = await supabase.auth.getSession()
 
   await queryClient.prefetchInfiniteQuery({
-    queryKey: ["feeds"],
+    queryKey: ["feeds", data.session?.user.id],
     queryFn: () => {
-      return getFeeds(1)
+      return getFeeds(1, data.session?.user.id)
     },
   })
 

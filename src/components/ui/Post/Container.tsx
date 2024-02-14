@@ -1,14 +1,5 @@
 "use client"
 
-import {
-  Avatar,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Typography,
-  Tooltip,
-} from "@/components/material"
 import { useAuth } from "@/components/ui/Auth/AuthProvider"
 import {
   useInfiniteQuery,
@@ -18,7 +9,7 @@ import {
 import { deleteFeed, updatePostLike } from "@/app/Api"
 import { useInView } from "react-intersection-observer"
 import { useDidUpdate } from "@toss/react"
-import { Feed } from "@/types/types"
+import { FEED } from "@/types/types"
 import useToast from "@/hooks/useToast"
 import { getFeeds } from "@/apis/feed"
 import ListWithLatestJobs from "@/components/ui/LatestJobs/ListWithLatestJobs"
@@ -27,7 +18,6 @@ import { useRef } from "react"
 import { PostCard } from "./PostCard"
 import AdContainer from "../Home/ad/AdContainer"
 import BannerContainer from "../Banner/BannerContainer"
-import Visitor from "../Visitor/Visitor"
 
 function AdSection() {
   return (
@@ -59,10 +49,10 @@ export default function Container() {
     fetchNextPage,
     isLoading,
   } = useInfiniteQuery({
-    queryKey: ["feeds"],
+    queryKey: ["feeds", user?.id],
     suspense: true,
     queryFn: ({ pageParam = 1 }) => {
-      return getFeeds(pageParam)
+      return getFeeds(pageParam, user?.id)
     },
     getNextPageParam: lastPage => {
       if (!lastPage.isLast) return lastPage.nextPage
@@ -78,16 +68,6 @@ export default function Container() {
     }
   }, [inView, hasNextPage])
 
-  const handleScroll = () => {
-    const element = document.getElementById("top")
-
-    if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-      })
-    }
-  }
-
   const updateFeedLikeMutation = useMutation({
     mutationFn: (payload: {
       like: boolean
@@ -97,19 +77,20 @@ export default function Container() {
       return updatePostLike(payload)
     },
     onMutate: updateLike => {
-      queryClient.setQueryData(["feeds"], (old: any) => {
+      queryClient.setQueryData(["feeds", user?.id], (old: any) => {
         const pages = [...old.pages]
+
         pages.forEach(page => {
-          page.feeds.forEach((feed: any) => {
-            if (feed.id === updateLike.post_id) {
+          page.feeds.forEach((feed: FEED) => {
+            if (feed.feedId === updateLike.post_id) {
               // eslint-disable-next-line no-param-reassign
-              feed.like = updateLike.like
+              feed.isLiking = updateLike.like
               if (updateLike.like) {
                 // eslint-disable-next-line no-param-reassign
-                feed.count_of_likes += 1
+                feed.countOfLikes += 1
               } else {
                 // eslint-disable-next-line no-param-reassign
-                feed.count_of_likes -= 1
+                feed.countOfLikes -= 1
               }
             }
           })
@@ -180,10 +161,10 @@ export default function Container() {
 
             {feedsData?.pages.map(group => (
               <div key={group.nextPage}>
-                {group.feeds.map((feed: Feed, index: number) => (
-                  <div key={feed.id} className="my-2">
+                {group.feeds.map((feed: FEED, index: number) => (
+                  <div key={feed.feedId} className="my-2">
                     <PostCard
-                      feed={feed as any}
+                      feed={feed}
                       handleUpdatePostLike={handleUpdatePostLike}
                       handleDeleteFeed={handleDeleteFeed}
                       showCommentBtn
@@ -198,7 +179,7 @@ export default function Container() {
             ))}
           </div>
         </div>
-        <div className="ml-5 hidden md:block " style={{ width: 300 }}>
+        <div className="ml-5 hidden md:block" style={{ width: 300 }}>
           <ListWithLatestJobs />
         </div>
       </div>
