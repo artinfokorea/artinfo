@@ -1,36 +1,38 @@
 import LocationTag from "@/components/common/LocationTag"
 import { LESSON } from "@/types/types"
 import Image from "next/image"
-import React, { useState } from "react"
+import React, { forwardRef, useState } from "react"
 import { Spinner } from "@material-tailwind/react"
 
 interface Props {
   lesson: LESSON
+  isLastPage?: boolean
 }
 
-const LessonCard = ({ lesson }: Props) => {
-  const [isLoading, setisLoading] = useState(true)
+const LessonCard = forwardRef<HTMLDivElement, Props>(
+  ({ lesson, isLastPage }, ref) => {
+    const [isLoading, setisLoading] = useState(true)
 
-  return (
-    <div className="card rounded-md cursor-pointer ">
-      <div className="relative h-[220px] lg:h-[300px]">
-        {isLoading && (
-          <div className="flex items-center justify-center absolute inset-0">
-            <Spinner />
-          </div>
-        )}
-        <Image
-          src={lesson.imageUrl ?? "/icon-192x192.png"}
-          alt="lesson_profile"
-          sizes="250px, 250px"
-          fill
-          quality={100}
-          priority
-          className="rounded-md"
-          onLoad={() => setisLoading(false)}
-        />
-      </div>
-      <div>
+    return (
+      <div className="card rounded-md cursor-pointer ">
+        <div className="relative h-[220px] lg:h-[300px]">
+          {isLoading && (
+            <div className="flex items-center justify-center absolute inset-0">
+              <Spinner />
+            </div>
+          )}
+          <Image
+            src={lesson.imageUrl ?? "/icon-192x192.png"}
+            alt="lesson_profile"
+            sizes="250px, 250px"
+            fill
+            quality={100}
+            priority
+            className="rounded-md"
+            onLoad={() => setisLoading(false)}
+          />
+        </div>
+
         <div className="flex-1 flex justify-center flex-col font-sm">
           <span className="font-semibold text-lg mt-2 mb-1 ">
             {lesson.name}
@@ -52,9 +54,12 @@ const LessonCard = ({ lesson }: Props) => {
             ))}
           </div>
         </div>
+        {isLastPage && <div ref={ref} />}
       </div>
-    </div>
-  )
-}
+    )
+  },
+)
+
+LessonCard.displayName = "LessonCard"
 
 export default LessonCard

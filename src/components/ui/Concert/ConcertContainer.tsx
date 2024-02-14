@@ -174,18 +174,19 @@ export default function ConcertContainer() {
         {data?.pages.map(
           page =>
             page?.concerts?.map((concert: CONCERT, index: number) => (
-              <>
-                <Link
-                  key={concert.id}
-                  href={`/concerts/${concert.id}`}
-                  prefetch={false}
-                >
-                  <ConcertCard item={concert} />
-                </Link>
-                {hasNextPage && index === page.concerts.length - 8 && (
-                  <div ref={ref} />
-                )}
-              </>
+              <Link
+                key={concert.id}
+                href={`/concerts/${concert.id}`}
+                prefetch={false}
+              >
+                <ConcertCard
+                  item={concert}
+                  ref={ref}
+                  isLastPage={
+                    !(hasNextPage && page.concerts.length - 19 === index)
+                  }
+                />
+              </Link>
             )),
         )}
       </div>

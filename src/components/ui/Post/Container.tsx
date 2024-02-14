@@ -27,6 +27,7 @@ import { useRef } from "react"
 import { PostCard } from "./PostCard"
 import AdContainer from "../Home/ad/AdContainer"
 import BannerContainer from "../Banner/BannerContainer"
+import Visitor from "../Visitor/Visitor"
 
 function AdSection() {
   return (
@@ -159,6 +160,10 @@ export default function Container() {
           <div className="feed-groups pb-5">
             {/* <LessonSlide /> */}
             {/* <Visitor /> */}
+            <div className="grid grid-cols-2">
+              <button className="w-full">국,시립교향악단</button>
+              <button className="w-full">국,시립합창단</button>
+            </div>
             <AdSection />
 
             {/* {isLoading && (

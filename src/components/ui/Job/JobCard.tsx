@@ -6,40 +6,41 @@ import { v4 as uuidv4 } from "uuid"
 import { Job } from "@/types/types"
 import { Spinner } from "@material-tailwind/react"
 import Image from "next/image"
-import { useState } from "react"
+import { forwardRef, useState } from "react"
 
 interface IProps {
   job: Job
+  isLastPage?: boolean
 }
 
-export default function JobCard({ job }: IProps) {
-  const filters = useFilters()
-  const [isLoading, setIsLoading] = useState(true)
+const JobCard = forwardRef<HTMLDivElement, IProps>(
+  ({ job, isLastPage }, ref) => {
+    const filters = useFilters()
+    const [isLoading, setIsLoading] = useState(true)
 
-  const handleImageLoad = () => {
-    setIsLoading(false)
-  }
+    const handleImageLoad = () => {
+      setIsLoading(false)
+    }
 
-  return (
-    <div className="card">
-      <div className="overflow-hidden relative h-[120px] md:h-[150px]">
-        {isLoading && (
-          <div className="flex items-center justify-center absolute inset-0">
-            <Spinner />
-          </div>
-        )}
-        {job.companyImageUrl && (
-          <Image
-            src={job.companyImageUrl ?? "/job-default.png"}
-            alt="job"
-            sizes="(max-width: 1200px) 276px, 150px"
-            fill
-            className="rounded-md"
-            onLoad={handleImageLoad}
-          />
-        )}
-      </div>
-      <div className="">
+    return (
+      <div className="card">
+        <div className="overflow-hidden relative h-[120px] md:h-[150px]">
+          {isLoading && (
+            <div className="flex items-center justify-center absolute inset-0">
+              <Spinner />
+            </div>
+          )}
+          {job.companyImageUrl && (
+            <Image
+              src={job.companyImageUrl ?? "/job-default.png"}
+              alt="job"
+              sizes="(max-width: 1200px) 276px, 150px"
+              fill
+              className="rounded-md"
+              onLoad={handleImageLoad}
+            />
+          )}
+        </div>
         <div className="flex flex-col mb-1">
           <div className="text-sm  text-darkgrey truncate flex-1 flex flex-col mt-1 lg:my-2  ">
             <ul className="flex mb-1 ">
@@ -57,7 +58,12 @@ export default function JobCard({ job }: IProps) {
             {filters.DIFF_FROM_NOW_ADD_TIME(job.createdAt)}
           </span>
         </div>
+        {!isLastPage && <div ref={ref} />}
       </div>
-    </div>
-  )
-}
+    )
+  },
+)
+
+JobCard.displayName = "JobCard"
+
+export default JobCard

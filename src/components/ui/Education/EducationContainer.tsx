@@ -243,18 +243,19 @@ const EducationContainer = () => {
           {data?.pages.map(
             page =>
               page?.lessons.map((lesson: LESSON, index: number) => (
-                <>
-                  <Link
-                    key={lesson.id}
-                    href={`/educations/${lesson.id}`}
-                    prefetch={false}
-                  >
-                    <LessonCard lesson={lesson} />
-                  </Link>
-                  {hasNextPage && index === page.lessons.length - 8 && (
-                    <div ref={ref} />
-                  )}
-                </>
+                <Link
+                  key={lesson.id}
+                  href={`/educations/${lesson.id}`}
+                  prefetch={false}
+                >
+                  <LessonCard
+                    lesson={lesson}
+                    isLastPage={
+                      !(hasNextPage && page.lessons.length - 19 === index)
+                    }
+                    ref={ref}
+                  />
+                </Link>
               )),
           )}
         </div>

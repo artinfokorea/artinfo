@@ -115,18 +115,15 @@ export default function JobContainer() {
           {data?.pages?.map(
             group =>
               group?.jobs?.map((item: Job, index: number) => (
-                <>
-                  <Link
-                    key={item.id}
-                    href={`/jobs/${item.id}`}
-                    prefetch={false}
-                  >
-                    <JobCard job={item} />
-                  </Link>
-                  {hasNextPage && index === group.jobs.length - 8 && (
-                    <div ref={ref} />
-                  )}
-                </>
+                <Link key={item.id} href={`/jobs/${item.id}`} prefetch={false}>
+                  <JobCard
+                    job={item}
+                    isLastPage={
+                      !(hasNextPage && index === group.jobs.length - 19)
+                    }
+                    ref={ref}
+                  />
+                </Link>
               )),
           )}
         </div>
