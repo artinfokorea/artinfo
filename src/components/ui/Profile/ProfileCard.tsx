@@ -11,7 +11,7 @@ import { useRecoilState } from "recoil"
 import { userProfileState } from "@/atoms/userProfile"
 import { CameraIcon } from "@heroicons/react/24/outline"
 import FileUploader from "@/components/common/FileUploader"
-import { MAJOR_CATEGORY_ITEMS, PROFILE_PAYLOAD } from "@/types/types"
+import { PROFILE_PAYLOAD } from "@/types/types"
 import useSupabase from "@/hooks/useSupabase"
 import useAuth from "@/hooks/useAuth"
 

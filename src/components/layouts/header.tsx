@@ -14,7 +14,7 @@ import {
   StarIcon,
   TicketIcon,
 } from "@heroicons/react/24/outline"
-import { useParams, usePathname, useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import {
   Button,
   Navbar,
@@ -30,7 +30,6 @@ import { userProfileState } from "@/atoms/userProfile"
 import { useRecoilState } from "recoil"
 import { isMobileWeb } from "@toss/utils"
 import { scrollDirState } from "@/atoms/scrollDir"
-import path from "path"
 
 function ProfileMenu() {
   const { user, signOut } = useAuth()
