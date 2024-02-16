@@ -1,6 +1,6 @@
 import useFilters from "@/hooks/useFilters"
 import { useRouter } from "next/navigation"
-import React from "react"
+import React, { MouseEvent } from "react"
 
 interface Props {
   concert: {
@@ -17,8 +17,13 @@ const ArtistConcertCard = ({ concert, isAdmin }: Props) => {
   const filters = useFilters()
   const router = useRouter()
 
-  const goToConcertEdit = () =>
+  const goToConcertEdit = () => {
     router.push(`/concerts/${concert.id}?type=update`)
+  }
+
+  const goToConcertDetail = () => {
+    router.push(`/concerts/${concert.id}`)
+  }
 
   return (
     <section className="card flex p-4 my-1 bg-white">
@@ -51,9 +56,12 @@ const ArtistConcertCard = ({ concert, isAdmin }: Props) => {
           {filters.YYYYMMDD(concert.performanceTime)}
         </span>
         {concert.isActive && (
-          <span className="bg-[#f8f8f9] px-2 py-1 rounded-2xl font-semibold">
+          <button
+            className="bg-[#f8f8f9] px-2 py-1 rounded-2xl font-semibold"
+            onClick={goToConcertDetail}
+          >
             바로가기
-          </span>
+          </button>
         )}
       </div>
     </section>

@@ -23,20 +23,6 @@ const ArtistDetailConcert = () => {
     <div id="top">
       <div className="flex flex-col mb-8">
         {concerts?.map((concert: ARTIST_CONCERT) => {
-          if (concert.isActive) {
-            return (
-              <Link
-                key={concert.id}
-                href={`/concerts/${concert.id}`}
-                prefetch={false}
-              >
-                <ArtistConcertCard
-                  concert={concert}
-                  isAdmin={user?.id === adminId}
-                />
-              </Link>
-            )
-          }
           return (
             <ArtistConcertCard
               key={concert.id}
