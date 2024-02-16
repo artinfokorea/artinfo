@@ -20,9 +20,8 @@ import useToast from "@/hooks/useToast"
 import { IConcert } from "@/types/types"
 import dayjs from "dayjs"
 import { Spinner } from "@/components/material"
-import { Listbox, Transition } from "@headlessui/react"
+import { Listbox, Switch, Transition } from "@headlessui/react"
 import Loading from "@/components/ui/Loading/Loading"
-import useFilters from "@/hooks/useFilters"
 import { CheckIcon } from "@heroicons/react/20/solid"
 
 const QuillEditor = dynamic(
@@ -46,6 +45,8 @@ const items = [
   { title: "기타", value: "ETC" },
 ]
 
+const adminId = process.env.NEXT_PUBLIC_ADMIN_ID
+
 const ConcertForm = ({ type, concert }: Props) => {
   const { user } = useAuth()
   const queryClient = useQueryClient()
@@ -59,7 +60,8 @@ const ConcertForm = ({ type, concert }: Props) => {
   const [selectedType, setSelectedType] = useState(
     type === "create" ? "ETC" : concert?.category || "ETC",
   )
-  const filters = useFilters()
+  const [isActive, setIsActive] = useState<boolean>(concert?.is_active || true)
+
   const router = useRouter()
   const [startedAt, setStartedAt] = useState(
     concert?.performance_time
@@ -185,6 +187,7 @@ const ConcertForm = ({ type, concert }: Props) => {
         title,
         contents: htmlStr,
         location,
+        is_active: isActive,
         category: selectedType as
           | "ORCHESTRA"
           | "CHORUS"
@@ -219,7 +222,6 @@ const ConcertForm = ({ type, concert }: Props) => {
           throw uploadError
         }
         const fileUrl = `https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/${data.path}`
-        console.log(fileUrl)
 
         const { error: updateError } = await supabase
           .from("concerts")
@@ -235,7 +237,6 @@ const ConcertForm = ({ type, concert }: Props) => {
 
       await queryClient.invalidateQueries({ queryKey: ["concerts"] })
       successToast("공연이 수정되었습니다.")
-      console.log("SUCCESS!")
       router.replace("/concerts")
     } catch (error: any) {
       errorToast(error.message)
@@ -381,6 +382,22 @@ const ConcertForm = ({ type, concert }: Props) => {
           </InputCounter>
 
           <div className="my-2">
+            {user?.id === adminId && (
+              <Switch
+                checked={isActive}
+                onChange={setIsActive}
+                className={`${
+                  isActive ? "bg-blue-600" : "bg-gray-200"
+                } relative inline-flex h-6 w-11 items-center rounded-full my-4`}
+              >
+                <span className="sr-only">공연 활성화</span>
+                <span
+                  className={`${
+                    isActive ? "translate-x-6" : "translate-x-1"
+                  } inline-block h-4 w-4 transform rounded-full bg-white transition`}
+                />
+              </Switch>
+            )}
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DateTimePicker"]}>
                 <DateTimePicker

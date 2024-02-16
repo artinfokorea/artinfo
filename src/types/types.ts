@@ -27,6 +27,7 @@ export type IConcert = {
   profile_id?: string
   category: CONCERT_CATEGORY
   link_url?: string
+  is_active?: boolean
   profiles?: {
     id: string
     name: string
