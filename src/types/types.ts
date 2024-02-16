@@ -96,28 +96,6 @@ export const MAJOR_CATEGORY_ITEMS = {
  * --------------------------------------------------- JOB ---------------------------------------------------------
  */
 
-type JobRow = Database["public"]["Tables"]["jobs"]["Row"]
-// export type Job = {
-//   // organizations?: {
-//   //   id: number
-//   //   name: string
-//   //   logo_image?: string
-//   //   desc?: string
-//   // } | null
-//   // job_positions: {
-//   //   position_1depth_category: string
-//   //   position_2depth_category?: string
-//   //   amount?: number
-//   // }[]
-//   title: string
-//   created_at: string
-//   category: JOB_POSITION_1DEPTH_CATEGORY
-//   contents: string
-//   company_name: string
-//   company_image_url: string
-//   profile_id: string
-// } & JobRow
-
 export type Job = {
   id: number
   title: string
@@ -150,9 +128,6 @@ export const JOB_POSITION_1DEPTH_CATEGORY_ITEMS = {
   LECTURER: "교원",
   RELIGION: "종교",
   ETC: "기타",
-  // UNIVERSITY: "대학교",
-  // RELIGION: "종교단체",
-  // ETC: "기타",
 }
 
 export const JOB_POSITION_1DEPTH_CATEGORY_SELECT_ITEMS = (
@@ -161,54 +136,6 @@ export const JOB_POSITION_1DEPTH_CATEGORY_SELECT_ITEMS = (
   ) as JOB_POSITION_1DEPTH_CATEGORY[]
 ).map(key => ({
   title: JOB_POSITION_1DEPTH_CATEGORY_ITEMS[key],
-  value: key,
-}))
-
-export type JOB_POSITION_ORCHESTRA_CATEGORY =
-  | "CONDUCTOR"
-  | "VIOLIN"
-  | "VIOLA"
-  | "CELLO"
-  | "DOUBLE_BASS"
-  | "FLUTE"
-  | "OBOE"
-  | "CLARINET"
-  | "BASSOON"
-  | "HORN"
-  | "TRUMPET"
-  | "TROMBONE"
-  | "TUBA"
-  | "PERCUSSION"
-  | "PIANO"
-  | "ORGAN"
-  | "HARP"
-
-export const JOB_POSITION_ORCHESTRA_CATEGORY_ITEMS = {
-  CONDUCTOR: "지휘",
-  VIOLIN: "바이올린",
-  VIOLA: "비올라",
-  CELLO: "첼로",
-  DOUBLE_BASS: "더블베이스",
-  FLUTE: "플룻",
-  OBOE: "오보에",
-  CLARINET: "클라리넷",
-  BASSOON: "바순",
-  HORN: "호른",
-  TRUMPET: "트럼펫",
-  TROMBONE: "트럼본",
-  TUBA: "튜바",
-  PERCUSSION: "타악기",
-  PIANO: "피아노",
-  ORGAN: "오르간",
-  HARP: "하프",
-}
-
-export const JOB_POSITION_ORCHESTRA_CATEGORY_SELECT_ITEMS = (
-  Object.keys(
-    JOB_POSITION_ORCHESTRA_CATEGORY_ITEMS,
-  ) as JOB_POSITION_ORCHESTRA_CATEGORY[]
-).map(key => ({
-  title: JOB_POSITION_ORCHESTRA_CATEGORY_ITEMS[key],
   value: key,
 }))
 
@@ -228,53 +155,6 @@ export const JOB_POSITION_CHORUS_CATEGORY_ITEMS = {
   BASS: "베이스",
   ACCOMPANIST: "반주",
 }
-
-export type JOB_POSITION_KOREAN_MUSIC_CATEGORY = "CONDUCTOR" | "CONCERT_MASTER"
-
-export const JOB_POSITION_KOREAN_MUSIC_CATEGORY_ITEMS = {
-  CONDUCTOR: "지휘",
-  CONCERT_MASTER: "악장",
-}
-
-export const JOB_POSITION_KOREAN_MUSIC_CATEGORY_SELECT_ITEMS = (
-  Object.keys(
-    JOB_POSITION_KOREAN_MUSIC_CATEGORY_ITEMS,
-  ) as JOB_POSITION_KOREAN_MUSIC_CATEGORY[]
-).map(key => ({
-  title: JOB_POSITION_KOREAN_MUSIC_CATEGORY_ITEMS[key],
-  value: key,
-}))
-
-export const JOB_POSITION_ORCHESTRA_CHORUS_SELECT_ITEMS = (
-  Object.keys(
-    JOB_POSITION_CHORUS_CATEGORY_ITEMS,
-  ) as JOB_POSITION_CHORUS_CATEGORY[]
-).map(key => ({
-  title: JOB_POSITION_CHORUS_CATEGORY_ITEMS[key],
-  value: key,
-}))
-
-export type JOB_POSITION_ADMINISTRATION_CATEGORY =
-  | "MANAGEMENT"
-  | "PLANNING"
-  | "MARKETING"
-  | "ETC"
-
-export const JOB_POSITION_ADMINISTRATION_CATEGORY_ITEMS = {
-  MANAGEMENT: "경영",
-  PLANNING: "기획",
-  MARKETING: "마케팅",
-  ETC: "기타",
-}
-
-export const JOB_POSITION_ADMINISTRATION_CATEGORY_SELECT_ITEMS = (
-  Object.keys(
-    JOB_POSITION_ADMINISTRATION_CATEGORY_ITEMS,
-  ) as JOB_POSITION_ADMINISTRATION_CATEGORY[]
-).map(key => ({
-  title: JOB_POSITION_ADMINISTRATION_CATEGORY_ITEMS[key],
-  value: key,
-}))
 
 /*
  * --------------------------------------------------- USER ---------------------------------------------------------

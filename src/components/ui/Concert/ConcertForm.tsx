@@ -373,7 +373,7 @@ const ConcertForm = ({ type, concert }: Props) => {
             <ResizteTextArea
               value={linkUrl}
               maxRows={5}
-              maxLength={50}
+              maxLength={100}
               placeholder="공연 링크를 입력해주세요(예: https://naver.com)"
               className="md:text-2xl"
               onChange={value => setLinkUrl(value)}

@@ -65,6 +65,11 @@ export default async function RootLayout({
           `,
           }}
         />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7139698395080232"
+          crossOrigin="anonymous"
+        />
       </head>
       <body
         className="touch-manipulation bg-[#f8fafc]"
