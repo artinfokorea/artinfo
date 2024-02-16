@@ -1,5 +1,5 @@
 import useSupabase from "@/hooks/useSupabase"
-import { ISSUE_CATEGORY_ITEMS } from "@/types/types"
+
 import dayjs from "dayjs"
 
 export default async function IssueContainer() {
@@ -22,9 +22,9 @@ export default async function IssueContainer() {
             className="flex border-b border-stone-800 pb-2 mb-4"
           >
             <div className="flex-1 flex items-center">
-              <span className="text-gray-500 mr-2 text-sm">
+              {/* <span className="text-gray-500 mr-2 text-sm">
                 [{ISSUE_CATEGORY_ITEMS[item.category]}]
-              </span>
+              </span> */}
               {item.title}
             </div>
             <span className="text-sm">{date}</span>
