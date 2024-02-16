@@ -27,7 +27,7 @@ const ArtistConcertCard = ({ concert, isAdmin }: Props) => {
           <span className="font-semibold break-keep">{concert.title}</span>
           <span className="text-xs">{concert.location}</span>
         </div>
-        {isAdmin && (
+        {isAdmin && concert.isActive && (
           <button className="mr-2" onClick={goToConcertEdit}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
