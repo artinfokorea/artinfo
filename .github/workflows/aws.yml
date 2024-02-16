@@ -76,6 +76,7 @@ jobs:
           echo "NEXT_PUBLIC_FCM_API_KEY=${{ secrets.ENV_NEXT_PUBLIC_FCM_API_KEY }}" >> .env
           echo "NEXT_PUBLIC_REST_API=${{ secrets.ENV_NEXT_PUBLIC_REST_API }}" >> .env
           echo "NEXT_NEXT_PUBLIC_NODE_ENV=${{ secrets.ENV_NEXT_PUBLIC_NODE_ENV }}" >> .env
+          echo "NEXT_NEXT_PUBLIC_NODE_ENV=${{ secrets.NEXT_PUBLIC_ADMIN_ID }}" >> .env
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
