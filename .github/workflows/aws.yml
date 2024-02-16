@@ -91,19 +91,22 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-    # - name: Run scripts on server
-    #   uses: appleboy/ssh-action@master
-    #   with:
-    #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-    #     host: ${{ secrets.FRONT_HOST }}
-    #     username: ${{ secrets.USERNAME }}
-    #     port: ${{ secrets.SSH_PORT }}
-    #     script: |
-    #       export NVM_DIR=/home/ubuntu/.nvm
-    #       source /home/ubuntu/.nvm/nvm.sh
-    #       sudo docker pull 435374580661.dkr.ecr.ap-northeast-2.amazonaws.com/artinfo:${{ github.sha }}
-    #       sudo docker rm -f $(docker ps -q)
-    #       sudo docker run -d -p 3000:3000 435374580661.dkr.ecr.ap-northeast-2.amazonaws.com/artinfo:${{ github.sha }}
+      - name: Run scripts on server
+        uses: appleboy/ssh-action@master
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.FRONT_HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            export NVM_DIR=/home/ubuntu/.nvm
+            source /home/ubuntu/.nvm/nvm.sh
+            aws ecr get-login-password --region ap-northeast-2
+            docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.ap-northeast-2.amazonaws.com
+            docker pull 435374580661.dkr.ecr.ap-northeast-2.amazonaws.com/artinfo:artinfo-frontend-image
+            docker rm -f $(docker ps -q)
+            docker run -d -p 3000:3000 435374580661.dkr.ecr.ap-northeast-2.amazonaws.com/artinfo:artinfo-frontend-image
+            docker rmi $(docker images -q)
 
     # - name: Fill in the new image ID in the Amazon ECS task definition
     #   id: task-def
