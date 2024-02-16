@@ -35,6 +35,7 @@ export const metadata: Metadata = {
   verification: {
     other: {
       "naver-site-verification": ["eb1c30e483eed014548bceaa3325c74cc15490db"],
+      "google-adsense-account": ["ca-pub-7139698395080232"],
     },
   },
 }
@@ -64,11 +65,6 @@ export default async function RootLayout({
             });
           `,
           }}
-        />
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7139698395080232"
-          crossOrigin="anonymous"
         />
       </head>
       <body

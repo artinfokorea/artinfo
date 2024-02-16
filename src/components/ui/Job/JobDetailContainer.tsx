@@ -23,6 +23,7 @@ const ScrollButtonWrap = dynamic(
   },
 )
 
+const adminId = process.env.NEXT_PUBLIC_ADMIN_ID
 interface IProps {
   jobId: number
 }
@@ -124,8 +125,7 @@ export default function JobDetailContainer({ jobId }: IProps) {
                     {job?.title}
                   </h2>
 
-                  {(job?.userId === user?.id ||
-                    user?.id === "ef03de92-798d-4aa8-a750-831e97f8e889") && (
+                  {(job?.userId === user?.id || user?.id === adminId) && (
                     <div className="flex ml-2 mb-auto">
                       <button
                         className="mr-2"

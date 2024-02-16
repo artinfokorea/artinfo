@@ -12,7 +12,7 @@ import { useEffect, useState, useRef } from "react"
 import useAuth from "@/hooks/useAuth"
 import { Modal } from "@/components/common/Modal"
 import useToast from "@/hooks/useToast"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import ConcertForm from "./ConcertForm"
 
 const ScrollButtonWrap = dynamic(
@@ -23,6 +23,7 @@ const ScrollButtonWrap = dynamic(
   },
 )
 
+const adminId = process.env.NEXT_PUBLIC_ADMIN_ID
 interface IProps {
   pageId: number
 }
@@ -32,7 +33,9 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
   const [isOpenModal, setIsOpenModal] = useState(false)
   const { errorToast, successToast } = useToast()
   const queryClient = useQueryClient()
-  const [pageType, setPageType] = useState<"read" | "update">("read")
+  const searchParams = useSearchParams()
+  const type = searchParams.get("type")
+  const [pageType, setPageType] = useState(type || "read")
 
   const { data: concert } = useQuery({
     queryKey: ["concert", pageId],
@@ -71,8 +74,8 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
     },
     onSuccess: () => {
       router.replace("/concerts")
-      queryClient.invalidateQueries(["concerts"])
-      successToast("댓글이 삭제되었습니다.")
+      queryClient.invalidateQueries()
+      successToast("공연이 삭제되었습니다.")
     },
   })
 
@@ -146,7 +149,7 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
             </div>
 
             <div className="flex items-center">
-              {concert?.profile_id === user?.id && (
+              {(concert?.profile_id === user?.id || user?.id === adminId) && (
                 <button className="mr-2" onClick={() => setPageType("update")}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -164,7 +167,7 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
                   </svg>
                 </button>
               )}
-              {concert?.profile_id === user?.id && (
+              {(concert?.profile_id === user?.id || user?.id === adminId) && (
                 <button className="mr-2" onClick={() => setIsOpenModal(true)}>
                   <TrashIcon className="w-5  " />
                 </button>

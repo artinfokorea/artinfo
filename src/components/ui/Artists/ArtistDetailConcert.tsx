@@ -4,12 +4,14 @@ import { getConcertsByArtist } from "@/apis/concert"
 import { useQuery } from "@tanstack/react-query"
 import { ARTIST_CONCERT } from "@/types/types"
 import Link from "next/link"
-import useFilters from "@/hooks/useFilters"
 import ArtistConcertCard from "./ArtistConcertCard"
+import { useAuth } from "../Auth/AuthProvider"
+
+const adminId = process.env.NEXT_PUBLIC_ADMIN_ID
 
 const ArtistDetailConcert = () => {
   const params = useParams()
-  const filters = useFilters()
+  const { user } = useAuth()
 
   const { data: concerts } = useQuery({
     queryKey: [`artist_concerts_${params.id}`, params.id],
@@ -19,16 +21,6 @@ const ArtistDetailConcert = () => {
 
   return (
     <div id="top">
-      {/* {isLoading && (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <ConcertSkeleton />
-          <ConcertSkeleton />
-          <ConcertSkeleton />
-          <ConcertSkeleton />
-          <ConcertSkeleton />
-          <ConcertSkeleton />
-        </div>
-      )} */}
       <div className="flex flex-col mb-8">
         {concerts?.map((concert: ARTIST_CONCERT) => {
           if (concert.isActive) {
@@ -38,11 +30,20 @@ const ArtistDetailConcert = () => {
                 href={`/concerts/${concert.id}`}
                 prefetch={false}
               >
-                <ArtistConcertCard concert={concert} />
+                <ArtistConcertCard
+                  concert={concert}
+                  isAdmin={user?.id === adminId}
+                />
               </Link>
             )
           }
-          return <ArtistConcertCard key={concert.id} concert={concert} />
+          return (
+            <ArtistConcertCard
+              key={concert.id}
+              concert={concert}
+              isAdmin={user?.id === adminId}
+            />
+          )
         })}
       </div>
     </div>
