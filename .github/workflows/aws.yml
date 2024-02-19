@@ -50,46 +50,46 @@ jobs:
     environment: production
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      # - name: Checkout
+      #   uses: actions/checkout@v3
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: ${{ env.AWS_REGION }}
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+      # - name: Login to Amazon ECR
+      #   id: login-ecr
+      #   uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Create Enviroment File
-        run: |
-          touch .env
+      # - name: Create Enviroment File
+      #   run: |
+      #     touch .env
 
-          echo "NEXT_PUBLIC_SUPABASE_URL=${{ secrets.ENV_NEXT_PUBLIC_SUPABASE_URL }}" >> .env
-          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.ENV_NEXT_PUBLIC_SUPABASE_ANON_KEY }}" >> .env
-          echo "NEXT_PUBLIC_GTAG_ID=${{ secrets.ENV_NEXT_PUBLIC_GTAG_ID }}" >> .env
-          echo "NEXT_PUBLIC_FCM_VAPID_KEY=${{ secrets.ENV_NEXT_PUBLIC_FCM_VAPID_KEY }}" >> .env
-          echo "NEXT_PUBLIC_SUPABASE_STROAGE_PREFIX_URL=${{ secrets.ENV_NEXT_PUBLIC_SUPABASE_STROAGE_PREFIX_URL }}" >> .env
-          echo "NEXT_PUBLIC_FCM_API_KEY=${{ secrets.ENV_NEXT_PUBLIC_FCM_API_KEY }}" >> .env
-          echo "NEXT_PUBLIC_REST_API=${{ secrets.ENV_NEXT_PUBLIC_REST_API }}" >> .env
-          echo "NEXT_NEXT_PUBLIC_NODE_ENV=${{ secrets.ENV_NEXT_PUBLIC_NODE_ENV }}" >> .env
-          echo "NEXT_PUBLIC_ADMIN_ID=${{ secrets.NEXT_PUBLIC_ADMIN_ID }}" >> .env
+      #     echo "NEXT_PUBLIC_SUPABASE_URL=${{ secrets.ENV_NEXT_PUBLIC_SUPABASE_URL }}" >> .env
+      #     echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.ENV_NEXT_PUBLIC_SUPABASE_ANON_KEY }}" >> .env
+      #     echo "NEXT_PUBLIC_GTAG_ID=${{ secrets.ENV_NEXT_PUBLIC_GTAG_ID }}" >> .env
+      #     echo "NEXT_PUBLIC_FCM_VAPID_KEY=${{ secrets.ENV_NEXT_PUBLIC_FCM_VAPID_KEY }}" >> .env
+      #     echo "NEXT_PUBLIC_SUPABASE_STROAGE_PREFIX_URL=${{ secrets.ENV_NEXT_PUBLIC_SUPABASE_STROAGE_PREFIX_URL }}" >> .env
+      #     echo "NEXT_PUBLIC_FCM_API_KEY=${{ secrets.ENV_NEXT_PUBLIC_FCM_API_KEY }}" >> .env
+      #     echo "NEXT_PUBLIC_REST_API=${{ secrets.ENV_NEXT_PUBLIC_REST_API }}" >> .env
+      #     echo "NEXT_NEXT_PUBLIC_NODE_ENV=${{ secrets.ENV_NEXT_PUBLIC_NODE_ENV }}" >> .env
+      #     echo "NEXT_PUBLIC_ADMIN_ID=${{ secrets.NEXT_PUBLIC_ADMIN_ID }}" >> .env
 
-      - name: Build, tag, and push image to Amazon ECR
-        id: build-image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: artinfo-frontend-image
-        run: |
-          # Build a docker container and
-          # push it to ECR so that it can
-          # be deployed to ECS.
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+      # - name: Build, tag, and push image to Amazon ECR
+      #   id: build-image
+      #   env:
+      #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      #     IMAGE_TAG: artinfo-frontend-image
+      #   run: |
+      #     # Build a docker container and
+      #     # push it to ECR so that it can
+      #     # be deployed to ECS.
+      #     docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+      #     docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      #     echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
       - name: Run scripts on server
         uses: appleboy/ssh-action@v0.1.4
@@ -100,12 +100,13 @@ jobs:
           script: |
             export NVM_DIR=/home/ubuntu/.nvm
             source /home/ubuntu/.nvm/nvm.sh
-            aws ecr get-login-password --region ap-northeast-2
-            docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.ap-northeast-2.amazonaws.com
-            docker pull 435374580661.dkr.ecr.ap-northeast-2.amazonaws.com/artinfo:artinfo-frontend-image
-            docker rm -f $(docker ps -q)
-            docker run -d -p 3000:3000 435374580661.dkr.ecr.ap-northeast-2.amazonaws.com/artinfo:artinfo-frontend-image
-            docker rmi $(docker images -q)
+            whoami
+            # aws ecr get-login-password --region ap-northeast-2
+            # docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.ap-northeast-2.amazonaws.com
+            # docker pull 435374580661.dkr.ecr.ap-northeast-2.amazonaws.com/artinfo:artinfo-frontend-image
+            # docker rm -f $(docker ps -q)
+            # docker run -d -p 3000:3000 435374580661.dkr.ecr.ap-northeast-2.amazonaws.com/artinfo:artinfo-frontend-image
+            # docker rmi $(docker images -q)
 
     # - name: Fill in the new image ID in the Amazon ECS task definition
     #   id: task-def
