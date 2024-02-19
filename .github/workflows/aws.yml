@@ -94,7 +94,7 @@ jobs:
       - name: Run scripts on server
         uses: appleboy/ssh-action@v0.1.4
         with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          password: ${{ secrets.AWS_PASSWORD }}
           host: ${{ secrets.FRONT_HOST }}
           username: ${{ secrets.USERNAME }}
           script: |
