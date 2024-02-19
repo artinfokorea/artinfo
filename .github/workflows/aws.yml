@@ -97,7 +97,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           host: ${{ secrets.FRONT_HOST }}
           username: ${{ secrets.USERNAME }}
-          port: 22
           script: |
             export NVM_DIR=/home/ubuntu/.nvm
             source /home/ubuntu/.nvm/nvm.sh
