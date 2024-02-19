@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   console.log("pageImage", pageImage)
 
   return {
-    title: `공연 | 아트인포`,
+    title: `공연 | ${pageTitle}`,
     description: `${pageTitle} | 아트인포`,
     openGraph: {
       title: pageTitle,

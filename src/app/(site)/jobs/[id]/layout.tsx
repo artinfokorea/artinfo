@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const pageImage = data?.company_image_url
 
   return {
-    title: `채용 | 아트인포`,
+    title: `채용 | ${pageTitle}`,
     description: `${pageTitle} | 아트인포`,
     openGraph: {
       title: pageTitle,
