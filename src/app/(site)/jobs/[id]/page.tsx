@@ -1,5 +1,3 @@
-import { Suspense } from "react"
-import Loading from "@/components/ui/Loading/Loading"
 import JobDetailContainer from "@/components/ui/Job/JobDetailContainer"
 import GetQueryClient from "@/app/GetQueryClient"
 import { getJob } from "@/apis/job"
@@ -22,10 +20,8 @@ export default async function JobPage({ params }: Props) {
   const dehydratedState = dehydrate(queryClient)
 
   return (
-    <Suspense fallback={<Loading />}>
-      <Hydrate state={dehydratedState}>
-        <JobDetailContainer jobId={Number(params.id)} />
-      </Hydrate>
-    </Suspense>
+    <Hydrate state={dehydratedState}>
+      <JobDetailContainer jobId={Number(params.id)} />
+    </Hydrate>
   )
 }

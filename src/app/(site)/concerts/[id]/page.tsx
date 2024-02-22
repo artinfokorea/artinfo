@@ -1,5 +1,3 @@
-import { Suspense } from "react"
-import Loading from "@/components/ui/Loading/Loading"
 import GetQueryClient from "@/app/GetQueryClient"
 import { Hydrate, dehydrate } from "@tanstack/react-query"
 import { fetchConcert } from "@/app/Api"
@@ -13,10 +11,8 @@ export default async function page({ params }: { params: { id: string } }) {
   const dehydratedState = dehydrate(queryClient)
 
   return (
-    <Suspense fallback={<Loading />}>
-      <Hydrate state={dehydratedState}>
-        <ConcertDetailContainer pageId={id} />
-      </Hydrate>
-    </Suspense>
+    <Hydrate state={dehydratedState}>
+      <ConcertDetailContainer pageId={id} />
+    </Hydrate>
   )
 }

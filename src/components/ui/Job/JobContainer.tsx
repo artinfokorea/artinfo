@@ -12,7 +12,6 @@ import FilterTag from "@/components/common/FilterTag"
 import { ChipButton } from "@/components/ui/Button/LinkChipButton"
 import { useRouter, useSearchParams } from "next/navigation"
 import JobCard from "./JobCard"
-import JobSkeleton from "../Skeleton/JobSkeleton"
 
 export default function JobContainer() {
   const router = useRouter()
@@ -20,7 +19,7 @@ export default function JobContainer() {
   const majors = searchParams.get("majors")
   const initialSelectedMajorList = majors ? majors.split(",") : []
   const [isMajorSelect, setIsMajorSelect] = useState(false)
-  const [isMounted, setIsMounted] = useState(false)
+
   const [selectedMajor, setSelectedMajor] = useState("")
   const [selectedMajorList, setSelectedMajorList] = useState<string[]>(
     initialSelectedMajorList,
@@ -57,11 +56,7 @@ export default function JobContainer() {
     }
   }, [selectedMajor])
 
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
-
-  const { isLoading, data, fetchNextPage, hasNextPage } = useInfiniteQuery(
+  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
     ["recruit_jobs", selectedMajorList],
     ({ pageParam = 1 }) => {
       return getJobs(pageParam, selectedMajorList)

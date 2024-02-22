@@ -1,7 +1,5 @@
-import { Suspense } from "react"
 import { Metadata } from "next/types"
 import { getFeed } from "@/apis/feed"
-import Loading from "@/components/ui/Loading/Loading"
 import SupabaseServer from "@/lib/supabase-server"
 import GetQueryClient from "@/app/GetQueryClient"
 import { Hydrate, dehydrate } from "@tanstack/react-query"
@@ -68,11 +66,9 @@ export default async function PostDetail({
 
   return (
     <div className="mx-auto max-w-screen-lg">
-      <Suspense fallback={<Loading />}>
-        <Hydrate state={dehydratedState}>
-          <Container pageId={params.id} />
-        </Hydrate>
-      </Suspense>
+      <Hydrate state={dehydratedState}>
+        <Container pageId={params.id} />
+      </Hydrate>
     </div>
   )
 }

@@ -46,7 +46,6 @@ export default function Container({ pageId }: IProps) {
 
   const { data: feed } = useQuery({
     queryKey: ["artist_feed", pageId],
-    suspense: true,
     queryFn: () => getFeed(Number(pageId), user?.id),
   })
 

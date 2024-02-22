@@ -160,13 +160,16 @@ export const JOB_POSITION_CHORUS_CATEGORY_ITEMS = {
 /*
  * --------------------------------------------------- USER ---------------------------------------------------------
  */
-type UserRow = Database["public"]["Tables"]["profiles"]
-export type User = {
-  // user_metadata: {
-  //   name: string
-  //   icon_image_url?: string
-  // }
-} & UserRow
+export type USER = {
+  id: string
+  name: string
+  publicNickname?: string
+  secretNickname?: string
+  email: string
+  iconImageUrl?: string
+  lessonId?: number
+  isTeacher: boolean
+}
 
 /*
  * --------------------------------------------------- FEED ---------------------------------------------------------

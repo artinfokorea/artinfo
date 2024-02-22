@@ -1,5 +1,3 @@
-import { Suspense } from "react"
-import Loading from "@/components/ui/Loading/Loading"
 import { Hydrate, dehydrate } from "@tanstack/react-query"
 import GetQueryClient from "@/app/GetQueryClient"
 import EducationDetailContainer from "@/components/ui/Education/EducationDetailContainer"
@@ -21,11 +19,9 @@ const page = async ({ params }: { params: { id: string } }) => {
   const dehydratedState = dehydrate(queryClient)
 
   return (
-    <Suspense fallback={<Loading />}>
-      <Hydrate state={dehydratedState}>
-        <EducationDetailContainer pageId={params.id} />
-      </Hydrate>
-    </Suspense>
+    <Hydrate state={dehydratedState}>
+      <EducationDetailContainer pageId={params.id} />
+    </Hydrate>
   )
 }
 

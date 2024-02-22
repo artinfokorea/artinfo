@@ -40,7 +40,6 @@ const EducationDetailContainer = ({ pageId }: Props) => {
 
   const { data: lesson } = useQuery({
     queryKey: ["lesson", pageId],
-    suspense: true,
     queryFn: () => getLesson(Number(pageId)),
   })
 

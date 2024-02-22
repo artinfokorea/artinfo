@@ -1,7 +1,6 @@
 import AdSkeleton from "@/components/ui/Skeleton/AdSkeleton"
 import FeedSkeleton from "@/components/ui/Skeleton/FeedSkeleton"
 import LatestJobsSkeleton from "@/components/ui/Skeleton/LatestJobsSkeleton"
-import VisitorSkeleton from "@/components/ui/Skeleton/VisitorSkeleton"
 import React from "react"
 
 const loading = () => {

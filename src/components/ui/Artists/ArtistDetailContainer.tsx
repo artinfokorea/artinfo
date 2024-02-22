@@ -19,7 +19,6 @@ const ArtistDetailContainer = () => {
 
   const { data: artist } = useQuery({
     queryKey: ["artist", params.id],
-    suspense: false,
     queryFn: () => getArtist(Number(params.id)),
   })
 

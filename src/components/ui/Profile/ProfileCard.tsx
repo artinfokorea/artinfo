@@ -4,32 +4,20 @@ import { Button, Input, IconButton } from "@/components/material"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { useForm } from "react-hook-form"
-import { useEffect, useMemo, useRef, useState } from "react"
-import { fetchProfile, updateProfile } from "@/app/Api"
+import { useEffect, useRef, useState } from "react"
+import { updateProfile } from "@/app/Api"
 import useToast from "@/hooks/useToast"
 import { useRecoilState } from "recoil"
 import { userProfileState } from "@/atoms/userProfile"
 import { CameraIcon } from "@heroicons/react/24/outline"
 import FileUploader from "@/components/common/FileUploader"
-import { PROFILE_PAYLOAD } from "@/types/types"
+import { USER } from "@/types/types"
 import useSupabase from "@/hooks/useSupabase"
 import useAuth from "@/hooks/useAuth"
+import { useQueryClient } from "@tanstack/react-query"
 
 type IProps = {
-  user: {
-    id: string
-    email: string
-    name: string
-    icon_image_url?: string | null
-    article_cnt?: number | null
-    comment_cnt?: number | null
-    fcm_web_token?: string | null
-    grade: string
-    intro?: string | null
-    major?: string | null
-    school?: string | null
-  }
-  refetch: () => void
+  user: USER
 }
 
 const schema = yup
@@ -40,12 +28,22 @@ const schema = yup
       .max(20, "20글자 이내로 입력해주세요.")
       .required("변경하실 이름을 입력해주세요."),
     icon_image_url: yup.string().nullable(),
+    publicNickname: yup
+      .string()
+      .nullable()
+      .min(2, "2글자 이상 입력해주세요.")
+      .max(20, "20글자 이내로 입력해주세요."),
+    secretNickname: yup
+      .string()
+      .nullable()
+      .min(2, "2글자 이상 입력해주세요.")
+      .max(20, "20글자 이내로 입력해주세요."),
   })
   .required()
 
 type FormData = yup.InferType<typeof schema>
 
-export default function ProfileCard({ user, refetch }: IProps) {
+export default function ProfileCard({ user }: IProps) {
   const [isLoading, setIsLoading] = useState(false)
   const { successToast, errorToast } = useToast()
   const [userProfile, setUserProfile] = useRecoilState(userProfileState)
@@ -53,6 +51,7 @@ export default function ProfileCard({ user, refetch }: IProps) {
   const [uploadedImages, setUploadedImages] = useState<File[]>([])
   const supabase = useSupabase()
   const auth = useAuth()
+  const queryClient = useQueryClient()
 
   const {
     register,
@@ -62,10 +61,12 @@ export default function ProfileCard({ user, refetch }: IProps) {
     resolver: yupResolver(schema),
     defaultValues: {
       name: user.name,
+      publicNickname: user.publicNickname,
+      secretNickname: user.secretNickname,
     },
   })
 
-  const handleProfile = async (payload: PROFILE_PAYLOAD) => {
+  const handleProfile = async (payload: FormData) => {
     setIsLoading(true)
     try {
       await updateProfile({
@@ -74,7 +75,7 @@ export default function ProfileCard({ user, refetch }: IProps) {
       })
       if (payload?.name) setUserProfile({ ...userProfile, name: payload.name })
       successToast("닉네임이 변경되었습니다.")
-      refetch()
+      queryClient.invalidateQueries(["user", user.id])
     } catch (error: any) {
       errorToast(error.message)
       console.error(error)
@@ -121,7 +122,7 @@ export default function ProfileCard({ user, refetch }: IProps) {
       }
       successToast("프로필 이미지가 변경되었습니다.")
       setUserProfile({ ...userProfile, userImage: fileUrls[0] })
-      refetch()
+      queryClient.invalidateQueries(["user", user.id])
     } catch (error: any) {
       successToast(error.message)
     } finally {
@@ -149,7 +150,7 @@ export default function ProfileCard({ user, refetch }: IProps) {
         <div className="relative">
           <img
             className="inline-block h-24 w-24 rounded-full"
-            src={user.icon_image_url || "/img/placeholder_user.png"}
+            src={user.iconImageUrl || "/img/placeholder_user.png"}
             alt="profile"
           />
           <IconButton
@@ -193,7 +194,7 @@ export default function ProfileCard({ user, refetch }: IProps) {
           </Button>
         </form>
         <div className="text-lg mt-2">{user.email}</div>
-        <div className="grid grid-cols-3 mt-10 gap-4">
+        {/* <div className="grid grid-cols-3 mt-10 gap-4">
           <div>
             <div className="text-gray-500 text-lg">글작성</div>
             <div>{user.article_cnt}개</div>
@@ -206,7 +207,7 @@ export default function ProfileCard({ user, refetch }: IProps) {
             <div className="text-gray-500 text-lg">좋아요</div>
             <div className="text-gray-500">곧지원예정</div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* <section className="mt-10"> */}

@@ -39,7 +39,6 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
 
   const { data: concert } = useQuery({
     queryKey: ["concert", pageId],
-    suspense: true,
     queryFn: () => fetchConcert(pageId),
   })
 

@@ -14,6 +14,7 @@ import useToast from "@/hooks/useToast"
 import { getFeeds } from "@/apis/feed"
 import ListWithLatestJobs from "@/components/ui/LatestJobs/ListWithLatestJobs"
 import { useRouter } from "next/navigation"
+import Image from "next/image"
 import { useRef } from "react"
 import { PostCard } from "./PostCard"
 import AdContainer from "../Home/ad/AdContainer"
@@ -141,8 +142,20 @@ export default function Container() {
           <div className="feed-groups pb-5">
             {/* <LessonSlide /> */}
             {/* <Visitor /> */}
-            {/* <div className="grid grid-cols-2">
-              <button className="w-full">국,시립교향악단</button>
+            {/* <div className="flex justify-center px-4 md:px-0 mb-2">
+              <button className="w-full h-20 relative hover:shadow-md ">
+                <Image
+                  src="/secret.png"
+                  alt="secret_post_img"
+                  fill
+                  className="rounded-lg"
+                />
+              </button>
+            </div>
+            <div className="grid grid-cols-2">
+              <button className="w-full">
+                <Image
+              </button>
               <button className="w-full">국,시립합창단</button>
             </div> */}
             <AdSection />
