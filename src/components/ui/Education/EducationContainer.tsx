@@ -5,11 +5,11 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import Link from "next/link"
 import { useDidUpdate } from "@toss/react"
 import { LESSON } from "@/types/types"
-import { getLessonList, getLessons } from "@/apis/lesson"
+import { getLessons } from "@/apis/lesson"
 import { useInView } from "react-intersection-observer"
 import LessonSkeleton from "@/components/ui/Skeleton/LessonSkeleton"
 import { fetchProfile } from "@/app/Api"
-import { getUser } from "@/apis/user"
+import { getMe } from "@/apis/user"
 import { RegionData } from "@/lib/regions"
 import FilterTag from "@/components/common/FilterTag"
 import RegionSelect from "@/components/common/RegionSelect"
@@ -127,7 +127,7 @@ const EducationContainer = () => {
 
   useEffect(() => {
     if (user) {
-      getUser(user.id)
+      getMe(user.id)
         .then((res: any) => setUserLessonId(res.lessonId))
         .catch(err => console.log("err", err))
     }

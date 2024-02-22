@@ -165,8 +165,8 @@ function NavItemButton({
   const path = usePathname()
   const [isIPhone, setIsIPhone] = useState(false)
   const defaultColor =
-    "text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500"
-  const activeColor = "text-blue-500"
+    "text-gray-500 dark:text-gray-400 group-hover:text-navy dark:group-hover:text-navy"
+  const activeColor = "text-navy"
   const active = path === href
 
   useEffect(() => {

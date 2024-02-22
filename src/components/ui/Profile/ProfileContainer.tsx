@@ -1,7 +1,7 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
-import { getUser } from "@/apis/user"
+import { getMe } from "@/apis/user"
 import ProfileCard from "./ProfileCard"
 
 interface IProps {
@@ -11,7 +11,7 @@ interface IProps {
 export default function ProfileContainer({ userId }: IProps) {
   const { data: user } = useQuery({
     queryKey: ["user", userId],
-    queryFn: () => getUser(userId),
+    queryFn: () => getMe(userId),
   })
 
   console.log("getUser", user)

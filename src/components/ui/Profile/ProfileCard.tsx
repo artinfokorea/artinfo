@@ -5,16 +5,18 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { useForm } from "react-hook-form"
 import { useEffect, useRef, useState } from "react"
-import { updateProfile } from "@/app/Api"
 import useToast from "@/hooks/useToast"
 import { useRecoilState } from "recoil"
 import { userProfileState } from "@/atoms/userProfile"
 import { CameraIcon } from "@heroicons/react/24/outline"
 import FileUploader from "@/components/common/FileUploader"
 import { USER } from "@/types/types"
+import { updateMe } from "@/apis/user"
 import useSupabase from "@/hooks/useSupabase"
+import { ErrorMessage } from "@hookform/error-message"
 import useAuth from "@/hooks/useAuth"
 import { useQueryClient } from "@tanstack/react-query"
+import { Label } from "../label"
 
 type IProps = {
   user: USER
@@ -69,9 +71,11 @@ export default function ProfileCard({ user }: IProps) {
   const handleProfile = async (payload: FormData) => {
     setIsLoading(true)
     try {
-      await updateProfile({
-        id: user.id,
+      await updateMe({
+        userId: user.id,
         name: payload.name,
+        publicNickname: payload.publicNickname || "",
+        secretNickname: payload.secretNickname || "",
       })
       if (payload?.name) setUserProfile({ ...userProfile, name: payload.name })
       successToast("닉네임이 변경되었습니다.")
@@ -173,16 +177,81 @@ export default function ProfileCard({ user }: IProps) {
           className="flex flex-col mt-2"
           onSubmit={handleSubmit(handleProfile)}
         >
-          <Input
-            {...register("name")}
-            type="text"
-            maxLength={20}
-            className="!border !border-blue-gray-50 bg-white text-blue-gray-500 ring-4 ring-transparent placeholder:text-blue-gray-200 focus:!border-blue-500 focus:!border-t-blue-500 focus:ring-blue-500/20"
-            labelProps={{
-              className: "hidden",
-            }}
-          />
-          <p className="text-sm text-red-500 mt-1">{errors.name?.message}</p>
+          <div className="flex flex-col items-start gap-2 mb-2">
+            <Label
+              htmlFor="이름"
+              className="whitespace-nowrap mr-2 text-silver"
+            >
+              이름
+            </Label>
+            <Input
+              {...register("name")}
+              type="text"
+              maxLength={20}
+              className="!border !border-blue-gray-50 bg-white text-blue-gray-500 ring-4 ring-transparent placeholder:text-blue-gray-200 focus:!border-blue-500 focus:!border-t-blue-500 focus:ring-blue-500/20"
+              labelProps={{
+                className: "hidden",
+              }}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="name"
+              render={({ message }) => (
+                <p className="text-sm text-red-500 mt-1">{message}</p>
+              )}
+            />
+          </div>
+          <div className="flex flex-col items-start gap-2 mb-2">
+            <Label
+              htmlFor="publicNickname"
+              className="whitespace-nowrap mr-2 text-silver"
+            >
+              공개 닉네임
+            </Label>
+            <Input
+              {...register("publicNickname")}
+              type="text"
+              maxLength={20}
+              className="!border !border-blue-gray-50 bg-white text-blue-gray-500 ring-4 ring-transparent placeholder:text-blue-gray-200 focus:!border-blue-500 focus:!border-t-blue-500 focus:ring-blue-500/20"
+              labelProps={{
+                className: "hidden",
+              }}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="publicNickname"
+              render={({ message }) => (
+                <p className="text-sm text-red-500 mt-1">{message}</p>
+              )}
+            />
+          </div>
+          <div className="flex flex-col items-start gap-2 mb-2">
+            <Label
+              htmlFor="secretNickname"
+              className="whitespace-nowrap mr-2 text-silver"
+            >
+              가상 닉네임
+            </Label>
+            <Input
+              {...register("secretNickname")}
+              type="text"
+              maxLength={20}
+              className="!border !border-blue-gray-50 bg-white text-blue-gray-500 ring-4 ring-transparent placeholder:text-blue-gray-200 focus:!border-blue-500 focus:!border-t-blue-500 focus:ring-blue-500/20"
+              labelProps={{
+                className: "hidden",
+              }}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="secretNickname"
+              render={({ message }) => (
+                <p className="text-sm text-red-500 mt-1">{message}</p>
+              )}
+            />
+          </div>
+          <p className="text-sm text-silver font-semibold mb-2">
+            가상 닉네임은 익명게시판에서 사용되는 닉네임입니다.
+          </p>
           <Button
             size="md"
             color="blue"

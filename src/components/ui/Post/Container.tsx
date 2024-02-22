@@ -143,20 +143,39 @@ export default function Container() {
             {/* <LessonSlide /> */}
             {/* <Visitor /> */}
             {/* <div className="flex justify-center px-4 md:px-0 mb-2">
-              <button className="w-full h-20 relative hover:shadow-md ">
+              <button className="w-full h-16 relative  ">
                 <Image
-                  src="/secret.png"
+                  src="/secret-post.png"
                   alt="secret_post_img"
                   fill
-                  className="rounded-lg"
+                  unoptimized
+                  priority
+                  className="hover:shadow-md"
+                  sizes="(max-width: 768px) 300px, 76px"
                 />
               </button>
             </div>
-            <div className="grid grid-cols-2">
-              <button className="w-full">
+            <div className="grid grid-cols-2 px-4 md:px-0 mb-2 gap-2">
+              <button className="w-full h-16 relative ">
                 <Image
+                  src="/chorus.png"
+                  alt="chorus_post_img"
+                  fill
+                  unoptimized
+                  sizes="(max-width: 768px) 300px, 76px"
+                  className="rounded-xl hover:shadow-md"
+                />
               </button>
-              <button className="w-full">국,시립합창단</button>
+              <button className="w-full h-16 relative ">
+                <Image
+                  src="/symphony.png"
+                  alt="chorus_post_img"
+                  fill
+                  unoptimized
+                  sizes="(max-width: 768px) 300px, 76px"
+                  className="rounded-xl hover:shadow-md"
+                />
+              </button>
             </div> */}
             <AdSection />
 
