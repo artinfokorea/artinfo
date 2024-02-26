@@ -24,6 +24,8 @@ module.exports = withMT({
         google: "#f44336",
         blue1: "#5baff6",
         grey: "#CBCBCB",
+        primaryblue: "#3F51B5",
+        primaryred: "#FF6C6A",
         lightgrey: "#eeebeb",
         whitesmoke: "#f5f5f5",
         badge: "#f2f4f7",
@@ -43,6 +45,7 @@ module.exports = withMT({
         mediumpurple: "#7c6ecd",
         lavender: "#cad4ff",
         navy: "#3f51b5",
+        skyblue: "#7493FF",
       },
       padding: {
         // 'safe-bottom' 클래스를 정의하고 safe-area-inset-bottom 값을 사용합니다.

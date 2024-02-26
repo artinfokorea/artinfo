@@ -29,6 +29,7 @@
     "@tanstack/react-query": "^4.29.25",
     "@tanstack/react-query-devtools": "^4.29.25",
     "@toss/react": "^1.5.0",
+    "@toss/use-loading": "^1.1.7",
     "@toss/utils": "^1.4.4",
     "@types/node": "20.4.2",
     "@types/react": "18.2.15",

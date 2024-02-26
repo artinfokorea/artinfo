@@ -2302,6 +2302,11 @@
   dependencies:
     "@babel/runtime" "^7.19.0"
 
+"@toss/use-loading@^1.1.7":
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/@toss/use-loading/-/use-loading-1.1.7.tgz#2dd840faedfa55a2e13e18db1f6c5980c1fc4b83"
+  integrity sha512-U1HLi9vrUbTKzmycnEmgOvf+7JPZ3RmyjfSsKvqCAERd3pWBvJ8VGbZ3xUF2+U7r1LQiG+Tv3tqdUbwWf7b5OQ==
+
 "@toss/utils@^1.4.4":
   version "1.4.4"
   resolved "https://registry.npmjs.org/@toss/utils/-/utils-1.4.4.tgz"

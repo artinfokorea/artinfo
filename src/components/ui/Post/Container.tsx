@@ -14,8 +14,8 @@ import useToast from "@/hooks/useToast"
 import { getFeeds } from "@/apis/feed"
 import ListWithLatestJobs from "@/components/ui/LatestJobs/ListWithLatestJobs"
 import { useRouter } from "next/navigation"
-import Image from "next/image"
-import { useRef } from "react"
+import LockIcon from "@/components/icons/Lock"
+import { useRef, useState } from "react"
 import { PostCard } from "./PostCard"
 import AdContainer from "../Home/ad/AdContainer"
 import BannerContainer from "../Banner/BannerContainer"
@@ -34,7 +34,7 @@ function AdSection() {
 export default function Container() {
   const queryClient = useQueryClient()
   const { user } = useAuth()
-
+  const [secretTab, setSecretTab] = useState(false)
   const { successToast, errorToast } = useToast()
   const containerEl = useRef<HTMLDivElement>(null)
   const router = useRouter()
@@ -136,60 +136,31 @@ export default function Container() {
       <BannerContainer />
       <div className="flex my-2">
         <div className="flex-1 overflow-hidden" id="top">
-          {/* <div className="mb-2 ">
-            <WriteFeedCard />
-          </div> */}
           <div className="feed-groups pb-5">
-            {/* <LessonSlide /> */}
-            {/* <Visitor /> */}
-            {/* <div className="flex justify-center px-4 md:px-0 mb-2">
-              <button className="w-full h-16 relative  ">
-                <Image
-                  src="/secret-post.png"
-                  alt="secret_post_img"
-                  fill
-                  unoptimized
-                  priority
-                  className="hover:shadow-md"
-                  sizes="(max-width: 768px) 300px, 76px"
-                />
-              </button>
-            </div>
-            <div className="grid grid-cols-2 px-4 md:px-0 mb-2 gap-2">
-              <button className="w-full h-16 relative ">
-                <Image
-                  src="/chorus.png"
-                  alt="chorus_post_img"
-                  fill
-                  unoptimized
-                  sizes="(max-width: 768px) 300px, 76px"
-                  className="rounded-xl hover:shadow-md"
-                />
-              </button>
-              <button className="w-full h-16 relative ">
-                <Image
-                  src="/symphony.png"
-                  alt="chorus_post_img"
-                  fill
-                  unoptimized
-                  sizes="(max-width: 768px) 300px, 76px"
-                  className="rounded-xl hover:shadow-md"
-                />
-              </button>
-            </div> */}
-            <AdSection />
+            {!secretTab ? (
+              <div className="flex justify-center px-4 md:px-0 mb-2 bg-[#F1F4FF]">
+                <button
+                  className="flex w-full py-2 justify-center items-center rounded-md border border-grey hover:shadow-md"
+                  onClick={() => setSecretTab(!secretTab)}
+                >
+                  <LockIcon className="w-5 h-5 md:w-6 md:h-6" />
+                  <span className="text-skyblue text-sm md:text-lg ml-2">
+                    연주자 익명게시판
+                  </span>
+                </button>
+              </div>
+            ) : (
+              <div className="text-white grid grid-cols-2 gap-x-4 px-2 mb-2 font-semibold text-sm md:text-lg">
+                <button className="bg-primaryblue h-[46px] w-full rounded-3xl">
+                  국·시립합창단
+                </button>
+                <button className="bg-primaryred h-[46px] w-full rounded-3xl">
+                  국·시립교향악단
+                </button>
+              </div>
+            )}
 
-            {/* {isLoading && (
-              <>
-                <FeedSkeleton />
-                <FeedSkeleton />
-                <FeedSkeleton />
-                <FeedSkeleton />
-                <FeedSkeleton />
-                <FeedSkeleton />
-                <FeedSkeleton />
-              </>
-            )} */}
+            <AdSection />
 
             {feedsData?.pages.map(group => (
               <div key={group.nextPage}>
