@@ -6,10 +6,10 @@ type createRequest = {
   name: string
   companyName: string
   secretNickname?: string
-  images: string[]
+  imageUrls: string[]
 }
 
-export const createOrganizationAuth = async (payload: createRequest) => {
+export const createCompanyCertification = async (payload: createRequest) => {
   try {
     const response = await apiRequest.post(
       "/users/me/company-certification",
@@ -17,6 +17,8 @@ export const createOrganizationAuth = async (payload: createRequest) => {
     )
     return response
   } catch (error) {
-    throw new Error(exceptionHandler(error, "API updateMe error"))
+    throw new Error(
+      exceptionHandler(error, "API createCompanyCertification error"),
+    )
   }
 }

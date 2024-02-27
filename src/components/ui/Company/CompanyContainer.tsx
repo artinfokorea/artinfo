@@ -9,7 +9,11 @@ import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { ErrorMessage } from "@hookform/error-message"
 import FileUploader from "@/components/common/FileUploader"
-import { useLoading } from "@toss/use-loading"
+import useAuth from "@/hooks/useAuth"
+import { createCompanyCertification } from "@/apis/company"
+import useToast from "@/hooks/useToast"
+import { useRouter } from "next/navigation"
+import useSupabase from "@/hooks/useSupabase"
 import { Label } from "../label"
 import { Input } from "../input"
 
@@ -29,15 +33,7 @@ const schema = yup
       .required("익명아이디는 필수입니다."),
     images: yup
       .array()
-      .of(
-        yup.object().shape({
-          title: yup.string().required("이미지 제목은 필수입니다."),
-          url: yup
-            .string()
-            .url("올바른 URL을 입력해주세요.")
-            .required("이미지 URL은 필수입니다."),
-        }),
-      )
+      .of(yup.string().required("이미지 URL은 필수입니다."))
       .min(2, "이미지는 최소한 두 개 이상 필요합니다.")
       .required("이미지는 최소한 두 개 이상 필요합니다."),
   })
@@ -46,14 +42,17 @@ export type OrganizationAuthFormData = yup.InferType<typeof schema>
 
 const OrganizationAuthContainer = () => {
   const fileUploader = useRef<HTMLInputElement>(null)
-  const [isLoading, startTransition] = useLoading()
+  const [isLoading, setIsLoading] = useState(false)
   const [uploadedImages, setUploadedImages] = useState<File[]>([])
-
+  const { user } = useAuth()
+  const router = useRouter()
+  const { successToast, errorToast } = useToast()
+  const supabase = useSupabase()
   const {
     register,
     handleSubmit,
     setValue,
-    formState: { errors, isDirty, isValid },
+    formState: { errors },
     reset,
   } = useForm({
     resolver: yupResolver(schema),
@@ -64,7 +63,6 @@ const OrganizationAuthContainer = () => {
   }
 
   const handleUploadedFiles = (files: File[]) => {
-    console.log("files", files)
     setUploadedImages(files)
   }
 
@@ -80,8 +78,60 @@ const OrganizationAuthContainer = () => {
     uploadedImages.forEach(uploadedImage => {
       urls.push(URL.createObjectURL(uploadedImage))
     })
+    setValue("images", urls)
     return urls
   }, [uploadedImages])
+
+  const handleCompanyCertificate = async (
+    payload: OrganizationAuthFormData,
+  ) => {
+    if (!user) {
+      return
+    }
+
+    setIsLoading(true)
+
+    try {
+      const fileUrls: string[] = []
+      if (uploadedImages.length > 1) {
+        for await (const uploadedImage of uploadedImages) {
+          const filename = new Date().getTime().toString()
+          const extension = uploadedImage.name.split(".")[1]
+          const path = `posts/${user.id}/${filename}.${extension}`
+          const { error: uploadError, data } = await supabase.storage
+            .from("artinfo")
+            .upload(path, uploadedImage, {
+              cacheControl: "36000",
+              upsert: true,
+            })
+          if (uploadError) {
+            throw uploadError
+          }
+
+          const fileUrl = `https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/${data.path}`
+          fileUrls.push(fileUrl)
+        }
+      }
+
+      const formData = {
+        userId: user.id,
+        name: payload.name,
+        secretNickname: payload.secretNickname,
+        companyName: payload.companyName,
+        imageUrls: fileUrls,
+      }
+
+      await createCompanyCertification(formData)
+
+      successToast("인증 신청이 완료되었습니다.")
+      router.push("/")
+    } catch (error) {
+      errorToast("인증 신청에 실패했습니다.")
+      console.error(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
     <div className="max-w-screen-lg mx-auto px-4 lg:px-0 overflow-auto pb-20 md:pb-0">
@@ -99,7 +149,10 @@ const OrganizationAuthContainer = () => {
         <h2 className="text-2xl font-bold text-center md:text-left">
           소속단체 인증
         </h2>
-        <form className="my-8">
+        <form
+          className="my-8"
+          onSubmit={handleSubmit(handleCompanyCertificate)}
+        >
           <div className="grid items-center gap-1.5 mb-2">
             <Label htmlFor="이름">이름</Label>
             <Input
@@ -187,6 +240,13 @@ const OrganizationAuthContainer = () => {
             <span className="text-sm">
               인증 자료 업로드 (최소 2장 ~ 최대 5장)
             </span>
+            <ErrorMessage
+              errors={errors}
+              name="images"
+              render={({ message }) => (
+                <p className="text-error font-semibold">{message}</p>
+              )}
+            />
 
             <FileUploader
               ref={fileUploader}
@@ -220,9 +280,7 @@ const OrganizationAuthContainer = () => {
             <Button
               size="lg"
               type="submit"
-              disabled={
-                !isValid && !isLoading && !uploadedImageUrls.length === 0
-              }
+              disabled={isLoading}
               className=" rounded-md bg-indigo-500 w-full  whitespace-nowrap"
             >
               인증하기
