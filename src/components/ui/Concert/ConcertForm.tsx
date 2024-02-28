@@ -86,6 +86,8 @@ const ConcertForm = ({ type, concert }: Props) => {
     fileUploader.current?.click()
   }
 
+  console.log("concert", concert)
+
   const isValidForm = location?.length >= 5 && title.length && uploadedImageUrl
 
   const isValidUrl = () => {
@@ -235,7 +237,7 @@ const ConcertForm = ({ type, concert }: Props) => {
         }
       }
 
-      await queryClient.invalidateQueries({ queryKey: ["concerts"] })
+      await queryClient.invalidateQueries()
       successToast("공연이 수정되었습니다.")
       router.replace("/concerts")
     } catch (error: any) {

@@ -17,7 +17,7 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import { getArtist } from "@/apis/artist"
 import Image from "next/image"
 import { createFeed } from "@/apis/feed"
-import { FEED } from "@/types/types"
+import { FEED_CATEGORY_ITEMS } from "@/types/types"
 import useToast from "@/hooks/useToast"
 
 export default function CreatePost() {
@@ -26,15 +26,14 @@ export default function CreatePost() {
   const { user } = useAuth()
   const supabase = useSupabase()
   const [isLoading, setIsLoading] = useState(false)
-  const [category, setCategory] = useState<
-    "RECRUIT" | "INFORMATION" | "REVIEW" | "QUESTION"
-  >()
+
   const [title, setTitle] = useState<string>("")
   const [content, setContent] = useState<string>("")
   const [uploadedImages, setUploadedImages] = useState<File[]>([])
   const fileUploader = useRef<HTMLInputElement>(null)
   const searchParams = useSearchParams()
   const artistId = searchParams.get("artistId")
+  const secretCategory = searchParams.get("category")
   const { errorToast, successToast } = useToast()
 
   const { data: artist } = useQuery({
@@ -59,16 +58,6 @@ export default function CreatePost() {
     setIsLoading(true)
 
     try {
-      // const { data, error } = await supabase
-      //   .from("feeds")
-      //   .insert({ ...formData })
-      //   .select("id")
-      //   .single()
-
-      // if (error) {
-      //   throw error
-      // }
-
       // upload file
       const fileUrls: string[] = []
       if (uploadedImages.length > 0) {
@@ -99,18 +88,30 @@ export default function CreatePost() {
       }
       if (artistId) {
         formData.artistId = Number(artistId)
-      } else {
-        formData.category = category
+        formData.category = FEED_CATEGORY_ITEMS.ARTIST
+      } else if (secretCategory) {
+        formData.category =
+          secretCategory === "choir"
+            ? FEED_CATEGORY_ITEMS.CHOIR
+            : FEED_CATEGORY_ITEMS.ORCHESTRA
       }
 
       await createFeed(formData)
 
-      await queryClient.invalidateQueries({
-        queryKey: [`artist_feeds_${artistId}`],
-      })
-      successToast("피드가 작성되었습니다.")
-      console.log("SUCCESS!")
-      router.replace(`/artists/${artistId}`)
+      if (artistId) {
+        await queryClient.invalidateQueries({
+          queryKey: [`artist_feeds_${artistId}`],
+        })
+        successToast("피드가 작성되었습니다.")
+        router.push(`/artists/${artistId}`)
+      } else if (secretCategory) {
+        await queryClient.invalidateQueries({
+          queryKey: ["feeds", `/${secretCategory}`],
+        })
+        successToast("피드가 작성되었습니다.")
+        console.log("SUCCESS!")
+        router.push(`/${secretCategory}`)
+      }
     } catch (error) {
       errorToast("글 작성에 실패했습니다.")
       console.error(error)
@@ -121,13 +122,6 @@ export default function CreatePost() {
 
   const isValidForm =
     content?.length >= 1 && (title.length ? title.length >= 3 : true)
-
-  const tags = [
-    { title: "정보", value: "INFORMATION" },
-    { title: "공연후기", value: "REVIEW" },
-    { title: "질문", value: "QUESTION" },
-    { title: "구인", value: "RECRUIT" },
-  ]
 
   const uploadedImageUrls = useMemo(() => {
     const urls: string[] = []
@@ -153,10 +147,6 @@ export default function CreatePost() {
 
     setUploadedImages(newUploadedImages)
   }
-
-  // useEffect(() => {
-  //   if (!user) router.replace("/auth")
-  // }, [])
 
   return (
     <div
@@ -192,22 +182,13 @@ export default function CreatePost() {
               </div>
             </div>
           ) : (
-            <div className="py-4 border-t border-gray-300">
-              <span className="text-xl font-medium text-darkgrey">
-                태그선택
-              </span>
+            <div className="py-4 mb-2 border-t border-gray-300">
               <div className="flex flex-wrap gap-2 mt-2">
-                {tags.map(ctag => (
-                  <Button
-                    key={ctag.title}
-                    className="rounded-full"
-                    size="sm"
-                    variant={category === ctag.value ? "filled" : "outlined"}
-                    onClick={() => setCategory(ctag.value as any)}
-                  >
-                    {ctag.title}
-                  </Button>
-                ))}
+                <Button className="rounded-full" size="md" variant="filled">
+                  {secretCategory && secretCategory === "choir"
+                    ? "국·시립합창단"
+                    : "국·시립교향악단"}
+                </Button>
               </div>
             </div>
           )}

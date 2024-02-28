@@ -15,7 +15,11 @@ export default async function page() {
   await queryClient.prefetchInfiniteQuery({
     queryKey: ["feeds", data.session?.user.id],
     queryFn: () => {
-      return getFeeds(1, data.session?.user.id)
+      return getFeeds({
+        page: 1,
+        requestUserId: data.session?.user.id,
+        category: "ARTIST",
+      })
     },
   })
 

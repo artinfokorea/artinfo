@@ -1,5 +1,4 @@
-import { FEED } from "@/types/types"
-import { fetchFeeds } from "@/app/Api"
+import { FEED, FEED_CATEGORIES } from "@/types/types"
 import { apiRequest } from "./index"
 import { exceptionHandler } from "./exception-handler"
 
@@ -7,6 +6,7 @@ interface FeedsRequest {
   artistId?: number
   page: number
   requestUserId?: string
+  category?: FEED_CATEGORIES
 }
 
 interface FeedPayload {
@@ -21,6 +21,7 @@ export const getFeedList = async ({
   artistId,
   page,
   requestUserId,
+  category,
 }: FeedsRequest): Promise<FEED[]> => {
   try {
     const payload = {
@@ -28,6 +29,7 @@ export const getFeedList = async ({
       artistId,
       size: 20,
       requestUserId,
+      category,
     }
     const response: FEED[] = await apiRequest.get<FEED[]>("/feeds", {
       params: payload,
@@ -51,14 +53,15 @@ export const getFeed = async (id: number, userId?: string): Promise<FEED> => {
   }
 }
 
-export const getFeeds = async (
-  pageParam: number,
-  userId?: string,
-): Promise<any> => {
-  const response = await getFeedList({ page: pageParam, requestUserId: userId })
+export const getFeeds = async ({
+  page,
+  requestUserId,
+  category,
+}: FeedsRequest): Promise<any> => {
+  const response = await getFeedList({ page, requestUserId, category })
   return {
     feeds: response,
-    nextPage: pageParam + 1,
+    nextPage: page + 1,
     isLast: response.length < 20,
   }
 }

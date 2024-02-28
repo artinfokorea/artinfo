@@ -48,19 +48,20 @@ export default function Container() {
     data: feedsData,
     hasNextPage,
     fetchNextPage,
-    isLoading,
   } = useInfiniteQuery({
     queryKey: ["feeds", user?.id],
     suspense: true,
     queryFn: ({ pageParam = 1 }) => {
-      return getFeeds(pageParam, user?.id)
+      return getFeeds({
+        page: pageParam,
+        requestUserId: user?.id,
+        category: "ARTIST",
+      })
     },
     getNextPageParam: lastPage => {
       if (!lastPage.isLast) return lastPage.nextPage
       return null
     },
-    refetchOnMount: true,
-    refetchOnWindowFocus: true,
   })
 
   useDidUpdate(() => {
@@ -137,7 +138,7 @@ export default function Container() {
       <div className="flex my-2">
         <div className="flex-1 overflow-hidden" id="top">
           <div className="feed-groups pb-5">
-            {!secretTab ? (
+            {/* {!secretTab ? (
               <div className="flex justify-center px-4 md:px-0 mb-2 bg-[#F1F4FF]">
                 <button
                   className="flex w-full py-2 justify-center items-center rounded-md border border-grey hover:shadow-md"
@@ -151,14 +152,20 @@ export default function Container() {
               </div>
             ) : (
               <div className="text-white grid grid-cols-2 gap-x-4 px-2 mb-2 font-semibold text-sm md:text-lg">
-                <button className="bg-primaryblue h-[46px] w-full rounded-3xl">
+                <button
+                  className="bg-primaryblue h-[46px] w-full rounded-3xl"
+                  onClick={() => router.push("/choir")}
+                >
                   국·시립합창단
                 </button>
-                <button className="bg-primaryred h-[46px] w-full rounded-3xl">
+                <button
+                  className="bg-primaryred h-[46px] w-full rounded-3xl"
+                  onClick={() => router.push("/orchestra")}
+                >
                   국·시립교향악단
                 </button>
               </div>
-            )}
+            )} */}
 
             <AdSection />
 

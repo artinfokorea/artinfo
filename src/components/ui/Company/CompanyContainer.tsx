@@ -123,7 +123,9 @@ const OrganizationAuthContainer = () => {
 
       await createCompanyCertification(formData)
 
-      successToast("인증 신청이 완료되었습니다.")
+      successToast(
+        "인증 신청이 완료되었습니다. 인증완료까지는 1일에서 3일까지 소요될 수 있습니다.",
+      )
       router.push("/")
     } catch (error) {
       errorToast("인증 신청에 실패했습니다.")

@@ -1,14 +1,25 @@
 import useAuth from "@/hooks/useAuth"
 import { Avatar, Card } from "@/components/material"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 
 interface Props {
-  artistId: number
+  artistId?: number
+  secret?: string
 }
 
-export default function WriteFeedCard({ artistId }: Props) {
+export default function WriteFeedCard({ artistId, secret }: Props) {
   const { user } = useAuth()
   const router = useRouter()
+
+  const goToCreateFeed = () => {
+    if (artistId) {
+      router.push(`/create?artistId=${artistId}`)
+    } else if (secret === "choir") {
+      router.push(`/create?category=choir`)
+    } else if (secret === "orchestra") {
+      router.push(`/create?category=orchestra`)
+    }
+  }
 
   return (
     <Card className="overflow-hidden p-4 rounded-none md:rounded-md">
@@ -27,12 +38,7 @@ export default function WriteFeedCard({ artistId }: Props) {
 
         <div className="bg-gray-100 rounded-lg flex-1">
           {user && (
-            <button
-              className="block px-4 py-3"
-              onClick={() => {
-                router.push(`/create?artistId=${artistId}`)
-              }}
-            >
+            <button className="block px-4 py-3" onClick={goToCreateFeed}>
               나누고 싶은 생각...
             </button>
           )}

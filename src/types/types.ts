@@ -165,12 +165,25 @@ export type USER = {
   name: string
   publicNickname?: string
   secretNickname?: string
+  companyCategory?: COMPANY_CATEGORY
+  companyName?: string
   email: string
   iconImageUrl?: string
   lessonId?: number
   isTeacher: boolean
 }
 
+export type COMPANY_CATEGORY = "CHOIR" | "ORCHESTRA"
+
+export const COMPANY_CATEGORY_ITEMS = {
+  ORCHESTRA: "ORCHESTRA",
+  CHOIR: "CHOIR",
+}
+
+export const COMPANY_CATEOGRY_VALUE = {
+  ORCHESTRA: "국·시립교향악단",
+  CHOIR: "국·시립합창단",
+}
 /*
  * --------------------------------------------------- FEED ---------------------------------------------------------
  */
@@ -200,14 +213,15 @@ export type FEED = {
   countOfComments: number
   createdAt: string
   isLiking: boolean
+  category: FEED_CATEGORIES
 }
 
-export const FEED_CATEGORIES = {
-  INFORMATION: "정보",
-  RECRUIT: "채용",
-  REVIEW: "공연후기",
-  QUESTION: "질문",
-  EVENT: "이벤트",
+export type FEED_CATEGORIES = "ORCHESTRA" | "CHOIR" | "ARTIST"
+
+export const FEED_CATEGORY_ITEMS = {
+  ORCHESTRA: "ORCHESTRA",
+  CHOIR: "CHOIR",
+  ARTIST: "ARTIST",
 }
 
 /*

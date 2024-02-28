@@ -1,53 +1,50 @@
-import { FEED } from "@/types/types"
-import { useParams } from "next/navigation"
-import {
-  useQueryClient,
-  useInfiniteQuery,
-  useMutation,
-} from "@tanstack/react-query"
+"use client"
+
+import { getFeeds } from "@/apis/feed"
+import { deleteFeed, updatePostLike } from "@/app/Api"
 import WriteFeedCard from "@/components/common/WriteFeedCard"
-import { getFeedList, getFeeds } from "@/apis/feed"
-import { useInView } from "react-intersection-observer"
-import { useDidUpdate } from "@toss/react"
 import useAuth from "@/hooks/useAuth"
 import useToast from "@/hooks/useToast"
-import { deleteFeed, updatePostLike } from "@/app/Api"
-import FeedSkeleton from "../Skeleton/FeedSkeleton"
-import { ArtistFeedCard } from "./ArtistFeedCard"
+import { FEED } from "@/types/types"
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query"
+import { useDidUpdate } from "@toss/react"
+import { usePathname } from "next/navigation"
+import React, { useRef } from "react"
+import { useInView } from "react-intersection-observer"
+import { SecretCard } from "./SecretCard"
 
-const ArtistDetailFeed = () => {
-  const params = useParams()
+const SecretContainer = () => {
+  const pathname = usePathname()
   const queryClient = useQueryClient()
   const { user } = useAuth()
+  const containerEl = useRef<HTMLDivElement>(null)
   const { successToast, errorToast } = useToast()
+  const [ref, inView] = useInView({
+    delay: 300,
+    threshold: 0.3,
+  })
 
   const {
     data: feedsData,
     hasNextPage,
     fetchNextPage,
-    isLoading,
   } = useInfiniteQuery({
-    queryKey: [`artist_feeds_${params.id}`],
-    suspense: false,
+    queryKey: ["feeds", pathname],
     queryFn: ({ pageParam = 1 }) => {
       return getFeeds({
         page: pageParam,
         requestUserId: user?.id,
-        artistId: Number(params.id),
-        category: "ARTIST",
+        category: pathname === "/choir" ? "CHOIR" : "ORCHESTRA",
       })
     },
     getNextPageParam: lastPage => {
       if (!lastPage.isLast) return lastPage.nextPage
       return null
     },
-    refetchOnMount: true,
-    refetchOnWindowFocus: true,
-  })
-
-  const [ref, inView] = useInView({
-    delay: 300,
-    threshold: 0.3,
   })
 
   useDidUpdate(() => {
@@ -65,8 +62,9 @@ const ArtistDetailFeed = () => {
       return updatePostLike(payload)
     },
     onMutate: updateLike => {
-      queryClient.setQueryData([`artist_feeds_${params.id}`], (old: any) => {
+      queryClient.setQueryData(["feeds", pathname], (old: any) => {
         const pages = [...old.pages]
+
         pages.forEach(page => {
           page.feeds.forEach((feed: FEED) => {
             if (feed.feedId === updateLike.post_id) {
@@ -90,14 +88,6 @@ const ArtistDetailFeed = () => {
     },
   })
 
-  const handleUpdatePostLike = (payload: {
-    like: boolean
-    post_id: number
-  }) => {
-    console.log("11")
-    updateFeedLikeMutation.mutate({ ...payload, user_id: user!.id })
-  }
-
   const deleteFeedMutation = useMutation({
     mutationFn: (feedId: number) => {
       return deleteFeed(feedId)
@@ -106,48 +96,49 @@ const ArtistDetailFeed = () => {
       errorToast(error.message)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries([`artist_feeds_${params.id}`])
+      queryClient.invalidateQueries(["feeds", pathname])
       successToast("게시글이 삭제되었습니다.")
     },
   })
+
+  const handleUpdatePostLike = (payload: {
+    like: boolean
+    post_id: number
+  }) => {
+    updateFeedLikeMutation.mutate({ ...payload, user_id: user!.id })
+  }
 
   const handleDeleteFeed = (feedId: number) => {
     deleteFeedMutation.mutate(feedId)
   }
 
   return (
-    <div>
+    <div className="mx-auto max-w-screen-md lg:px-0 pt-0 md:pt-2">
       <div>
-        <WriteFeedCard artistId={Number(params.id)} />
+        <WriteFeedCard secret={pathname === "/choir" ? "choir" : "orchestra"} />
       </div>
-      {isLoading && (
-        <>
-          <FeedSkeleton />
-          <FeedSkeleton />
-          <FeedSkeleton />
-          <FeedSkeleton />
-          <FeedSkeleton />
-        </>
-      )}
-
-      {feedsData?.pages.map(group => (
-        <div key={group.nextPage}>
-          {group.feeds.map((feed: FEED) => (
-            <div key={feed.feedId} className="my-2">
-              <ArtistFeedCard
-                feed={feed}
-                handleUpdatePostLike={handleUpdatePostLike}
-                handleDeleteFeed={handleDeleteFeed}
-                showCommentBtn
-                shortContent
-              />
-            </div>
-          ))}
-        </div>
-      ))}
-      <div ref={ref} className="h-4" />
+      <div>
+        {feedsData?.pages.map(group => (
+          <div key={group.nextPage}>
+            {group.feeds.map((feed: FEED, index: number) => (
+              <div key={feed.feedId} className="my-2">
+                <SecretCard
+                  feed={feed}
+                  handleUpdatePostLike={handleUpdatePostLike}
+                  handleDeleteFeed={handleDeleteFeed}
+                  showCommentBtn
+                  shortContent
+                />
+                {hasNextPage && index === group.feeds.length - 5 && (
+                  <div ref={ref} />
+                )}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
 
-export default ArtistDetailFeed
+export default SecretContainer

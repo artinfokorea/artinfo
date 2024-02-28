@@ -25,7 +25,7 @@ export const getLessonList = async ({
     })
     return response
   } catch (error) {
-    throw new Error(exceptionHandler(error, "API getFeeds error"))
+    throw new Error(exceptionHandler(error, "API getLessonList error"))
   }
 }
 
