@@ -138,7 +138,7 @@ export default function Container() {
       <div className="flex my-2">
         <div className="flex-1 overflow-hidden" id="top">
           <div className="feed-groups pb-5">
-            {/* {!secretTab ? (
+            {!secretTab ? (
               <div className="flex justify-center px-4 md:px-0 mb-2 bg-[#F1F4FF]">
                 <button
                   className="flex w-full py-2 justify-center items-center rounded-md border border-grey hover:shadow-md"
@@ -165,7 +165,7 @@ export default function Container() {
                   국·시립교향악단
                 </button>
               </div>
-            )} */}
+            )}
 
             <AdSection />
 

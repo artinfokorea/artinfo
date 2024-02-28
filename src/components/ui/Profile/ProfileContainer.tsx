@@ -14,8 +14,6 @@ export default function ProfileContainer({ userId }: IProps) {
     queryFn: () => getMe(userId),
   })
 
-  console.log("getUser", user)
-
   return (
     <div className="sm:container mx-auto my-2">
       {user && <ProfileCard user={user} />}
