@@ -133,8 +133,6 @@ export function SecretCard({
     handleDeleteFeed(feed.feedId)
   }
 
-  console.log("feed", feed.category)
-
   return (
     <>
       <Card
@@ -147,9 +145,9 @@ export function SecretCard({
           className="flex items-center gap-2"
         >
           <div className="flex-1 flex flex-col">
-            <div className="text-md font-semibold">
-              <span>{feed.authorName}</span>
-              <span className="text-grey">{` ${
+            <div className="text-md ">
+              <span className="font-semibold">{feed.authorName}</span>
+              <span className="text-silver ">{` ${
                 COMPANY_CATEOGRY_VALUE[feed.category as COMPANY_CATEGORY]
               }`}</span>
             </div>
