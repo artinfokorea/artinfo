@@ -1,5 +1,5 @@
 import { getMe } from "@/apis/user"
-import SecretContainer from "@/components/ui/Secret/\bSecretContainer"
+import SecretContainer from "@/components/ui/Secret/SecretContainer"
 import SupabaseServer from "@/lib/supabase-server"
 import { COMPANY_CATEGORY_ITEMS } from "@/types/types"
 import { redirect } from "next/navigation"

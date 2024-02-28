@@ -7,7 +7,7 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/outline"
 import { Card, CardBody, CardFooter, CardHeader } from "@/components/material"
-import { FEED } from "@/types/types"
+import { COMPANY_CATEGORY, COMPANY_CATEOGRY_VALUE, FEED } from "@/types/types"
 import useFilters from "@/hooks/useFilters"
 import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
@@ -133,7 +133,7 @@ export function SecretCard({
     handleDeleteFeed(feed.feedId)
   }
 
-  console.log("feed", feed)
+  console.log("feed", feed.category)
 
   return (
     <>
@@ -147,7 +147,12 @@ export function SecretCard({
           className="flex items-center gap-2"
         >
           <div className="flex-1 flex flex-col">
-            <div className="text-md font-semibold">{feed.authorName}</div>
+            <div className="text-md font-semibold">
+              <span>{feed.authorName}</span>
+              <span className="text-grey">{` ${
+                COMPANY_CATEOGRY_VALUE[feed.category as COMPANY_CATEGORY]
+              }`}</span>
+            </div>
             <div className="flex items-center">
               <span className="text-sm">
                 {filters.FROM_NOW(feed?.createdAt)}
