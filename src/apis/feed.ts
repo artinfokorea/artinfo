@@ -56,9 +56,15 @@ export const getFeed = async (id: number, userId?: string): Promise<FEED> => {
 export const getFeeds = async ({
   page,
   requestUserId,
+  artistId,
   category,
 }: FeedsRequest): Promise<any> => {
-  const response = await getFeedList({ page, requestUserId, category })
+  const response = await getFeedList({
+    page,
+    requestUserId,
+    category,
+    artistId,
+  })
   return {
     feeds: response,
     nextPage: page + 1,
