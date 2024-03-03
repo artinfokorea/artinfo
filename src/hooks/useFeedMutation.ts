@@ -1,8 +1,8 @@
 import { deleteFeed, updatePostLike } from "@/app/Api"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { usePathname } from "next/navigation"
-import useToast from "./useToast"
 import { FEED } from "@/types/types"
+import useToast from "./useToast"
 
 export const useFeedMutation = () => {
   const queryClient = useQueryClient()
