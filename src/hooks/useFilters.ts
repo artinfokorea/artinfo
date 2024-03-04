@@ -72,9 +72,7 @@ export default function useFilters() {
 
       const originalDate = dayjs(value)
 
-      const dateWith9HoursAdded = originalDate.add(9, "hour")
-
-      return dayjs(dateWith9HoursAdded).fromNow()
+      return dayjs(originalDate).fromNow()
     },
     FROM_NOW_COMMENT(value?: string | Date | null) {
       if (!value) {
