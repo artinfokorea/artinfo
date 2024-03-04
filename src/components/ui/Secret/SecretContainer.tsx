@@ -1,28 +1,24 @@
 "use client"
 
 import { getFeeds } from "@/apis/feed"
-import { deleteFeed, updatePostLike } from "@/app/Api"
 import WriteFeedCard from "@/components/common/WriteFeedCard"
 import useAuth from "@/hooks/useAuth"
-import useToast from "@/hooks/useToast"
 import { FEED } from "@/types/types"
-import {
-  useInfiniteQuery,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query"
+import { useInfiniteQuery } from "@tanstack/react-query"
 import { useDidUpdate } from "@toss/react"
 import { usePathname } from "next/navigation"
 import React, { useRef } from "react"
 import { useInView } from "react-intersection-observer"
+import { useFeedMutation } from "@/hooks/useFeedMutation"
 import { SecretCard } from "./SecretCard"
 
 const SecretContainer = () => {
   const pathname = usePathname()
-  const queryClient = useQueryClient()
   const { user } = useAuth()
   const containerEl = useRef<HTMLDivElement>(null)
-  const { successToast, errorToast } = useToast()
+  const { updateFeedLike, deleteFeedMutate } = useFeedMutation({
+    type: "secret",
+  })
   const [ref, inView] = useInView({
     delay: 300,
     threshold: 0.3,
@@ -53,63 +49,15 @@ const SecretContainer = () => {
     }
   }, [inView, hasNextPage])
 
-  const updateFeedLikeMutation = useMutation({
-    mutationFn: (payload: {
-      like: boolean
-      user_id: string
-      post_id: number
-    }) => {
-      return updatePostLike(payload)
-    },
-    onMutate: updateLike => {
-      queryClient.setQueryData(["feeds", pathname], (old: any) => {
-        const pages = [...old.pages]
-
-        pages.forEach(page => {
-          page.feeds.forEach((feed: FEED) => {
-            if (feed.feedId === updateLike.post_id) {
-              // eslint-disable-next-line no-param-reassign
-              feed.isLiking = updateLike.like
-              if (updateLike.like) {
-                // eslint-disable-next-line no-param-reassign
-                feed.countOfLikes += 1
-              } else {
-                // eslint-disable-next-line no-param-reassign
-                feed.countOfLikes -= 1
-              }
-            }
-          })
-        })
-        return {
-          pages,
-          pageParams: [...old.pageParams],
-        }
-      })
-    },
-  })
-
-  const deleteFeedMutation = useMutation({
-    mutationFn: (feedId: number) => {
-      return deleteFeed(feedId)
-    },
-    onError: (error: any) => {
-      errorToast(error.message)
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries(["feeds", pathname])
-      successToast("게시글이 삭제되었습니다.")
-    },
-  })
-
   const handleUpdatePostLike = (payload: {
     like: boolean
     post_id: number
   }) => {
-    updateFeedLikeMutation.mutate({ ...payload, user_id: user!.id })
+    updateFeedLike({ ...payload, user_id: user!.id })
   }
 
   const handleDeleteFeed = (feedId: number) => {
-    deleteFeedMutation.mutate(feedId)
+    deleteFeedMutate(feedId)
   }
 
   return (

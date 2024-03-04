@@ -1,17 +1,12 @@
 import { FEED } from "@/types/types"
 import { useParams } from "next/navigation"
-import {
-  useQueryClient,
-  useInfiniteQuery,
-  useMutation,
-} from "@tanstack/react-query"
+import { useQueryClient, useInfiniteQuery } from "@tanstack/react-query"
 import WriteFeedCard from "@/components/common/WriteFeedCard"
-import { getFeedList, getFeeds } from "@/apis/feed"
+import { getFeeds } from "@/apis/feed"
 import { useInView } from "react-intersection-observer"
 import { useDidUpdate } from "@toss/react"
 import useAuth from "@/hooks/useAuth"
-import useToast from "@/hooks/useToast"
-import { deleteFeed, updatePostLike } from "@/app/Api"
+import { useFeedMutation } from "@/hooks/useFeedMutation"
 import FeedSkeleton from "../Skeleton/FeedSkeleton"
 import { ArtistFeedCard } from "./ArtistFeedCard"
 
@@ -19,7 +14,10 @@ const ArtistDetailFeed = () => {
   const params = useParams()
   const queryClient = useQueryClient()
   const { user } = useAuth()
-  const { successToast, errorToast } = useToast()
+
+  const { updateFeedLike, deleteFeedMutate } = useFeedMutation({
+    type: "artist",
+  })
 
   const {
     data: feedsData,
@@ -27,7 +25,7 @@ const ArtistDetailFeed = () => {
     fetchNextPage,
     isLoading,
   } = useInfiniteQuery({
-    queryKey: [`artist_feeds_${params.id}`],
+    queryKey: ["feeds", params.id],
     suspense: false,
     queryFn: ({ pageParam = 1 }) => {
       return getFeeds({
@@ -56,63 +54,15 @@ const ArtistDetailFeed = () => {
     }
   }, [inView, hasNextPage])
 
-  const updateFeedLikeMutation = useMutation({
-    mutationFn: (payload: {
-      like: boolean
-      user_id: string
-      post_id: number
-    }) => {
-      return updatePostLike(payload)
-    },
-    onMutate: updateLike => {
-      queryClient.setQueryData([`artist_feeds_${params.id}`], (old: any) => {
-        const pages = [...old.pages]
-        pages.forEach(page => {
-          page.feeds.forEach((feed: FEED) => {
-            if (feed.feedId === updateLike.post_id) {
-              // eslint-disable-next-line no-param-reassign
-              feed.isLiking = updateLike.like
-              if (updateLike.like) {
-                // eslint-disable-next-line no-param-reassign
-                feed.countOfLikes += 1
-              } else {
-                // eslint-disable-next-line no-param-reassign
-                feed.countOfLikes -= 1
-              }
-            }
-          })
-        })
-        return {
-          pages,
-          pageParams: [...old.pageParams],
-        }
-      })
-    },
-  })
-
   const handleUpdatePostLike = (payload: {
     like: boolean
     post_id: number
   }) => {
-    console.log("11")
-    updateFeedLikeMutation.mutate({ ...payload, user_id: user!.id })
+    updateFeedLike({ ...payload, user_id: user!.id })
   }
 
-  const deleteFeedMutation = useMutation({
-    mutationFn: (feedId: number) => {
-      return deleteFeed(feedId)
-    },
-    onError: (error: any) => {
-      errorToast(error.message)
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries([`artist_feeds_${params.id}`])
-      successToast("게시글이 삭제되었습니다.")
-    },
-  })
-
   const handleDeleteFeed = (feedId: number) => {
-    deleteFeedMutation.mutate(feedId)
+    deleteFeedMutate(feedId)
   }
 
   return (

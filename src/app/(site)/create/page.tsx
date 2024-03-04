@@ -100,7 +100,7 @@ export default function CreatePost() {
 
       if (artistId) {
         await queryClient.invalidateQueries({
-          queryKey: [`artist_feeds_${artistId}`],
+          queryKey: ["feeds", artistId],
         })
         successToast("피드가 작성되었습니다.")
         router.push(`/artists/${artistId}`)

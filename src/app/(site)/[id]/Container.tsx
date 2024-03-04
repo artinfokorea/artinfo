@@ -45,7 +45,7 @@ export default function Container({ pageId }: IProps) {
   const router = useRouter()
 
   const { data: feed } = useQuery({
-    queryKey: ["artist_feed", pageId],
+    queryKey: ["feed", pageId],
     queryFn: () => getFeed(Number(pageId), user?.id),
   })
 
@@ -86,31 +86,6 @@ export default function Container({ pageId }: IProps) {
       created_at: string
     }) => {
       return createComment(comment)
-    },
-    onMutate: commentData => {
-      // const optimisticComment = {
-      //   ...commentData,
-      //   id: 0,
-      //   profiles: {
-      //     id: user!.id,
-      //     name: user!.user_metadata.name,
-      //     icon_image_url: user!.user_metadata.icon_image_url,
-      //   },
-      //   created_at: new Date(),
-      // }
-      // queryClient.setQueryData(["comments", pageId], (old: any) => {
-      //   // console.log(old)
-      //   const firstPage = old.pages[0]
-      //   const firstPageComments = firstPage.comments
-      //   const newFirstPageComments = [optimisticComment, ...firstPageComments]
-      //   // eslint-disable-next-line no-param-reassign
-      //   old.pages[0].comments = newFirstPageComments
-      //   return {
-      //     pages: [...old.pages],
-      //     pageParams: [...old.pageParams],
-      //   }
-      // })
-      // return { optimisticComment }
     },
     onError: (error: any) => {
       errorToast(error.message)
@@ -159,7 +134,7 @@ export default function Container({ pageId }: IProps) {
       return updatePostLike(payload)
     },
     onMutate: updateLike => {
-      queryClient.setQueryData(["artist_feed", pageId], (old: any) => {
+      queryClient.setQueryData(["feed", pageId], (old: any) => {
         const feed = old
         feed.isLiking = updateLike.like
         if (updateLike.like) {
@@ -172,7 +147,7 @@ export default function Container({ pageId }: IProps) {
           like: updateLike.like,
         }
       })
-      queryClient.invalidateQueries(["artist_feeds"])
+      queryClient.invalidateQueries(["feed"])
     },
   })
 
@@ -191,7 +166,7 @@ export default function Container({ pageId }: IProps) {
       errorToast(error.message)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["artist_feeds"])
+      queryClient.invalidateQueries(["feed"])
       successToast("댓글이 삭제되었습니다.")
     },
   })

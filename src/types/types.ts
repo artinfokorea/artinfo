@@ -213,6 +213,7 @@ export type FEED = {
   countOfComments: number
   createdAt: string
   isLiking: boolean
+  artistId?: number
   category: FEED_CATEGORIES
 }
 
