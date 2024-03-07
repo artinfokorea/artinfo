@@ -1,4 +1,5 @@
 const withPWA = require("next-pwa")
+const { withSentryConfig } = require("@sentry/nextjs")
 const isProduction = process.env.NODE_ENV === "production"
 
 /** @type {import('next').NextConfig} */
@@ -40,7 +41,6 @@ const config = {
   //   ]
   // },
 }
-
 const nextConfig = withPWA({
   dest: "public",
   disable: !isProduction,
@@ -48,3 +48,22 @@ const nextConfig = withPWA({
 })(config)
 
 module.exports = nextConfig
+
+// Injected content via Sentry wizard below
+
+module.exports = withSentryConfig(
+  module.exports,
+  {
+    silent: true,
+    org: "artinfo",
+    project: "javascript-nextjs",
+  },
+  {
+    widenClientFileUpload: true,
+    transpileClientSDK: true,
+    tunnelRoute: "/monitoring",
+    hideSourceMaps: true,
+    disableLogger: true,
+    automaticVercelMonitors: true,
+  },
+)

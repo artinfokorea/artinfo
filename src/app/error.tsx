@@ -2,10 +2,15 @@
 
 import { Button } from "@/components/material"
 import { useRouter } from "next/navigation"
-import React from "react"
+import React, { useEffect } from "react"
+import * as Sentry from "@sentry/nextjs"
 
-const error = () => {
+const error = ({ error }: { error: Error & { digest?: string } }) => {
   const router = useRouter()
+
+  useEffect(() => {
+    Sentry.captureException(error)
+  }, [error])
 
   return (
     <div className="w-full h-full flex justify-center flex-col items-center">
