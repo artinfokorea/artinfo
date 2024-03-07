@@ -23,6 +23,7 @@ import { Spinner } from "@/components/material"
 import { Listbox, Switch, Transition } from "@headlessui/react"
 import Loading from "@/components/ui/Loading/Loading"
 import { CheckIcon } from "@heroicons/react/20/solid"
+import * as Sentry from "@sentry/nextjs"
 
 const QuillEditor = dynamic(
   () => import("@/components/ui/Editor/QuillEditor"),
@@ -169,6 +170,7 @@ const ConcertForm = ({ type, concert }: Props) => {
     } catch (error: any) {
       errorToast(error.message)
       console.error(error)
+      Sentry.captureException(error)
     } finally {
       setIsLoading(false)
     }
@@ -243,6 +245,7 @@ const ConcertForm = ({ type, concert }: Props) => {
     } catch (error: any) {
       errorToast(error.message)
       console.error(error)
+      Sentry.captureException(error)
     } finally {
       setIsLoading(false)
     }

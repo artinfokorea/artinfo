@@ -28,6 +28,7 @@ import { Listbox, Transition } from "@headlessui/react"
 import { Modal } from "@/components/common/Modal"
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid"
 import { apiRequest } from "@/apis"
+import * as Sentry from "@sentry/nextjs"
 
 interface Props {
   type: "create" | "update"
@@ -272,6 +273,7 @@ const EducationForm = ({ type, lesson }: Props) => {
     } catch (error: any) {
       errorToast("레슨 등록에 실패했습니다.")
       console.error(error.message)
+      Sentry.captureException(error)
     } finally {
       setIsLoading(false)
     }
@@ -339,6 +341,7 @@ const EducationForm = ({ type, lesson }: Props) => {
     } catch (error: any) {
       errorToast("레슨 수정에 실패했습니다.")
       console.error(error.message)
+      Sentry.captureException(error)
     } finally {
       setIsLoading(true)
     }

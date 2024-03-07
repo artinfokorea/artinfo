@@ -15,7 +15,7 @@ import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { getArtist } from "@/apis/artist"
-import Image from "next/image"
+import * as Sentry from "@sentry/nextjs"
 import { createFeed } from "@/apis/feed"
 import { FEED_CATEGORY_ITEMS } from "@/types/types"
 import useToast from "@/hooks/useToast"
@@ -115,6 +115,7 @@ export default function CreatePost() {
     } catch (error) {
       errorToast("글 작성에 실패했습니다.")
       console.error(error)
+      Sentry.captureException(error)
     } finally {
       setIsLoading(false)
     }

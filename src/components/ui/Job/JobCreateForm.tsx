@@ -20,6 +20,7 @@ import { createJob, updateJob } from "@/apis/job"
 import FilterTag from "@/components/common/FilterTag"
 import useToast from "@/hooks/useToast"
 import { v4 as uuidv4 } from "uuid"
+import * as Sentry from "@sentry/nextjs"
 
 const QuillEditor = dynamic(
   () => import("@/components/ui/Editor/QuillEditor"),
@@ -131,6 +132,7 @@ const JobCreateForm = ({ type, job }: Props) => {
       majors: selectedMajorList,
       linkUrl,
     }
+
     try {
       if (uploadedImage) {
         // const filename = uploadedImage.name
@@ -151,18 +153,8 @@ const JobCreateForm = ({ type, job }: Props) => {
         formData.companyImageUrl = fileUrl
 
         await createJob(formData)
-
-        // const { error: updateError } = await supabase
-        //   .from("recruit_jobs")
-        //   .update({
-        //     company_image_url: fileUrl,
-        //   })
-        //   .eq("id", jobId)
-
-        // if (updateError) {
-        //   throw updateError
-        // }
       } else {
+        formData.companyImageUrl = "12"
         await createJob(formData)
       }
       await queryClient.invalidateQueries({ queryKey: ["recruit_jobs"] })
@@ -170,6 +162,7 @@ const JobCreateForm = ({ type, job }: Props) => {
       router.push("/jobs")
     } catch (error) {
       console.error(error)
+      Sentry.captureException(error)
     } finally {
       setIsLoading(false)
     }
@@ -221,6 +214,7 @@ const JobCreateForm = ({ type, job }: Props) => {
       router.push("/jobs")
     } catch (error) {
       console.error(error)
+      Sentry.captureException(error)
     } finally {
       setIsLoading(false)
     }
