@@ -77,8 +77,8 @@ jobs:
           echo "NEXT_PUBLIC_REST_API=${{ secrets.ENV_NEXT_PUBLIC_REST_API }}" >> .env
           echo "NEXT_NEXT_PUBLIC_NODE_ENV=${{ secrets.ENV_NEXT_PUBLIC_NODE_ENV }}" >> .env
           echo "NEXT_PUBLIC_ADMIN_ID=${{ secrets.NEXT_PUBLIC_ADMIN_ID }}" >> .env
-          echo "NEXT_PUBLIC_SENTRY_AUTH_TOKEN=${{ secrets.NEXT_PUBLIC_ADMIN_ID }}" >> .env
-          echo "SENTRY_AUTH_TOKEN=${{ secrets.NEXT_PUBLIC_ADMIN_ID }}" >> .env
+          echo "NEXT_PUBLIC_SENTRY_AUTH_TOKEN=${{ secrets.NEXT_PUBLIC_SENTRY_AUTH_TOKEN }}" >> .env
+          echo "SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}" >> .env
           echo "SENTRY_LOG_LEVEL=${{ secrets.SENTRY_LOG_LEVEL }}" >> .env
 
       - name: Build, tag, and push image to Amazon ECR
