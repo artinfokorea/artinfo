@@ -7,10 +7,7 @@ on:
 env:
   DOCKER_IMAGE: ghcr.io/${{ github.actor }}/artinfo-frontend
   VERSION: ${{ github.sha }}
-  CONTANIER_NAME1: artinfo-frontend-deploy1
-  CONTANIER_NAME2: artinfo-frontend-deploy2
-  DOMAIN_NAME: artinfokorea.com
-  NAME: prod
+  NAME: go_cicd
 
 jobs:
   build:
@@ -25,7 +22,6 @@ jobs:
       - name: Create Enviroment File
         run: |
           touch .env
-
           echo "NEXT_PUBLIC_SUPABASE_URL=${{ secrets.ENV_NEXT_PUBLIC_SUPABASE_URL }}" >> .env
           echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.ENV_NEXT_PUBLIC_SUPABASE_ANON_KEY }}" >> .env
           echo "NEXT_PUBLIC_GTAG_ID=${{ secrets.ENV_NEXT_PUBLIC_GTAG_ID }}" >> .env
@@ -45,7 +41,6 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ env.VERSION }}
           restore-keys: |
             ${{ runner.os }}-buildx-
-
       - name: Login to ghcr
         uses: docker/login-action@v1
         with:
@@ -76,16 +71,6 @@ jobs:
 
       - name: Docker run
         run: |
-           docker ps -q --filter "name=${{ env.CONTANIER_NAME1 }}" | grep -q . && docker stop ${{ env.CONTANIER_NAME1 }} && docker rm -fv ${{ env.CONTANIER_NAME1 }}
-           docker run -d 
-                 -e VIRTUAL_HOST=${{ env.DOMAIN_NAME }} 
-                 -e CONTANIER_NAME=${{ env.CONTANIER_NAME1 }} 
-                 --name ${{ env.CONTANIER_NAME1 }} 
-                 --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
-           docker ps -q --filter "name=${{ env.CONTANIER_NAME2 }}" | grep -q . && docker stop ${{ env.CONTANIER_NAME2 }} && docker rm -fv ${{ env.CONTANIER_NAME2 }}
-           docker run -d 
-                 -e VIRTUAL_HOST=${{ env.DOMAIN_NAME }} 
-                 -e CONTANIER_NAME=${{ env.CONTANIER_NAME2 }} 
-                 --name ${{ env.CONTANIER_NAME2 }} 
-                 --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
-           docker image prune -af
+          docker rm -f ${{ env.NAME }}
+          docker run -d -p 3000:3000 --name go_cicd --restart always ${{ env.DOCKER_IMAGE }}:latest
+          docker rmi -f $(docker images -q)
