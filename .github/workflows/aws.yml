@@ -15,6 +15,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Create Enviroment File
+        run: |
+          touch .env
+
+          echo "NEXT_PUBLIC_SUPABASE_URL=${{ secrets.ENV_NEXT_PUBLIC_SUPABASE_URL }}" >> .env
+          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.ENV_NEXT_PUBLIC_SUPABASE_ANON_KEY }}" >> .env
+          echo "NEXT_PUBLIC_GTAG_ID=${{ secrets.ENV_NEXT_PUBLIC_GTAG_ID }}" >> .env
+          echo "NEXT_PUBLIC_FCM_VAPID_KEY=${{ secrets.ENV_NEXT_PUBLIC_FCM_VAPID_KEY }}" >> .env
+          echo "NEXT_PUBLIC_SUPABASE_STROAGE_PREFIX_URL=${{ secrets.ENV_NEXT_PUBLIC_SUPABASE_STROAGE_PREFIX_URL }}" >> .env
+          echo "NEXT_PUBLIC_FCM_API_KEY=${{ secrets.ENV_NEXT_PUBLIC_FCM_API_KEY }}" >> .env
+          echo "NEXT_PUBLIC_REST_API=${{ secrets.ENV_NEXT_PUBLIC_REST_API }}" >> .env
+          echo "NEXT_NEXT_PUBLIC_NODE_ENV=${{ secrets.ENV_NEXT_PUBLIC_NODE_ENV }}" >> .env
+          echo "NEXT_PUBLIC_ADMIN_ID=${{ secrets.NEXT_PUBLIC_ADMIN_ID }}" >> .env
+          echo "SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}" >> .env
+          echo "SENTRY_LOG_LEVEL=${{ secrets.SENTRY_LOG_LEVEL }}" >> .env
+          
       - name: Set up docker buildx
         id: buildx
         uses: docker/setup-buildx-action@v1
