@@ -34,8 +34,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     url: img,
   }))
 
-  console.log("pageImages", pageImages)
-
   return {
     title: `${pageTitle}|아트인포`,
     description: pageDesc,

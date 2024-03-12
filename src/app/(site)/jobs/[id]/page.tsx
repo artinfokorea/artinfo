@@ -1,7 +1,7 @@
 import JobDetailContainer from "@/components/ui/Job/JobDetailContainer"
 import GetQueryClient from "@/app/GetQueryClient"
-import { getJob } from "@/apis/job"
 import { Hydrate, dehydrate } from "@tanstack/react-query"
+import { getJob } from "@/apis/job"
 
 interface Props {
   params: {

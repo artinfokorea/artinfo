@@ -1,6 +1,6 @@
-import SupabaseServer from "@/lib/supabase-server"
-import { Metadata } from "next"
 import React from "react"
+import { getJob } from "@/apis/job"
+import { Metadata } from "next"
 
 type Props = {
   params: { id: string }
@@ -9,19 +9,14 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = params
 
-  const supabase = SupabaseServer()
-  const { data, error } = await supabase
-    .from("recruit_jobs")
-    .select("*, profiles(id, name, email, icon_image_url)")
-    .eq("id", id)
-    .single()
+  const data = await getJob(Number(id))
 
-  if (error) {
+  if (!data) {
     return {}
   }
 
   const pageTitle = data?.title.substring(0, 35)
-  const pageImage = data?.company_image_url
+  const pageImage = data?.companyImageUrl
 
   return {
     title: `채용 | ${pageTitle}`,
