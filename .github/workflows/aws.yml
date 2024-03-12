@@ -7,7 +7,10 @@ on:
 env:
   DOCKER_IMAGE: ghcr.io/${{ github.actor }}/artinfo-frontend
   VERSION: ${{ github.sha }}
-  NAME: go_cicd
+  CONTANIER_NAME1: artinfo-frontend-deploy1
+  CONTANIER_NAME2: artinfo-frontend-deploy2
+  DOMAIN_NAME: artinfokorea.com
+  NAME: prod
 
 jobs:
   build:
@@ -73,5 +76,16 @@ jobs:
 
       - name: Docker run
         run: |
-          docker stop ${{ env.NAME }} && docker rm ${{ env.NAME }} && docker rmi ${{ env.DOCKER_IMAGE }}:latest
-          docker run -d -p 3000:3000 --name go_cicd --restart always ${{ env.DOCKER_IMAGE }}:latest
+           docker ps -q --filter "name=${{ env.CONTANIER_NAME1 }}" | grep -q . && docker stop ${{ env.CONTANIER_NAME1 }} && docker rm -fv ${{ env.CONTANIER_NAME1 }}
+           docker run -d \
+                 -e VIRTUAL_HOST=${{ env.DOMAIN_NAME }} \
+                 -e CONTANIER_NAME=${{ env.CONTANIER_NAME1 }} \
+                 --name ${{ env.CONTANIER_NAME1 }} \
+                 --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
+           docker ps -q --filter "name=${{ env.CONTANIER_NAME2 }}" | grep -q . && docker stop ${{ env.CONTANIER_NAME2 }} && docker rm -fv ${{ env.CONTANIER_NAME2 }}
+           docker run -d \
+                 -e VIRTUAL_HOST=${{ env.DOMAIN_NAME }} \
+                 -e CONTANIER_NAME=${{ env.CONTANIER_NAME2 }} \
+                 --name ${{ env.CONTANIER_NAME2 }} \
+                 --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
+           docker image prune -af
