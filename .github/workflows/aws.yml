@@ -7,10 +7,7 @@ on:
 env:
   DOCKER_IMAGE: ghcr.io/${{ github.actor }}/artinfo-frontend
   VERSION: ${{ github.sha }}
-  CONTANIER_NAME1: artinfo-frontend-deploy1
-  CONTANIER_NAME2: artinfo-frontend-deploy2
-  CONTANIER_NAME3: artinfo-frontend-deploy3
-  CONTANIER_NAME4: artinfo-frontend-deploy4
+  NAME: go_cicd
 
 jobs:
   build:
@@ -74,16 +71,6 @@ jobs:
 
       - name: Docker run
         run: |
-          docker rm -f ${{ env.CONTANIER_NAME1 }}
-          docker run -d -p 3000:3000 --name ${{ env.CONTANIER_NAME1 }} ${{ env.DOCKER_IMAGE }}:latest
-
-          docker rm -f ${{ env.CONTANIER_NAME2 }}
-          docker run -d -p 3001:3000 --name ${{ env.CONTANIER_NAME2 }} ${{ env.DOCKER_IMAGE }}:latest
-
-          docker rm -f ${{ env.CONTANIER_NAME3 }}
-          docker run -d -p 3001:3000 --name ${{ env.CONTANIER_NAME3 }} ${{ env.DOCKER_IMAGE }}:latest
-
-          docker rm -f ${{ env.CONTANIER_NAME4 }}
-          docker run -d -p 3001:3000 --name ${{ env.CONTANIER_NAME4 }} ${{ env.DOCKER_IMAGE }}:latest
-          
+          docker rm -f ${{ env.NAME }}
+          docker run -d -p 3000:3000 --name go_cicd --restart always ${{ env.DOCKER_IMAGE }}:latest
           docker image prune -af
