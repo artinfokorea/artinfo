@@ -83,9 +83,9 @@ jobs:
           docker run -d -p 3001:3000 --name ${{ env.CONTANIER_NAME2 }} ${{ env.DOCKER_IMAGE }}:latest
 
           docker rm -f ${{ env.CONTANIER_NAME3 }}
-          docker run -d -p 3001:3000 --name ${{ env.CONTANIER_NAME3 }} ${{ env.DOCKER_IMAGE }}:latest
+          docker run -d -p 3002:3000 --name ${{ env.CONTANIER_NAME3 }} ${{ env.DOCKER_IMAGE }}:latest
 
           docker rm -f ${{ env.CONTANIER_NAME4 }}
-          docker run -d -p 3001:3000 --name ${{ env.CONTANIER_NAME4 }} ${{ env.DOCKER_IMAGE }}:latest
+          docker run -d -p 3003:3000 --name ${{ env.CONTANIER_NAME4 }} ${{ env.DOCKER_IMAGE }}:latest
 
           docker image prune -af
