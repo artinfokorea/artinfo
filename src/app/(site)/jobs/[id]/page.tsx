@@ -10,18 +10,18 @@ interface Props {
 }
 
 export default async function JobPage({ params }: Props) {
-  const queryClient = GetQueryClient()
+  // const queryClient = GetQueryClient()
 
-  await queryClient.prefetchQuery({
-    queryKey: ["job", params.id],
-    queryFn: () => getJob(Number(params.id), "SSR"),
-  })
+  // await queryClient.prefetchQuery({
+  //   queryKey: ["job", params.id],
+  //   queryFn: () => getJob(Number(params.id), "SSR"),
+  // })
 
-  const dehydratedState = dehydrate(queryClient)
+  // const dehydratedState = dehydrate(queryClient)
 
   return (
-    <Hydrate state={dehydratedState}>
-      <JobDetailContainer jobId={Number(params.id)} />
-    </Hydrate>
+    // <Hydrate state={dehydratedState}>
+    <JobDetailContainer jobId={Number(params.id)} />
+    // </Hydrate>
   )
 }
