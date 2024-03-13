@@ -8,7 +8,6 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = params
-
   const data = await getJob(Number(id))
 
   if (!data) {
