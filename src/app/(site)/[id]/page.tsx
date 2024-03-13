@@ -17,14 +17,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const response = await getFeed(Number(id), data.session?.user.id)
 
-  if (!response) {
-    return {}
-  }
-
-  // if (error) {
-  //   return {}
-  // }
-
   const pageTitle = (response?.title || response?.contents || "").substring(
     0,
     35,

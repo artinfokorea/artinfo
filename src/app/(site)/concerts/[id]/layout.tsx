@@ -15,10 +15,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .eq("id", id)
     .single()
 
-  if (error) {
-    return {}
-  }
-
   const pageTitle = data?.title.substring(0, 35)
   const pageImage = data?.poster_url
 

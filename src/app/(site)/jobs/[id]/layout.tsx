@@ -10,10 +10,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = params
   const data = await getJob(Number(id))
 
-  if (!data) {
-    return {}
-  }
-
   const pageTitle = data?.title.substring(0, 35)
   const pageImage = data?.companyImageUrl
 
