@@ -14,7 +14,7 @@ export default async function JobPage({ params }: Props) {
 
   await queryClient.prefetchQuery({
     queryKey: ["job", params.id],
-    queryFn: () => getJob(Number(params.id)),
+    queryFn: () => getJob(Number(params.id), "SSR"),
   })
 
   const dehydratedState = dehydrate(queryClient)

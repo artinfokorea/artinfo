@@ -42,12 +42,15 @@ export const getJobList = async ({
   }
 }
 
-export const getJob = async (id: number): Promise<JobDetail> => {
+export const getJob = async (
+  id: number,
+  pageType?: string,
+): Promise<JobDetail> => {
   try {
     const response = await apiRequest.get<JobDetail>(`/jobs/${id}`)
     return response
   } catch (error) {
-    throw new Error(exceptionHandler(error, "API getJob error"))
+    throw new Error(exceptionHandler(error, `API getJob/${pageType} error`))
   }
 }
 

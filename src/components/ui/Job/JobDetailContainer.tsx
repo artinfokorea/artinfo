@@ -42,7 +42,7 @@ export default function JobDetailContainer({ jobId }: IProps) {
   const { data: job } = useQuery({
     queryKey: ["job", jobId],
     suspense: true,
-    queryFn: () => getJob(jobId),
+    queryFn: () => getJob(jobId, "CSR"),
   })
 
   const handleScroll = () => {
