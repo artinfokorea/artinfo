@@ -60,7 +60,7 @@ export default async function RootLayout({
               <ToasterProvider>
                 <Header />
                 {children}
-                <HomeScreenContainer />
+                {/* <HomeScreenContainer /> */}
                 <BottomNavigation />
               </ToasterProvider>
             </RecoilProvider>
