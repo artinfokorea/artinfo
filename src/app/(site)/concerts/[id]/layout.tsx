@@ -18,6 +18,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const pageTitle = data?.title.substring(0, 35)
   const pageImage = data?.poster_url
 
+  console.log("pageImage", pageImage)
+
   return {
     title: `공연 | ${pageTitle}`,
     description: `${pageTitle} | 아트인포`,
