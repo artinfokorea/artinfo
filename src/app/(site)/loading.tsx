@@ -25,9 +25,9 @@ const loading = () => {
             })}
           </div>
         </div>
-        {/* <div className="ml-5 hidden md:block " style={{ width: 300 }}>
+        <div className="ml-5 hidden md:block " style={{ width: 300 }}>
           <LatestJobsSkeleton />
-        </div> */}
+        </div>
       </div>
     </div>
   )
