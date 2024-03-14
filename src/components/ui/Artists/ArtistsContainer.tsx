@@ -38,7 +38,11 @@ const ArtistsContainer = () => {
         {data?.pages.map(
           page =>
             page?.artists.map((artist: ARTIST) => (
-              <Link href={`/artists/${artist.id}`} key={artist.id}>
+              <Link
+                href={`/artists/${artist.id}`}
+                key={artist.id}
+                prefetch={false}
+              >
                 <ArtistsCard key={artist.id} artist={artist} />
               </Link>
             )),
