@@ -77,15 +77,15 @@ jobs:
       - name: Docker run
         run: |
           docker rm -f ${{ env.CONTANIER_NAME1 }}
-          docker run -d -p 3000:3000 --name --restart always ${{ env.CONTANIER_NAME1 }} ${{ env.DOCKER_IMAGE }}:latest
+          docker run -d -p 3000:3000 --name ${{ env.CONTANIER_NAME1 }} --restart always ${{ env.DOCKER_IMAGE }}:latest
 
           docker rm -f ${{ env.CONTANIER_NAME2 }}
-          docker run -d -p 3001:3000 --name --restart always ${{ env.CONTANIER_NAME2 }} ${{ env.DOCKER_IMAGE }}:latest
+          docker run -d -p 3001:3000 --name ${{ env.CONTANIER_NAME2 }} --restart always ${{ env.DOCKER_IMAGE }}:latest
 
           docker rm -f ${{ env.CONTANIER_NAME3 }}
-          docker run -d -p 3002:3000 --name --restart always ${{ env.CONTANIER_NAME3 }} ${{ env.DOCKER_IMAGE }}:latest
+          docker run -d -p 3002:3000 --name ${{ env.CONTANIER_NAME3 }} --restart always ${{ env.DOCKER_IMAGE }}:latest
 
           docker rm -f ${{ env.CONTANIER_NAME4 }}
-          docker run -d -p 3003:3000 --name --restart always ${{ env.CONTANIER_NAME4 }} ${{ env.DOCKER_IMAGE }}:latest
+          docker run -d -p 3003:3000 --name ${{ env.CONTANIER_NAME4 }} --restart always ${{ env.DOCKER_IMAGE }}:latest
 
           docker image prune -af
