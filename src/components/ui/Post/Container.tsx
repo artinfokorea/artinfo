@@ -133,9 +133,9 @@ export default function Container() {
             ))}
           </div>
         </div>
-        <div className="ml-5 hidden md:block" style={{ width: 300 }}>
+        {/* <div className="ml-5 hidden md:block" style={{ width: 300 }}>
           <ListWithLatestJobs />
-        </div>
+        </div> */}
       </div>
     </div>
   )
