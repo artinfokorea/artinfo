@@ -3,7 +3,6 @@ name: CI/CD Docker
 on:
   push:
     branches: [main]
-    
   pull_request:
     branches: [main]
 
@@ -37,7 +36,6 @@ jobs:
           echo "NEXT_PUBLIC_ADMIN_ID=${{ secrets.NEXT_PUBLIC_ADMIN_ID }}" >> .env
           echo "SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}" >> .env
           echo "SENTRY_LOG_LEVEL=${{ secrets.SENTRY_LOG_LEVEL }}" >> .env
-
       - name: Cache docker layers
         uses: actions/cache@v2
         with:
@@ -77,8 +75,7 @@ jobs:
         run: |
           docker rm -f ${{ env.CONTANIER_NAME1 }}
           docker run -d -p 3000:3000 --name ${{ env.CONTANIER_NAME1 }} --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
-
           docker rm -f ${{ env.CONTANIER_NAME2 }}
           docker run -d -p 3001:3000 --name ${{ env.CONTANIER_NAME2 }} --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
-
+          
           docker image prune -af
