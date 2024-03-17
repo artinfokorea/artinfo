@@ -74,11 +74,11 @@ jobs:
       - name: Docker run
         run: |
           docker rm -f ${{ env.CONTANIER_NAME1 }}
-          docker run -d -p 3000:3000 --name ${{ env.CONTANIER_NAME1 }} --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
+          docker run -d -p 3000:3000 --name ${{ env.CONTANIER_NAME1 }} --cpus=0.5 --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
 
           sleep 10
           
           docker rm -f ${{ env.CONTANIER_NAME2 }}
-          docker run -d -p 3001:3000 --name ${{ env.CONTANIER_NAME2 }} --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
+          docker run -d -p 3001:3000 --name ${{ env.CONTANIER_NAME2 }} --cpus=0.5 --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
         
           docker image prune -af
