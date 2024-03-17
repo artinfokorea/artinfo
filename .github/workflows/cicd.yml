@@ -1,3 +1,5 @@
+#TEST
+
 name: CI/CD Docker
 
 on:
