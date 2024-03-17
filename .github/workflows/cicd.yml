@@ -61,23 +61,23 @@ jobs:
           tags: ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
           context: .
 
-  deploy:
-    needs: build
-    name: Deploy
-    runs-on: [self-hosted, artinfo-frontend-deploy]
-    steps:
-      - name: Login to ghcr
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GHCR_TOKEN }}
+  # deploy:
+  #   needs: build
+  #   name: Deploy
+  #   runs-on: [self-hosted, artinfo-frontend-deploy]
+  #   steps:
+  #     - name: Login to ghcr
+  #       uses: docker/login-action@v1
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{ github.repository_owner }}
+  #         password: ${{ secrets.GHCR_TOKEN }}
 
-      - name: Docker run
-        run: |
-          docker rm -f ${{ env.CONTANIER_NAME1 }}
-          docker run -d -p 3000:3000 --name ${{ env.CONTANIER_NAME1 }} --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
-          docker rm -f ${{ env.CONTANIER_NAME2 }}
-          docker run -d -p 3001:3000 --name ${{ env.CONTANIER_NAME2 }} --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
+  #     - name: Docker run
+  #       run: |
+  #         docker rm -f ${{ env.CONTANIER_NAME1 }}
+  #         docker run -d -p 3000:3000 --name ${{ env.CONTANIER_NAME1 }} --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
+  #         docker rm -f ${{ env.CONTANIER_NAME2 }}
+  #         docker run -d -p 3001:3000 --name ${{ env.CONTANIER_NAME2 }} --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
           
-          docker image prune -af
+  #         docker image prune -af
