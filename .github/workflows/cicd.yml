@@ -11,8 +11,6 @@ env:
   VERSION: ${{ github.sha }}
   CONTANIER_NAME1: artinfo-frontend-deploy1
   CONTANIER_NAME2: artinfo-frontend-deploy2
-  CONTANIER_NAME3: artinfo-frontend-deploy3
-  CONTANIER_NAME4: artinfo-frontend-deploy4
 
 jobs:
   build:
@@ -79,8 +77,5 @@ jobs:
           docker run -d -p 3000:3000 --name ${{ env.CONTANIER_NAME1 }} --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
           docker rm -f ${{ env.CONTANIER_NAME2 }}
           docker run -d -p 3001:3000 --name ${{ env.CONTANIER_NAME2 }} --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
-          docker rm -f ${{ env.CONTANIER_NAME3 }}
-          docker run -d -p 3002:3000 --name ${{ env.CONTANIER_NAME3 }} --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
-          docker rm -f ${{ env.CONTANIER_NAME4 }}
-          docker run -d -p 3003:3000 --name ${{ env.CONTANIER_NAME4 }} --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
+
           docker image prune -af
