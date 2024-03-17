@@ -73,9 +73,9 @@ jobs:
 
       - name: Docker run
         run: |
-          sudo docker rm -f ${{ env.CONTANIER_NAME1 }}
+          #sudo docker rm -f ${{ env.CONTANIER_NAME1 }}
           sudo docker run -d -p 3000:3000 --name ${{ env.CONTANIER_NAME1 }} --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
-          sudo docker rm -f ${{ env.CONTANIER_NAME2 }}
+          #sudo docker rm -f ${{ env.CONTANIER_NAME2 }}
           sudo docker run -d -p 3001:3000 --name ${{ env.CONTANIER_NAME2 }} --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
         
           sudo docker image prune -af
