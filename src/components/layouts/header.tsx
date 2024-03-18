@@ -129,31 +129,31 @@ const items = [
     title: "채용",
     to: "/jobs",
     icon: BriefcaseIcon,
-    prefetch: false,
+    prefetch: true,
   },
   {
     title: "공연",
     to: "/concerts",
     icon: TicketIcon,
-    prefetch: false,
+    prefetch: true,
   },
   {
     title: "레슨",
     to: "/educations",
     icon: AcademicCapIcon,
-    prefetch: false,
+    prefetch: true,
   },
   {
     title: "아티스트",
     to: "/artists",
     icon: MusicalNoteIcon,
-    prefetch: false,
+    prefetch: true,
   },
   {
     title: "문의",
     to: "/inquiry",
     icon: QuestionMarkCircleIcon,
-    prefetch: false,
+    prefetch: true,
   },
 ]
 
