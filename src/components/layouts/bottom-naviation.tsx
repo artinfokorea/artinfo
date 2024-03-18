@@ -217,7 +217,7 @@ export function BottomNavigation() {
       title: "Artist",
       href: "/artists",
       icon: ArtistIcon,
-      prefetch: false,
+      prefetch: true,
     },
     {
       title: "Concert",
