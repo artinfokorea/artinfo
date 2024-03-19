@@ -3,7 +3,7 @@
 import { Button, IconButton } from "@/components/material"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import Link from "next/link"
-import React, { useMemo, useRef, useState } from "react"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -63,8 +63,15 @@ const OrganizationAuthContainer = () => {
   }
 
   const handleUploadedFiles = (files: File[]) => {
-    setUploadedImages(files)
+    setUploadedImages(uploadedImages => [...uploadedImages, ...files])
   }
+
+  useEffect(() => {
+    if (uploadedImages.length > 5) {
+      errorToast("5장이상은 등록 할 수 없습니다.")
+      setUploadedImages(uploadedImages.slice(0, 5))
+    }
+  }, [uploadedImages])
 
   const deleteImage = async (index: number) => {
     const newUploadedImages = [...uploadedImages]
