@@ -142,14 +142,14 @@ export function SecretCard({
         <CardHeader
           shadow={false}
           floated={false}
-          className="flex items-center gap-2"
+          className="flex items-center"
         >
-          <div className="flex-1 flex flex-col">
-            <div className="text-md ">
-              <span className="font-semibold">{feed.authorName}</span>
-              <span className="text-silver ">{` ${
-                COMPANY_CATEOGRY_VALUE[feed.category as COMPANY_CATEGORY]
-              }`}</span>
+          <div className="flex flex-col ml-1">
+            <div className="text-md flex ">
+              <span className="font-semibold ">{feed.authorName}</span>
+              <span className="text-silver ml-2">
+                {COMPANY_CATEOGRY_VALUE[feed.category as COMPANY_CATEGORY]}
+              </span>
             </div>
             <div className="flex items-center">
               <span className="text-sm">
