@@ -21,12 +21,8 @@ import {
   fetchComments,
   updatePostLike,
 } from "@/app/Api"
-import {
-  CommentContainer,
-  CommentForm,
-  CommentRow,
-} from "../../../components/ui/Comment/Comments"
-import CommentCardSkeleton from "../../../components/ui/Skeleton/CommentCardSkeleton"
+import { CommentContainer, CommentForm, CommentRow } from "../Comment/Comments"
+import CommentCardSkeleton from "../Skeleton/CommentCardSkeleton"
 
 const ListButton = dynamic(() => import("@/components/ui/Button/ListButton"), {
   ssr: false,

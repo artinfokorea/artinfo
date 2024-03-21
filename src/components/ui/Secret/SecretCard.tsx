@@ -10,7 +10,7 @@ import { Card, CardBody, CardFooter, CardHeader } from "@/components/material"
 import { COMPANY_CATEGORY, COMPANY_CATEOGRY_VALUE, FEED } from "@/types/types"
 import useFilters from "@/hooks/useFilters"
 import { useEffect, useLayoutEffect, useRef, useState } from "react"
-import { useParams, useRouter } from "next/navigation"
+import { useParams, usePathname, useRouter } from "next/navigation"
 import { clipboard } from "@toss/utils"
 import { useAuth } from "@/components/ui/Auth/AuthProvider"
 import useLocalforge from "@/hooks/useLocalforage"
@@ -71,7 +71,7 @@ export function SecretCard({
   const { user } = useAuth()
   const router = useRouter()
   const [sitePreviewData, setSitePreviewData] = useState<SitePreviewMetaType>()
-  const params = useParams()
+  const pathname = usePathname()
   const ref = useRef(null)
   const { isTruncated, isReadingMore, setIsReadingMore } = useTruncatedElement({
     ref,
@@ -133,11 +133,19 @@ export function SecretCard({
     handleDeleteFeed(feed.feedId)
   }
 
+  const goToPostDetail = () => {
+    if (pathname === "/choir") {
+      router.push(`/choir/${feed.feedId}`)
+    } else {
+      router.push(`/orchestra/${feed.feedId}`)
+    }
+  }
+
   return (
     <>
       <Card
         className={`transition-transform transform cursor-pointer my-2 rounded-none md:rounded-md `}
-        onClick={() => router.push(`/${feed.feedId}`)}
+        onClick={goToPostDetail}
       >
         <CardHeader
           shadow={false}

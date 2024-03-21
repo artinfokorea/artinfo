@@ -3,7 +3,7 @@ import { getFeed } from "@/apis/feed"
 import SupabaseServer from "@/lib/supabase-server"
 import GetQueryClient from "@/app/GetQueryClient"
 import { Hydrate, dehydrate } from "@tanstack/react-query"
-import Container from "./Container"
+import Container from "../../../components/ui/Post/DetailContainer"
 
 type Props = {
   params: { id: string }
@@ -55,7 +55,7 @@ export default async function PostDetail({
   const dehydratedState = dehydrate(queryClient)
 
   return (
-    <div className="mx-auto max-w-screen-lg">
+    <div className="mx-auto max-w-screen-lg py-8">
       <Hydrate state={dehydratedState}>
         <Container pageId={params.id} />
       </Hydrate>
