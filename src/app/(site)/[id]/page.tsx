@@ -55,7 +55,7 @@ export default async function PostDetail({
   const dehydratedState = dehydrate(queryClient)
 
   return (
-    <div className="mx-auto max-w-screen-lg py-8">
+    <div className="mx-auto max-w-screen-md py-8">
       <Hydrate state={dehydratedState}>
         <Container pageId={params.id} />
       </Hydrate>
