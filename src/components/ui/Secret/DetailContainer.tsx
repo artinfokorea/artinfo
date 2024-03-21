@@ -23,7 +23,6 @@ import {
 import { CommentContainer, CommentForm, CommentRow } from "../Comment/Comments"
 import CommentCardSkeleton from "../Skeleton/CommentCardSkeleton"
 import { SecretCard } from "./SecretCard"
-import { useFeedMutation } from "@/hooks/useFeedMutation"
 
 const ListButton = dynamic(() => import("@/components/ui/Button/ListButton"), {
   ssr: false,
@@ -40,7 +39,6 @@ export default function SecretDetailContainer({ pageId }: IProps) {
   const isMobile = isMobileWeb()
   const { successToast, errorToast } = useToast()
   const router = useRouter()
-  const { updateFeedLike, deleteFeedMutate } = useFeedMutation({ type: "post" })
 
   const { data: feed } = useQuery({
     queryKey: ["feed", pageId],
