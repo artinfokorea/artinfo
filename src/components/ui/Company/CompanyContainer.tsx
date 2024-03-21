@@ -14,6 +14,7 @@ import { createCompanyCertification } from "@/apis/company"
 import useToast from "@/hooks/useToast"
 import { useRouter } from "next/navigation"
 import useSupabase from "@/hooks/useSupabase"
+import { Modal } from "@/components/common/Modal"
 import { Label } from "../label"
 import { Input } from "../input"
 
@@ -34,8 +35,8 @@ const schema = yup
     images: yup
       .array()
       .of(yup.string().required("이미지 URL은 필수입니다."))
-      .min(2, "이미지는 최소한 두 개 이상 필요합니다.")
-      .required("이미지는 최소한 두 개 이상 필요합니다."),
+      .min(1, "이미지는 최소한 한개 이상 필요합니다.")
+      .required("이미지는 최소한 한개 이상 필요합니다."),
   })
   .required()
 export type OrganizationAuthFormData = yup.InferType<typeof schema>
@@ -44,9 +45,10 @@ const OrganizationAuthContainer = () => {
   const fileUploader = useRef<HTMLInputElement>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [uploadedImages, setUploadedImages] = useState<File[]>([])
+  const [isOpenModal, setIsOpenModal] = useState(false)
   const { user } = useAuth()
   const router = useRouter()
-  const { successToast, errorToast } = useToast()
+  const { errorToast } = useToast()
   const supabase = useSupabase()
   const {
     register,
@@ -129,11 +131,7 @@ const OrganizationAuthContainer = () => {
       }
 
       await createCompanyCertification(formData)
-
-      successToast(
-        "인증 신청이 완료되었습니다. 인증완료까지는 1일에서 3일까지 소요될 수 있습니다.",
-      )
-      router.push("/")
+      setIsOpenModal(true)
     } catch (error) {
       errorToast("인증 신청에 실패했습니다.")
       console.error(error)
@@ -162,8 +160,11 @@ const OrganizationAuthContainer = () => {
           className="my-8"
           onSubmit={handleSubmit(handleCompanyCertificate)}
         >
-          <div className="grid items-center gap-1.5 mb-2">
+          <div className="grid items-center gap-1.5 mb-4">
             <Label htmlFor="이름">이름</Label>
+            <span className="text-xs text-error font-semibold">
+              이름은 비공개이며 커뮤니티에 노출되지 않습니다.
+            </span>
             <Input
               type="text"
               placeholder="예) 홍길동"
@@ -178,8 +179,11 @@ const OrganizationAuthContainer = () => {
               )}
             />
           </div>
-          <div className="grid items-center gap-1.5 mb-2">
+          <div className="grid items-center gap-1.5 mb-4">
             <Label htmlFor="소속 단체명">소속 단체명</Label>
+            <span className="text-xs text-error font-semibold">
+              소속 단체명은 비공개이며 커뮤니티에 노출되지 않습니다.
+            </span>
             <Input
               type="text"
               placeholder="예) 예술의전당"
@@ -196,6 +200,9 @@ const OrganizationAuthContainer = () => {
           </div>
           <div className="grid items-center gap-1.5 mb-2">
             <Label htmlFor="익명 아이디">익명 아이디</Label>
+            <span className="text-xs text-dimgray font-semibold">
+              익명게시판에서 사용하실 닉네임입니다.
+            </span>
             <Input
               type="text"
               placeholder="예) 플룻부는사나이"
@@ -247,7 +254,7 @@ const OrganizationAuthContainer = () => {
               </svg>
             </IconButton>
             <span className="text-sm">
-              인증 자료 업로드 (최소 2장 ~ 최대 5장)
+              인증 자료 업로드 (최소 1장 ~ 최대 5장)
             </span>
             <ErrorMessage
               errors={errors}
@@ -266,7 +273,7 @@ const OrganizationAuthContainer = () => {
           <ol className="text-sm text-dimgray list-decimal px-4 break-keep">
             <li className="my-1">
               인증 자료의 예) 재직증명서, 신분증, 단체 단원 소개 이미지 등
-              <strong> 신분과 재직 확인이 가능한 각종 서류(택 2).</strong>
+              <strong> 신분과 재직 확인이 가능한 각종 서류(택 1).</strong>
             </li>
             <li className="my-1">
               인증에 사용되는 정보는 철저히 비공개로 관리됩니다.
@@ -297,6 +304,37 @@ const OrganizationAuthContainer = () => {
           </div>
         </form>
       </div>
+      <Modal
+        title="소속단체 인증"
+        isOpen={isOpenModal}
+        closeModal={() => {
+          setIsOpenModal(false)
+          router.push("/")
+        }}
+      >
+        <div className="mt-2">
+          <p className="text-sm text-gray-500">
+            인증 신청이 완료되었습니다.
+            <br />
+            인증완료까지는 1일에서 3일까지 소요될 수 있습니다.
+            <br />
+            인증에 사용되는 정보는 철저히 비공개로 관리됩니다.
+          </p>
+        </div>
+
+        <div className="mt-4 flex items-end justify-end">
+          <button
+            type="button"
+            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+            onClick={() => {
+              setIsOpenModal(false)
+              router.push("/")
+            }}
+          >
+            확인
+          </button>
+        </div>
+      </Modal>
     </div>
   )
 }
