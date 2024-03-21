@@ -4,7 +4,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import Image from "next/image"
 import { ClockIcon, ShareIcon, TrashIcon } from "@heroicons/react/20/solid"
 import useFilters from "@/hooks/useFilters"
-import { deleteConcert, fetchConcert } from "@/app/Api"
+import { deleteConcert } from "@/app/Api"
+import { getConcert } from "@/apis/concert"
 import dynamic from "next/dynamic"
 import { isMobileWeb, clipboard } from "@toss/utils"
 import Link from "next/link"
@@ -25,7 +26,7 @@ const ScrollButtonWrap = dynamic(
 
 const adminId = process.env.NEXT_PUBLIC_ADMIN_ID
 interface IProps {
-  pageId: number
+  pageId: string
 }
 
 export default function ConcertDetailContainer({ pageId }: IProps) {
@@ -39,7 +40,7 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
 
   const { data: concert } = useQuery({
     queryKey: ["concert", pageId],
-    queryFn: () => fetchConcert(pageId),
+    queryFn: () => getConcert(pageId),
   })
 
   const isMobile = isMobileWeb()
@@ -116,10 +117,10 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
           </h2>
 
           <div className="flex items-center gap-x-2 my-6 px-2">
-            {concert?.profiles?.icon_image_url && (
+            {concert?.authorIconImageUrl && (
               <div className="w-10 h-10 rounded-full overflow-hidden relative">
                 <Image
-                  src={concert?.profiles?.icon_image_url}
+                  src={concert?.authorIconImageUrl}
                   alt="user_image"
                   fill
                   quality={100}
@@ -129,8 +130,8 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
             )}
 
             <div className="text-sm">
-              <div>{concert?.profiles?.name}</div>
-              <div className="text-xs">{concert?.profiles?.email}</div>
+              <div>{concert?.authorPulicNickname}</div>
+              <div className="text-xs">{concert?.authorEmail}</div>
             </div>
           </div>
 
@@ -140,7 +141,7 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
                 <ClockIcon className="w-5 mr-1" />
                 <span className="text-sm">
                   {filters.DIFF_FROM_NOW_ADD_TIME(
-                    concert?.performance_time,
+                    concert?.performanceTime,
                     "YYYY-MM-DD HH:mm",
                   )}
                 </span>
@@ -148,7 +149,7 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
             </div>
 
             <div className="flex items-center">
-              {(concert?.profile_id === user?.id || user?.id === adminId) && (
+              {(concert?.authorId === user?.id || user?.id === adminId) && (
                 <button className="mr-2" onClick={() => setPageType("update")}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -166,7 +167,7 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
                   </svg>
                 </button>
               )}
-              {(concert?.profile_id === user?.id || user?.id === adminId) && (
+              {(concert?.authorId === user?.id || user?.id === adminId) && (
                 <button className="mr-2" onClick={() => setIsOpenModal(true)}>
                   <TrashIcon className="w-5  " />
                 </button>
@@ -197,10 +198,10 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
               >
                 뒤로가기
               </button>
-              {concert?.link_url && (
+              {concert?.linkUrl && (
                 <Link
                   className="mt-4 transition ease-in-out duration-150 inline-flex items-center w-full justify-center  bg-indigo-600 py-3 text-md leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 rounded-md disabled:opacity-50"
-                  href={concert?.link_url}
+                  href={concert?.linkUrl}
                   target="_blank"
                 >
                   공연 바로가기
@@ -208,7 +209,7 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
               )}
             </div>
           )}
-          {isMobile && concert?.link_url && (
+          {isMobile && concert?.linkUrl && (
             <div
               className={`w-full flex fixed ${
                 isIPhone ? "bottom-20" : "bottom-16"
@@ -216,7 +217,7 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
           bg-indigo-600
           `}
             >
-              {user?.id === concert?.profile_id && (
+              {user?.id === concert?.authorId && (
                 <button
                   className="text-white px-3 "
                   onClick={() => setIsOpenModal(true)}
@@ -225,7 +226,7 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
                 </button>
               )}
               <button
-                className={`${user?.id !== concert?.profile_id && "px-3"}`}
+                className={`${user?.id !== concert?.authorId && "px-3"}`}
                 onClick={handleCopyClipboard}
               >
                 <ShareIcon className="w-9 border-r text-white pr-3" />
@@ -234,7 +235,7 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
               <Link
                 className="flex-1 transition ease-in-out duration-150 
            inline-flex items-center w-full justify-center text-md pt-1 leading-6 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 text-white "
-                href={concert?.link_url}
+                href={concert?.linkUrl}
                 target="_blank"
               >
                 공연 바로가기

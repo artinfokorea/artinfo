@@ -67,3 +67,12 @@ export const getConcertKeywords = async (size: number): Promise<string[]> => {
     throw new Error(exceptionHandler(error, "API getConcertKeywords error"))
   }
 }
+
+export const getConcert = async (concertId: string): Promise<CONCERT> => {
+  try {
+    const response = await apiRequest.get<CONCERT>(`/concerts/${concertId}`)
+    return response
+  } catch (error) {
+    throw new Error(exceptionHandler(error, "API getConcert error"))
+  }
+}

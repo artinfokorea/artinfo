@@ -1,5 +1,5 @@
 import { Metadata } from "next/types"
-import SupabaseServer from "@/lib/supabase-server"
+import { getConcert } from "@/apis/concert"
 
 type Props = {
   params: { id: string }
@@ -8,17 +8,10 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = params
 
-  const supabase = SupabaseServer()
-  const { data, error } = await supabase
-    .from("concerts")
-    .select("*, profiles(id, name, email, icon_image_url)")
-    .eq("id", id)
-    .single()
+  const data = await getConcert(id)
 
   const pageTitle = data?.title.substring(0, 35)
-  const pageImage = data?.poster_url
-
-  console.log("pageImage", pageImage)
+  const pageImage = data?.posterUrl
 
   return {
     title: `공연 | ${pageTitle}`,

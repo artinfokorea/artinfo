@@ -6,7 +6,7 @@ import { ResizteTextArea } from "@/components/common/ResizteTextArea"
 import useAuth from "@/hooks/useAuth"
 import useSupabase from "@/hooks/useSupabase"
 import { XMarkIcon } from "@heroicons/react/24/outline"
-import { Button, IconButton, Option, Select } from "@material-tailwind/react"
+import { Button, IconButton } from "@material-tailwind/react"
 import { useQueryClient } from "@tanstack/react-query"
 import Link from "next/link"
 import React, { useRef, useState, Fragment } from "react"
@@ -17,7 +17,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker"
 import { useRouter } from "next/navigation"
 import dynamic from "next/dynamic"
 import useToast from "@/hooks/useToast"
-import { IConcert } from "@/types/types"
+import { CONCERT, IConcert } from "@/types/types"
 import dayjs from "dayjs"
 import { Spinner } from "@/components/material"
 import { Listbox, Switch, Transition } from "@headlessui/react"
@@ -35,7 +35,7 @@ const QuillEditor = dynamic(
 
 interface Props {
   type: "create" | "update"
-  concert?: IConcert
+  concert?: CONCERT
 }
 
 const items = [
@@ -53,7 +53,7 @@ const ConcertForm = ({ type, concert }: Props) => {
   const queryClient = useQueryClient()
   const [title, setTitle] = useState<string>(concert?.title || "")
   const [location, setLocation] = useState<string>(concert?.location || "")
-  const [linkUrl, setLinkUrl] = useState<string>(concert?.link_url || "")
+  const [linkUrl, setLinkUrl] = useState<string>(concert?.linkUrl || "")
   const [isLoading, setIsLoading] = useState(false)
   const supabase = useSupabase()
   const [uploadedImage, setUploadedImage] = useState<File>()
@@ -61,18 +61,18 @@ const ConcertForm = ({ type, concert }: Props) => {
   const [selectedType, setSelectedType] = useState(
     type === "create" ? "ETC" : concert?.category || "ETC",
   )
-  const [isActive, setIsActive] = useState<boolean>(concert?.is_active || true)
+  const [isActive, setIsActive] = useState<boolean>(concert?.isActive || true)
 
   const router = useRouter()
   const [startedAt, setStartedAt] = useState(
-    concert?.performance_time
-      ? dayjs(concert?.performance_time).add(9, "hour")
+    concert?.performanceTime
+      ? dayjs(concert?.performanceTime).add(9, "hour")
       : dayjs(),
   )
 
   const [htmlStr, setHtmlStr] = useState<string>(concert?.contents || "")
   const [uploadedImageUrl, setUploadedImageUrl] = useState(
-    concert?.poster_url || "",
+    concert?.posterUrl || "",
   )
   const quillRef = useRef()
   const { successToast, errorToast } = useToast()

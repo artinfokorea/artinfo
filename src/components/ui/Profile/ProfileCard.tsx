@@ -73,6 +73,7 @@ export default function ProfileCard({ user }: IProps) {
     const updateForm: any = {
       userId: user.id,
       name: payload.name,
+      iconImageUrl: user.iconImageUrl,
     }
     try {
       if (user.companyCategory) {
