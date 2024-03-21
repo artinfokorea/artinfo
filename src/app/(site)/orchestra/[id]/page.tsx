@@ -16,6 +16,7 @@ const page = async ({ params }: Props) => {
   if (!data.session) {
     redirect("/auth")
   }
+
   const response = await getMe(data.session?.user.id)
 
   if (response.companyCategory !== COMPANY_CATEGORY_ITEMS.ORCHESTRA) {
