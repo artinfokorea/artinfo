@@ -8,60 +8,6 @@ import {
 } from "@/types/types"
 
 /* ****************************************************** CONNCERT ****************************************************** */
-export async function fetchConcerts(
-  page_number: number,
-  category?: CONCERT_CATEGORY | "ALL",
-) {
-  const item_count = 12
-  const type = category !== "ALL" ? category : null
-  const supabase = useSupabase()
-  const { data, error } = await supabase.rpc("get_concerts", {
-    type: type as CONCERT_CATEGORY,
-    item_count,
-    page_number,
-  })
-  if (error) {
-    throw error
-  }
-  return data
-}
-
-// export async function fetchConcertsByArtist(
-//   page_number: number,
-//   artistId: number,
-// ) {
-//   const item_count = 12
-//   const supabase = useSupabase()
-//   const { data, error } = await supabase
-//     .from("concerts")
-//     .select("*, artists(id,korean_name,english_name,main_image_url)")
-//     .eq("artist_id", artistId)
-//     .order("created_at", {
-//       ascending: false,
-//     })
-//     .limit(item_count)
-//     .range((page_number - 1) * item_count, page_number * item_count - 1)
-
-//   if (error) {
-//     throw error
-//   }
-//   return data
-// }
-
-export async function fetchConcert(id: number): Promise<IConcert> {
-  const supabase = useSupabase()
-  const { data, error } = await supabase
-    .from("concerts")
-    .select("*, profiles(id, name, email, icon_image_url)")
-    .eq("id", id)
-    .single()
-
-  if (error) {
-    throw error
-  }
-
-  return data
-}
 
 export async function deleteConcert(id: number) {
   const supabase = useSupabase()
@@ -132,47 +78,6 @@ export async function deleteJob(id: number) {
 }
 
 /* ****************************************************** FEED ****************************************************** */
-type FeedsPayload = {
-  pageParam?: number
-  itemCount?: number
-  user_id?: string
-}
-export async function fetchFeeds({
-  pageParam = 1,
-  itemCount = 20,
-}: FeedsPayload) {
-  const supabase = useSupabase()
-
-  const { data, error } = await supabase.rpc("get_feeds", {
-    item_count: itemCount,
-    page_number: pageParam,
-  })
-
-  if (error) {
-    throw error
-  }
-  return data
-}
-
-export async function fetchFeed(id: number) {
-  const supabase = useSupabase()
-  // const { data, error } = await supabase
-  //   .from("feeds")
-  //   .select("*, profiles(id, name, icon_image_url)")
-  //   .eq("id", id)
-  //   .single()
-
-  const { data, error } = await supabase
-    .rpc("get_feed", {
-      feed_id: id,
-    })
-    .single()
-
-  if (error) {
-    throw error
-  }
-  return data
-}
 
 export async function deleteFeed(id: number) {
   const supabase = useSupabase()
@@ -328,56 +233,7 @@ export async function fetchProfile(id: string) {
   return data
 }
 
-export const updateProfile = async (payload: PROFILE_PAYLOAD) => {
-  const supabase = useSupabase()
-  const updateData: any = {}
-
-  if (payload.name) {
-    updateData.name = payload.name
-  }
-
-  if (payload.icon_image_url) {
-    updateData.icon_image_url = payload.icon_image_url
-  }
-
-  const { data, error } = await supabase
-    .from("profiles")
-    .update(updateData)
-    .eq("id", payload.id as string)
-
-  if (error) {
-    throw error
-  }
-
-  return data
-}
-
 /* ****************************************************** LESSON ****************************************************** */
-
-type LessonsPayload = {
-  pageParam?: number
-  itemCount?: number
-}
-
-export async function fetchLessons({ pageParam = 1 }: LessonsPayload) {
-  const itemCount = 12
-  const supabase = useSupabase()
-  const { data, count, error } = await supabase
-    .from("lessons")
-    .select("*, profiles(id, name, icon_image_url)", {
-      count: "exact",
-    })
-    .order("created_at", {
-      ascending: false,
-    })
-    .limit(itemCount)
-    .range(pageParam * itemCount, (pageParam + 1) * itemCount - 1)
-
-  if (error) {
-    throw error
-  }
-  return { lessons: data, count }
-}
 
 export async function fetchLesson(lessonId: number) {
   const supabase = useSupabase()
@@ -426,21 +282,6 @@ export async function deleteLesson(id: number) {
 
   if (profileError) {
     throw profileError
-  }
-  return data
-}
-
-export async function fetchUserLesson(userId: string) {
-  const supabase = useSupabase()
-
-  const { data, error } = await supabase
-    .from("lessons")
-    .select("*, profiles(id, name, icon_image_url)")
-    .eq("profile_id", userId)
-    .single()
-
-  if (error) {
-    throw error
   }
   return data
 }
