@@ -1,5 +1,5 @@
 import { getMe } from "@/apis/user"
-import Container from "@/components/ui/Post/DetailContainer"
+import SecretDetailContainer from "@/components/ui/Secret/DetailContainer"
 import SupabaseServer from "@/lib/supabase-server"
 import { COMPANY_CATEGORY_ITEMS } from "@/types/types"
 import { redirect } from "next/navigation"
@@ -24,7 +24,7 @@ const page = async ({ params }: Props) => {
 
   return (
     <main className="mx-auto max-w-screen-md py-8">
-      <Container pageId={params.id} />
+      <SecretDetailContainer pageId={params.id} />
     </main>
   )
 }

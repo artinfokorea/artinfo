@@ -22,7 +22,8 @@ import {
 } from "@/app/Api"
 import { CommentContainer, CommentForm, CommentRow } from "../Comment/Comments"
 import CommentCardSkeleton from "../Skeleton/CommentCardSkeleton"
-import { PostCard } from "./PostCard"
+import { SecretCard } from "./SecretCard"
+import { useFeedMutation } from "@/hooks/useFeedMutation"
 
 const ListButton = dynamic(() => import("@/components/ui/Button/ListButton"), {
   ssr: false,
@@ -33,12 +34,13 @@ interface IProps {
   pageId: string
 }
 
-export default function Container({ pageId }: IProps) {
+export default function SecretDetailContainer({ pageId }: IProps) {
   const queryClient = useQueryClient()
   const { user } = useAuth()
   const isMobile = isMobileWeb()
   const { successToast, errorToast } = useToast()
   const router = useRouter()
+  const { updateFeedLike, deleteFeedMutate } = useFeedMutation({ type: "post" })
 
   const { data: feed } = useQuery({
     queryKey: ["feed", pageId],
@@ -132,7 +134,6 @@ export default function Container({ pageId }: IProps) {
     onMutate: updateLike => {
       queryClient.setQueryData(["feed", pageId], (old: any) => {
         const feed = old
-        console.log("feed", feed)
         feed.isLiking = updateLike.like
         if (updateLike.like) {
           feed.countOfLikes += 1
@@ -177,7 +178,7 @@ export default function Container({ pageId }: IProps) {
 
   return (
     <div className="pb-8 relative">
-      <PostCard
+      <SecretCard
         feed={feed as any}
         handleUpdatePostLike={handleUpdatePostLike}
         handleDeleteFeed={handleDeleteFeed}
