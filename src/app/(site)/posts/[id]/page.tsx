@@ -3,7 +3,7 @@ import { getFeed } from "@/apis/feed"
 import SupabaseServer from "@/lib/supabase-server"
 import GetQueryClient from "@/app/GetQueryClient"
 import { Hydrate, dehydrate } from "@tanstack/react-query"
-import Container from "../../../components/ui/Post/DetailContainer"
+import Container from "../../../../components/ui/Post/DetailContainer"
 
 type Props = {
   params: { id: string }

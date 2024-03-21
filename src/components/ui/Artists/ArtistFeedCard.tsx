@@ -144,7 +144,7 @@ export function ArtistFeedCard({
     <>
       <Card
         className={`transition-transform transform cursor-pointer my-2 rounded-none md:rounded-md `}
-        onClick={() => router.push(`/${feed.feedId}`)}
+        onClick={() => router.push(`/posts/${feed.feedId}`)}
       >
         <CardHeader
           shadow={false}
