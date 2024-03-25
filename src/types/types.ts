@@ -339,7 +339,7 @@ export type CONCERT = {
   id: number
   authorId: string
   authorEmail: string
-  authorPulicNickname: string
+  authorPublicNickName: string
   authorIconImageUrl: string
   title: string
   contents: string

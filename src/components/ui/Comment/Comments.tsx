@@ -65,27 +65,42 @@ export function CommentForm({
 interface ICommentProps {
   comment: Comment
   handleDeleteComment: (commentId: number) => void
+  secret?: boolean
 }
-export function CommentRow({ comment, handleDeleteComment }: ICommentProps) {
+export function CommentRow({
+  comment,
+  handleDeleteComment,
+  secret,
+}: ICommentProps) {
   const filters = useFilters()
   const auth = useAuth()
 
+  console.log(filters.FROM_NOW_COMMENT(comment.created_at))
   const isCurrentUserComment = comment.profile_id === auth?.user?.id
   return (
     <div className="px-4 py-4">
       <div className="flex gap-x-2">
-        <Avatar
-          size="sm"
-          variant="circular"
-          src={comment.profiles?.icon_image_url || "/img/placeholder_user.png"}
-          alt="user profile"
-        />
+        {!secret && (
+          <Avatar
+            size="sm"
+            variant="circular"
+            src={
+              comment.profiles?.icon_image_url || "/img/placeholder_user.png"
+            }
+            alt="user profile"
+          />
+        )}
+
         <div className="flex-1 ">
-          <div className="flex justify-between">
+          <div
+            className={
+              secret ? "flex justify-between ml-1" : "flex justify-between"
+            }
+          >
             <div>
               <div className="text-sm leading-4">{comment.profiles?.name}</div>
               <div className="text-xs font-light">
-                {filters.FROM_NOW(comment.created_at)}
+                {filters.FROM_NOW_COMMENT(comment.created_at)}
               </div>
             </div>
             {isCurrentUserComment && (

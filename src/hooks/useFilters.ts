@@ -80,7 +80,6 @@ export default function useFilters() {
       }
 
       const originalDate = dayjs(value)
-
       return dayjs(originalDate).fromNow()
     },
 

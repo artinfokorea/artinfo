@@ -130,7 +130,7 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
             )}
 
             <div className="text-sm">
-              <div>{concert?.authorPulicNickname}</div>
+              <div>{concert?.authorPublicNickName}</div>
               <div className="text-xs">{concert?.authorEmail}</div>
             </div>
           </div>

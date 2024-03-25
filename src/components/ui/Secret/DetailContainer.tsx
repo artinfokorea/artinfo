@@ -201,6 +201,7 @@ export default function SecretDetailContainer({ pageId }: IProps) {
                 key={comment.id}
                 comment={comment}
                 handleDeleteComment={handleDeleteComment}
+                secret
               />
             ))
           })}
