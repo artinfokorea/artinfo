@@ -8,7 +8,7 @@ import {
 } from "@tanstack/react-query"
 import { CommentType } from "@/types/types"
 import { useAuth } from "@/components/ui/Auth/AuthProvider"
-import { notFound, useRouter } from "next/navigation"
+import { notFound, usePathname, useRouter } from "next/navigation"
 import dynamic from "next/dynamic"
 import { isMobileWeb } from "@toss/utils"
 import useToast from "@/hooks/useToast"
@@ -39,6 +39,7 @@ export default function SecretDetailContainer({ pageId }: IProps) {
   const isMobile = isMobileWeb()
   const { successToast, errorToast } = useToast()
   const router = useRouter()
+  const path = usePathname()
 
   const { data: feed } = useQuery({
     queryKey: ["feed", pageId],
@@ -240,7 +241,7 @@ export default function SecretDetailContainer({ pageId }: IProps) {
       </div>
       {isMobile && (
         <div className="fixed bottom-32 right-3">
-          <ListButton list="artists" />
+          <ListButton list={path.split("/")[1]} />
         </div>
       )}
     </div>

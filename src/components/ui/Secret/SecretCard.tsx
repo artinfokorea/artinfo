@@ -136,7 +136,7 @@ export function SecretCard({
   const goToPostDetail = () => {
     if (pathname === "/choir") {
       router.push(`/choir/${feed.feedId}`)
-    } else {
+    } else if (pathname === "/orchestra") {
       router.push(`/orchestra/${feed.feedId}`)
     }
   }
