@@ -75,7 +75,6 @@ export function CommentRow({
   const filters = useFilters()
   const auth = useAuth()
 
-  console.log(filters.FROM_NOW_COMMENT(comment.created_at))
   const isCurrentUserComment = comment.profile_id === auth?.user?.id
   return (
     <div className="px-4 py-4">
