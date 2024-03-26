@@ -193,7 +193,8 @@ export default function ProfileCard({ user }: IProps) {
               {...register("name")}
               type="text"
               maxLength={20}
-              className="!border !border-blue-gray-50 bg-white text-blue-gray-500 ring-4 ring-transparent placeholder:text-blue-gray-200 focus:!border-blue-500 focus:!border-t-blue-500 focus:ring-blue-500/20"
+              disabled
+              className="!border !border-blue-gray-50 bg-white text-blue-gray-500 ring-4 ring-transparent placeholder:text-blue-gray-200 focus:!border-blue-500 focus:!border-t-blue-500 focus:ring-blue-500/20 disabled:bg-white"
               labelProps={{
                 className: "hidden",
               }}
