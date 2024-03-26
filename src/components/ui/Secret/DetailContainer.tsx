@@ -13,6 +13,7 @@ import dynamic from "next/dynamic"
 import { isMobileWeb } from "@toss/utils"
 import useToast from "@/hooks/useToast"
 import { getFeed } from "@/apis/feed"
+import { Button } from "@/components/material"
 import {
   createComment,
   deleteComment,
@@ -23,7 +24,6 @@ import {
 import { CommentContainer, CommentForm, CommentRow } from "../Comment/Comments"
 import CommentCardSkeleton from "../Skeleton/CommentCardSkeleton"
 import { SecretCard } from "./SecretCard"
-import { Button } from "@/components/material"
 
 const ListButton = dynamic(() => import("@/components/ui/Button/ListButton"), {
   ssr: false,
