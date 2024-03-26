@@ -23,6 +23,7 @@ import {
 import { CommentContainer, CommentForm, CommentRow } from "../Comment/Comments"
 import CommentCardSkeleton from "../Skeleton/CommentCardSkeleton"
 import { SecretCard } from "./SecretCard"
+import { Button } from "@/components/material"
 
 const ListButton = dynamic(() => import("@/components/ui/Button/ListButton"), {
   ssr: false,
@@ -175,6 +176,10 @@ export default function SecretDetailContainer({ pageId }: IProps) {
     router.back()
   }
 
+  const goToList = () => {
+    router.push(`/${path.split("/")[1]}`)
+  }
+
   return (
     <div className="pb-8 relative">
       <SecretCard
@@ -239,9 +244,18 @@ export default function SecretDetailContainer({ pageId }: IProps) {
           </button>
         )}
       </div>
-      {isMobile && (
+      {isMobile ? (
         <div className="fixed bottom-32 right-3">
           <ListButton list={path.split("/")[1]} />
+        </div>
+      ) : (
+        <div className="flex justify-center">
+          <Button
+            className="bg-indigo-500 mx-2 my-4 w-full hover:opacity-80"
+            onClick={goToList}
+          >
+            목록
+          </Button>
         </div>
       )}
     </div>
