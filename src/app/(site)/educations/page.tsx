@@ -9,23 +9,23 @@ interface Props {
 }
 
 const page = async ({ searchParams: { majors, regions } }: Props) => {
-  const queryClient = GetQueryClient()
-  const majorList = majors ? majors.split(",") : []
-  const regionList = regions ? regions.split(",") : []
+  // const queryClient = GetQueryClient()
+  // const majorList = majors ? majors.split(",") : []
+  // const regionList = regions ? regions.split(",") : []
 
-  await queryClient.prefetchInfiniteQuery({
-    queryKey: ["lessons", regionList, majorList],
-    queryFn: () => {
-      return getLessons(1, regionList, majorList)
-    },
-  })
+  // await queryClient.prefetchInfiniteQuery({
+  //   queryKey: ["lessons", regionList, majorList],
+  //   queryFn: () => {
+  //     return getLessons(1, regionList, majorList)
+  //   },
+  // })
 
-  const dehydratedState = dehydrate(queryClient)
+  // const dehydratedState = dehydrate(queryClient)
 
   return (
-    <Hydrate state={dehydratedState}>
-      <EducationContainer />
-    </Hydrate>
+    // <Hydrate state={dehydratedState}>
+    <EducationContainer />
+    // </Hydrate>
   )
 }
 

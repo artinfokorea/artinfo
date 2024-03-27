@@ -5,21 +5,21 @@ import { Hydrate, dehydrate } from "@tanstack/react-query"
 import React from "react"
 
 const page = async () => {
-  const queryClient = GetQueryClient()
+  // const queryClient = GetQueryClient()
 
-  await queryClient.prefetchInfiniteQuery({
-    queryKey: ["artists"],
-    queryFn: () => {
-      return getArtists(1)
-    },
-  })
+  // await queryClient.prefetchInfiniteQuery({
+  //   queryKey: ["artists"],
+  //   queryFn: () => {
+  //     return getArtists(1)
+  //   },
+  // })
 
-  const dehydratedState = dehydrate(queryClient)
+  // const dehydratedState = dehydrate(queryClient)
 
   return (
-    <Hydrate state={dehydratedState}>
-      <ArtistsContainer />
-    </Hydrate>
+    // <Hydrate state={dehydratedState}>
+    <ArtistsContainer />
+    // </Hydrate>
   )
 }
 

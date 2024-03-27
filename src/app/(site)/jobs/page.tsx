@@ -10,20 +10,20 @@ interface Props {
 export default async function JobsPage({ searchParams }: Props) {
   const { majors } = searchParams
   const selectedMajorList = majors ? majors.split(",") : []
-  const queryClient = GetQueryClient()
+  // const queryClient = GetQueryClient()
 
-  await queryClient.prefetchInfiniteQuery({
-    queryKey: ["recruit_jobs", selectedMajorList],
-    queryFn: () => {
-      return getJobs(1, selectedMajorList)
-    },
-  })
+  // await queryClient.prefetchInfiniteQuery({
+  //   queryKey: ["recruit_jobs", selectedMajorList],
+  //   queryFn: () => {
+  //     return getJobs(1, selectedMajorList)
+  //   },
+  // })
 
-  const dehydratedState = dehydrate(queryClient)
+  // const dehydratedState = dehydrate(queryClient)
 
   return (
-    <Hydrate state={dehydratedState}>
-      <JobContainer />
-    </Hydrate>
+    // <Hydrate state={dehydratedState}>
+    <JobContainer />
+    // </Hydrate>
   )
 }

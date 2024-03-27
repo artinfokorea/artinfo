@@ -8,22 +8,22 @@ interface Props {
   searchParams: { keyword: string }
 }
 export default async function Concerts({ searchParams: { keyword } }: Props) {
-  const queryClient = GetQueryClient()
+  // const queryClient = GetQueryClient()
 
-  await queryClient.prefetchInfiniteQuery({
-    queryKey: ["concerts", keyword],
-    queryFn: () => {
-      return getConcerts(1, keyword)
-    },
-  })
+  // await queryClient.prefetchInfiniteQuery({
+  //   queryKey: ["concerts", keyword],
+  //   queryFn: () => {
+  //     return getConcerts(1, keyword)
+  //   },
+  // })
 
-  await queryClient.prefetchQuery({
-    queryKey: ["keywordList"],
-    queryFn: () => getConcertKeywords(5),
-    staleTime: 1000 * 60 * 60 * 24,
-  })
+  // await queryClient.prefetchQuery({
+  //   queryKey: ["keywordList"],
+  //   queryFn: () => getConcertKeywords(5),
+  //   staleTime: 1000 * 60 * 60 * 24,
+  // })
 
-  const dehydratedState = dehydrate(queryClient)
+  // const dehydratedState = dehydrate(queryClient)
 
   return (
     <div className="sm:container mx-auto pt-4 px-4 ">
@@ -31,9 +31,9 @@ export default async function Concerts({ searchParams: { keyword } }: Props) {
         <h2 className="text-2xl font-bold mb-4">공연</h2>
         <ChipButton url="/concerts/create" title="공연등록" />
       </div>
-      <Hydrate state={dehydratedState}>
-        <ConcertContainer />
-      </Hydrate>
+      {/* <Hydrate state={dehydratedState}> */}
+      <ConcertContainer />
+      {/* </Hydrate> */}
     </div>
   )
 }
