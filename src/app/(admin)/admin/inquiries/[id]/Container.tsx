@@ -55,7 +55,6 @@ export default function Container({ inquiryId }: IProps) {
   })
 
   const updateInquiry = async (payload: FormData) => {
-    console.log("payload", payload)
     if (!user) {
       return
     }

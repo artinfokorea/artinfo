@@ -13,7 +13,7 @@ export default async function page() {
   const { data } = await supabase.auth.getSession()
 
   await queryClient.prefetchInfiniteQuery({
-    queryKey: ["feeds", data.session?.user.id],
+    queryKey: ["feeds"],
     queryFn: () => {
       return getFeeds({
         page: 1,

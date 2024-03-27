@@ -238,7 +238,6 @@ const EducationForm = ({ type, lesson }: Props) => {
           throw uploadError
         }
         const fileUrl = `https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/${data.path}`
-        console.log(fileUrl)
 
         // const { error: updateError } = await supabase
         //   .from("lessons")
@@ -268,7 +267,6 @@ const EducationForm = ({ type, lesson }: Props) => {
 
       await queryClient.invalidateQueries({ queryKey: ["lessons"] })
       successToast("레슨이 등록되었습니다.")
-      console.log("SUCCESS!")
       router.replace("/educations")
     } catch (error: any) {
       errorToast("레슨 등록에 실패했습니다.")
@@ -306,7 +304,6 @@ const EducationForm = ({ type, lesson }: Props) => {
     try {
       // upload file
 
-      console.log("uploadedImage", uploadedImage)
       if (uploadedImage) {
         // const filename = uploadedImage.name
         const filename = new Date().getTime().toString()
@@ -322,7 +319,7 @@ const EducationForm = ({ type, lesson }: Props) => {
           throw uploadError
         }
         const fileUrl = `https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/${data.path}`
-        console.log(fileUrl)
+
         formData.imageUrl = fileUrl
 
         await apiRequest.put(`/lessons/${params.id}`, formData)
@@ -335,7 +332,6 @@ const EducationForm = ({ type, lesson }: Props) => {
       await queryClient.invalidateQueries({ queryKey: ["lessons"] })
       await queryClient.invalidateQueries({ queryKey: ["lesson"] })
       successToast("레슨이 수정되었습니다.")
-      console.log("SUCCESS!")
 
       router.replace("/educations")
     } catch (error: any) {
@@ -355,7 +351,6 @@ const EducationForm = ({ type, lesson }: Props) => {
 
   const handleComplete = (payload: FormData) => {
     if (type === "update" && lesson) {
-      console.log("update")
       handleUpdateLesson(payload)
     } else if (type === "create") {
       createLesson(payload)

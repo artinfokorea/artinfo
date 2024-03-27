@@ -109,7 +109,6 @@ export default function CreatePost() {
           queryKey: ["feeds", `/${secretCategory}`],
         })
         successToast("피드가 작성되었습니다.")
-        console.log("SUCCESS!")
         router.push(`/${secretCategory}`)
       }
     } catch (error) {

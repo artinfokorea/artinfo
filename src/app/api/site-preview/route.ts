@@ -92,7 +92,6 @@ export async function GET(request: NextRequest) {
     }
 
     myCache.set(cacheKey, metadata)
-    console.log("metadata", metadata)
     return NextResponse.json(metadata)
   } catch (e: any) {
     const error_response = {

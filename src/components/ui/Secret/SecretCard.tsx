@@ -89,7 +89,7 @@ export function SecretCard({
       setSitePreviewData(sitePreviewDataFromDB)
       return
     }
-    console.log("sitePreviewData", sitePreviewData)
+
     try {
       const data = await fetchSiteMetaData(url)
       setSitePreviewData(data)
