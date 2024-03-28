@@ -73,6 +73,7 @@ export default function Container() {
     deleteFeedMutate(feedId)
   }
 
+  console.log("feedsData", feedsData)
   return (
     <div
       ref={containerEl}

@@ -27,7 +27,6 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import "swiper/css"
 import { Pagination } from "swiper/modules"
 import PostSitePreview from "@/components/ui/Post/PostSitePreview"
-import dayjs from "dayjs"
 
 const useTruncatedElement = ({ ref }: any) => {
   const [isTruncated, setIsTruncated] = useState(false)
