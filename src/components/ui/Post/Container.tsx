@@ -8,6 +8,8 @@ import { FEED } from "@/types/types"
 import { getFeeds } from "@/apis/feed"
 import ListWithLatestJobs from "@/components/ui/LatestJobs/ListWithLatestJobs"
 import { useFeedMutation } from "@/hooks/useFeedMutation"
+import LockIcon from "@/components/icons/Lock"
+import { useRouter } from "next/navigation"
 import { useRef, useState } from "react"
 import { PostCard } from "./PostCard"
 import AdContainer from "../Home/ad/AdContainer"
@@ -30,6 +32,7 @@ export default function Container() {
   const [secretTab, setSecretTab] = useState(false)
   const containerEl = useRef<HTMLDivElement>(null)
   const { updateFeedLike, deleteFeedMutate } = useFeedMutation({ type: "post" })
+  const router = useRouter()
 
   const [ref, inView] = useInView({
     delay: 300,
@@ -73,7 +76,6 @@ export default function Container() {
     deleteFeedMutate(feedId)
   }
 
-  console.log("feedsData", feedsData)
   return (
     <div
       ref={containerEl}
@@ -83,10 +85,10 @@ export default function Container() {
       <div className="flex my-2">
         <div className="flex-1 overflow-hidden" id="top">
           <div className="feed-groups pb-5">
-            {/* {!secretTab ? (
-              <div className="flex justify-center px-4 md:px-0 mb-2 bg-[#F1F4FF]">
+            {!secretTab ? (
+              <div className="flex justify-center px-4 md:px-0 mb-2 ">
                 <button
-                  className="flex w-full py-2 justify-center items-center rounded-md border border-grey hover:shadow-md"
+                  className="flex w-full h-[46px] py-2 justify-center items-center rounded-md border border-grey hover:shadow-md bg-[#F1F4FF]"
                   onClick={() => setSecretTab(!secretTab)}
                 >
                   <LockIcon className="w-5 h-5 md:w-6 md:h-6" />
@@ -110,7 +112,7 @@ export default function Container() {
                   국·시립교향악단
                 </button>
               </div>
-            )} */}
+            )}
 
             <AdSection />
 

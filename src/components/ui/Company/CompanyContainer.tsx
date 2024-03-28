@@ -156,6 +156,12 @@ const OrganizationAuthContainer = () => {
         <h2 className="text-2xl font-bold text-center md:text-left">
           소속단체 인증
         </h2>
+        <div className="bg-white px-4 py-6 my-4 text-sm rounded-xl break-keep">
+          본 게시판은 국·시립합창단, 교향악단 임직원 전용{" "}
+          <strong className="text-error font-semibold">익명 게시판</strong>으로
+          국·시립합창단, 교향악단에 대한 질문, 답변 및 이슈를 공유하는
+          게시판입니다.
+        </div>
         <form
           className="my-8"
           onSubmit={handleSubmit(handleCompanyCertificate)}
@@ -201,7 +207,8 @@ const OrganizationAuthContainer = () => {
           <div className="grid items-center gap-1.5 mb-2">
             <Label htmlFor="익명 아이디">익명 아이디</Label>
             <span className="text-xs text-dimgray font-semibold">
-              익명게시판에서 사용하실 닉네임입니다.
+              <strong className="text-error">익명게시판</strong>에서 사용하실
+              닉네임입니다.
             </span>
             <Input
               type="text"
