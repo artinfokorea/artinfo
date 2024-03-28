@@ -174,7 +174,7 @@ export default function Container({ pageId }: IProps) {
     deleteFeedMutation.mutate(feedId)
     router.back()
   }
-  console.log("feedssr", feed.isLiking)
+
   return (
     <div className="pb-8 relative">
       <PostCard

@@ -41,7 +41,7 @@ export default function Container() {
     hasNextPage,
     fetchNextPage,
   } = useInfiniteQuery({
-    queryKey: ["feeds"],
+    queryKey: ["feeds", user?.id],
     suspense: true,
     queryFn: ({ pageParam = 1 }) => {
       return getFeeds({

@@ -27,6 +27,7 @@ export const useFeedMutation = ({ type }: Props) => {
     onMutate: updateLike => {
       const queryKey = ["feeds"]
 
+      if (type === "post" && user?.id) queryKey.push(user.id)
       if (type === "artist" && params.id) queryKey.push(params.id as string)
       if (type === "secret" && pathname) queryKey.push(pathname)
 
@@ -55,10 +56,9 @@ export const useFeedMutation = ({ type }: Props) => {
       })
     },
     onSuccess: () => {
-      queryClient.invalidateQueries()
-      // queryClient.invalidateQueries(["feeds", pathname])
-      // queryClient.invalidateQueries(["feeds"])
-      // queryClient.invalidateQueries(["feeds", params.id])
+      queryClient.invalidateQueries(["feeds", pathname])
+      queryClient.invalidateQueries(["feeds", user?.id])
+      queryClient.invalidateQueries(["feeds", params.id])
     },
   })
 
@@ -70,10 +70,9 @@ export const useFeedMutation = ({ type }: Props) => {
       errorToast(error.message)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries()
-      // queryClient.invalidateQueries(["feeds", pathname])
-      // queryClient.invalidateQueries(["feeds"])
-      // queryClient.invalidateQueries(["feeds", params.id])
+      queryClient.invalidateQueries(["feeds", pathname])
+      queryClient.invalidateQueries(["feeds", user?.id])
+      queryClient.invalidateQueries(["feeds", params.id])
       successToast("게시글이 삭제되었습니다.")
     },
   })

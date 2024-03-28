@@ -15,7 +15,6 @@ import { SecretCard } from "./SecretCard"
 const SecretContainer = () => {
   const pathname = usePathname()
   const { user } = useAuth()
-  const containerEl = useRef<HTMLDivElement>(null)
   const { updateFeedLike, deleteFeedMutate } = useFeedMutation({
     type: "secret",
   })
@@ -62,6 +61,11 @@ const SecretContainer = () => {
 
   return (
     <div className="mx-auto max-w-screen-md lg:px-0 pt-0 md:pt-2">
+      <div className="text-xl font-semibold p-4">
+        <h2>
+          {pathname === "/orchestra" ? "국·시립교향악단" : "국·시립합창단"}
+        </h2>
+      </div>
       <div>
         <WriteFeedCard secret={pathname === "/choir" ? "choir" : "orchestra"} />
       </div>
