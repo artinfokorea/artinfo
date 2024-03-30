@@ -1,0 +1,24 @@
+steps:
+  - name: docker/compose:1.29.0
+    args:
+      - -f
+      - docker-compose.yaml
+      - build
+
+  - name: docker/compose:1.29.0
+    args:
+      - -f
+      - docker-compose.yaml
+      - push
+
+#  - name: 'gcr.io/cloud-builders/kubectl'
+#    args:
+#      [
+#        'set',
+#        'image',
+#        'deployment/shaki-back',
+#        'shaki-registry-sha256-1=asia.gcr.io/imposing-coast-358400/shaki-registry:3',
+#      ]
+#    env:
+#      - CLOUDSDK_COMPUTE_ZONE=asia-northeast3
+#      - CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-1
