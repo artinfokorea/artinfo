@@ -10,3 +10,6 @@ services:
       - ./src:/artinfo/src
     ports:
       - 3000:3000
+
+options:
+  logging: CLOUD_LOGGING_ONLY
