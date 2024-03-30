@@ -2,8 +2,7 @@ version: '3.7'
 
 services:
   artinfo-frontend:
-    # image: asia.gcr.io/artinfo-398400/artinfo-frontend:1.0
-    image: asia-northeast3/artinfo-398400/artinfo-frontend:1.0
+    image: asia.gcr.io/artinfo-398400/artinfo-frontend:1.0
     build:
       context: .
       dockerfile: Dockerfile
