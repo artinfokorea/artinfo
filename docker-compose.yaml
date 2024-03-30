@@ -1,15 +1,10 @@
 version: '3.7'
 
 services:
-  artinfo-frontend:
-    image: asia-northeast3/artinfo-398400/artinfo-frontend:1.0
+  shaki-backend:
+    image: asia.gcr.io/artinfo-405802/artinfo-frontend:1.0
     build:
       context: .
       dockerfile: Dockerfile
-    volumes:
-      - ./src:/artinfo/src
     ports:
       - 3000:3000
-
-options:
-  logging: CLOUD_LOGGING_ONLY
