@@ -1,25 +1,12 @@
 steps:
-  - name: docker/compose:1.29.0
+  - name: 'gcr.io/cloud-builders/docker'
     args:
-      - -f
-      - docker-compose.yaml
-      - build
+      - 'build'
+      - '-t'
+      - 'asia.gcr.io/artinfo-398400/artinfo-frontend:1.0' 
+      - '.'  # Dockerfile의 위치 (현재 디렉토리)
 
-  - name: docker/compose:1.29.0
+  - name: 'gcr.io/cloud-builders/docker'
     args:
-      - -f
-      - docker-compose.yaml
-      - push
-
-
-#  - name: 'gcr.io/cloud-builders/kubectl'
-#    args:
-#      [
-#        'set',
-#        'image',
-#        'deployment/shaki-back',
-#        'shaki-registry-sha256-1=asia.gcr.io/imposing-coast-358400/shaki-registry:3',
-#      ]
-#    env:
-#      - CLOUDSDK_COMPUTE_ZONE=asia-northeast3
-#      - CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-1
+      - 'push'
+      - 'asia.gcr.io/artinfo-398400/artinfo-frontend:1.0' 
