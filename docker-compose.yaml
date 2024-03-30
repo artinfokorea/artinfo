@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  artinfo-backend:
+    image: asia.gcr.io/artinfo-398400/artinfo-frontend:1.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
