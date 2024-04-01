@@ -7,13 +7,16 @@ const loading = () => {
   const count = [1, 2, 3, 4, 5]
 
   return (
-    <div className="mx-auto max-w-screen-lg lg:px-0 h-screen pt-0 md:pt-2">
+    <div className="mx-auto max-w-screen-lg px-4 mt-2 lg:px-0 h-screen md:pt-2">
       <div className="py-2 px-4 md:p-0 mb-2 h-[140px] md:h-[250px] bg-lightgrey rounded-xl shadow skeleton-list-item" />
+
       <div className="flex my-2">
         <div className="flex-1 overflow-hidden" id="top">
           {/* <VisitorSkeleton /> */}
-          <div className="feed-groups m-5">
-            <div className="h-5 skeleton-list-item my-2 w-20 rounded-lg" />
+
+          <div className="feed-groups ">
+            <div className="h-[46px]  skeleton-list-item rounded-lg mb-2" />
+            {/* <div className="h-5 skeleton-list-item my-2 w-20 rounded-lg" /> */}
 
             <div className="flex">
               {count.map(item => {
