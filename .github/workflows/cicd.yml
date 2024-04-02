@@ -75,7 +75,6 @@ jobs:
         run: |
           docker rm -f ${{ env.CONTANIER_NAME1 }}
           docker run -d -p 3000:3000 --name ${{ env.CONTANIER_NAME1 }} --cpus=1 --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
-
           sleep 10
           
           docker rm -f ${{ env.CONTANIER_NAME2 }}
