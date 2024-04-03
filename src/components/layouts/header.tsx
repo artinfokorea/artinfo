@@ -30,6 +30,7 @@ import { userProfileState } from "@/atoms/userProfile"
 import { useRecoilState } from "recoil"
 import { isMobileWeb } from "@toss/utils"
 import { scrollDirState } from "@/atoms/scrollDir"
+import { getUser } from "@/apis/user"
 
 function ProfileMenu() {
   const { user, signOut } = useAuth()
@@ -200,18 +201,16 @@ export default function Header() {
 
   useEffect(() => {
     if (user) {
-      fetchProfile(user.id)
+      getUser(user.id)
         .then(res => {
           setUserProfile({
-            userImage: res[0].icon_image_url ?? "",
-            name: res[0].name,
+            userImage: res.iconImageUrl || "/img/placeholder_user.png",
+            name: res.publicNickname ?? res.name,
           })
         })
         .catch(err => {
           console.log(err)
         })
-    } else {
-      setUserProfile({ ...userProfile, name: "" })
     }
   }, [user])
 

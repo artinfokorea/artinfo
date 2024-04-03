@@ -6,7 +6,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query"
-import { CommentType } from "@/types/types"
+import { Comment, CommentType } from "@/types/types"
 import { useAuth } from "@/components/ui/Auth/AuthProvider"
 import { notFound, usePathname, useRouter } from "next/navigation"
 import dynamic from "next/dynamic"
@@ -202,7 +202,7 @@ export default function SecretDetailContainer({ pageId }: IProps) {
             </div>
           )}
           {commentsData?.pages.map(group => {
-            return group.comments.map(comment => (
+            return group.comments.map((comment: any) => (
               <CommentRow
                 key={comment.id}
                 comment={comment}

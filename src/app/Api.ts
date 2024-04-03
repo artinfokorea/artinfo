@@ -110,9 +110,12 @@ export async function fetchComments({
   const supabase = useSupabase()
   const { data, count, error } = await supabase
     .from("comments")
-    .select("*, profiles(id, name, icon_image_url)", {
-      count: "exact",
-    })
+    .select(
+      "*, profiles(id, name, icon_image_url, public_nickname, secret_nickname)",
+      {
+        count: "exact",
+      },
+    )
     .match({ type: "POST", post_id: postId })
     .order("created_at", {
       ascending: true,

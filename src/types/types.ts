@@ -235,6 +235,8 @@ export type Comment = {
     id: string
     name: string
     icon_image_url?: string | null
+    public_nickname?: string
+    secret_nickname?: string
   } | null
 } & CommentRow
 

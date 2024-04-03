@@ -60,7 +60,7 @@ const SecretContainer = () => {
   }
 
   return (
-    <div className="mx-auto max-w-screen-md lg:px-0 pt-0 md:pt-2">
+    <div className="mx-auto max-w-screen-md lg:px-0 pt-0 md:pt-2 pb-10">
       <div className="text-xl font-semibold p-4">
         <h2>
           {pathname === "/orchestra" ? "국·시립교향악단" : "국·시립합창단"}

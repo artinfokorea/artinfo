@@ -82,7 +82,9 @@ export default function ProfileCard({ user }: IProps) {
       }
 
       await updateMe(updateForm)
-      if (payload?.name) setUserProfile({ ...userProfile, name: payload.name })
+      if (updateForm.publicNickname) {
+        setUserProfile({ ...userProfile, name: updateForm.publicNickname })
+      }
       successToast("닉네임이 변경되었습니다.")
       queryClient.invalidateQueries(["user", user.id])
     } catch (error: any) {

@@ -197,7 +197,7 @@ export default function Container({ pageId }: IProps) {
             </div>
           )}
           {commentsData?.pages.map(group => {
-            return group.comments.map(comment => (
+            return group.comments.map((comment: any) => (
               <CommentRow
                 key={comment.id}
                 comment={comment}

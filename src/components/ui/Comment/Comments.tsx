@@ -97,7 +97,11 @@ export function CommentRow({
             }
           >
             <div>
-              <div className="text-sm leading-4">{comment.profiles?.name}</div>
+              <div className="text-sm leading-4">
+                {!secret
+                  ? comment.profiles?.public_nickname || comment.profiles?.name
+                  : comment.profiles?.secret_nickname || "익명"}
+              </div>
               <div className="text-xs font-light">
                 {filters.FROM_NOW_COMMENT(comment.created_at)}
               </div>
