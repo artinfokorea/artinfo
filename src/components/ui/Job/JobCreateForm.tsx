@@ -115,7 +115,6 @@ const JobCreateForm = ({ type, job }: Props) => {
   }, [job])
 
   const handleCreateJob = async (payload: FormData) => {
-    console.log("payload", payload)
     const { company_name, title, linkUrl } = payload
     if (!user) {
       return
@@ -154,7 +153,8 @@ const JobCreateForm = ({ type, job }: Props) => {
 
         await createJob(formData)
       } else {
-        formData.companyImageUrl = "12"
+        formData.companyImageUrl =
+          "https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/system/job-default%20(1).png"
         await createJob(formData)
       }
       await queryClient.invalidateQueries({ queryKey: ["recruit_jobs"] })
