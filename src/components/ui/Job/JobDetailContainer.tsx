@@ -11,9 +11,7 @@ import useAuth from "@/hooks/useAuth"
 import { TrashIcon } from "@heroicons/react/24/outline"
 import { Modal } from "@/components/common/Modal"
 import useToast from "@/hooks/useToast"
-import { Dialog } from "@headlessui/react"
 import { deleteJob, getJob } from "@/apis/job"
-import useFilters from "@/hooks/useFilters"
 import JobCreateForm from "./JobCreateForm"
 
 const ScrollButtonWrap = dynamic(
@@ -39,7 +37,6 @@ export default function JobDetailContainer({ jobId }: IProps) {
   const { errorToast, successToast } = useToast()
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
-  const filters = useFilters()
 
   const { data: job } = useQuery({
     queryKey: ["job", jobId],
@@ -162,7 +159,7 @@ export default function JobDetailContainer({ jobId }: IProps) {
                 <div
                   className="w-10/12 mx-auto editor_view"
                   dangerouslySetInnerHTML={{
-                    __html: filters.URLFY(job.contents) as string,
+                    __html: job.contents,
                   }}
                 />
               )}
