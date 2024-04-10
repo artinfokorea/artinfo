@@ -4,6 +4,7 @@ import Image from "next/image"
 import React from "react"
 import { Carousel } from "@/components/material"
 import Link from "next/link"
+import { AspectRatio } from "../aspect-ratio"
 
 const BannerContainer = () => {
   const { data: banners } = useQuery({
@@ -21,16 +22,18 @@ const BannerContainer = () => {
             href={banner.redirect_url as string}
             target="_blank"
           >
-            <div className="cursor-pointer relative h-[140px] md:h-[250px]">
-              <Image
-                src={banner.image_url}
-                alt="banner_image"
-                fill
-                quality={100}
-                unoptimized
-                sizes="(max-width: 680px) 500px 140px, (max-width: 1200px) 1200px, 250px"
-                className="rounded-xl shadow"
-              />
+            <div className="cursor-pointer relative ">
+              <AspectRatio ratio={4 / 1}>
+                <Image
+                  src={banner.image_url}
+                  alt="banner_image"
+                  fill
+                  quality={100}
+                  unoptimized
+                  sizes="(max-width: 680px) 500px 140px, (max-width: 1200px) 1200px, 250px"
+                  className="rounded-xl shadow"
+                />
+              </AspectRatio>
             </div>
           </Link>
         ))}
