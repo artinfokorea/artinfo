@@ -19,7 +19,7 @@ const loading = () => {
       <div className="flex my-2">
         <div className="flex-1 overflow-hidden" id="top">
           <div className="feed-groups ">
-            <div className="h-[46px]  skeleton-list-item rounded-lg mb-2" />
+            {/* <div className="h-[46px]  skeleton-list-item rounded-lg mb-2" /> */}
             {/* <div className="h-5 skeleton-list-item my-2 w-20 rounded-lg" /> */}
 
             <div className="flex">
