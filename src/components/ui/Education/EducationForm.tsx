@@ -14,7 +14,7 @@ import * as yup from "yup"
 import React, { useState, useMemo, useEffect, useRef, Fragment } from "react"
 import RegionSelect from "@/components/common/RegionSelect"
 import { RegionData } from "@/lib/regions"
-import { useParams, useRouter } from "next/navigation"
+import { useParams, usePathname, useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import FileUploader from "@/components/common/FileUploader"
@@ -96,6 +96,8 @@ const EducationForm = ({ type, lesson }: Props) => {
   const [isOpenModal, setIsOpenModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const params = useParams()
+  const pathname = usePathname()
+  const listPath = pathname.slice(0, pathname.lastIndexOf("/"))
 
   const openFileUploader = () => {
     fileUploader.current?.click()
@@ -267,7 +269,7 @@ const EducationForm = ({ type, lesson }: Props) => {
 
       await queryClient.invalidateQueries({ queryKey: ["lessons"] })
       successToast("레슨이 등록되었습니다.")
-      router.replace("/educations")
+      router.push(listPath)
     } catch (error: any) {
       errorToast("레슨 등록에 실패했습니다.")
       console.error(error.message)
@@ -284,7 +286,7 @@ const EducationForm = ({ type, lesson }: Props) => {
 
     if (user.id !== lesson.userId) {
       errorToast("본인의 레슨만 수정할 수 있습니다.")
-      router.replace("/educations")
+      router.push(listPath)
       return
     }
 
@@ -333,7 +335,7 @@ const EducationForm = ({ type, lesson }: Props) => {
       await queryClient.invalidateQueries({ queryKey: ["lesson"] })
       successToast("레슨이 수정되었습니다.")
 
-      router.replace("/educations")
+      router.push(listPath)
     } catch (error: any) {
       errorToast("레슨 수정에 실패했습니다.")
       console.error(error.message)
@@ -365,7 +367,7 @@ const EducationForm = ({ type, lesson }: Props) => {
       errorToast(error.message)
     },
     onSuccess: () => {
-      router.replace("/educations")
+      router.push(listPath)
       queryClient.invalidateQueries(["lessons"])
       successToast("레슨이 삭제되었습니다.")
     },

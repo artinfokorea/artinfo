@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import Link from "next/link"
 import { isMobileWeb } from "@toss/utils"
 import dynamic from "next/dynamic"
@@ -37,6 +37,8 @@ export default function JobDetailContainer({ jobId }: IProps) {
   const { errorToast, successToast } = useToast()
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
+  const pathname = usePathname()
+  const listPath = pathname.slice(0, pathname.lastIndexOf("/"))
 
   const { data: job } = useQuery({
     queryKey: ["job", jobId],
@@ -74,7 +76,7 @@ export default function JobDetailContainer({ jobId }: IProps) {
       errorToast(error.message)
     },
     onSuccess: () => {
-      router.replace("/jobs")
+      router.push(listPath)
       queryClient.invalidateQueries(["recruit_jobs"])
       successToast("채용 게시글이 삭제되었습니다.")
     },
@@ -87,7 +89,7 @@ export default function JobDetailContainer({ jobId }: IProps) {
 
     try {
       await deleteJob(job.id)
-      router.replace("/jobs")
+      router.push(listPath)
       queryClient.invalidateQueries(["recruit_jobs"])
       successToast("채용 게시글이 삭제되었습니다.")
     } catch (error) {

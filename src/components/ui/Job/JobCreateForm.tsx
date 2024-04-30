@@ -9,7 +9,7 @@ import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import FileUploader from "@/components/common/FileUploader"
 import useSupabase from "@/hooks/useSupabase"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import useAuth from "@/hooks/useAuth"
 import { JobDetail } from "@/types/types"
 import dynamic from "next/dynamic"
@@ -55,19 +55,19 @@ const JobCreateForm = ({ type, job }: Props) => {
   const [uploadedImageUrl, setUploadedImageUrl] = useState(
     job?.companyImageUrl || "",
   )
-
   const [htmlStr, setHtmlStr] = useState<string>("")
   const [selectedMajor, setSelectedMajor] = useState("")
   const [selectedMajorList, setSelectedMajorList] = useState<string[]>(
     job?.majors || [],
   )
-
   const [isMajorModal, setIsMajorModal] = useState(false)
   const supabase = useSupabase()
   const router = useRouter()
   const quillRef = useRef()
   const queryClient = useQueryClient()
   const { successToast } = useToast()
+  const pathname = usePathname()
+  const listPath = pathname.slice(0, pathname.lastIndexOf("/"))
 
   const {
     register,
@@ -159,7 +159,7 @@ const JobCreateForm = ({ type, job }: Props) => {
       }
       await queryClient.invalidateQueries({ queryKey: ["recruit_jobs"] })
       successToast("채용 글이 등록되었습니다.")
-      router.push("/jobs")
+      router.push(listPath)
     } catch (error) {
       console.error(error)
       Sentry.captureException(error)
@@ -211,7 +211,7 @@ const JobCreateForm = ({ type, job }: Props) => {
       }
       await queryClient.invalidateQueries({ queryKey: ["recruit_jobs"] })
       successToast("채용 글이 수정되었습니다.")
-      router.push("/jobs")
+      router.push(listPath)
     } catch (error) {
       console.error(error)
       Sentry.captureException(error)
@@ -361,7 +361,7 @@ const JobCreateForm = ({ type, job }: Props) => {
                   color="red"
                   variant="text"
                   className="rounded-md whitespace-nowrap"
-                  onClick={() => router.push("/jobs")}
+                  onClick={() => router.push(listPath)}
                 >
                   뒤로가기
                 </Button>

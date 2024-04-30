@@ -14,7 +14,7 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import dynamic from "next/dynamic"
 import useToast from "@/hooks/useToast"
 import { CONCERT, IConcert } from "@/types/types"
@@ -62,19 +62,20 @@ const ConcertForm = ({ type, concert }: Props) => {
     type === "create" ? "ETC" : concert?.category || "ETC",
   )
   const [isActive, setIsActive] = useState<boolean>(concert?.isActive || true)
-
   const router = useRouter()
   const [startedAt, setStartedAt] = useState(
     concert?.performanceTime
       ? dayjs(concert?.performanceTime).add(9, "hour")
       : dayjs(),
   )
-
   const [htmlStr, setHtmlStr] = useState<string>(concert?.contents || "")
   const [uploadedImageUrl, setUploadedImageUrl] = useState(
     concert?.posterUrl || "",
   )
   const quillRef = useRef()
+  const pathname = usePathname()
+  const listPath = pathname.slice(0, pathname.lastIndexOf("/"))
+
   const { successToast, errorToast } = useToast()
 
   const handleUploadedFiles = (files: File[]) => {
@@ -86,8 +87,6 @@ const ConcertForm = ({ type, concert }: Props) => {
   const openFileUploader = () => {
     fileUploader.current?.click()
   }
-
-  console.log("concert", concert)
 
   const isValidForm = location?.length >= 5 && title.length && uploadedImageUrl
 
@@ -166,7 +165,7 @@ const ConcertForm = ({ type, concert }: Props) => {
       await queryClient.invalidateQueries({ queryKey: ["concerts"] })
       successToast("공연이 등록되었습니다.")
       console.log("SUCCESS!")
-      router.replace("/concerts")
+      router.push(listPath)
     } catch (error: any) {
       errorToast(error.message)
       console.error(error)
@@ -241,7 +240,7 @@ const ConcertForm = ({ type, concert }: Props) => {
 
       await queryClient.invalidateQueries()
       successToast("공연이 수정되었습니다.")
-      router.replace("/concerts")
+      router.push(listPath)
     } catch (error: any) {
       errorToast(error.message)
       console.error(error)
@@ -259,7 +258,7 @@ const ConcertForm = ({ type, concert }: Props) => {
           variant="text"
           size="md"
           className=" text-black md:hidden"
-          onClick={() => router.replace("/concerts")}
+          onClick={() => router.push(listPath)}
         >
           <XMarkIcon className="w-6" />
         </IconButton>

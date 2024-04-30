@@ -6,7 +6,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query"
-import { Comment, CommentType } from "@/types/types"
+import { CommentType } from "@/types/types"
 import { useAuth } from "@/components/ui/Auth/AuthProvider"
 import { notFound, usePathname, useRouter } from "next/navigation"
 import dynamic from "next/dynamic"

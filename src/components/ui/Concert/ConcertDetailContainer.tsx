@@ -13,7 +13,7 @@ import { useEffect, useState, useRef } from "react"
 import useAuth from "@/hooks/useAuth"
 import { Modal } from "@/components/common/Modal"
 import useToast from "@/hooks/useToast"
-import { useRouter, useSearchParams } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import ConcertForm from "./ConcertForm"
 
 const ScrollButtonWrap = dynamic(
@@ -37,16 +37,17 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
   const searchParams = useSearchParams()
   const type = searchParams.get("type")
   const [pageType, setPageType] = useState(type || "read")
+  const isMobile = isMobileWeb()
+  const { user } = useAuth()
+  const filters = useFilters()
+  const router = useRouter()
+  const pathname = usePathname()
+  const listPath = pathname.slice(0, pathname.lastIndexOf("/"))
 
   const { data: concert } = useQuery({
     queryKey: ["concert", pageId],
     queryFn: () => getConcert(pageId),
   })
-
-  const isMobile = isMobileWeb()
-  const { user } = useAuth()
-  const filters = useFilters()
-  const router = useRouter()
 
   useEffect(() => {
     const userAgent = navigator.userAgent.toLowerCase()
@@ -65,7 +66,7 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
       })
     }
   }
-  const deleteFeedMutation = useMutation({
+  const deleteConcertMutaion = useMutation({
     mutationFn: (concertId: number) => {
       return deleteConcert(concertId)
     },
@@ -73,7 +74,7 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
       errorToast(error.message)
     },
     onSuccess: () => {
-      router.replace("/concerts")
+      router.push(listPath)
       queryClient.invalidateQueries()
       successToast("공연이 삭제되었습니다.")
     },
@@ -82,7 +83,7 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
   const handleDeleteConcert = () => {
     setIsOpenModal(true)
     if (concert?.id) {
-      deleteFeedMutation.mutate(concert.id)
+      deleteConcertMutaion.mutate(concert.id)
     } else {
       errorToast("삭제할 수 없습니다.")
     }
@@ -103,7 +104,7 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
       if (link.includes("/artists")) {
         router.back()
       } else {
-        router.replace("/concerts")
+        router.push(listPath)
       }
     }
   }

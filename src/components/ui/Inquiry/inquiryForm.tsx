@@ -58,7 +58,7 @@ const InquiryForm = () => {
 
       // openSnackbar("문의가 등록되었습니다.", 2000)
       successToast("문의가 등록되었습니다.")
-      router.push("/posts")
+      router.push("/")
     } catch (e) {
       console.log("error", e)
     }

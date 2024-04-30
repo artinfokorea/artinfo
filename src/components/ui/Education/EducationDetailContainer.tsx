@@ -13,7 +13,7 @@ import LocationTag from "@/components/common/LocationTag"
 import { clipboard, isMobileWeb } from "@toss/utils"
 import useToast from "@/hooks/useToast"
 import useAuth from "@/hooks/useAuth"
-import { useRouter, useSearchParams } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { getLesson } from "@/apis/lesson"
 import EducationForm from "./EducationForm"
 
@@ -37,6 +37,8 @@ const EducationDetailContainer = ({ pageId }: Props) => {
   const [pageType, setPageType] = useState("read")
   const params = useSearchParams()
   const typeParam = params.get("type")
+  const pathname = usePathname()
+  const listPath = pathname.slice(0, pathname.lastIndexOf("/"))
 
   const { data: lesson } = useQuery({
     queryKey: ["lesson", pageId],
@@ -58,7 +60,7 @@ const EducationDetailContainer = ({ pageId }: Props) => {
       errorToast(error.message)
     },
     onSuccess: () => {
-      router.replace("/educations")
+      router.push(listPath)
       queryClient.invalidateQueries(["lessons"])
       successToast("레슨이 삭제되었습니다.")
     },
