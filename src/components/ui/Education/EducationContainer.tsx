@@ -136,7 +136,7 @@ const EducationContainer = () => {
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
     useInfiniteQuery(
       ["lessons", selectedRegionList, selectedMajorList],
-      ({ pageParam = 0 }) => {
+      ({ pageParam = 1 }) => {
         return getLessons(pageParam, selectedRegionList, selectedMajorList)
       },
       {
