@@ -244,11 +244,7 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
             </div>
           )}
           {isMobile && (
-            <ScrollButtonWrap
-              handleScroll={handleScroll}
-              list="concerts"
-              goToBack={goToBack}
-            />
+            <ScrollButtonWrap handleScroll={handleScroll} goToBack={goToBack} />
           )}
 
           <Modal

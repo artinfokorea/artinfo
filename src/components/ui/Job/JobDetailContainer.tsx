@@ -213,9 +213,7 @@ export default function JobDetailContainer({ jobId }: IProps) {
               </Link>
             </div>
           )}
-          {isMobile && (
-            <ScrollButtonWrap handleScroll={handleScroll} list="jobs" />
-          )}
+          {isMobile && <ScrollButtonWrap handleScroll={handleScroll} />}
 
           <Modal
             title="채용 글 삭제"

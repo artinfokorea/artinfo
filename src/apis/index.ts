@@ -1,5 +1,6 @@
-import axios, { AxiosRequestConfig } from "axios"
+import axios, { AxiosError, AxiosRequestConfig } from "axios"
 import { url } from "inspector"
+import { notFound } from "next/navigation"
 
 const baseURL = process.env.NEXT_PUBLIC_REST_API
 
@@ -10,7 +11,18 @@ const baseInstance = axios.create({
   },
 })
 
-baseInstance.interceptors.response.use(({ data }) => data)
+baseInstance.interceptors.response.use(
+  ({ data }) => data,
+  (error: AxiosError) => {
+    const { response } = error // // 404 에러 처리
+    if (response?.status === 404) {
+      notFound()
+    }
+
+    // 기본적으로 에러를 던집니다.
+    return Promise.reject(error)
+  },
+)
 
 interface ApiResponse<T> {
   success: boolean

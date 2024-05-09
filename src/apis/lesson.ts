@@ -47,10 +47,10 @@ export const getLessons = async (
 }
 
 export const getLesson = async (id: number) => {
-  try {
-    const response = await apiRequest.get<LESSON>(`/lessons/${id}`)
-    return response
-  } catch (error) {
-    throw new Error(exceptionHandler(error, "API getLesson error"))
-  }
+  // try {
+  const response = await apiRequest.get<LESSON>(`/lessons/${id}`)
+  return response
+  // } catch (error) {
+  //   throw new Error(exceptionHandler(error, "API getLesson error"))
+  // }
 }

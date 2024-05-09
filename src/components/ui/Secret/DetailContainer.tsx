@@ -246,7 +246,7 @@ export default function SecretDetailContainer({ pageId }: IProps) {
       </div>
       {isMobile ? (
         <div className="fixed bottom-32 right-3">
-          <ListButton list={path.split("/")[1]} />
+          {/* <ListButton list={path.split("/")[1]} /> */}
         </div>
       ) : (
         <div className="flex justify-center">

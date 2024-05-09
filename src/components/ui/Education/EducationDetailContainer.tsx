@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react"
 import Image from "next/image"
 import { DEGREE, DEGREE_VALUES, LESSON } from "@/types/types"
+import { PageType } from "@/interface/common"
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query"
 import { ClipboardDocumentListIcon } from "@heroicons/react/24/outline"
 import uuid from "react-uuid"
@@ -34,9 +35,9 @@ const EducationDetailContainer = ({ pageId }: Props) => {
   const router = useRouter()
   const queryClient = useQueryClient()
   const { user } = useAuth()
-  const [pageType, setPageType] = useState("read")
+  const [pageType, setPageType] = useState<PageType>(PageType.read)
   const params = useSearchParams()
-  const typeParam = params.get("type")
+  const typeParam = params.get("type") as PageType | null
   const pathname = usePathname()
   const listPath = pathname.slice(0, pathname.lastIndexOf("/"))
 
@@ -71,12 +72,12 @@ const EducationDetailContainer = ({ pageId }: Props) => {
   }
 
   useEffect(() => {
-    if (typeParam === "update") setPageType("update")
+    if (typeParam === PageType.update) setPageType(PageType.update)
   }, [typeParam])
 
   return (
     <div className="max-w-screen-lg mx-auto mt-4 pb-40 md:pb-0">
-      {pageType === "read" && (
+      {pageType === PageType.read && (
         <>
           <div className="flex flex-col md:flex-row mt-20 mx-5 md:mx-0 ">
             <div className="relative mx-auto md:mx-0 w-[280px] h-[400px] md:w-[320px]">
@@ -148,21 +149,20 @@ const EducationDetailContainer = ({ pageId }: Props) => {
               </div>
               <div className="my-4 flex ">
                 <span className="text-lg font-medium opacity-60">연락처</span>
-                {!isPhoneShow && (
-                  <button
-                    className="text-blue-500 font-semibold text-lg ml-4"
-                    onClick={() => setIsPhoneShow(!isPhoneShow)}
-                  >
-                    연락처보기
-                  </button>
-                )}
-                {isPhoneShow && (
+                {isPhoneShow ? (
                   <div className="flex items-center font-medium text-lg ml-4">
                     <span>{lesson?.phone}</span>
                     <button onClick={copyToPhone}>
                       <ClipboardDocumentListIcon className="w-4 pb-1 ml-2" />
                     </button>
                   </div>
+                ) : (
+                  <button
+                    className="text-blue-500 font-semibold text-lg ml-4"
+                    onClick={() => setIsPhoneShow(!isPhoneShow)}
+                  >
+                    연락처보기
+                  </button>
                 )}
               </div>
             </div>
@@ -209,12 +209,14 @@ const EducationDetailContainer = ({ pageId }: Props) => {
           )} */}
           {isMobile && (
             <div className="fixed bottom-32 right-3">
-              <ListButton list="educations" />
+              <ListButton />
             </div>
           )}
         </>
       )}
-      {pageType === "update" && <EducationForm type="update" lesson={lesson} />}
+      {pageType === PageType.update && (
+        <EducationForm type="update" lesson={lesson} />
+      )}
     </div>
   )
 }

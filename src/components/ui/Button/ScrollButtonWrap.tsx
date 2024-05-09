@@ -5,14 +5,13 @@ import ListButton from "./ListButton"
 interface IProps {
   handleScroll: () => void
   goToBack?: () => void
-  list: string
 }
 
-const ScrollButtonWrap = ({ handleScroll, list, goToBack }: IProps) => {
+const ScrollButtonWrap = ({ handleScroll, goToBack }: IProps) => {
   return (
     <div className="fixed bottom-32 right-3 flex flex-col">
       <ScrollUpButton handleScroll={handleScroll} />
-      <ListButton list={list} goToBack={goToBack} />
+      <ListButton goToBack={goToBack} />
     </div>
   )
 }

@@ -51,6 +51,7 @@
       2,
       { "namedComponents": ["arrow-function", "function-declaration"] }
     ],
-    "no-useless-return": "off"
+    "no-useless-return": "off",
+    "react/jsx-no-useless-fragment": "off"
   }
 }
