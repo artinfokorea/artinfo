@@ -4,15 +4,45 @@ import EducationDetailContainer from "@/components/ui/Education/EducationDetailC
 import { getLesson } from "@/apis/lesson"
 import EducationDetailServerContainer from "@/components/ui/Education/EducationDetailServerContainer"
 import { PageType } from "@/interface/common"
-import { notFound } from "next/navigation"
+import { Metadata } from "next"
 
 interface Props {
   params: { id: string }
   searchParams?: { [key: string]: PageType }
 }
 
+const getLessonDetail = async (id: string) => {
+  const queryClient = GetQueryClient()
+  const data = await queryClient.fetchQuery(["lesson", id], () => getLesson(id))
+
+  return data
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = params
+
+  const data = await getLessonDetail(id)
+
+  const pageTitle = data?.name
+  const pageImage = data?.imageUrl
+  const pageDesc = data?.intro.substring(0, 35)
+
+  return {
+    title: `${pageTitle} | 레슨`,
+    description: pageDesc,
+    openGraph: {
+      title: `${pageTitle} | 레슨`,
+      description: pageDesc,
+      images: pageImage ?? {
+        url: "https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/concerts/288/1694427064047.jpg",
+        alt: "아트인포-ARTINFO",
+      },
+    },
+  }
+}
+
 const page = async ({ params, searchParams }: Props) => {
-  const id = Number(params.id)
+  const { id } = params
 
   // const queryClient = GetQueryClient()
   // await queryClient.prefetchQuery({
@@ -21,12 +51,15 @@ const page = async ({ params, searchParams }: Props) => {
   // })
   // const dehydratedState = dehydrate(queryClient)
 
-  const lesson = await getLesson(id)
+  const lesson = await getLessonDetail(id)
+
+  // console.log("lesson", lesson)
 
   return (
     // <Hydrate state={dehydratedState}>
     //   <EducationDetailContainer pageId={params.id} />
     // </Hydrate>
+
     <EducationDetailServerContainer
       lesson={lesson}
       searchParams={searchParams}

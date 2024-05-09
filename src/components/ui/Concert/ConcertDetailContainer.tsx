@@ -13,6 +13,7 @@ import { useEffect, useState, useRef } from "react"
 import useAuth from "@/hooks/useAuth"
 import { Modal } from "@/components/common/Modal"
 import useToast from "@/hooks/useToast"
+import { PageType } from "@/interface/common"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import ConcertForm from "./ConcertForm"
 
@@ -110,8 +111,8 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
   }
 
   return (
-    <div className="">
-      {pageType === "read" ? (
+    <div>
+      {pageType === PageType.read ? (
         <div className="sm:container mx-auto mb-20 md:mb-0 ">
           <h2 className="text-2xl font-semi-bold px-2" id="top">
             {concert?.title}
@@ -180,16 +181,14 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
             </div>
           </div>
 
-          {pageType === "read" && (
-            <section className="mt-10 pb-20">
-              {concert?.contents && (
-                <div
-                  className="w-10/12 mx-auto editor_view"
-                  dangerouslySetInnerHTML={{ __html: concert.contents }}
-                />
-              )}
-            </section>
-          )}
+          <section className="mt-10 pb-20">
+            {concert?.contents && (
+              <div
+                className="w-10/12 mx-auto editor_view"
+                dangerouslySetInnerHTML={{ __html: concert.contents }}
+              />
+            )}
+          </section>
 
           {!isMobile && (
             <div className="flex flex-col text-white mb-4">
@@ -275,7 +274,7 @@ export default function ConcertDetailContainer({ pageId }: IProps) {
           </Modal>
         </div>
       ) : (
-        <ConcertForm type="update" concert={concert} />
+        <ConcertForm type={PageType.update} concert={concert} />
       )}
     </div>
   )

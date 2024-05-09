@@ -1,4 +1,5 @@
 export enum PageType {
-  read,
-  update,
+  read = "read",
+  update = "update",
+  create = "create",
 }

@@ -35,7 +35,7 @@ import { getUser } from "@/apis/user"
 function ProfileMenu() {
   const { user, signOut } = useAuth()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [userProfile] = useRecoilState(userProfileState)
+  const [userProfile, setUserProfile] = useRecoilState(userProfileState)
   const router = useRouter()
   const isMobile = isMobileWeb()
 
@@ -47,6 +47,7 @@ function ProfileMenu() {
 
     signOut()
     setIsMenuOpen(false)
+    setUserProfile({ name: "", userImage: "" })
   }
 
   const profileMenuItems = [

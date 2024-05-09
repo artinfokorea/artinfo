@@ -43,7 +43,7 @@ const EducationDetailContainer = ({ pageId }: Props) => {
 
   const { data: lesson } = useQuery({
     queryKey: ["lesson", pageId],
-    queryFn: () => getLesson(Number(pageId)),
+    queryFn: () => getLesson(pageId),
   })
 
   const copyToPhone = async () => {

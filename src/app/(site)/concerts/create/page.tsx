@@ -1,10 +1,11 @@
 import React from "react"
+import { PageType } from "@/interface/common"
 import ConcertForm from "../../../../components/ui/Concert/ConcertForm"
 
 const page = () => {
   return (
     <div>
-      <ConcertForm type="create" />
+      <ConcertForm type={PageType.create} />
     </div>
   )
 }

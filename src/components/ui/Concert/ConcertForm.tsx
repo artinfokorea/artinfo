@@ -24,6 +24,7 @@ import { Listbox, Switch, Transition } from "@headlessui/react"
 import Loading from "@/components/ui/Loading/Loading"
 import { CheckIcon } from "@heroicons/react/20/solid"
 import * as Sentry from "@sentry/nextjs"
+import { PageType } from "@/interface/common"
 
 const QuillEditor = dynamic(
   () => import("@/components/ui/Editor/QuillEditor"),
@@ -34,7 +35,7 @@ const QuillEditor = dynamic(
 )
 
 interface Props {
-  type: "create" | "update"
+  type: PageType
   concert?: CONCERT
 }
 
@@ -59,7 +60,7 @@ const ConcertForm = ({ type, concert }: Props) => {
   const [uploadedImage, setUploadedImage] = useState<File>()
   const fileUploader = useRef<HTMLInputElement>(null)
   const [selectedType, setSelectedType] = useState(
-    type === "create" ? "ETC" : concert?.category || "ETC",
+    type === PageType.create ? "ETC" : concert?.category || "ETC",
   )
   const [isActive, setIsActive] = useState<boolean>(concert?.isActive || true)
   const router = useRouter()
@@ -264,7 +265,7 @@ const ConcertForm = ({ type, concert }: Props) => {
         </IconButton>
 
         <h2 className="text-left text-2xl my-6 font-semibold">
-          {type === "create" ? "공연 등록" : "공연 수정"}
+          {type === PageType.create ? "공연 등록" : "공연 수정"}
         </h2>
       </div>
 
@@ -409,7 +410,6 @@ const ConcertForm = ({ type, concert }: Props) => {
                   className="py-2"
                   value={startedAt}
                   onChange={(newValue: any) => {
-                    console.log("newValue", newValue.$d)
                     setStartedAt(dayjs(newValue.$d))
                   }}
                 />
@@ -480,7 +480,7 @@ const ConcertForm = ({ type, concert }: Props) => {
                   <div className="flex justify-center items-center w-full">
                     <Spinner />
                   </div>
-                ) : type === "create" ? (
+                ) : type === PageType.create ? (
                   <Button
                     disabled={!isValidForm || !isValidUrl()}
                     size="lg"
