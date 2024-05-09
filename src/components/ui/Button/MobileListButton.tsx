@@ -23,12 +23,14 @@ const MobileListButton = ({ goToBack }: { goToBack?: () => void }) => {
   return (
     <>
       {isMobile && (
-        <IconButton
-          className="bg-whitesmoke text-darkgrey py-2 rounded-full my-3 drop-shadow-md"
-          onClick={goToList}
-        >
-          <ListBulletIcon className="w-8" />
-        </IconButton>
+        <div className="fixed bottom-32 right-3">
+          <IconButton
+            className="bg-whitesmoke text-darkgrey py-2 rounded-full my-3 drop-shadow-md"
+            onClick={goToList}
+          >
+            <ListBulletIcon className="w-8" />
+          </IconButton>
+        </div>
       )}
     </>
   )
