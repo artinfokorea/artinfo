@@ -1,5 +1,6 @@
 "use client"
 
+import { deleteConcert } from "@/app/Api"
 import { Modal } from "@/components/common/Modal"
 import useToast from "@/hooks/useToast"
 import { TrashIcon } from "@heroicons/react/20/solid"
@@ -8,12 +9,11 @@ import { usePathname, useRouter } from "next/navigation"
 import React, { useState } from "react"
 
 interface Props {
-  deleteFunc: (itemId: number) => any
   itemId: number
   title: string
 }
 
-const ConcertDeleteButton = ({ deleteFunc, itemId, title }: Props) => {
+const ConcertDeleteButton = ({ itemId, title }: Props) => {
   const [isOpenModal, setIsOpenModal] = useState(false)
   const router = useRouter()
   const { successToast, errorToast } = useToast()
@@ -23,7 +23,7 @@ const ConcertDeleteButton = ({ deleteFunc, itemId, title }: Props) => {
 
   const deleteMutation = useMutation({
     mutationFn: (itemId: number) => {
-      return deleteFunc(itemId)
+      return deleteConcert(itemId)
     },
     onError: (error: any) => {
       errorToast(error.message)
@@ -45,7 +45,7 @@ const ConcertDeleteButton = ({ deleteFunc, itemId, title }: Props) => {
   }
   return (
     <>
-      <button className="mr-2">
+      <button className="mr-2" onClick={() => setIsOpenModal(true)}>
         <TrashIcon className="w-5  " />
       </button>
       <Modal
