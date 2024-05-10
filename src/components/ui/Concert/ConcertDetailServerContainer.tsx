@@ -103,11 +103,7 @@ export const ConcertDetailServerContainer = async ({
                   </a>
                 )}
                 {(concert?.authorId === userId || userId === adminId) && (
-                  //   <button className="mr-2">
-                  //     <TrashIcon className="w-5  " />
-                  //   </button>
                   <ConcertDeleteButton
-                    deleteFunc={() => deleteConcert(concert.id)}
                     itemId={concert.id}
                     title="공연 글 삭제"
                   />
