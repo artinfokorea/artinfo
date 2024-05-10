@@ -2,11 +2,13 @@ import useFilters from "@/hooks/useFilters"
 import { PageType } from "@/interface/common"
 import SupabaseServer from "@/lib/supabase-server"
 import { CONCERT } from "@/types/types"
-import { ClockIcon, TrashIcon } from "@heroicons/react/20/solid"
+import { ClockIcon } from "@heroicons/react/20/solid"
 import React from "react"
+import { deleteConcert } from "@/app/Api"
 import CopyClipBoardButton from "../Button/CopyClipBoardButton"
 import ConcertDetailClientContainer from "./ConcertDetailClientContainer"
 import ConcertForm from "./ConcertForm"
+import ConcertDeleteButton from "./ConcertDeleteButton"
 
 interface Props {
   concert: CONCERT
@@ -101,9 +103,14 @@ export const ConcertDetailServerContainer = async ({
                   </a>
                 )}
                 {(concert?.authorId === userId || userId === adminId) && (
-                  <button className="mr-2">
-                    <TrashIcon className="w-5  " />
-                  </button>
+                  //   <button className="mr-2">
+                  //     <TrashIcon className="w-5  " />
+                  //   </button>
+                  <ConcertDeleteButton
+                    deleteFunc={() => deleteConcert(concert.id)}
+                    itemId={concert.id}
+                    title="공연 글 삭제"
+                  />
                 )}
                 <CopyClipBoardButton />
               </div>

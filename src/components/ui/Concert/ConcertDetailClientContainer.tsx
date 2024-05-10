@@ -143,6 +143,7 @@ const ConcertDetailClientContainer = ({ children, concert }: Props) => {
           </Link>
         </div>
       )}
+
       {isMobile && (
         <ScrollButtonWrap handleScroll={handleScroll} goToBack={goToBack} />
       )}
