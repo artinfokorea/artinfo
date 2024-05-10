@@ -102,7 +102,7 @@ export const ConcertDetailServerContainer = async ({
                     </svg>
                   </a>
                 )}
-                {/* {(concert?.authorId === userId || userId === adminId) && (
+                {(concert?.authorId === userId || userId === adminId) && (
                   //   <button className="mr-2">
                   //     <TrashIcon className="w-5  " />
                   //   </button>
@@ -111,8 +111,8 @@ export const ConcertDetailServerContainer = async ({
                     itemId={concert.id}
                     title="공연 글 삭제"
                   />
-                )} */}
-                <ConcertDeleteButton itemId={concert.id} title="공연 글 삭제" />
+                )}
+
                 <CopyClipBoardButton />
               </div>
             </div>
