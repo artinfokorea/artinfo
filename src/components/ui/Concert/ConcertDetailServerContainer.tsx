@@ -108,7 +108,6 @@ export const ConcertDetailServerContainer = async ({
                     title="공연 글 삭제"
                   />
                 )}
-
                 <CopyClipBoardButton />
               </div>
             </div>
