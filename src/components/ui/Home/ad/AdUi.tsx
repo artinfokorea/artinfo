@@ -5,24 +5,19 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import "swiper/css"
 
 import { Pagination } from "swiper/modules"
+import { AdvertisementPoster } from "@/app/Api"
+import { ADS } from "@/types/types"
 
 interface IProps {
-  posters: {
-    id: number
-    image_url: string | null
-    redirect_url: string | null
-  }[]
+  // posters?: {
+  //   id: number
+  //   image_url: string
+  //   redirect_url: string | null
+  // }[]
+  posters?: any
 }
 
 export default function AdUi({ posters }: IProps) {
-  // const items: string[] = [
-  //   "https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/advertisements/7.jpg",
-  //   "https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/advertisements/PS23071000084.jpg",
-  //   "https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/advertisements/busan_choral.jpg",
-  //   "https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/advertisements/a1030e421f115df2ef8191761afd5b5e.png",
-  //   "https://ycuajmirzlqpgzuonzca.supabase.co/storage/v1/object/public/artinfo/advertisements/a1030e421f115df2ef8191761afd5b5e.png",
-  // ]
-
   const handleOpenNewTab = (url: string | null): void => {
     if (url) {
       window.open(url, "_blank")
@@ -32,7 +27,7 @@ export default function AdUi({ posters }: IProps) {
   return (
     <Swiper spaceBetween={10} slidesPerView="auto" modules={[Pagination]}>
       {/* <Swiper spaceBetween={10} slidesPerView={3} modules={[Pagination]}> */}
-      {posters.map((item, idx) => (
+      {posters?.map((item: ADS) => (
         // <SwiperSlide key={item.id} style={{ width: "270px" }}>
         <SwiperSlide key={item.id} style={{ width: 180 }}>
           <div

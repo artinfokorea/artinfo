@@ -6,13 +6,11 @@ import { useQuery } from "@tanstack/react-query"
 import { fetchJobs } from "@/app/Api"
 import Link from "next/link"
 
-export default function ListWithLatestJobs() {
-  const { data: jobs } = useQuery({
-    queryKey: ["jobs"],
-    suspense: true,
-    queryFn: () => fetchJobs("ALL", 1),
-  })
+interface Props {
+  jobs: any
+}
 
+export default function ListWithLatestJobs({ jobs }: Props) {
   return (
     <Card className="">
       <div className="px-4 pt-4">
@@ -21,7 +19,7 @@ export default function ListWithLatestJobs() {
       </div>
 
       <div className="mt-2 px-4 pt-4 pb-2">
-        {jobs?.map(job => (
+        {jobs?.map((job: any) => (
           <Link key={job.id} href={`/jobs/${job.id}`} prefetch={false}>
             <div className="flex flex-wrap items-center mb-6">
               <div

@@ -1,22 +1,18 @@
-import { fetchBanners } from "@/app/Api"
-import { useQuery } from "@tanstack/react-query"
 import Image from "next/image"
 import React from "react"
 import { Carousel } from "@/components/material"
 import Link from "next/link"
 import { AspectRatio } from "../aspect-ratio"
 
-const BannerContainer = () => {
-  const { data: banners } = useQuery({
-    queryKey: ["banners"],
-    suspense: true,
-    queryFn: () => fetchBanners(),
-  })
+interface Props {
+  banners: any
+}
 
+const BannerContainer = ({ banners }: Props) => {
   return (
     <div className="py-2 px-4 md:p-0 mb-2">
       <Carousel autoplay loop>
-        {banners?.map(banner => (
+        {banners?.map((banner: any) => (
           <Link
             key={banner.id}
             href={banner.redirect_url as string}

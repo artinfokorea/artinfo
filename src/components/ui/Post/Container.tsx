@@ -1,30 +1,25 @@
 "use client"
 
 import { useAuth } from "@/components/ui/Auth/AuthProvider"
-import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query"
+import {
+  useInfiniteQuery,
+  useQueries,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query"
 import { useInView } from "react-intersection-observer"
 import { useDidUpdate } from "@toss/react"
-import { FEED } from "@/types/types"
+import { ADS, FEED } from "@/types/types"
 import { getFeeds } from "@/apis/feed"
 import ListWithLatestJobs from "@/components/ui/LatestJobs/ListWithLatestJobs"
 import { useFeedMutation } from "@/hooks/useFeedMutation"
-import LockIcon from "@/components/icons/Lock"
 import { useRouter } from "next/navigation"
-import { useRef, useState } from "react"
+import { Suspense, useRef, useState } from "react"
+import { fetchAds, fetchBanners, fetchJobs } from "@/app/Api"
+import Loading from "@/app/(site)/loading"
 import { PostCard } from "./PostCard"
-import AdContainer from "../Home/ad/AdContainer"
 import BannerContainer from "../Banner/BannerContainer"
-
-function AdSection() {
-  return (
-    <div className="overflow-hidden bg-white py-4 px-4 drop-shadow-md shawdow-md md:rounded-md">
-      <h5 className="font-semibold mb-2 text-lg">콘서트</h5>
-      <div className="overflow-x-auto">
-        <AdContainer />
-      </div>
-    </div>
-  )
-}
+import AdUi from "../Home/ad/AdUi"
 
 export default function Container() {
   const queryClient = useQueryClient()
@@ -43,6 +38,7 @@ export default function Container() {
     data: feedsData,
     hasNextPage,
     fetchNextPage,
+    isSuccess,
   } = useInfiniteQuery({
     queryKey: ["feeds", user?.id],
     suspense: true,
@@ -58,6 +54,32 @@ export default function Container() {
       return null
     },
   })
+
+  const queries = [
+    {
+      queryKey: ["ads"],
+      suspense: true,
+      queryFn: () => fetchAds(),
+    },
+    {
+      queryKey: ["banners"],
+      suspense: true,
+      queryFn: () => fetchBanners(),
+    },
+    {
+      queryKey: ["jobs"],
+      suspense: true,
+      queryFn: () => fetchJobs("ALL", 1),
+    },
+  ]
+
+  const queryResults = useQueries({
+    queries,
+  })
+
+  const ads = queryResults[0].data
+  const banners = queryResults[1].data
+  const jobs = queryResults[2].data
 
   useDidUpdate(() => {
     if (inView && hasNextPage) {
@@ -76,16 +98,28 @@ export default function Container() {
     deleteFeedMutate(feedId)
   }
 
+  if (
+    !(
+      queryResults[0].isSuccess &&
+      queryResults[1].isSuccess &&
+      queryResults[2].isSuccess &&
+      isSuccess
+    )
+  ) {
+    return <Loading />
+  }
+
   return (
-    <div
-      ref={containerEl}
-      className="mx-auto max-w-screen-lg lg:px-0 pt-0 md:pt-2"
-    >
-      <BannerContainer />
-      <div className="flex my-2">
-        <div className="flex-1 overflow-hidden" id="top">
-          <div className="feed-groups pb-5">
-            {/* {!secretTab ? (
+    <Suspense fallback={<Loading />}>
+      <div
+        ref={containerEl}
+        className="mx-auto max-w-screen-lg lg:px-0 pt-0 md:pt-2"
+      >
+        <BannerContainer banners={banners} />
+        <div className="flex my-2">
+          <div className="flex-1 overflow-hidden" id="top">
+            <div className="feed-groups pb-5">
+              {/* {!secretTab ? (
               <div className="flex justify-center px-4 md:px-0 mb-2 ">
                 <button
                   className="flex w-full h-[46px] py-2 justify-center items-center rounded-md border border-grey hover:shadow-md bg-[#F1F4FF]"
@@ -114,32 +148,37 @@ export default function Container() {
               </div>
             )} */}
 
-            <AdSection />
-
-            {feedsData?.pages.map(group => (
-              <div key={group.nextPage}>
-                {group.feeds.map((feed: FEED, index: number) => (
-                  <div key={feed.feedId} className="my-2">
-                    <PostCard
-                      feed={feed}
-                      handleUpdatePostLike={handleUpdatePostLike}
-                      handleDeleteFeed={handleDeleteFeed}
-                      showCommentBtn
-                      shortContent
-                    />
-                    {hasNextPage && index === group.feeds.length - 5 && (
-                      <div ref={ref} />
-                    )}
-                  </div>
-                ))}
+              <div className="overflow-hidden bg-white py-4 px-4 drop-shadow-md shawdow-md md:rounded-md">
+                <h5 className="font-semibold mb-2 text-lg">콘서트</h5>
+                <div className="overflow-x-auto">
+                  <div>{ads && <AdUi posters={ads} />}</div>
+                </div>
               </div>
-            ))}
+              {feedsData?.pages.map(group => (
+                <div key={group.nextPage}>
+                  {group.feeds.map((feed: FEED, index: number) => (
+                    <div key={feed.feedId} className="my-2">
+                      <PostCard
+                        feed={feed}
+                        handleUpdatePostLike={handleUpdatePostLike}
+                        handleDeleteFeed={handleDeleteFeed}
+                        showCommentBtn
+                        shortContent
+                      />
+                      {hasNextPage && index === group.feeds.length - 5 && (
+                        <div ref={ref} />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="ml-5 hidden md:block" style={{ width: 300 }}>
+            <ListWithLatestJobs jobs={jobs} />
           </div>
         </div>
-        <div className="ml-5 hidden md:block" style={{ width: 300 }}>
-          <ListWithLatestJobs />
-        </div>
       </div>
-    </div>
+    </Suspense>
   )
 }

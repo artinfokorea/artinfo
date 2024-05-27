@@ -1,5 +1,7 @@
 import useSupabase from "@/hooks/useSupabase"
+import { Database } from "@/types/supabase"
 import {
+  ADS,
   CONCERT_CATEGORY,
   CommentType,
   IConcert,
@@ -177,9 +179,14 @@ export async function deleteComment(postId: number) {
 }
 
 /* ****************************************************** ADVERTISEMENT ****************************************************** */
-export async function fetchAds() {
+
+export type AdvertisementPoster =
+  Database["public"]["Tables"]["advertisements"]["Row"]
+
+export async function fetchAds(): Promise<AdvertisementPoster[]> {
   const supabase = useSupabase()
-  return supabase.rpc("get_advertisement_posters")
+  const { data } = await supabase.rpc("get_advertisement_posters")
+  return data as AdvertisementPoster[]
 }
 
 export async function fetchSiteMetaData(site: string) {

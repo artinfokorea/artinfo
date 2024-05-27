@@ -373,3 +373,17 @@ export type STATISTICS = {
   visitors: number
   users: number
 }
+
+/*
+ * --------------------------------------------------- YOUTUBE ---------------------------------------------------------
+ */
+
+export type ADS = {
+  id: number
+  created_at: Date
+  image_url: string
+  is_ad: boolean
+  name: string
+  redirect_url: string
+  type: "POSTER" | "BANNER"
+}
