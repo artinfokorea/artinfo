@@ -21,11 +21,13 @@ const loading = () => {
           <div className="feed-groups ">
             {/* <div className="h-[46px]  skeleton-list-item rounded-lg mb-2" /> */}
             {/* <div className="h-5 skeleton-list-item my-2 w-20 rounded-lg" /> */}
-
-            <div className="flex">
-              {count.map(item => {
-                return <AdSkeleton key={item} />
-              })}
+            <div className="py-4 px-4 bg-white md:rounded-md">
+              <div className="font-semibold mb-2 h-5" />
+              <div className="flex">
+                {count.map(item => {
+                  return <AdSkeleton key={item} />
+                })}
+              </div>
             </div>
             {count.map(item => {
               return <FeedSkeleton key={item} />

@@ -33,7 +33,7 @@ export default function Container() {
     fetchNextPage,
   } = useInfiniteQuery({
     queryKey: ["feeds", user?.id],
-    suspense: false,
+    suspense: true,
     queryFn: ({ pageParam = 1 }) => {
       return getFeeds({
         page: pageParam,
