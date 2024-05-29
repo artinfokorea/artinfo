@@ -107,7 +107,6 @@ export default function Container() {
             )} */}
 
             <AdContainer ads={adsResult?.data} />
-
             {feedsData?.pages.map(group => (
               <div key={group.nextPage}>
                 {group.feeds.map((feed: FEED, index: number) => (
