@@ -3,14 +3,10 @@
 import Image from "next/image"
 import { Card } from "@/components/material"
 import Link from "next/link"
+import { JOB } from "@/types/types"
 
 interface Props {
-  jobs?: {
-    id: number
-    title: string
-    company_name: string
-    company_image_url: string
-  }[]
+  jobs?: JOB[]
 }
 
 export default function ListWithLatestJobs({ jobs }: Props) {

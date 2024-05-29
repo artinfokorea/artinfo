@@ -1,13 +1,10 @@
 "use client"
 
+import { ADS } from "@/types/types"
 import AdUi from "./AdUi"
 
 interface Props {
-  ads?: {
-    id: number
-    image_url: string | null
-    redirect_url: string | null
-  }[]
+  ads?: ADS[]
 }
 
 export default function AdContainer({ ads }: Props) {

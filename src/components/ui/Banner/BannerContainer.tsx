@@ -1,15 +1,12 @@
 import Image from "next/image"
 import React from "react"
 import { Carousel } from "@/components/material"
+import { BANNER } from "@/types/types"
 import Link from "next/link"
 import { AspectRatio } from "../aspect-ratio"
 
 interface Props {
-  banners?: {
-    id: number
-    image_url: string
-    redirect_url: string | null
-  }[]
+  banners?: BANNER[]
 }
 
 const BannerContainer = ({ banners }: Props) => {
