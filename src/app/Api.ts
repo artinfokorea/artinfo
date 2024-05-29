@@ -183,10 +183,10 @@ export async function deleteComment(postId: number) {
 export type AdvertisementPoster =
   Database["public"]["Tables"]["advertisements"]["Row"]
 
-export async function fetchAds(): Promise<AdvertisementPoster[]> {
+export async function fetchAds() {
   const supabase = useSupabase()
-  const { data } = await supabase.rpc("get_advertisement_posters")
-  return data as AdvertisementPoster[]
+  const data = supabase.rpc("get_advertisement_posters")
+  return data
 }
 
 export async function fetchSiteMetaData(site: string) {

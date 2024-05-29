@@ -2,12 +2,15 @@
 
 import Image from "next/image"
 import { Card } from "@/components/material"
-import { useQuery } from "@tanstack/react-query"
-import { fetchJobs } from "@/app/Api"
 import Link from "next/link"
 
 interface Props {
-  jobs: any
+  jobs?: {
+    id: number
+    title: string
+    company_name: string
+    company_image_url: string
+  }[]
 }
 
 export default function ListWithLatestJobs({ jobs }: Props) {

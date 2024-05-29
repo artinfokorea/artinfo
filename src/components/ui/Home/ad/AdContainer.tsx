@@ -1,16 +1,22 @@
 "use client"
 
-import { useQuery } from "@tanstack/react-query"
-import { fetchAds } from "@/app/Api"
-
 import AdUi from "./AdUi"
 
-export default function AdContainer() {
-  const { data: ads } = useQuery({
-    queryKey: ["ads"],
-    suspense: true,
-    queryFn: () => fetchAds(),
-  })
+interface Props {
+  ads?: {
+    id: number
+    image_url: string | null
+    redirect_url: string | null
+  }[]
+}
 
-  return <div>{ads?.data && <AdUi posters={ads.data} />}</div>
+export default function AdContainer({ ads }: Props) {
+  return (
+    <div className="overflow-hidden bg-white py-4 px-4 drop-shadow-md shawdow-md md:rounded-md">
+      <h5 className="font-semibold mb-2 text-lg">콘서트</h5>
+      <div className="overflow-x-auto">
+        <AdUi posters={ads} />
+      </div>
+    </div>
+  )
 }

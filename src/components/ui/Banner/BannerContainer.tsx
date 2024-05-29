@@ -5,7 +5,11 @@ import Link from "next/link"
 import { AspectRatio } from "../aspect-ratio"
 
 interface Props {
-  banners: any
+  banners?: {
+    id: number
+    image_url: string
+    redirect_url: string | null
+  }[]
 }
 
 const BannerContainer = ({ banners }: Props) => {

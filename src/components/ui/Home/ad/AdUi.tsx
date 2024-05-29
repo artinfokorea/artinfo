@@ -9,12 +9,11 @@ import { AdvertisementPoster } from "@/app/Api"
 import { ADS } from "@/types/types"
 
 interface IProps {
-  // posters?: {
-  //   id: number
-  //   image_url: string
-  //   redirect_url: string | null
-  // }[]
-  posters?: any
+  posters?: {
+    id: number
+    image_url: string | null
+    redirect_url: string | null
+  }[]
 }
 
 export default function AdUi({ posters }: IProps) {
@@ -27,7 +26,7 @@ export default function AdUi({ posters }: IProps) {
   return (
     <Swiper spaceBetween={10} slidesPerView="auto" modules={[Pagination]}>
       {/* <Swiper spaceBetween={10} slidesPerView={3} modules={[Pagination]}> */}
-      {posters?.map((item: ADS) => (
+      {posters?.map(item => (
         // <SwiperSlide key={item.id} style={{ width: "270px" }}>
         <SwiperSlide key={item.id} style={{ width: 180 }}>
           <div
