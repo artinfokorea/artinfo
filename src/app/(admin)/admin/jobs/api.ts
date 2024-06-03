@@ -1,6 +1,6 @@
 import useSupabase from "@/hooks/useSupabase"
 
-export async function fetchJobs(page: number) {
+export async function fetchJobs({ page }: { page: number }) {
   const supabase = useSupabase()
   const {
     data: jobs,

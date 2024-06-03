@@ -1,13 +1,9 @@
-// import { getJobs } from "@/apis/job"
-// import { createQueryKeys } from "@lukemorales/query-key-factory"
+import { fetchJobs } from "@/app/(admin)/admin/jobs/api"
+import { createQueryKeys } from "@lukemorales/query-key-factory"
 
-// export const users = createQueryKeys("jobs", {
-//   list: (selectedMajorList: string[]) => ({
-//     queryKey: ["recruit_jobs", selectedMajorList],
-//     queryFn: ({ pageParam = 1 }) => getJobs(pageParam, selectedMajorList),
-//     getNextPageParam: (lastPage: any) => {
-//       if (!lastPage.isLast) return lastPage.nextPage
-//       return null
-//     },
-//   }),
-// })
+export const jobsKeys = createQueryKeys("recruit_jobs", {
+  list: (filters: { page: number }) => ({
+    queryKey: [{ filters }],
+    queryFn: () => fetchJobs(filters),
+  }),
+})

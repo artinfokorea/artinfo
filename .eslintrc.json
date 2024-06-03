@@ -53,6 +53,7 @@
     ],
     "no-useless-return": "off",
     "react/jsx-no-useless-fragment": "off",
-    "@typescript-eslint/no-var-requires": "off"
+    "@typescript-eslint/no-var-requires": "off",
+    "react/no-unstable-nested-components": "off"
   }
 }

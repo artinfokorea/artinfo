@@ -6,7 +6,7 @@ import { isMobileWeb } from "@toss/utils"
 interface IProps {
   page: number
   totalCount: number
-  setPage: Dispatch<SetStateAction<number>>
+  setPage: (pageIndex: number) => void
 }
 
 export function Pagination({ page, totalCount, setPage }: IProps) {
@@ -55,7 +55,7 @@ export function Pagination({ page, totalCount, setPage }: IProps) {
         onClick={prev}
         disabled={page === 1}
       >
-        <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" /> Previous
+        <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" /> <p>이전</p>
       </Button>
       <div className="flex items-center gap-2">{renderIconButtons()}</div>
       <Button
@@ -64,7 +64,7 @@ export function Pagination({ page, totalCount, setPage }: IProps) {
         onClick={next}
         disabled={page === 5}
       >
-        Next
+        <p>다음</p>
         <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
       </Button>
     </div>
