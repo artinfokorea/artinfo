@@ -87,9 +87,10 @@ export default function JobList() {
 
   const supabase = useSupabase()
 
-  const { data: jobList, refetch } = useQuery(
-    jobsKeys.list({ page: pageIndex + 1 }),
-  )
+  const { data: jobList, refetch } = useQuery({
+    ...jobsKeys.list({ page: pageIndex + 1 }),
+    keepPreviousData: true,
+  })
 
   const pageCount = Math.ceil((jobList?.count || 0) / pageSize)
   const pagination = useMemo(() => {

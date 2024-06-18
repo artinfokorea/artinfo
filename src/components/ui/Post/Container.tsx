@@ -1,7 +1,11 @@
 "use client"
 
 import { useAuth } from "@/components/ui/Auth/AuthProvider"
-import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query"
+import {
+  InfiniteData,
+  useInfiniteQuery,
+  useQueryClient,
+} from "@tanstack/react-query"
 import { useInView } from "react-intersection-observer"
 import { useDidUpdate } from "@toss/react"
 import { ADS, BANNER, FEED, JOB } from "@/types/types"
